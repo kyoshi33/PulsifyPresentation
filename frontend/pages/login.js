@@ -5,6 +5,8 @@ import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
+const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

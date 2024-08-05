@@ -3,13 +3,18 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import user from '../reducers/user'
+import { useSelector } from 'react-redux';
+
 
 
 
 function Header() {
-
+    const user = useSelector((state) => state.user.value.token)
     const [isLogged, setIsLogged] = useState(false);
+
+    if (user) {
+        setIsLogged(true)
+    }
 
 
     let topMenu =

@@ -2,12 +2,14 @@ import styles from '../styles/Header.module.css';
 import { useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import user from '../reducers/user'
+
 
 
 function Header() {
 
-    const [isLogged, setIsLogged] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
 
 
     let topMenu =

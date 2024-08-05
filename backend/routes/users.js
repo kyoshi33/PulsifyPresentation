@@ -19,7 +19,9 @@ router.post('/signup', (req, res) => {
   }
   //Vérifier que l'e-mail a un format valide
   if (!EMAIL_REGEX.test(req.body.email)) {
+
     res.json({ result: false, error: 'e-mail invalide' });
+    return
   }
 
   // Vérifier que l'utilisateur n'existe pas déjà en base de données

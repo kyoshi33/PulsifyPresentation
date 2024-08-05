@@ -11,6 +11,7 @@ function Accueil() {
     const [newProject, setNewProject] = useState(false);
     const [newExistingProject, setNewExistingProject] = useState(false);
     const [search, setSearch] = useState('');
+    const [selectedTab, setSelectedTab] = useState(1);
 
     let display =
         <div className={styles.container}>
@@ -39,10 +40,10 @@ function Accueil() {
                 <div className={styles.title}>Sélectionnez un modèle enregistré</div>
                 <div className={styles.selectModelContainer}>
                     <div className={styles.tabBar}>
-                        <div className={styles.tab}>
+                        <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(1)}>
                             Mes modèles
                         </div>
-                        <div className={styles.tab}>
+                        <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(2)} >
                             Modèles de la communauté
                         </div>
                     </div>
@@ -51,7 +52,7 @@ function Accueil() {
                         <button className={styles.createBtn}>Démarrer un projet vierge</button>
                     </div>
                 </div>
-            </div>
+            </div >
     }
 
 

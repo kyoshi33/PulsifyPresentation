@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Header from './Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link'
 
 function Welcome() {
   const [tutoPage, setTutoPage] = useState(0)
@@ -164,11 +165,6 @@ function Welcome() {
 
     )
   }
-
-
-
-
-
 
 
 

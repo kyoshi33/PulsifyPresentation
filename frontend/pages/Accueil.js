@@ -1,5 +1,6 @@
 import styles from "../styles/Accueil.module.css"
 import { useEffect, useState } from 'react';
+import Link from "next/link";
 
 
 import Header from "../components/Header";
@@ -26,7 +27,9 @@ function Accueil() {
                 <div className={styles.selectModelContainer}>
                     <div className={styles.choiceContainer}>
                         <button className={styles.createBtn} onClick={() => setNewExistingProject(true)}>Utiliser un modèle existant</button>
-                        <button className={styles.createBtn}>Démarrer un projet vierge</button>
+                        <Link href='/Project'>
+                            <button className={styles.createBtn}>Démarrer un projet vierge</button>
+                        </Link>
                     </div>
                 </div>
             </>

@@ -15,8 +15,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-size: 500%;
-    margin-top: 0;
+    font-size: 400%;
+    margin: 25px;
+    font-weight: 400;
+    margin-bottom: 50px;
 }
 
 .inputEmail {
@@ -30,6 +32,7 @@
     color: white;
     padding-left: 10px;
     margin-top: 0;
+    caret-color: #B300F2;
 }
 
 .inputPassword {
@@ -38,10 +41,12 @@
     background: #272541;
     border: 1px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
+    margin: 5px;
     font-size: large;
     color: white;
     padding-left: 10px;
+    caret-color: #B300F2;
+
 }
 
 .btn {
@@ -54,7 +59,12 @@
     border-radius: 8px;
     font-size: large;
     cursor: pointer;
-    margin: 10px;
+
+}
+
+.btn:hover {
+    background-color: #B300F2;
+    /* Hover effect */
 }
 
 .btnRetour {
@@ -68,4 +78,9 @@
     font-size: large;
     cursor: pointer;
     margin: 10px;
+}
+
+.btnRetour:hover {
+    background-color: #B300F2;
+    /* Hover effect */
 }

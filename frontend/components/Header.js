@@ -9,13 +9,7 @@ import { useSelector } from 'react-redux';
 
 
 function Header() {
-    const user = useSelector((state) => state.user.value.token)
-    const [isLogged, setIsLogged] = useState(false);
-
-    if (user) {
-        setIsLogged(true)
-    }
-
+    const user = useSelector((state) => state.user.value)
 
     let topMenu =
         <div className={styles.btnContainer}>
@@ -27,7 +21,7 @@ function Header() {
             </Link>
         </div>
 
-    if (isLogged) {
+    if (user.token) {
         topMenu =
             <div className={styles.btnContainer}>
                 <div className={styles.roundBtn}>

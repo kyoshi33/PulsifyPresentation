@@ -8,6 +8,8 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/Header';
 
 function Project() {
+    const [projectTitle, setProjectTitle] = useState("");
+    const [search, setSearch] = useState("");
 
     return (
         <div className={styles.main}>
@@ -27,31 +29,40 @@ function Project() {
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                onClick={() => handleChangePage(0)}
-                                className={styles.carouselIconOff}
+
+                                className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                onClick={() => handleChangePage(0)}
-                                className={styles.carouselIconOff}
+
+                                className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                onClick={() => handleChangePage(0)}
-                                className={styles.carouselIconOff}
+
+                                className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                onClick={() => handleChangePage(0)}
-                                className={styles.carouselIconOff}
+
+                                className={styles.colorThemeIcon}
                             />
                         </div>
                     </div>
-                    <input className={styles.inputProjectPrompt} placeholder='Entrez votre prompt ici'></input>
+                    <textarea className={styles.inputProjectPrompt}
+                        placeholder='Entrez votre prompt ici'
+                        onChange={(e) => setProjectTitle(e.target.value)}
+                        value={projectTitle}></textarea>
+                    <div className={styles.totalCharacters}>0 / 120</div>
                     <div className={styles.searchContainer}>
                         <p className={styles.searchTitle}>Recherche de genre par artiste</p>
-                        <input className={styles.searchInput} placeholder='Enter an artist here'></input>
+                        <input className={styles.searchInput}
+                            placeholder='Enter an artist here'
+                            onChange={(e) => setSearch(e.target.value)}
+                            value={search}></input>
+
                     </div>
+                    <button className={styles.btn}>Enregistrer</button>
                 </div>
             </body>
         </div>

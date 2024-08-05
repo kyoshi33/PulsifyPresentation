@@ -16,10 +16,10 @@ function SignUp() {
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
     const [errorLogin, setErrorLogin] = useState(false);
-    const [isIdentical, setIsIdentical] = useState(true)
-    const [isValidEmail, setisValidEmail] = useState(true)
-    const [isValidUsername, setIsValidUsername] = useState(true)
-    const [isValidName, setIsValidName] = useState(true)
+    const [isIdentical, setIsIdentical] = useState(false)
+    const [isValidEmail, setisValidEmail] = useState(false)
+    const [isValidUsername, setIsValidUsername] = useState(false)
+    const [isValidName, setIsValidName] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -59,10 +59,12 @@ function SignUp() {
         }
     }
 
-    let passwordMessage = <span className={styles.messages}>Les deux mots de passe ne sont pas identifiques</span>
-    let mailMessage = <span className={styles.messages}>Mail invalide</span>
-    let usernameMessage = <span className={styles.messages}>Nom d'utilisateur invalide</span>
-    let nameMessage = <span className={styles.messages}>Prénom invalide</span>
+    const passwordMessage = <span className={styles.messages}>Les deux mots de passe ne sont pas identifiques</span>
+    const mailMessage = <span className={styles.messages}>Mail invalide</span>
+    const usernameMessage = <span className={styles.messages}>Nom d'utilisateur invalide</span>
+    const nameMessage = <span className={styles.messages}>Prénom invalide</span>
+    const errorMessage = <span>Erreur server</span>
+
     const checkForm = () => {
         const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (pattern.test(email) && email !== "") {
@@ -77,10 +79,7 @@ function SignUp() {
         } else {
             setIsIdentical(false)
         }
-
-
         username === "" ? setIsValidUsername(false) : setIsValidUsername(true)
-
         name === "" ? setIsValidName(false) : setIsValidName(true)
 
     }
@@ -95,11 +94,11 @@ function SignUp() {
 
                 <input className={styles.input} type="email"
                     title="Email invalide" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                {!isValidEmail && mailMessage}
+                {isValidEmail && mailMessage}
                 <input className={styles.input} placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)} value={username} />
-                {!isValidUsername && usernameMessage}
+                {isValidUsername && usernameMessage}
                 <input className={styles.input} placeholder="Prénom" onChange={(e) => setName(e.target.value)} value={name} />
-                {!isValidName && nameMessage}
+                {isValidName && nameMessage}
 
                 <div className={styles.inputDiv}>
                     <input className={styles.input} type={showPassword ? "text" : "password"}
@@ -111,11 +110,11 @@ function SignUp() {
                         placeholder="Confirmation mot de passe" onChange={(e) => setconfirmPassword(e.target.value)} value={confirmPassword} required />
                     {rePasswordEye}
                 </div>
-                {!isIdentical && passwordMessage}
+                {isIdentical && passwordMessage}
 
                 <h3 className={styles.h3}> En créant un compte, vous acceptez les conditions d'utilisation et la politique de confidentialité </h3>
                 <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
-
+                {errorLogin && errorMessage}
             </div >
         </div >
     )

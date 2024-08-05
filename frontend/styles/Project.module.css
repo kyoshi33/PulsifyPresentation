@@ -1,0 +1,147 @@
+.main {
+    background-color: #0B0A1A;
+    height: 100vh;
+    width: 100vw;
+}
+
+.projectBody {
+    display: flex;
+    width: 100vw;
+    height: 85vh;
+}
+
+.suggestionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30%;
+
+}
+
+.suggestionList {
+    width: 80%;
+    min-height: 30%;
+    background-color: #272541;
+    border: solid #b300f2 1px;
+    margin-top: 50px;
+    margin-left: 50px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 50px;
+    padding-top: 10px;
+}
+
+.suggestionTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
+}
+
+.projectContainer {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.projectHeader {
+    width: 100%;
+    margin-left: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.inputProjectTitle {
+    width: 50%;
+    height: 50px;
+    background: #504E6B;
+    border: 1px solid #B300F2;
+    border-radius: 8px;
+    margin: 10px;
+    font-size: large;
+    color: white;
+    padding-left: 10px;
+    margin-top: 0;
+}
+
+.colorTheme {
+    width: 30%;
+    height: 50px;
+    background: #272541;
+    border: 1px solid #B300F2;
+    border-radius: 8px;
+    margin: 10px;
+    font-size: large;
+    color: white;
+    margin-right: 30px;
+    margin-top: 0;
+}
+
+.inputProjectPrompt {
+    display: flex;
+    justify-content: flex-start;
+    width: 90%;
+    height: 200px;
+    background: #504E6B;
+    border: 1px solid #B300F2;
+    border-radius: 8px;
+    margin: 10px;
+    font-size: large;
+    color: white;
+    padding-left: 10px;
+    margin-top: 0;
+}
+
+.btn {
+    cursor: pointer;
+    background-color: #474c7c;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    width: 15vw;
+    min-width: 120px;
+    height: 7vh;
+    min-height: 40px;
+    border: solid #b300f2 1px;
+    border-radius: 5px;
+    margin: 50px;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+}
+
+.searchContainer {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    background: #272541;
+    border: solid #b300f2 1px;
+    border-radius: 8px;
+}
+
+.searchTitle {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
+}
+
+.searchInput {
+    width: 50%;
+    height: 50px;
+    background: #504E6B;
+    border: 1px solid #B300F2;
+    border-radius: 8px;
+    margin: 10px;
+    font-size: large;
+    color: white;
+    padding-left: 10px;
+    margin-top: 0;
+}

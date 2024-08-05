@@ -1,6 +1,8 @@
 import styles from '../styles/Welcome.module.css';
 import { useState } from 'react'
-import Header from './Header'
+import Header from './Header';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Welcome() {
   const [tutoPage, setTutoPage] = useState(0)
@@ -17,10 +19,13 @@ function Welcome() {
     }
   }
 
+  const handleChangePage = (pageNumber) => {
+    setTutoPage(pageNumber)
+  }
+
   let tutoContent;
 
   if (tutoPage === 0) {
-    let style = {}
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
@@ -29,8 +34,27 @@ function Welcome() {
 
         </div>
         <footer className={styles.tutoFooter}>
-
-          <div className={styles.tutoCarousel}>Tuto Page 1 of 4</div>
+          <div className={styles.tutoCarousel}>
+            <FontAwesomeIcon
+              icon={faCircle}
+              className={styles.carouselIconOn}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(1)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(2)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(3)}
+              className={styles.carouselIconOff}
+            />
+          </div>
           <button className={styles.btn} onClick={handleNext}>Suivant</button>
         </footer>
       </div>
@@ -44,7 +68,27 @@ function Welcome() {
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>
-          <div className={styles.tutoCarousel}>Tuto Page 2 of 4</div>
+          <div className={styles.tutoCarousel}>
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(0)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              className={styles.carouselIconOn}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(2)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(3)}
+              className={styles.carouselIconOff}
+            />
+          </div>
           <button className={styles.btn} onClick={handleNext}>Suivant</button>
         </footer>
       </div>
@@ -58,7 +102,27 @@ function Welcome() {
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>
-          <div className={styles.tutoCarousel}>Tuto Page 3 of 4</div>
+          <div className={styles.tutoCarousel}>
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(0)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(1)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              className={styles.carouselIconOn}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(3)}
+              className={styles.carouselIconOff}
+            />
+          </div>
           <button className={styles.btn} onClick={handleNext}>Suivant</button>
         </footer>
       </div>
@@ -73,7 +137,27 @@ function Welcome() {
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>
-          <div className={styles.tutoCarousel}>Tuto Page 4 of 4</div>
+          <div className={styles.tutoCarousel}>
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(0)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(1)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              onClick={() => handleChangePage(2)}
+              className={styles.carouselIconOff}
+            />
+            <FontAwesomeIcon
+              icon={faCircle}
+              className={styles.carouselIconOn}
+            />
+          </div>
 
         </footer>
       </div>

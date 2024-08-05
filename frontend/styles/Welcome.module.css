@@ -115,6 +115,9 @@
   border: solid #b300f2 1px;
   border-radius: 5px;
   margin: 5px;
+  max-width: 15vw;
+  min-width: 15vw;
+
 }
 
 .carouselIconOff {

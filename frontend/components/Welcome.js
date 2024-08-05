@@ -160,9 +160,9 @@ function Welcome() {
               icon={faCircle}
               className={styles.carouselIconOn}
             />
-            <div className={styles.emptyDiv}></div>
-          </div>
 
+          </div>
+          <div className={styles.emptyDiv}></div>
         </footer>
       </div>
 

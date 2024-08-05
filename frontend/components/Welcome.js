@@ -1,5 +1,6 @@
 import styles from '../styles/Welcome.module.css';
 import { useState } from 'react'
+import Header from './Header'
 
 function Welcome() {
   const [tutoPage, setTutoPage] = useState(0)
@@ -90,14 +91,7 @@ function Welcome() {
   return (
     <div>
       <main className={styles.main}>
-        <header className={styles.handleConnectionContainer}>
-          <h1 className={styles.title1}>PULSIFY</h1>
-          <div className={styles.btnContainer}>
-
-            <button className={styles.btn}>Inscription</button>
-            <button className={styles.btn}>Connexion</button>
-          </div>
-        </header>
+        <Header />
         <div>
           {tutoContent}
         </div>

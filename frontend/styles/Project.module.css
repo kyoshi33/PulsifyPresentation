@@ -15,6 +15,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 30%;
+    margin-left: 50px;
 
 }
 
@@ -24,7 +25,7 @@
     background-color: #272541;
     border: solid #b300f2 1px;
     margin-top: 50px;
-    margin-left: 50px;
+
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -98,6 +99,7 @@
     color: white;
     padding-left: 10px;
     margin-top: 0;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -112,9 +114,9 @@
     min-height: 40px;
     border: solid #b300f2 1px;
     border-radius: 5px;
-    margin: 50px;
     transition: background-color 0.3s ease;
     box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+
 }
 
 .searchContainer {
@@ -147,4 +149,11 @@
     color: white;
     padding-left: 10px;
     margin-top: 0;
+}
+
+.totalCharacters {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
 }

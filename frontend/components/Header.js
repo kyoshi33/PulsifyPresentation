@@ -7,7 +7,7 @@ import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons'
 
 function Header() {
 
-    const [isLogged, setIsLogged] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
 
 
     let topMenu =

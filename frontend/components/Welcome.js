@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Header from './Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link'
 
 function Welcome() {
   const [tutoPage, setTutoPage] = useState(0)
@@ -29,11 +30,12 @@ function Welcome() {
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-          <h3 className={styles.tutoTitle}>Bienvenue chez Pulsify !</h3>
+          <h3 className={styles.tutoTitleText}>Bienvenue chez Pulsify !</h3>
           <p className={styles.tutoText}>Votre allié Suno ultime pour générer les invites (prompt) dont vous rêvez !</p>
 
         </div>
         <footer className={styles.tutoFooter}>
+          <div className={styles.emptyDiv}></div>
           <div className={styles.tutoCarousel}>
             <FontAwesomeIcon
               icon={faCircle}
@@ -98,7 +100,8 @@ function Welcome() {
         <div className={styles.tutoTextContainer}>
           <h3 className={styles.tutoTitleText}>Economisez vos crédits grâce à des invites de plus en plus pertinentes !</h3>
           <p className={styles.tutoText}>Choisissez des styles musicaux qui correspondent à ce que vous souhaitez générer et ajustez au fur et à mesure</p>
-          <div >Sans Pulsify, 200 essais. Avec Pulsify, 20 essais</div>
+          <div className={styles.tutoText}>Sans Pulsify, 200 essais.</div>
+          <div className={styles.tutoText}>Avec Pulsify, 20 essais.</div>
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>
@@ -131,7 +134,7 @@ function Welcome() {
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-          <h3 className={styles.tutoText}>Rappelez-vous des sons générés précédement, et ajustez la note si votre avis a changé</h3>
+          <h3 className={styles.tutoTitleText}>Rappelez-vous des sons générés précédement, et ajustez la note si votre avis a changé</h3>
           <p className={styles.tutoText}>Mémorisez les styles musicaux et trouvez les mots-clés qui vont bien ensemble</p>
 
         </div>
@@ -157,18 +160,14 @@ function Welcome() {
               icon={faCircle}
               className={styles.carouselIconOn}
             />
-          </div>
 
+          </div>
+          <div className={styles.emptyDiv}></div>
         </footer>
       </div>
 
     )
   }
-
-
-
-
-
 
 
 

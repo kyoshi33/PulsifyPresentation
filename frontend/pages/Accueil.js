@@ -1,6 +1,5 @@
 import styles from "../styles/Accueil.module.css"
 import { useEffect, useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 import Header from "../components/Header";
@@ -13,16 +12,16 @@ function Accueil() {
 
     let display =
         <div className={styles.container}>
-            <div className={styles.inputContainer}>
+            <div className={styles.choiceContainer}>
                 <button className={styles.createBtn} onClick={() => setClicked(true)}>Nouveau projet</button>
             </div>
         </div>
 
-    if (connected) {
+    if (clicked) {
         display =
             <>
                 <div className={styles.selectModelContainer}>
-                    <div className={styles.inputContainer}>
+                    <div className={styles.choiceContainer}>
                         <button className={styles.createBtn}>Utiliser un modèle existant</button>
                         <button className={styles.createBtn}>Démarrer un projet vierge</button>
                     </div>

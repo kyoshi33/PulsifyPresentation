@@ -61,9 +61,34 @@
   border: 1px solid #EE00F2;
   box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
   border-radius: 8px;
+  margin: 20px;
 }
 
 .createBtn:hover {
   background-color: #B300F2;
   /* Hover effect */
+}
+
+.selectModelContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 90vh;
+  width: 100vw;
+  font-family: 'Arial';
+  background-color: #0B0A1A;
+  color: white;
+}
+
+.choiceContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 40vh;
+  background: #272541;
+  border: 3px solid #B300F2;
+  border-radius: 10px;
 }

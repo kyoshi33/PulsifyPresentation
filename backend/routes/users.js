@@ -49,19 +49,33 @@ router.post('/signup', (req, res) => {
 /* Route POST se connecter/signin     */
 
 router.post('/signin', (req, res) => {
-  if (!checkBody(req.body, ['email', 'password'])) {
-    res.json({ result: false, error: 'Champs manquants ou vides' });
-    return;
+  if (req.body.google) {
+    User.findOne({ email: req.body.email })
+      .then(data => {
+        if (data) {
+          res.json({ result: true, token: data.token });
+        } else {
+          res.json({ result: false, error: 'Champs manquants ou vides' })
+        }
+      })
+  } else {
+    if (!checkBody(req.body, ['email', 'password'])) {
+      res.json({ result: false, error: 'Champs manquants ou vides' });
+      return;
+    }
+    User.findOne({ email: req.body.email })
+      .then(data => {
+        if (data && bcrypt.compareSync(req.body.password, data.password)) {
+          res.json({ result: true, token: data.token });
+        } else {
+          res.json({ result: false, error: 'Champs manquants ou vides' })
+        }
+      })
   }
-  User.findOne({ email: req.body.email })
-    .then(data => {
-      if (data && bcrypt.compareSync(req.body.password, data.password)) {
-        res.json({ result: true, token: data.token });
-      } else {
-        res.json({ result: false, error: 'Champs manquants ou vides' })
-      }
-    })
-})
+});
+
+
+
 
 
 

@@ -10,6 +10,7 @@ function Accueil() {
 
     const [newProject, setNewProject] = useState(false);
     const [newExistingProject, setNewExistingProject] = useState(false);
+    const [search, setSearch] = useState('');
 
     let display =
         <div className={styles.container}>
@@ -34,14 +35,23 @@ function Accueil() {
 
     if (newExistingProject) {
         display =
-            <>
+            <div className={styles.container} >
                 <div className={styles.title}>Sélectionnez un modèle enregistré</div>
                 <div className={styles.selectModelContainer}>
+                    <div className={styles.tabBar}>
+                        <div className={styles.tab}>
+                            Mes modèles
+                        </div>
+                        <div className={styles.tab}>
+                            Modèles de la communauté
+                        </div>
+                    </div>
                     <div className={styles.choiceContainer}>
+                        <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
                         <button className={styles.createBtn}>Démarrer un projet vierge</button>
                     </div>
                 </div>
-            </>
+            </div>
     }
 
 

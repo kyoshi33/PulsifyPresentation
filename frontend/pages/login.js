@@ -65,11 +65,11 @@ function Login() {
       <div className={styles.container}>
         <h1 className={styles.title}>Connexion</h1>
         {googleBtn}
-        <h2>ou ...</h2>
+        <h3>ou ...</h3>
         <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email} className={styles.inputEmail} />
         <input type='password' placeholder='Mot de passe' onChange={(e) => setPassword(e.target.value)} value={password} className={styles.inputPassword} />
         {error}
-        <h4>Mot de passe oublié ?</h4>
+        <h5>Mot de passe oublié ?</h5>
         <button className={styles.btn} onClick={() => connexion()}>Connexion</button>
         <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
       </div>

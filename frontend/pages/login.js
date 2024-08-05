@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { GoogleOAuthProvider } from '@react-oauth/google'
-//import { login } from '../reducers/user';
+import { login } from '../reducers/user';
 
 function Login() {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorLogin, setErrorLogin] = useState(false);
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   let error
   if (errorLogin) { error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic' }}>Champs manquants ou invalides</h4> }
@@ -36,7 +36,7 @@ function Login() {
     })
     const res = await fetchLogin.json()
     if (res.result) {
-      // dispatch(login({ token: res.token }))
+      dispatch(login({ token: res.token }))
       window.location.href = '/Accueil'
     } else {
       setErrorLogin(true)
@@ -51,7 +51,7 @@ function Login() {
     })
     const res = await fetchLogin.json()
     if (res.result) {
-      // dispatch(login({ token: res.token }));
+      dispatch(login({ token: res.token }));
       setEmail('')
       setPassword('')
       window.location.href = '/Accueil'

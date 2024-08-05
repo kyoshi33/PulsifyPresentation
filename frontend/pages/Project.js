@@ -2,6 +2,9 @@ import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+
 import Header from '../components/Header';
 
 function Project() {
@@ -21,7 +24,28 @@ function Project() {
                 <div className={styles.projectContainer}>
                     <div className={styles.projectHeader}>
                         <input className={styles.inputProjectTitle} placeholder='Le nom de votre projet'></input>
-                        <div className={styles.colorTheme}>Color Theme</div>
+                        <div className={styles.colorTheme}>
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                onClick={() => handleChangePage(0)}
+                                className={styles.carouselIconOff}
+                            />
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                onClick={() => handleChangePage(0)}
+                                className={styles.carouselIconOff}
+                            />
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                onClick={() => handleChangePage(0)}
+                                className={styles.carouselIconOff}
+                            />
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                onClick={() => handleChangePage(0)}
+                                className={styles.carouselIconOff}
+                            />
+                        </div>
                     </div>
                     <input className={styles.inputProjectPrompt} placeholder='Entrez votre prompt ici'></input>
                     <div className={styles.searchContainer}>

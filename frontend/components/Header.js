@@ -41,7 +41,9 @@ function Header() {
 
     return (
         <header className={styles.handleConnectionContainer}>
-            <h1 className={styles.title1}>PULSIFY</h1>
+            <Link href='/Accueil'>
+                <h1 className={styles.title1}>PULSIFY</h1>
+            </Link>
             {topMenu}
         </header>
     );

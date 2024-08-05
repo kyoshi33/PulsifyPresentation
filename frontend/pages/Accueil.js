@@ -48,8 +48,46 @@ function Accueil() {
                         </div>
                     </div>
                     <div className={styles.choiceContainer}>
+
                         <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
-                        <button className={styles.createBtn}>Démarrer un projet vierge</button>
+
+                        <button className={styles.listItemContainer}>
+                            <div className={styles.listItemTitle}>
+                                Rockabilly
+                            </div>
+                            <div className={styles.listItemPrompt}>
+                                Jazz, rock, musette, flute
+                            </div>
+                        </button>
+
+                        <button className={styles.listItemContainer}>
+                            <div className={styles.listItemTitle}>
+                                Rock Indie
+                            </div>
+                            <div className={styles.listItemPrompt}>
+                                rock, electric guitar/bass/drums, pop,folk
+                            </div>
+                        </button>
+
+                        <button className={styles.listItemContainer}>
+                            <div className={styles.listItemTitle}>
+                                Modern classical
+                            </div>
+                            <div className={styles.listItemPrompt}>
+                                contemporary, mordern classical, XXcentury
+                            </div>
+                        </button>
+
+                        <button className={styles.listItemContainer}>
+                            <div className={styles.listItemTitle}>
+                                Rockabilly
+                            </div>
+                            <div className={styles.listItemPrompt}>
+                                Jazz, rock, musette, flute
+                            </div>
+                        </button>
+
+
                     </div>
                 </div>
             </div >

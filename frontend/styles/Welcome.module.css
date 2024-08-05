@@ -47,6 +47,7 @@
   border-radius: 5px;
   margin: 5px;
   transition: background-color 0.3s ease;
+  box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
 }
 
 

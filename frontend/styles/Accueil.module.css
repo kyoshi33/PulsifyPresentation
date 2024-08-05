@@ -14,9 +14,11 @@
   background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-color: black;
   background-clip: text;
-  font-size: 500%;
+  font-size: 200%;
   margin-top: 0;
+  text-align: center;
 }
 
 .btn {

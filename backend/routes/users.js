@@ -53,7 +53,7 @@ router.post('/signin', (req, res) => {
     User.findOne({ email: req.body.email })
       .then(data => {
         if (data) {
-          res.json({ result: true, token: data.token });
+          res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email });
         } else {
           res.json({ result: false, error: 'Champs manquants ou vides' })
         }
@@ -66,7 +66,7 @@ router.post('/signin', (req, res) => {
     User.findOne({ email: req.body.email })
       .then(data => {
         if (data && bcrypt.compareSync(req.body.password, data.password)) {
-          res.json({ result: true, token: data.token });
+          res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email });
         } else {
           res.json({ result: false, error: 'Champs manquants ou vides' })
         }

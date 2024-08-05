@@ -12,7 +12,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorLogin, setErrorLogin] = useState(false)
 
-  let error
+  let error;
   if (errorLogin) { error = <h4 style={{ color: 'red' }}>Champs manquants ou invalides</h4> }
 
   let googleBtn = <GoogleLogin

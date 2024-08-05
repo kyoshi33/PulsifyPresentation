@@ -19,7 +19,6 @@
   border-bottom: solid #B300F2 3px;
   box-sizing: border-box;
   padding: 0 20px;
-  /* Add padding if needed for spacing */
 }
 
 .title1 {
@@ -31,21 +30,24 @@
   background-clip: text;
   color: transparent;
   margin: 0;
-  /* Remove default margins */
 }
 
-/* Frame 21 */
+
 .btn {
   cursor: pointer;
-  background-color: #474C7C;
+  background-color: #474c7c;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   width: 15vw;
+  min-width: 120px;
   height: 7vh;
-  border: solid #B300F2 1px;
+  min-height: 40px;
+  border: solid #b300f2 1px;
   border-radius: 5px;
   margin: 5px;
+  transition: background-color 0.3s ease;
+  box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
 }
 
 
@@ -57,16 +59,18 @@
 .tutoContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   color: white;
   width: 100%;
   height: 80vh;
+  text-align: center;
 }
 
-.tutoTitle {
+.tutoTitleText {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 40px;
+  font-size: 30px;
+
 }
 
 .tutoTextContainer {
@@ -74,21 +78,62 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 50px;
+  flex-grow: 1;
 }
 
 .tutoText {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
+  max-width: 80%;
+  line-height: 1.5;
 }
 
 .tutoFooter {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
+  max-width: 500px;
   padding: 10px;
+
+}
+
+.tutoFooter button {
+  flex: 1;
+  /* Equal space distribution */
+  max-width: 120px;
+  /* Prevent excessive stretch */
 }
 
 .tutoCarousel {
-  font-size: 16px;
-  color: #fff;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 15vw;
+  height: 7vh;
+  background-color: #474c7c;
+  border: solid #b300f2 1px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.carouselIconOff {
+  color: #0B0A1A;
+
+}
+
+.carouselIconOn {
+  color: white;
+
+}
+
+.carouselIconOff:hover {
+  color: #B300F2;
+  /* Hover effect */
+}
+
+.emptyDiv {
+  width: 15vw;
+  height: 7vh;
+
 }

@@ -7,9 +7,39 @@ const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 const { checkBody } = require('../modules/tools')
 
-/* GET users listing. */
-router.post('/addUser', function (req, res, next) {
+/* POST créer un nouvel utilisateur. */
+router.post('/signup', (req, res) => {
+  if (!checkBody(req.body, ['firstname', 'username', 'password', 'email'])) {
+    res.json({ result: false, error: 'Champs manquants ou vides' });
+    return;
+  }
 
+  // Vérifier que l'utilisateur n'existe pas déjà en base de données
+  User.findOne({ username: req.body.username }).then(data => {
+    if (data === null) {
+      const hash = bcrypt.hashSync(req.body.password, 10);
+
+      const newUser = new User({
+        firstname: req.body.firstname,
+        username: req.body.username,
+        email: req.body.email,
+        password: hash,
+        token: uid2(32)
+      });
+
+      newUser.save().then(newDoc => {
+
+        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email });
+      });
+    } else {
+      // L'utilisateur existe déjo en base de données
+      res.json({ result: false, error: 'Utilisateur déjà existant' });
+    }
+  });
 });
+
+
+
+
 
 module.exports = router;

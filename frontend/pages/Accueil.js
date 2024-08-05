@@ -18,7 +18,7 @@ function Accueil() {
             </div>
         </div>
 
-    if (connected) {
+    if (clicked) {
         display =
             <>
                 <div className={styles.selectModelContainer}>

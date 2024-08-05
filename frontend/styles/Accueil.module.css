@@ -64,6 +64,7 @@
   box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
   border-radius: 8px;
   margin: 20px;
+  transition-duration: 500ms;
 }
 
 .createBtn:hover {
@@ -114,25 +115,38 @@
 .tabBar {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  padding: 4px;
-  isolation: isolate;
-  height: 7%;
+  align-items: center;
+  justify-content: space-between;
+  height: 10%;
+  width: 50vw;
 }
 
 .tab {
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
-  padding: 5px 30px;
   color: #ffffff;
   font-size: 20px;
   border-bottom: 2px solid transparent;
-  height: 100%;
+  height: 5%;
   background-color: #272541;
   border-radius: 20px;
+  width: 50%;
+  transition-duration: 1000ms;
 }
 
-.tab::selection {
-  background-color: #4EBBE4;
+.selectedTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 20px;
+  border-bottom: 2px solid transparent;
+  height: 50%;
+  border-radius: 20px;
+  width: 50%;
+  background-color: #525890;
+  transition-duration: 1000ms;
 }

@@ -94,7 +94,7 @@ function Project() {
                                 placeholder='Enter an artist here'
                                 onChange={(e) => setSearch(e.target.value)}
                                 value={search}></input>
-                            <FontAwesomeIcon icon={faSearch} className={styles.roundBtn} />
+                            <FontAwesomeIcon icon={faSearch} className={styles.roundBtn} onClick={() => fetchGenreArtistOnSpotify(search)} />
 
                         </div>
 

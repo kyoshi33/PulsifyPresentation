@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
         },
     });
     const data = await response.json()
-    //console.log(data)
-    res.json(data.artists.genres)
+    console.log('data :', data)
+    res.json(data.artists.items[0].genres)
 })
 module.exports = router;

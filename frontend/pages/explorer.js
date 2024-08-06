@@ -1,5 +1,6 @@
 import styles from "../styles/Explorer.module.css"
 import Header from "../components/Header";
+import PromptCard from '../components/PromptCard';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
@@ -102,13 +103,13 @@ function Explorer() {
          }*/
     }
 
-    let listProjectSearch // = listProject.map((data, i) => {return card })
+    let listProjectSearch // = listProject.map((data, i) => {return <PromptCard /> })
 
     if (sortUp) {
-        // listProjectSearch = listProject.sort((a, b) => b.like - a.like).map((data, i) => {return card }) classé par + liké first
+        // listProjectSearch = listProject.sort((a, b) => b.like - a.like).map((data, i) => {return <PromptCard />  }) classé par + liké first
     }
     if (sortDown) {
-        // listProjectSearch = listProject.sort((a, b) => a.like - b.like).map((data, i) => {return card }) classé par - liké first
+        // listProjectSearch = listProject.sort((a, b) => a.like - b.like).map((data, i) => {return <PromptCard />  }) classé par - liké first
     }
 
     let error

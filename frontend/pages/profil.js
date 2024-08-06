@@ -93,13 +93,6 @@ function Profil() {
         </div>
 
       </div>
-  */
-
-
-
-
-  return (
-    <div className={styles.container}>
 
       <div className={styles.profilesContainer}>
 
@@ -111,8 +104,17 @@ function Profil() {
           <h4 className={styles.identifiant}>@:{user.email}</h4>
           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
         </div>
-
+        <ProfilUser username={'Laozj'} email={'ihdsghii@lguhfd.vi'} />
       </div>
+  */
+
+
+
+
+  return (
+    <div className={styles.container}>
+
+      <ProfilUser username={user.username} email={user.email} />
 
 
       <div className={styles.tabBar}>

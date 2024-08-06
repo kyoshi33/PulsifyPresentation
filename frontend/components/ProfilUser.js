@@ -20,7 +20,9 @@ function ProfilUser(props) {
 
 
   return (
-    { profil }
+    <>
+      {profil}
+    </>
   );
 }
 

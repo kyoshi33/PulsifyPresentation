@@ -2908,6 +2908,13 @@ react-redux@^9.1.2:
     "@types/use-sync-external-store" "^0.0.3"
     use-sync-external-store "^1.0.0"
 
+react-switch@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-7.0.0.tgz#400990bb9822864938e343ed24f13276a617bdc0"
+  integrity sha512-KkDeW+cozZXI6knDPyUt3KBN1rmhoVYgAdCJqAh7st7tk8YE6N0iR89zjCWO8T8dUTeJGTR0KU+5CHCRMRffiA==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-tiny-popover@^8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/react-tiny-popover/-/react-tiny-popover-8.0.4.tgz#bf76f1db8a9b62f4eb10fe0dc770a65c52d59560"

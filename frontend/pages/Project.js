@@ -1,6 +1,7 @@
 import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,15 @@ import Header from '../components/Header';
 function Project() {
     const [projectTitle, setProjectTitle] = useState("");
     const [search, setSearch] = useState("");
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const openProjectModal = () => {
+        setIsOpen(true)
+    }
+
+    const closeProjectModal = () => {
+        setIsOpen(false);
+    }
 
     return (
         <div className={styles.main}>
@@ -29,22 +39,18 @@ function Project() {
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
                                 icon={faCircle}
-
                                 className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-
                                 className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-
                                 className={styles.colorThemeIcon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-
                                 className={styles.colorThemeIcon}
                             />
                         </div>
@@ -53,7 +59,7 @@ function Project() {
                         placeholder='Entrez votre prompt ici'
                         onChange={(e) => setProjectTitle(e.target.value)}
                         value={projectTitle}></textarea>
-                    <div className={styles.totalCharacters}>0 / 120</div>
+                    <div className={styles.totalCharacters}>{`${projectTitle.length} / 120`}</div>
                     <div className={styles.searchContainer}>
                         <p className={styles.searchTitle}>Recherche de genre par artiste</p>
                         <input className={styles.searchInput}
@@ -62,7 +68,11 @@ function Project() {
                             value={search}></input>
 
                     </div>
-                    <button className={styles.btn}>Enregistrer</button>
+                    <button className={styles.btn}
+                        onClick={() => openProjectModal()}
+                    >Enregistrer</button>
+                    <ProjectModal isOpen={modalIsOpen}
+                    />
                 </div>
             </body>
         </div>

@@ -149,9 +149,11 @@
   background: #504E6B;
   border-radius: 10px;
   padding: 1%;
+  font-size: large;
 }
 
 .publish {
+  cursor: pointer;
   margin-left: -10%;
   margin-top: 7%;
   background-color: #535992;
@@ -161,4 +163,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+}
+
+.publish :hover {
+  background-color: #B300F2;
 }

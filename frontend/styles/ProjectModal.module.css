@@ -92,3 +92,24 @@
     background-color: #B300F2;
     /* Hover effect */
 }
+
+.import {
+    width: 80%;
+    padding: 2%;
+    background: #535992;
+    border: 1px solid #EE00F2;
+    box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+    border-radius: 8px;
+    margin-bottom: 1%;
+    color: white;
+}
+
+.dropzone {
+    border: 1px solid #EE00F2;
+
+    padding: 3%;
+}
+
+.promptContainer {
+    color: white;
+}

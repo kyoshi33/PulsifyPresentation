@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faHeart, faCircleExclamation, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 
+import UserCard from './UserCard';
+
 
 function PromptCard(props) {
     const user = useSelector((state) => state.user.value)
@@ -14,7 +16,9 @@ function PromptCard(props) {
         <div className={styles.promptContainer}>
 
             <div className={styles.itemContainer}>
-
+                <div className={styles.author}>
+                    <UserCard email='Doe' username='Julien' />
+                </div>
                 <div className={styles.titleBox}>
 
                     <div className={styles.titleBackground}>

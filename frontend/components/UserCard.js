@@ -9,12 +9,12 @@ function UserCard(props) {
 
   let profil =
     <div className={styles.profilesContainer}>
-      <div className={styles.profilesPic}>
-        <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
-        <h3 className={styles.identifiant}> {props.username}</h3>
-        <h4 className={styles.identifiant}>@:{props.email}</h4>
-      </div>
+      <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
 
+      <div className={styles.namediv}>
+        <h3 className={styles.nom}> {props.email}</h3>
+        <h4 className={styles.identifiant}>@{props.username}</h4>
+      </div>
     </div>
 
 

@@ -114,8 +114,9 @@ function Profil() {
   return (
     <div className={styles.container}>
 
-      <UserCard username={user.username} email={user.email} />
-
+      <div className={styles.headerProfile}>
+        <UserCard username={user.username} email={user.email} />
+      </div>
 
       <div className={styles.tabBar}>
         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>

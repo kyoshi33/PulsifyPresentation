@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
-
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from "jwt-decode";
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 
 function SignUp() {
@@ -15,13 +17,16 @@ function SignUp() {
     const [confirmPassword, setconfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
-    const [errorLogin, setErrorLogin] = useState(false);
     const [isIdentical, setIsIdentical] = useState(false)
     const [isValidEmail, setisValidEmail] = useState(false)
     const [isValidUsername, setIsValidUsername] = useState(false)
     const [isValidName, setIsValidName] = useState(false)
+    const [errorLogin, setErrorLogin] = useState(false);
+    const [picture, setPicture] = useState("")
+    const [sub, setSub] = useState("")
 
     const dispatch = useDispatch();
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 
 
@@ -84,39 +89,78 @@ function SignUp() {
 
     }
 
+    let googleBtn = <GoogleLogin
+        shape='pill'
+        theme='filled_blue'
+        text='continue_with'
+        onSuccess={async (credentialResponse) => {
+
+            const emailGoogle = jwtDecode(credentialResponse.credential).email
+            const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name // prénom
+            const usernameGoogle = jwtDecode(credentialResponse.credential).name // username
+            const pictureGoogle = jwtDecode(credentialResponse.credential).picture // photo de profil
+            const googleID = jwtDecode(credentialResponse.credential).sub // google ID
+
+
+            const fetchSignin = await fetch('http://localhost:3000/users/signup/google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailGoogle, username: usernameGoogle, firstname: firstnameGoogle, google_id: googleID, picture: pictureGoogle }),
+            })
+            const res = await fetchSignin.json()
+            if (res.result) {
+                dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
+
+                window.location.href = '/Accueil'
+            } else {
+                setErrorLogin(true)
+
+
+            }
+        }
+        }
+        onError={() => {
+            setErrorLogin(true)
+        }}
+    />
+
+
     return (
-        <div className={styles.mainContainer}>
-            <h1 className={styles.h1}>Créer un compte</h1>
-            <h2 className={styles.h2}>Créer un compte pour visualier, gérer et partager vos projets</h2>
-            <div className={styles.inputContainer}>
-                <button className={styles.createBtn}>Se connecter avec google</button>
-                ou ...
+        <GoogleOAuthProvider clientId={clientId}>
 
-                <input className={styles.input} type="email"
-                    title="Email invalide" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                {isValidEmail && mailMessage}
-                <input className={styles.input} placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)} value={username} />
-                {isValidUsername && usernameMessage}
-                <input className={styles.input} placeholder="Prénom" onChange={(e) => setName(e.target.value)} value={name} />
-                {isValidName && nameMessage}
+            <div className={styles.mainContainer}>
+                <h1 className={styles.h1}>Créer un compte</h1>
+                <h2 className={styles.h2}>Créer un compte pour visualier, gérer et partager vos projets</h2>
+                <div className={styles.inputContainer}>
+                    {googleBtn}
+                    ou ...
 
-                <div className={styles.inputDiv}>
-                    <input className={styles.input} type={showPassword ? "text" : "password"}
-                        placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} value={password} required />
-                    {passwordEye}
-                </div>
-                <div className={styles.inputDiv}>
-                    <input className={styles.input} type={showRePassword ? "text" : "password"}
-                        placeholder="Confirmation mot de passe" onChange={(e) => setconfirmPassword(e.target.value)} value={confirmPassword} required />
-                    {rePasswordEye}
-                </div>
-                {isIdentical && passwordMessage}
+                    <input className={styles.input} type="email"
+                        title="Email invalide" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                    {isValidEmail && mailMessage}
+                    <input className={styles.input} placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)} value={username} />
+                    {isValidUsername && usernameMessage}
+                    <input className={styles.input} placeholder="Prénom" onChange={(e) => setName(e.target.value)} value={name} />
+                    {isValidName && nameMessage}
 
-                <h3 className={styles.h3}> En créant un compte, vous acceptez les conditions d'utilisation et la politique de confidentialité </h3>
-                <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
-                {errorLogin && errorMessage}
+                    <div className={styles.inputDiv}>
+                        <input className={styles.input} type={showPassword ? "text" : "password"}
+                            placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} value={password} required />
+                        {passwordEye}
+                    </div>
+                    <div className={styles.inputDiv}>
+                        <input className={styles.input} type={showRePassword ? "text" : "password"}
+                            placeholder="Confirmation mot de passe" onChange={(e) => setconfirmPassword(e.target.value)} value={confirmPassword} required />
+                        {rePasswordEye}
+                    </div>
+                    {isIdentical && passwordMessage}
+
+                    <h3 className={styles.h3}> En créant un compte, vous acceptez les conditions d'utilisation et la politique de confidentialité </h3>
+                    <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
+                    {errorLogin && errorMessage}
+                </div >
             </div >
-        </div >
+        </GoogleOAuthProvider>
     )
 }
 

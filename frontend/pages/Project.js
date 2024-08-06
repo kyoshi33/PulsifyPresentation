@@ -72,6 +72,7 @@ function Project() {
                         onClick={() => openProjectModal()}
                     >Enregistrer</button>
                     <ProjectModal isOpen={modalIsOpen}
+                        onRequestClose={closeProjectModal}
                     />
                 </div>
             </body>

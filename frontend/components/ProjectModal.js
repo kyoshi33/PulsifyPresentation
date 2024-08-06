@@ -14,9 +14,12 @@ function ProjectModal(props) {
             className={styles.modalContainer}
 
             contentLabel="Example Modal">
-            <div className={styles.modalTitle}>
-                <h1 className={styles.modalTitle}>Non du projet</h1>
-                <p>exemple de prompt, Rock, Jazz, électronique...</p>
+            <div className={styles.content}>
+                <div className={styles.modalTitleContent}>
+                    <h1 className={styles.modalTitle}>Nom du projet</h1>
+
+                </div>
+                <p className={styles.promptContainer}>exemple de prompt, Rock, Jazz, électronique...</p>
                 <button className={styles.btn}>Importer la musique généré par Suno</button>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
@@ -43,7 +46,7 @@ function ProjectModal(props) {
                         />
                     </div>
                     <div className={styles.modalBtnContainer}>
-                        <button>Retour</button>
+                        <button onClick={props.onRequestClose}>Retour</button>
                         <button>Valider</button>
                     </div>
                 </div>

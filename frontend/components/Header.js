@@ -24,16 +24,16 @@ function Header() {
     if (user.token) {
         topMenu =
             <div className={styles.btnContainer}>
-                <div className={styles.roundBtn}>
-                    <Link href='/SignUp'>
+                <Link href='/Profil'>
+                    <div className={styles.roundBtn}>
                         <FontAwesomeIcon icon={faUser} className={styles.icon} />
-                    </Link>
-                </div>
-                <div className={styles.roundBtn}>
-                    <Link href='/Login'>
+                    </div>
+                </Link>
+                <Link href='/Help'>
+                    <div className={styles.roundBtn}>
                         <FontAwesomeIcon icon={faQuestion} className={styles.icon} />
-                    </Link>
-                </div>
+                    </div>
+                </Link>
             </div>
     }
 

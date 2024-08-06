@@ -157,3 +157,8 @@
     font-size: 20px;
     color: white;
 }
+
+.btn:hover {
+    background-color: #B300F2;
+    /* Hover effect */
+}

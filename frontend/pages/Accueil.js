@@ -47,7 +47,7 @@ function Accueil() {
                             Mes modèles
                         </div>
                         <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(2)} >
-                            Modèles de la communauté
+                            Communauté
                         </div>
                     </div>
                     <div className={styles.choiceContainer}>

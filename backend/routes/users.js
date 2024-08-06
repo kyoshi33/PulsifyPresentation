@@ -105,6 +105,17 @@ router.post('/signup/google', (req, res) => {
   });
 });
 
+//recherche par Username depuis la page Explorer
+router.post('/search', async (req, res) => {
+  //Vérifier que les champs sont tous fournis
+  if (!checkBody(req.body, ['username'])) {
+    res.json({ result: false, error: 'Champs manquants ou vides' });
+    return;
+  }
+
+  const fetchUser = await User.find({ username: req.body.username }).populate(prompts)
+
+})
 
 
 module.exports = router;

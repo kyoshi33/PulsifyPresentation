@@ -131,8 +131,8 @@ function Explorer() {
 
     return (
         <>
+            <Header></Header>
             <div className={styles.container}>
-                <Header></Header>
 
                 <h1 className={styles.title}>Explorer</h1>
 

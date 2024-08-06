@@ -94,7 +94,11 @@
 }
 
 .import {
-    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 15%;
     padding: 2%;
     background: #535992;
     border: 1px solid #EE00F2;
@@ -102,6 +106,13 @@
     border-radius: 8px;
     margin-bottom: 1%;
     color: white;
+}
+
+.inputImport {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .dropzone {

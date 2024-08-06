@@ -13,7 +13,7 @@ function Prompt() {
             <Header></Header>
             <div className={styles.container}>
                 <div className={styles.promptCardInstance}>
-                    <PromptCard />
+                    <PromptCard projectName='Funk' stars={4} prompt='test prompt' />
                 </div>
 
 

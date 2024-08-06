@@ -161,8 +161,12 @@ function SignUp() {
                     <h3 className={styles.h3}> En créant un compte, vous acceptez les conditions d'utilisation et la politique de confidentialité </h3>
                     <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
                     {errorLogin && errorMessage}
+                    <div className={styles.returnBtn}>
+                        <button className={styles.createBtn} onClick={() => window.location.href = "/"}>Retour</button>
+                    </div>
                 </div >
             </div >
+
         </GoogleOAuthProvider>
     )
 }

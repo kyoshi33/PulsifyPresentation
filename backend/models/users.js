@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     username: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, default: null },
+    google_id: { type: Number, required: true, default: null },
     password: { type: String, required: true },
     token: { type: String, required: true },
     prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'prompts' }], required: false, default: [] },

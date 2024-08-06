@@ -16,7 +16,7 @@ function Header() {
             <Link href='/SignUp'>
                 <button className={styles.btn}>Inscription</button>
             </Link>
-            <Link href='/login'>
+            <Link href='/Login'>
                 <button className={styles.btn}>Connexion</button>
             </Link>
         </div>
@@ -30,7 +30,7 @@ function Header() {
                     </Link>
                 </div>
                 <div className={styles.roundBtn}>
-                    <Link href='/login'>
+                    <Link href='/Login'>
                         <FontAwesomeIcon icon={faQuestion} className={styles.icon} />
                     </Link>
                 </div>

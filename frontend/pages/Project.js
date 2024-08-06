@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
@@ -16,14 +16,25 @@ function Project() {
     const [modalIsOpen, setIsOpen] = useState(false);
     const router = useRouter();
 
+    // Go back to previous page clicking on "retour"
     const handleBack = () => {
         router.back();
     };
 
-    const fetchGenreArtistOnSpotify = (search) => {
+    const fetchGenreArtistOnSpotify = async (search) => {
+        const fetchArtist = await fetch('http://localhost:3000/spotify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ search: search }),
+        });
+        const res = await fetchArtist.json();
+        console.log(res)
 
     }
 
+
+
+    // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
         console.log('projectTitle :', projectTitle)
         setIsOpen(true)
@@ -78,10 +89,14 @@ function Project() {
                     <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
                     <div className={styles.searchContainer}>
                         <p className={styles.searchTitle}>Recherche de genre par artiste</p>
-                        <input className={styles.searchInput}
-                            placeholder='Enter an artist here'
-                            onChange={(e) => setSearch(e.target.value)}
-                            value={search}></input>
+                        <div>
+                            <input className={styles.searchInput}
+                                placeholder='Enter an artist here'
+                                onChange={(e) => setSearch(e.target.value)}
+                                value={search}></input>
+                            <FontAwesomeIcon icon={faSearch} className={styles.roundBtn} onClick={() => fetchGenreArtistOnSpotify(search)} />
+
+                        </div>
 
                     </div>
                     <button className={styles.btn}

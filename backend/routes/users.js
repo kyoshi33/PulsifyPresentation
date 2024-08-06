@@ -113,7 +113,19 @@ router.post('/search', async (req, res) => {
     return;
   }
 
-  const fetchUser = await User.find({ username: req.body.username }).populate(prompts)
+  const fetchUser = await User.find({ username: req.body.username })
+  const prompts = fetchUser.prompts
+
+  if (fetchUser) {
+    if (prompts) {
+      const userPopulate = fetchUser.populate(prompts)
+      res.json({ result: true, list: userPopulate.prompts });
+    } else {
+      res.json({ result: false, error: 'vide' });
+    }
+  } else {
+    res.json({ result: false, error: 'Utilisateur introuvable' })
+  }
 
 })
 

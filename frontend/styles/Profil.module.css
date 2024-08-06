@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   height: 100vh;
@@ -10,40 +9,54 @@
 
 }
 
-.profilesContainer {
+.headerProfile {
+  width: 20vw;
+  height: 12vh;
+  margin-bottom: 2%;
+  margin-top: 2%;
 
+}
+
+
+.profilesContainer {
   display: flex;
-  width: 60%;
-  height: 20%;
-  margin-bottom: 5%;
-  margin-top: 5%;
-  justify-content: space-between;
+  width: 100%;
+  height: 100%;
   flex-direction: row;
   align-items: center;
-  border: 1px solid #B300F2;
-
 }
 
 
 
 .profilesPic {
   display: flex;
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
+  max-width: 70%;
+  max-height: 70%;
   cursor: pointer;
-  border: 1px solid #B300F2;
+}
+
+.namediv {
+  color: white;
+}
+
+.nom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  margin-block: 0;
 
 }
 
 .identifiant {
   display: flex;
-  flex-direction: column;
-  color: white;
-  margin-inline: 30px;
-  padding-top: 1vh;
+  flex-direction: row;
   align-items: center;
-  border: 1px solid #B300F2;
+  color: rgb(156, 156, 156);
+  font-size: 13px;
+  margin-block: 0;
+
 }
 
 
@@ -94,7 +107,6 @@
 
 
 .selectedTab {
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +128,6 @@
   ;
 }
 
-
 .boxes {
   width: 60%;
   height: 70%;
@@ -128,7 +139,9 @@
   padding-left: 10px;
   margin-top: 0;
   align-items: center;
-
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #D9D9D9 #272541;
 }
 
 .box {

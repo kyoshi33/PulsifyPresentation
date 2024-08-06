@@ -5,16 +5,16 @@ import styles from '../styles/ProjectModal.module.css';
 import { Component, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
+import { useSelector } from "react-redux";
 
 
 
 function ProjectModal(props) {
-    const [audioEvent, setAudioEvent] = useState(null)
+
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
-
-    const uploadVideos = async (files) => {
+    const user = useSelector((state) => state.user.value);
+    const uploadAudio = async (files) => {
         const formData = new FormData();
 
         formData.append("file", files[0]);
@@ -28,14 +28,22 @@ function ProjectModal(props) {
                 setAudio(data.secure_url);
 
             });
-        // let saveAudio = await fetch("http://localhost:3000/prompts", {
-        //     method: "POST",
-        //     body: { audio: audio }
-        // })
-        console.log(audio)
+        const dataForPrompt = {
+            genre: props.projectTitle,
+            prompt: props.prompt,
+            audio: audio,
+            rating: 5,
+            isPublic: isPublic,
+            username: user.username,
+            email: user.email,
+        }
+        const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
+            method: "POST",
+            body: { dataForPrompt }
+        })
+        console.log(saveDataForPrompt)
 
     };
-
 
 
     return (
@@ -49,9 +57,9 @@ function ProjectModal(props) {
                     <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
 
                 </div>
-                <p className={styles.promptContainer}>Exemple de prompt, Rock, Jazz, électronique...</p>
+                <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
-                    <input className={styles.inputImport} type="file" onChange={(e) => uploadVideos(e.target.files)} />
+                    <input className={styles.inputImport} type="file" onChange={(e) => uploadAudio(e.target.files)} />
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
@@ -79,8 +87,10 @@ function ProjectModal(props) {
                     </div>
                 </div>
                 <div className={styles.modalBtnContainer}>
-                    <div className={isPublic === 1 ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
-                        isPublic
+                    <div className={styles.public}>
+                        <div className={isPublic === true ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
+                        </div>
+                        <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={() => window.location.href = "../Profil"}>Valider</button>

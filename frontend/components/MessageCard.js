@@ -1,6 +1,8 @@
 import styles from '../styles/MessageCard.module.css';
 import { useSelector } from 'react-redux';
 
+import UserCard from './UserCard'
+
 
 function MessageCard() {
     const user = useSelector((state) => state.user.value)
@@ -9,12 +11,7 @@ function MessageCard() {
     return (
         <div className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
-                <div>
-                    Name
-                </div>
-                <div>
-                    Username
-                </div>
+                <UserCard email='Doe' username='Julien' />
             </div>
             <div className={styles.listItemMessage}>
                 Message

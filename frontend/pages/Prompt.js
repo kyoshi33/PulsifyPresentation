@@ -16,8 +16,6 @@ function Prompt() {
                     <PromptCard projectName='Funk' stars={4} prompt='test prompt' />
                 </div>
 
-
-
                 <div className={styles.messagesContainer}>
                     <div className={styles.scrollWindow}>
 

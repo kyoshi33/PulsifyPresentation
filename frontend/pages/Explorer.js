@@ -59,27 +59,27 @@ function Explorer() {
 
     const fetchAutor = async () => {
         // fetch des auteurs 
-        /* const fetch = await fetch('http://localhost:3000/', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ autor: search }),
-         })
-         const res = await fetch.json()
-         if (res.result) {
-             setListProject(res.list)
-             setErrorSearch(false)
-         } else {
-             setErrorSearch(true)
-         }*/
+        const fetchAutor = await fetch('http://localhost:3000/users/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: search }),
+        })
+        const res = await fetchAutor.json()
+        if (res.result) {
+            setListProject(res.list)
+            setErrorSearch(false)
+        } else {
+            setErrorSearch(true)
+        }
     }
     const fetchKeyword = async () => {
         // fetch des mots clés
-        /* const fetch = await fetch('http://localhost:3000/', {
+        /* const fetchKeyWord = await fetch('http://localhost:3000/', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify({ keyword: search }),
          })
-         const res = await fetch.json()
+         const res = await fetchKeyWord.json()
          if (res.result) {
              setListProject(res.list)
              setErrorSearch(false)
@@ -89,12 +89,12 @@ function Explorer() {
     }
     const fetchProject = async () => {
         // fetch des projets 
-        /* const fetch = await fetch('http://localhost:3000/', {
+        /* const fetchProject = await fetch('http://localhost:3000/', {
              method: 'POST',
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify({ project: search }),
          })
-         const res = await fetch.json()
+         const res = await fetchProject.json()
          if (res.result) {
              setListProject(res.list)
              setErrorSearch(false)
@@ -115,13 +115,13 @@ function Explorer() {
         { projectName: 'MFMusic', stars: 3, prompt: 'Jazz, rock, musette, flute' },
         { projectName: 'GPluDiDé', stars: 1, prompt: 'Jazz, rock, musette, flute' }]
 
-    let listProjectSearch = tableau.map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = tableau.sort((a, b) => b.stars - a.stars).map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.stars - a.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = tableau.sort((a, b) => a.stars - b.stars).map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.stars - b.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //classé par - liké first
     }
 
     let error
@@ -138,7 +138,8 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value), fetchSearch() }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
+                    <button onClick={() => fetchSearch()} className={styles.btnSearch}>Rechercher</button>
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

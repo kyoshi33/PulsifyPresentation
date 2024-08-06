@@ -19,6 +19,9 @@ function Accueil() {
             <div className={styles.choiceContainer}>
                 <button className={styles.createBtn} onClick={() => setNewProject(true)}>Nouveau projet</button>
             </div>
+            <Link href='Explorer'>
+                <button className={styles.exploreBtn}>Explorer</button>
+            </Link>
         </div>
 
     if (newProject) {
@@ -31,6 +34,9 @@ function Accueil() {
                             <button className={styles.createBtn}>Démarrer un projet vierge</button>
                         </Link>
                     </div>
+                    <Link href='Explorer'>
+                        <button className={styles.exploreBtn}>Explorer</button>
+                    </Link>
                 </div>
             </>
     }
@@ -135,7 +141,9 @@ function Accueil() {
                         </div>
                     </div>
                 </div>
+                <button className={styles.exploreBtn} onClick={() => { setNewProject(false); setNewExistingProject(false) }}>Retour</button>
             </div >
+
     }
 
 

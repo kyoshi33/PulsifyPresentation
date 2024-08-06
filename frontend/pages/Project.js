@@ -5,15 +5,27 @@ import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from "next/router";
 
 import Header from '../components/Header';
 
 function Project() {
     const [projectTitle, setProjectTitle] = useState("");
+    const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+
+    const handleBack = () => {
+        router.back();
+    };
+
+    const fetchGenreArtistOnSpotify = (search) => {
+
+    }
 
     const openProjectModal = () => {
+        console.log('projectTitle :', projectTitle)
         setIsOpen(true)
     }
 
@@ -24,18 +36,21 @@ function Project() {
     return (
         <div className={styles.main}>
             <Header></Header>
-            <body className={styles.projectBody}>
+            <div className={styles.projectBody}>
                 <div className={styles.suggestionContainer}>
                     <div className={styles.suggestionList}>
                         <h3 className={styles.suggestionTitle}>Suggestions</h3>
                         <div>suggestion 1</div>
                         <div>Suggestion 2</div>
                     </div>
-                    <button className={styles.btn}>Retour</button>
+                    <button className={styles.btn} onClick={handleBack}>Retour</button>
                 </div>
                 <div className={styles.projectContainer}>
                     <div className={styles.projectHeader}>
-                        <input className={styles.inputProjectTitle} placeholder='Le nom de votre projet'></input>
+                        <input className={styles.inputProjectTitle}
+                            placeholder='Le nom de votre projet'
+                            onChange={(e) => setProjectTitle(e.target.value)}
+                            value={projectTitle} ></input>
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
                                 icon={faCircle}
@@ -57,9 +72,10 @@ function Project() {
                     </div>
                     <textarea className={styles.inputProjectPrompt}
                         placeholder='Entrez votre prompt ici'
-                        onChange={(e) => setProjectTitle(e.target.value)}
-                        value={projectTitle}></textarea>
-                    <div className={styles.totalCharacters}>{`${projectTitle.length} / 120`}</div>
+                        onChange={(e) => setPrompt(e.target.value)}
+                        value={prompt}
+                    />
+                    <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
                     <div className={styles.searchContainer}>
                         <p className={styles.searchTitle}>Recherche de genre par artiste</p>
                         <input className={styles.searchInput}
@@ -73,9 +89,11 @@ function Project() {
                     >Enregistrer</button>
                     <ProjectModal isOpen={modalIsOpen}
                         onRequestClose={closeProjectModal}
+                        projectTitle={projectTitle}
+                        prompt={prompt}
                     />
                 </div>
-            </body>
+            </div>
         </div>
     )
 }

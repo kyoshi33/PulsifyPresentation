@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema({
     prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'prompts' }], required: false, default: [] },
     likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'likedprompts' }], required: false, default: [] },
     firstname: { type: String, required: true },
+    photo: { type: String, required: false },
 });
 
 const User = mongoose.model('users', userSchema);

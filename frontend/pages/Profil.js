@@ -118,6 +118,8 @@ function Profil() {
         <UserCard username={user.username} email={user.email} />
       </div>
 
+
+
       <div className={styles.tabBar}>
         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
           Ma bibliothèque

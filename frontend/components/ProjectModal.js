@@ -20,7 +20,7 @@ function ProjectModal(props) {
 
                 </div>
                 <p className={styles.promptContainer}>exemple de prompt, Rock, Jazz, électronique...</p>
-                <button className={styles.btn}>Importer la musique généré par Suno</button>
+                <button className={styles.btn}>Importer la musique générée par Suno</button>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
                     <div className={styles.voteTxt}>
@@ -45,10 +45,10 @@ function ProjectModal(props) {
                             className={styles.colorThemeIcon}
                         />
                     </div>
-                    <div className={styles.modalBtnContainer}>
-                        <button onClick={props.onRequestClose}>Retour</button>
-                        <button>Valider</button>
-                    </div>
+                </div>
+                <div className={styles.modalBtnContainer}>
+                    <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
+                    <button className={styles.btn}>Valider</button>
                 </div>
             </div>
         </Modal>

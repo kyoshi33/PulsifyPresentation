@@ -5,7 +5,7 @@ import styles from '../styles/ProjectModal.module.css';
 import { Component, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-
+import { useSelector } from "react-redux";
 
 
 
@@ -13,8 +13,8 @@ function ProjectModal(props) {
 
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
-
-    const uploadVideos = async (files) => {
+    const user = useSelector((state) => state.user.value);
+    const uploadAudio = async (files) => {
         const formData = new FormData();
 
         formData.append("file", files[0]);
@@ -32,17 +32,18 @@ function ProjectModal(props) {
             genre: props.projectTitle,
             prompt: props.prompt,
             audio: audio,
-            note,
-            isPublic: isPublic
+            rating: 5,
+            isPublic: isPublic,
+            username: user.username,
+            email: user.email,
         }
-        // let saveAudio = await fetch("http://localhost:3000/prompts", {
-        //     method: "POST",
-        //     body: { audio: audio }
-        // })
-        console.log(audio)
+        const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
+            method: "POST",
+            body: { dataForPrompt }
+        })
+        console.log(saveDataForPrompt)
 
     };
-
 
 
     return (
@@ -58,7 +59,7 @@ function ProjectModal(props) {
                 </div>
                 <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
-                    <input className={styles.inputImport} type="file" onChange={(e) => uploadVideos(e.target.files)} />
+                    <input className={styles.inputImport} type="file" onChange={(e) => uploadAudio(e.target.files)} />
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>

@@ -7,26 +7,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useDropzone } from 'react-dropzone';
 
+
 function ProjectModal(props) {
+    const [audioEvent, setAudioEvent] = useState(null)
+    const [audio, setAudio] = useState(null);
 
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps
-    } = useDropzone({
-        accept: {
-            'audio/*': [],
+    const uploadVideos = async () => {
+        const formData = new FormData();
 
-        }
-    });
+        formData.append("file", audioEvent[0]);
+        formData.append("upload_preset", "ml_default");
+        fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setAudio(data.secure_url);
+            });
+        // let saveAudio = await fetch("http://localhost:3000/prompts/audio", {
+        //     method: "POST",
+        //     body: { audio: audio }
+        // })
+        console.log(audio)
+        window.location.href = "/Profil"
 
-    const acceptedFileItems = acceptedFiles.map(file => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
-
-
+    };
 
     return (
         <Modal
@@ -41,17 +47,7 @@ function ProjectModal(props) {
                 </div>
                 <p className={styles.promptContainer}>Exemple de prompt, Rock, Jazz, électronique...</p>
                 <div className={styles.import}>
-                    <section className="container">
-                        <div {...getRootProps({ className: 'dropzone' })}>
-                            <input {...getInputProps()} />
-                            <p className={styles.dropzone}>Faites glisser et déposez votre fichier ici, ou cliquez pour sélectionner un fichier</p>
-                            <em>(Seuls les fichiers MP3 sont acceptés)</em>
-                        </div>
-                        <aside>
-                            <h4>Audio</h4>
-                            <ul>{acceptedFileItems}</ul>
-                        </aside>
-                    </section>
+                    <input className={styles.inputImport} type="file" onChange={(e) => setAudioEvent(e.target.files)} />
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
@@ -80,7 +76,7 @@ function ProjectModal(props) {
                 </div>
                 <div className={styles.modalBtnContainer}>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn}>Valider</button>
+                    <button className={styles.btn} onClick={() => uploadVideos()}>Valider</button>
                 </div>
             </div>
         </Modal>

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 
 
-function ProfilUser(props) {
+function UserCard(props) {
   const user = useSelector((state) => state.user.value)
 
   let profil =
@@ -20,8 +20,10 @@ function ProfilUser(props) {
 
 
   return (
-    { profil }
+    <>
+      {profil}
+    </>
   );
 }
 
-export default ProfilUser;
+export default UserCard;

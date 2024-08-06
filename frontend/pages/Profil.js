@@ -1,11 +1,11 @@
 import styles from '../styles/Profil.module.css';
-import { login } from '../reducers/user';
+import User, { login } from '../reducers/user';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
-import ProfilUser from '../components/ProfilUser';
+import UserCard from '../components/UserCard';
 
 
 function Profil() {
@@ -93,13 +93,6 @@ function Profil() {
         </div>
 
       </div>
-  */
-
-
-
-
-  return (
-    <div className={styles.container}>
 
       <div className={styles.profilesContainer}>
 
@@ -111,8 +104,19 @@ function Profil() {
           <h4 className={styles.identifiant}>@:{user.email}</h4>
           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
         </div>
-
+        <ProfilUser username={'Laozj'} email={'ihdsghii@lguhfd.vi'} />
       </div>
+  */
+
+
+
+
+  return (
+    <div className={styles.container}>
+
+      <UserCard username={user.username} email={user.email} />
+
+
 
 
       <div className={styles.tabBar}>

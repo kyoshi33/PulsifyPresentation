@@ -13,7 +13,7 @@ function Prompt() {
             <Header></Header>
             <div className={styles.container}>
                 <div className={styles.promptCardInstance}>
-                    <PromptCard />
+                    <PromptCard projectName='Funk' stars={4} prompt='test prompt' />
                 </div>
 
 
@@ -39,6 +39,12 @@ function Prompt() {
                     <textarea placeholder="Nouveau commentaire..." className={styles.input}>
                     </textarea>
                     <div className={styles.publish}>Publier</div>
+                </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.btnRetour}>Retour</div>
+                    <div className={styles.btn}>Utiliser ce modèle</div>
+                    <div className={styles.spacer}></div>
                 </div>
 
             </div>

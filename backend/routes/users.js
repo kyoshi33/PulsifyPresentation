@@ -100,7 +100,8 @@ router.post('/signup/google', (req, res) => {
         email: req.body.email,
         google_id: req.body.google_id,
         picture: req.body.picture,
-        token: uid2(32)
+        token: uid2(32),
+        password: null
       });
       newUser.save().then(newDoc => {
 

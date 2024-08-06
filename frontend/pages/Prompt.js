@@ -41,6 +41,12 @@ function Prompt() {
                     <div className={styles.publish}>Publier</div>
                 </div>
 
+                <div className={styles.footer}>
+                    <div className={styles.btnRetour}>Retour</div>
+                    <div className={styles.btn}>Utiliser ce modèle</div>
+                    <div className={styles.spacer}></div>
+                </div>
+
             </div>
         </>
     )

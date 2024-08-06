@@ -25,6 +25,9 @@
 }
 
 .btn {
+  align-items: center;
+  justify-content: center;
+  display: flex;
   cursor: pointer;
   background-color: #474C7C;
   color: white;
@@ -35,6 +38,12 @@
   border: solid #B300F2 1px;
   border-radius: 5px;
   margin: 5px;
+  transition-duration: 500ms;
+
+}
+
+.btn:hover {
+  background-color: #B300F2;
 }
 
 .exploreBtn {
@@ -54,9 +63,12 @@
 }
 
 .btnRetour {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   width: 10%;
-  height: 5%;
+  height: 100%;
   background: #535992;
   border: 1px solid #EE00F2;
   box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
@@ -64,6 +76,8 @@
   font-size: large;
   cursor: pointer;
   margin: 10px;
+  transition-duration: 500ms;
+
 }
 
 .createBtn {
@@ -84,9 +98,11 @@
   transition-duration: 500ms;
 }
 
-.createBtn:hover {
+.btnRetour:hover {
   background-color: #B300F2;
 }
+
+
 
 .listItemPrompt {
   /* width: 25%; */
@@ -167,4 +183,16 @@
 
 .publish :hover {
   background-color: #B300F2;
+}
+
+.footer {
+  height: 6%;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.spacer {
+  width: 15vw;
 }

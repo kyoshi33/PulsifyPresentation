@@ -19,6 +19,7 @@ function Login() {
   let googleBtn = <GoogleLogin
     shape='pill'
     theme='filled_blue'
+    text='continue_with'
     onSuccess={(credentialResponse) => {
       let email = jwtDecode(credentialResponse.credential).email
       connexionGoogle(email)

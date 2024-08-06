@@ -5,6 +5,7 @@ import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from "next/router";
 
 import Header from '../components/Header';
 
@@ -13,6 +14,11 @@ function Project() {
     const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+
+    const handleBack = () => {
+        router.back();
+    };
 
     const fetchGenreArtistOnSpotify = (search) => {
 
@@ -37,7 +43,7 @@ function Project() {
                         <div>suggestion 1</div>
                         <div>Suggestion 2</div>
                     </div>
-                    <button className={styles.btn}>Retour</button>
+                    <button className={styles.btn} onClick={handleBack}>Retour</button>
                 </div>
                 <div className={styles.projectContainer}>
                     <div className={styles.projectHeader}>

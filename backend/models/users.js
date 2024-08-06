@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
+
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     google_id: { type: Number, required: true, default: null, unique: true, sparse: true /* Permet les valeurs nulles*/ },
@@ -14,6 +15,7 @@ const userSchema = mongoose.Schema({
     likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'likedprompts' }], required: false, default: [] },
     firstname: { type: String, required: true },
     picture: { type: String, required: false },
+
 });
 
 const User = mongoose.model('users', userSchema);

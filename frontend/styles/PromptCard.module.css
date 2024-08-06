@@ -1,0 +1,94 @@
+.promptContainer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1vh;
+  align-items: center;
+  width: 97%;
+  height: 25%;
+  background: #272541;
+  border: 1px solid #B300F2;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition-duration: 500ms;
+}
+
+.promptContainer:hover {
+  background-color: #B300F2;
+  height: 30%;
+  /* Hover effect */
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  height: 90%;
+  font-size: 18px;
+  /* user-select: none; */
+}
+
+.titleBackground {
+  background-color: #272541;
+}
+
+.title {
+  background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: black;
+  background-clip: text;
+  font-size: 100%;
+  margin: 2%;
+  text-align: center;
+  border: white 1px solid;
+  padding: 8px;
+}
+
+
+.titleBox {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.score {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.star {
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+.starGrey {
+  margin-left: 5px;
+  font-size: 11px;
+  color: #504E6B;
+}
+
+.itemPrompt {
+  padding-left: 3%;
+  font-size: 15px;
+  padding-top: 6px;
+  width: 70%;
+}
+
+.iconsBox {
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.icon {
+  display: flex;
+  font-size: 25px;
+  color: white;
+  margin-right: 30%;
+}

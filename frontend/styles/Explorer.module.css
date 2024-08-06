@@ -15,7 +15,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-size: 400%;
-    margin: 25px;
+    margin-top: 20px;
     font-weight: 400;
 }
 
@@ -29,7 +29,7 @@
     border-radius: 8px;
     font-size: large;
     cursor: pointer;
-    margin: 10px;
+    margin: 20px;
 }
 
 .btnRetour:hover {
@@ -41,9 +41,9 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
     height: 10%;
-    margin: 2%;
+    padding: 10px;
 }
 
 .containerIcon {
@@ -54,7 +54,8 @@
 
 .icon {
     height: 50%;
-    margin: 10px
+    margin: 10px;
+    cursor: pointer;
 }
 
 .modelChoiceContainer {
@@ -88,7 +89,8 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #D9D9D9 #272541;
-    width: 100%;
+    width: 80%;
+    height: 100%;
 }
 
 .listItemContainer {
@@ -96,8 +98,8 @@
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
-    width: 95%;
-    height: 14%;
+    width: 98%;
+    height: 15%;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
@@ -132,4 +134,23 @@
     display: flex;
     align-items: center;
     padding-left: 3%;
+}
+
+.popoverContainer {
+    background-color: #504E6B;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: flex-start;
+    margin: 5px;
+}
+
+.checkbox {
+    margin-right: 10px;
 }

@@ -2,7 +2,7 @@ import styles from "../styles/SignUp.module.css"
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../reducers/user";
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
@@ -27,6 +27,11 @@ function SignUp() {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 
+    const user = useSelector((state) => state.user.value);
+
+    if (user.token) {
+        window.location.href = '/Accueil'
+    }
 
     let passwordEye;
     let rePasswordEye

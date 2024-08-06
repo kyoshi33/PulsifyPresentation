@@ -1,10 +1,10 @@
 import styles from '../styles/Login.module.css';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { login } from '../reducers/user';
+import user, { login } from '../reducers/user';
 
 function Login() {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -12,6 +12,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorLogin, setErrorLogin] = useState(false);
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.value);
+
+  if (user.token) {
+    window.location.href = '/Accueil'
+  }
 
   let error
   if (errorLogin) { error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic' }}>Champs manquants ou invalides</h4> }

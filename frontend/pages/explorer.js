@@ -13,7 +13,8 @@ function Explorer() {
     const [checkedProject, setCheckedProject] = useState(false);
     const [sortUp, setSortUp] = useState(false);
     const [sortDown, setSortDown] = useState(false);
-    const [listProject, setListProject] = useState([])
+    const [errorSearch, setErrorSearch] = useState(false);
+    const [listProject, setListProject] = useState([]);
 
     if (!checkedAutor && !checkedKeyword && !checkedProject) {
         setCheckedKeyword(true)
@@ -55,23 +56,64 @@ function Explorer() {
         }
     }
 
-    const fetchAutor = () => {
+    const fetchAutor = async () => {
         // fetch des auteurs 
+        /* const fetch = await fetch('http://localhost:3000/', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ autor: search }),
+         })
+         const res = await fetch.json()
+         if (res.result) {
+             setListProject([res.list])
+             setErrorSearch(false)
+         } else {
+             setErrorSearch(true)
+         }*/
     }
-    const fetchKeyword = () => {
+    const fetchKeyword = async () => {
         // fetch des mots clés
+        /* const fetch = await fetch('http://localhost:3000/', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ keyword: search }),
+         })
+         const res = await fetch.json()
+         if (res.result) {
+             setListProject([res.list])
+             setErrorSearch(false)
+         } else {
+             setErrorSearch(true)
+         }*/
     }
-    const fetchProject = () => {
+    const fetchProject = async () => {
         // fetch des projets 
+        /* const fetch = await fetch('http://localhost:3000/', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ project: search }),
+         })
+         const res = await fetch.json()
+         if (res.result) {
+             setListProject([res.list])
+             setErrorSearch(false)
+         } else {
+             setErrorSearch(true)
+         }*/
     }
 
-    let listProjectSearch // map de listProject vers card Project
+    let listProjectSearch // = listProject.map((data, i) => {return card })
 
     if (sortUp) {
-        // listProjectSearch = map de listProject classé par + liké first
+        // listProjectSearch = listProject.sort((a, b) => b.like - a.like).map((data, i) => {return card }) classé par + liké first
     }
     if (sortDown) {
-        // listProjectSearch = map de listProject classé par - liké first
+        // listProjectSearch = listProject.sort((a, b) => a.like - b.like).map((data, i) => {return card }) classé par - liké first
+    }
+
+    let error
+    if (errorSearch) {
+        error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>Aucun résultat trouvé</h4>
     }
 
     return (
@@ -134,7 +176,7 @@ function Explorer() {
                     </div>
 
                     <div className={styles.scrollWindow}>
-
+                        {error}
                         <button className={styles.listItemContainer}>
                             <div className={styles.listItemTitle}>
                                 Rockabilly

@@ -10,7 +10,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 
 function ProjectModal(props) {
-    const [audioEvent, setAudioEvent] = useState(null)
+
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
 
@@ -28,6 +28,13 @@ function ProjectModal(props) {
                 setAudio(data.secure_url);
 
             });
+        const dataForPrompt = {
+            genre: props.projectTitle,
+            prompt: props.prompt,
+            audio: audio,
+            note,
+            isPublic: isPublic
+        }
         // let saveAudio = await fetch("http://localhost:3000/prompts", {
         //     method: "POST",
         //     body: { audio: audio }
@@ -49,7 +56,7 @@ function ProjectModal(props) {
                     <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
 
                 </div>
-                <p className={styles.promptContainer}>Exemple de prompt, Rock, Jazz, électronique...</p>
+                <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
                     <input className={styles.inputImport} type="file" onChange={(e) => uploadVideos(e.target.files)} />
                 </div>
@@ -79,8 +86,10 @@ function ProjectModal(props) {
                     </div>
                 </div>
                 <div className={styles.modalBtnContainer}>
-                    <div className={isPublic === 1 ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
-                        isPublic
+                    <div className={styles.public}>
+                        <div className={isPublic === true ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
+                        </div>
+                        <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={() => window.location.href = "../Profil"}>Valider</button>

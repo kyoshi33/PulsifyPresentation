@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import Header from "../components/Header";
 import PromptCard from '../components/PromptCard'
+import MessageCard from '../components/MessageCard'
 
 function Prompt() {
 
@@ -14,6 +15,32 @@ function Prompt() {
                 <div className={styles.promptCardInstance}>
                     <PromptCard />
                 </div>
+
+
+
+                <div className={styles.messagesContainer}>
+                    <div className={styles.scrollWindow}>
+
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+                        <MessageCard />
+
+                    </div>
+                </div>
+
+
+                <div className={styles.inputContainer} >
+                    <textarea placeholder="Nouveau commentaire..." className={styles.input}>
+                    </textarea>
+                    <div className={styles.publish}>Publier</div>
+                </div>
+
             </div>
         </>
     )

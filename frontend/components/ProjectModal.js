@@ -12,10 +12,10 @@ function ProjectModal(props) {
     const [audioEvent, setAudioEvent] = useState(null)
     const [audio, setAudio] = useState(null);
 
-    const uploadVideos = async () => {
+    const uploadVideos = async (files) => {
         const formData = new FormData();
 
-        formData.append("file", audioEvent[0]);
+        formData.append("file", files[0]);
         formData.append("upload_preset", "ml_default");
         fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
             method: "POST",
@@ -24,13 +24,13 @@ function ProjectModal(props) {
             .then((response) => response.json())
             .then((data) => {
                 setAudio(data.secure_url);
+
             });
-        // let saveAudio = await fetch("http://localhost:3000/prompts/audio", {
+        // let saveAudio = await fetch("http://localhost:3000/prompts", {
         //     method: "POST",
         //     body: { audio: audio }
         // })
         console.log(audio)
-        window.location.href = "/Profil"
 
     };
 
@@ -47,7 +47,7 @@ function ProjectModal(props) {
                 </div>
                 <p className={styles.promptContainer}>Exemple de prompt, Rock, Jazz, électronique...</p>
                 <div className={styles.import}>
-                    <input className={styles.inputImport} type="file" onChange={(e) => setAudioEvent(e.target.files)} />
+                    <input className={styles.inputImport} type="file" onChange={(e) => uploadVideos(e.target.files)} />
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
@@ -76,7 +76,7 @@ function ProjectModal(props) {
                 </div>
                 <div className={styles.modalBtnContainer}>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => uploadVideos()}>Valider</button>
+                    <button className={styles.btn} onClick={() => window.location.href = "../Profil"}>Valider</button>
                 </div>
             </div>
         </Modal>

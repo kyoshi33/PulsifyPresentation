@@ -1,11 +1,11 @@
 import styles from '../styles/Profil.module.css';
-import { login } from '../reducers/user';
+import User, { login } from '../reducers/user';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
-import ProfilUser from '../components/ProfilUser';
+import UserCard from '../components/UserCard';
 
 
 function Profil() {
@@ -114,7 +114,7 @@ function Profil() {
   return (
     <div className={styles.container}>
 
-      <ProfilUser username={user.username} email={user.email} />
+      <UserCard username={user.username} email={user.email} />
 
 
       <div className={styles.tabBar}>

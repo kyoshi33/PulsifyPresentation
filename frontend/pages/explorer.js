@@ -66,7 +66,7 @@ function Explorer() {
          })
          const res = await fetch.json()
          if (res.result) {
-             setListProject([res.list])
+             setListProject(res.list)
              setErrorSearch(false)
          } else {
              setErrorSearch(true)
@@ -81,7 +81,7 @@ function Explorer() {
          })
          const res = await fetch.json()
          if (res.result) {
-             setListProject([res.list])
+             setListProject(res.list)
              setErrorSearch(false)
          } else {
              setErrorSearch(true)
@@ -96,20 +96,32 @@ function Explorer() {
          })
          const res = await fetch.json()
          if (res.result) {
-             setListProject([res.list])
+             setListProject(res.list)
              setErrorSearch(false)
          } else {
              setErrorSearch(true)
          }*/
     }
 
-    let listProjectSearch // = listProject.map((data, i) => {return <PromptCard /> })
+
+    let tableau = [
+        { projectName: 'Rockability', stars: 4, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'Jazzy', stars: 3, prompt: 'Jazz, troubadour, techno, flute' },
+        { projectName: 'Techno', stars: 2, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'HardStyle', stars: 1, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'Pop', stars: 5, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'GhibliStyle', stars: 2, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'IDK', stars: 4, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'MFMusic', stars: 3, prompt: 'Jazz, rock, musette, flute' },
+        { projectName: 'GPluDiDé', stars: 1, prompt: 'Jazz, rock, musette, flute' }]
+
+    let listProjectSearch = tableau.map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        // listProjectSearch = listProject.sort((a, b) => b.like - a.like).map((data, i) => {return <PromptCard />  }) classé par + liké first
+        listProjectSearch = tableau.sort((a, b) => b.stars - a.stars).map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //classé par + liké first
     }
     if (sortDown) {
-        // listProjectSearch = listProject.sort((a, b) => a.like - b.like).map((data, i) => {return <PromptCard />  }) classé par - liké first
+        listProjectSearch = tableau.sort((a, b) => a.stars - b.stars).map((data, i) => { return <PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /> }) //classé par - liké first
     }
 
     let error
@@ -123,141 +135,66 @@ function Explorer() {
                 <Header></Header>
 
                 <h1 className={styles.title}>Explorer</h1>
-                <div className={styles.modelChoiceContainer}>
 
-                    <div className={styles.containerSearch}>
-                        <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value), fetchSearch() }} value={search} className={styles.inputSearch} />
-                        <div className={styles.containerIcon}>
-                            <Popover
-                                isOpen={isPopoverOpen}
-                                positions={'bottom'}
-                                align={'center'}
-                                padding={12}
-                                reposition={false}
-                                onClickOutside={() => setIsPopoverOpen(false)}
-                                content={
-                                    <div className={styles.popoverContainer}>
-                                        <div className={styles.checkboxContainer}>
-                                            <input
-                                                type="checkbox"
-                                                checked={checkedAutor}
-                                                onChange={() => handleChange('Autor')}
-                                                className={styles.checkbox}
-                                            />
-                                            Auteur
-                                        </div>
 
-                                        <div className={styles.checkboxContainer}>
-                                            <input
-                                                type="checkbox"
-                                                checked={checkedKeyword}
-                                                onChange={() => handleChange('Keyword')}
-                                                className={styles.checkbox}
-                                            />
-                                            Mots clés
-                                        </div>
-
-                                        <div className={styles.checkboxContainer}>
-                                            <input
-                                                type="checkbox"
-                                                checked={checkedProject}
-                                                onChange={() => handleChange('Project')}
-                                                className={styles.checkbox}
-                                            />
-                                            Nom du projet
-                                        </div>
+                <div className={styles.containerSearch}>
+                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value), fetchSearch() }} value={search} className={styles.inputSearch} />
+                    <div className={styles.containerIcon}>
+                        <Popover
+                            isOpen={isPopoverOpen}
+                            positions={'bottom'}
+                            align={'center'}
+                            padding={12}
+                            reposition={false}
+                            onClickOutside={() => setIsPopoverOpen(false)}
+                            content={
+                                <div className={styles.popoverContainer}>
+                                    <div className={styles.checkboxContainer}>
+                                        <input
+                                            type="checkbox"
+                                            checked={checkedAutor}
+                                            onChange={() => handleChange('Autor')}
+                                            className={styles.checkbox}
+                                        />
+                                        Auteur
                                     </div>
-                                }
-                            >
-                                <FontAwesomeIcon icon={faFilter} className={styles.icon} onClick={() => setIsPopoverOpen(!isPopoverOpen)} color={colorFilter} />
-                            </Popover>
-                            <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(!sortUp), setSortDown(false) }} />
-                            <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(!sortDown), setSortUp(false) }} />
-                        </div>
+
+                                    <div className={styles.checkboxContainer}>
+                                        <input
+                                            type="checkbox"
+                                            checked={checkedKeyword}
+                                            onChange={() => handleChange('Keyword')}
+                                            className={styles.checkbox}
+                                        />
+                                        Mots clés
+                                    </div>
+
+                                    <div className={styles.checkboxContainer}>
+                                        <input
+                                            type="checkbox"
+                                            checked={checkedProject}
+                                            onChange={() => handleChange('Project')}
+                                            className={styles.checkbox}
+                                        />
+                                        Nom du projet
+                                    </div>
+                                </div>
+                            }
+                        >
+                            <FontAwesomeIcon icon={faFilter} className={styles.icon} onClick={() => setIsPopoverOpen(!isPopoverOpen)} color={colorFilter} />
+                        </Popover>
+                        <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(!sortUp), setSortDown(false) }} />
+                        <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(!sortDown), setSortUp(false) }} />
                     </div>
+                </div>
 
-                    <div className={styles.scrollWindow}>
-                        {error}
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rock Indie
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                rock, electric guitar/bass/drums, pop,folk
-                            </div>
-                        </button>
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Modern classical
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                contemporary, mordern classical, XXcentury
-                            </div>
-                        </button>
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-
-                        <button className={styles.listItemContainer}>
-                            <div className={styles.listItemTitle}>
-                                Rockabilly
-                            </div>
-                            <div className={styles.listItemPrompt}>
-                                Jazz, rock, musette, flute
-                            </div>
-                        </button>
-
-                    </div>
+                <div className={styles.scrollWindow}>
+                    {error}
+                    {listProjectSearch}
                 </div>
                 <button className={styles.btnRetour} onClick={() => window.location.href = '/Accueil'}>Retour</button>
             </div>
+
 
         </>
     )

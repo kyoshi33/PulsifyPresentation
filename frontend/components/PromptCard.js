@@ -6,7 +6,7 @@ import { faPlay, faHeart, faCircleExclamation, faStar } from '@fortawesome/free-
 import { useSelector } from 'react-redux';
 
 
-function PromptCard() {
+function PromptCard(props) {
     const user = useSelector((state) => state.user.value)
 
 
@@ -17,22 +17,24 @@ function PromptCard() {
 
                 <div className={styles.titleBox}>
 
-                    <div className={styles.title}>
-                        Rockabilly
+                    <div className={styles.titleBackground}>
+                        <div className={styles.title}>
+                            {props.projectName}
+                        </div>
                     </div>
 
                     <div className={styles.score}>
-                        <FontAwesomeIcon icon={faStar} className={styles.star} />
-                        <FontAwesomeIcon icon={faStar} className={styles.star} />
-                        <FontAwesomeIcon icon={faStar} className={styles.star} />
-                        <FontAwesomeIcon icon={faStar} className={styles.star} />
-                        <FontAwesomeIcon icon={faStar} className={styles.starWhite}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faStar} className={props.stars >= 1 ? styles.star : styles.starGrey} />
+                        <FontAwesomeIcon icon={faStar} className={props.stars >= 2 ? styles.star : styles.starGrey} />
+                        <FontAwesomeIcon icon={faStar} className={props.stars >= 3 ? styles.star : styles.starGrey} />
+                        <FontAwesomeIcon icon={faStar} className={props.stars >= 4 ? styles.star : styles.starGrey} />
+                        <FontAwesomeIcon icon={faStar} className={props.stars === 5 ? styles.star : styles.starGrey} />
                     </div>
 
                 </div>
 
                 <div className={styles.itemPrompt}>
-                    Jazz, rock, musette, flute
+                    {props.prompt}
                 </div>
                 <div className={styles.iconsBox}>
                     <FontAwesomeIcon icon={faPlay} className={styles.icon} />
@@ -42,7 +44,7 @@ function PromptCard() {
 
             </div>
 
-        </div>
+        </div >
 
     );
 }

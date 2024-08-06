@@ -1,16 +1,18 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from '../styles/ProjectModal.module.css';
-import { useState } from 'react';
+import { Component, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { useDropzone } from 'react-dropzone';
+
+
 
 
 function ProjectModal(props) {
     const [audioEvent, setAudioEvent] = useState(null)
     const [audio, setAudio] = useState(null);
+    const [isPublic, setIsPublic] = useState(false)
 
     const uploadVideos = async (files) => {
         const formData = new FormData();
@@ -33,6 +35,8 @@ function ProjectModal(props) {
         console.log(audio)
 
     };
+
+
 
     return (
         <Modal
@@ -75,6 +79,9 @@ function ProjectModal(props) {
                     </div>
                 </div>
                 <div className={styles.modalBtnContainer}>
+                    <div className={isPublic === 1 ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
+                        isPublic
+                    </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={() => window.location.href = "../Profil"}>Valider</button>
                 </div>

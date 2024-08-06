@@ -154,3 +154,8 @@
 .checkbox {
     margin-right: 10px;
 }
+
+.containerPromptCard {
+    height: 25%;
+    margin: 12px;
+}

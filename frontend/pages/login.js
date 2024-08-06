@@ -21,23 +21,27 @@ function Login() {
     theme='filled_blue'
     text='continue_with'
     onSuccess={(credentialResponse) => {
-      let email = jwtDecode(credentialResponse.credential).email
-      connexionGoogle(email)
+      const email = jwtDecode(credentialResponse.credential).email
+      const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name // prénom
+      const usernameGoogle = jwtDecode(credentialResponse.credential).name // username
+      const pictureGoogle = jwtDecode(credentialResponse.credential).picture // photo de profil
+      const googleID = jwtDecode(credentialResponse.credential).sub // google ID
+      connexionGoogle(email, firstnameGoogle, usernameGoogle, pictureGoogle, googleID)
     }}
     onError={() => {
       setErrorLogin(true)
     }}
   />
 
-  const connexionGoogle = async (emailGoogle) => {
-    const fetchLogin = await fetch('http://localhost:3000/users/signin', {
+  const connexionGoogle = async (emailGoogle, firstname, username, picture, googleId) => {
+    const fetchLogin = await fetch('http://localhost:3000/users/signup/google', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: emailGoogle, google: true }),
+      body: JSON.stringify({ email: emailGoogle, username: username, firstname: firstname, google_id: googleId, picture: picture }),
     })
     const res = await fetchLogin.json()
     if (res.result) {
-      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email }))
+      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }))
       window.location.href = '/Accueil'
     } else {
       setErrorLogin(true)
@@ -52,10 +56,8 @@ function Login() {
     })
     const res = await fetchLogin.json()
     if (res.result) {
-      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email }));
+      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
       window.location.href = '/Accueil'
-      /*setEmail('')
-      setPassword('')*/
     } else {
       setErrorLogin(true)
     }

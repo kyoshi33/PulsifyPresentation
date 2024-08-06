@@ -77,10 +77,41 @@ router.post('/signin', (req, res) => {
 });
 
 
+router.post('/signup/google', (req, res) => {
+  //Vérifier que les champs sont tous fournis
+  if (!checkBody(req.body, ['firstname', 'username', "google_id", 'email', "picture"])) {
+    res.json({ result: false, error: 'Champs manquants ou vides' });
+    return;
+  }
+  //Vérifier que l'e-mail a un format valide
+  if (!EMAIL_REGEX.test(req.body.email)) {
 
+    res.json({ result: false, error: 'e-mail invalide' });
+    return
+  }
 
+  // Vérifier que l'utilisateur n'existe pas déjà en base de données
+  User.findOne({ google_id: req.body.google_id }).then(data => {
+    if (data === null) {
+      // Créer le nouvel utilisateur
+      const newUser = new User({
+        firstname: req.body.firstname,
+        username: req.body.username,
+        email: req.body.email,
+        google_id: req.body.google_id,
+        picture: req.body.picture,
+        token: uid2(32)
+      });
+      newUser.save().then(newDoc => {
 
-
+        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email });
+      });
+    } else {
+      // L'utilisateur existe déjà en base de données
+      res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email });
+    }
+  });
+});
 
 
 

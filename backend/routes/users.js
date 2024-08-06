@@ -114,8 +114,19 @@ router.post('/search', async (req, res) => {
   }
 
   const fetchUser = await User.find({ username: req.body.username })
-  fetchUser.username ? fetchUser.populate(prompts) : res.json({ result: false, error: 'Utilisateur introuvable' });
-  res.json({ result: true, list: fetchUser.prompts });
+  const prompts = fetchUser.prompts
+
+  if (fetchUser) {
+    if (prompts) {
+      const userPopulate = fetchUser.populate(prompts)
+      res.json({ result: true, list: userPopulate.prompts });
+    } else {
+      res.json({ result: false, error: 'vide' });
+    }
+  } else {
+    res.json({ result: false, error: 'Utilisateur introuvable' })
+  }
+
 })
 
 

@@ -30,6 +30,7 @@
     font-size: large;
     cursor: pointer;
     margin: 20px;
+    transition-duration: 500ms;
 }
 
 .btnRetour:hover {
@@ -83,6 +84,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.btnSearch {
+    background-color: #504E6B;
+    border: 0;
+    width: 8%;
+    height: 100%;
+    border-radius: 20px;
+    color: white;
+    margin-right: 1%;
+    cursor: pointer;
+    transition-duration: 500ms;
+}
+
+.btnSearch:hover {
+    height: 110%;
+    background-color: #B300F2;
 }
 
 .scrollWindow {

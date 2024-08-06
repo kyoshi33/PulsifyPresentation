@@ -65,6 +65,8 @@ function Explorer() {
             body: JSON.stringify({ username: search }),
         })
         const res = await fetchAutor.json()
+        console.log(res)
+
         if (res.result) {
             setListProject(res.list)
             setErrorSearch(false)
@@ -138,7 +140,8 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value), fetchSearch() }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
+                    <button onClick={() => fetchSearch()} className={styles.btnSearch}>Rechercher</button>
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

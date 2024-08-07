@@ -6,8 +6,9 @@ import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
+
 
 function Profil() {
 
@@ -22,25 +23,36 @@ function Profil() {
     dispatch(logout());
     window.location.href = '/';
   }
-  //falseArrowRightFromBracket
+  // fonction supprime un prompt
+  const removePrompt = () => {
+    (prompts, id) => {
+      return ''.filter(prompts => prompts.id !== id);
+    };
+  }
+
+  //fonction lancer un prompt
+  const playPrompt = () => {
+    (cards, id) => {
+    };
+  }
+
+
+
 
   let display =
-    <div className={styles.boxes}>
-      <div className={styles.box}>
-      </div>
+    <div className={styles.modelChoiceContainer}>
     </div>
 
   if (maBibliotheque) {
     display =
-
-
       <div className={styles.modelChoiceContainer}>
-
         <div className={styles.scrollWindow}>
           <div className={styles.promptCard} >
-            <PromptCard isOnProfile={true} />
-          </div>
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
 
+          </div>
         </div>
       </div>
   }

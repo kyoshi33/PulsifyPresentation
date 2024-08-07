@@ -103,6 +103,7 @@
   background: #272541;
   border: 3px solid #B300F2;
   border-radius: 10px;
+
 }
 
 .modelChoiceContainer {
@@ -115,6 +116,9 @@
   background: #272541;
   border: 3px solid #B300F2;
   border-radius: 10px;
+
+
+
 }
 
 
@@ -207,6 +211,7 @@
   scrollbar-width: thin;
   scrollbar-color: #D9D9D9 #272541;
   width: 100%;
+
 }
 
 
@@ -237,5 +242,6 @@
 }
 
 .promptCard {
-  height: 20%;
+  height: auto;
+
 }

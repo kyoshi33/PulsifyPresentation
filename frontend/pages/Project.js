@@ -15,11 +15,11 @@ function Project() {
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
-    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "caca", "couilles", "babar"])
+    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"])
     const router = useRouter();
 
 
-
+    //set a list of all suggestions, TODO: fetch on BD
     let suggestion = suggestionsList.map((data, i) => {
         return (
             <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
@@ -37,6 +37,8 @@ function Project() {
         router.back();
     };
 
+
+    //Call route to fetch Genre by Artist name on Spotify
     const fetchGenreArtistOnSpotify = async (search) => {
         const fetchArtist = await fetch('http://localhost:3000/spotify', {
             method: 'POST',
@@ -66,6 +68,7 @@ function Project() {
         setIsOpen(false);
     }
 
+    //Add a genre from the search Container to the prompt with onClick
     const addGenreFromSearchBar = (genre) => {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)

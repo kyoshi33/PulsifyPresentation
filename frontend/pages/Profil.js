@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-
+import PromptCard from '../components/PromptCard'
 
 function Profil() {
 
@@ -33,74 +33,14 @@ function Profil() {
   if (maBibliotheque) {
     display =
 
+
       <div className={styles.modelChoiceContainer}>
 
         <div className={styles.scrollWindow}>
+          <div className={styles.promptCard} >
+            <PromptCard isOnProfile={true} />
+          </div>
 
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rock Indie
-            </div>
-            <div className={styles.listItemPrompt}>
-              rock, electric guitar/bass/drums, pop,folk
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Modern classical
-            </div>
-            <div className={styles.listItemPrompt}>
-              contemporary, mordern classical, XXcentury
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
         </div>
       </div>
   }
@@ -243,8 +183,11 @@ function Profil() {
         {display}
       </div>
 
-      <div className={styles.btn}>
-        <button onClick={() => window.location.href = '/'}>Retour</button>
+
+      <div className={styles.footer}>
+        <div className={styles.btn} onClick={() => window.location.href = '/'}>
+          Retour
+        </div>
       </div>
 
 

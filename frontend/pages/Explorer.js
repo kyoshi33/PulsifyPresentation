@@ -5,8 +5,10 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import { Popover } from 'react-tiny-popover'
+import { useSelector } from 'react-redux';
 
 function Explorer() {
+    const user = useSelector((state) => state.user.value)
     const [search, setSearch] = useState('')
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [checkedAutor, setCheckedAutor] = useState(false);
@@ -17,14 +19,22 @@ function Explorer() {
     const [errorSearch, setErrorSearch] = useState(false);
     const [listProject, setListProject] = useState([]);
 
+
+    //if no connect go welcome
+    /*if (user) {
+        window.location.href = '/'
+        return
+    }*/
+    // enelevé résultat recherche et error 
+
     if (!checkedAutor && !checkedKeyword && !checkedProject) {
         setCheckedKeyword(true)
     }
 
     const handleChange = (props) => {
-        if (props === 'Autor') { setCheckedAutor(!checkedAutor); setCheckedKeyword(false); setCheckedProject(false) }
-        if (props === 'Keyword') { setCheckedKeyword(!checkedKeyword); setCheckedAutor(false); setCheckedProject(false) }
-        if (props === 'Project') { setCheckedProject(!checkedProject); setCheckedAutor(false); setCheckedKeyword(false) }
+        if (props === 'Autor') { setCheckedAutor(!checkedAutor); setCheckedKeyword(false); setCheckedProject(false); setErrorSearch(false) }
+        if (props === 'Keyword') { setCheckedKeyword(!checkedKeyword); setCheckedAutor(false); setCheckedProject(false); setErrorSearch(false) }
+        if (props === 'Project') { setCheckedProject(!checkedProject); setCheckedAutor(false); setCheckedKeyword(false); setErrorSearch(false) }
     }
 
     let colorFilter
@@ -138,7 +148,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value); setErrorSearch(false) }} value={search} className={styles.inputSearch} />
                     <button onClick={() => fetchSearch()} className={styles.btnSearch}>Rechercher</button>
                     <div className={styles.containerIcon}>
                         <Popover

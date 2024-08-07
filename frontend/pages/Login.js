@@ -78,7 +78,7 @@ function Login() {
         <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email} className={styles.inputEmail} />
         <input type='password' placeholder='Mot de passe' onChange={(e) => setPassword(e.target.value)} value={password} className={styles.inputPassword} />
         {error}
-        <h5>Mot de passe oublié ?</h5>
+        {/*<h5>Mot de passe oublié ?</h5>*/}
         <button className={styles.btn} onClick={() => connexion()}>Connexion</button>
         <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
       </div>

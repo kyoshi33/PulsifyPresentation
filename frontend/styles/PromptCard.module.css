@@ -20,7 +20,7 @@
 .itemContainer {
   display: flex;
   flex-direction: row;
-  width: 95%;
+  width: 96%;
   height: 90%;
   font-size: 18px;
   /* user-select: none; */
@@ -88,6 +88,11 @@
   display: flex;
   font-size: 25px;
   color: white;
-  margin-right: 30%;
+  margin-right: 20%;
   cursor: pointer;
+}
+
+.xmark {
+  cursor: pointer;
+  margin-left: 20px;
 }

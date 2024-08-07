@@ -17,6 +17,7 @@
     justify-content: space-between;
     width: 30%;
     margin: 2%;
+
 }
 
 .suggestionContainer {
@@ -28,7 +29,8 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 5%;
-
+    margin: 2%;
+    height: 80%;
 
 }
 
@@ -41,11 +43,18 @@
 }
 
 .suggestionList {
+    max-height: 70%;
     display: flex;
     flex-direction: column;
     color: white;
     margin: 5%;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Hide horizontal overflow */
+
 }
+
 
 .suggestionItem {
     cursor: pointer;
@@ -77,6 +86,60 @@
     text-align: right;
     font-size: x-small;
 
+}
+
+.checkBoxSuggestion {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.customCheckbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #474c7c;
+    border: 1px solid #b300f2;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-right: 10px;
+    /* Space between checkbox and label text */
+}
+
+.customCheckbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.checkBoxSuggestion:checked+.customCheckbox {
+    background-color: #b300f2;
+    border-color: #fff;
+}
+
+/* Display the tick when checked */
+.checkBoxSuggestion:checked+.customCheckbox::after {
+    display: block;
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+}
+
+/* Hover effect */
+.checkboxLabel:hover .customCheckbox {
+    background-color: #676587;
+    border-color: #fff;
 }
 
 .projectContainer {
@@ -213,9 +276,15 @@
     margin: 2%;
 }
 
-.copyPasteIcon {}
+.copyPasteIcon {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
 
-
+.copyPasteIcon:hover {
+    color: #B300F2;
+    /* Change color on hover */
+}
 
 
 .searchContainer {
@@ -235,36 +304,81 @@
     font-size: 18px;
     color: white;
     font-weight: 50;
+    margin: 2%;
+
 }
 
 .searchInput {
-    width: 80%;
-    height: 100%;
+    width: 70%;
+    height: auto;
     background: #504E6B;
     border: 1px solid #B300F2;
     border-radius: 20px;
-    margin: 10px;
     font-size: large;
     color: white;
     padding-left: 10px;
-    margin-top: 0;
     font-size: 14px;
+    margin: 2%;
+
 }
 
 .searchBtn {
     color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    /* Smooth color transition */
 }
 
+.searchBtn:hover {
+    color: #B300F2;
+    /* Change color on hover */
+}
 
 .btn:hover {
     background-color: #B300F2;
     /* Hover effect */
 }
 
+.genresList {
+    display: flex;
+    flex-direction: row;
+    /* Display genres in a row */
+    flex-wrap: wrap;
+    /* Allow wrapping to next line */
+    justify-content: center;
+    /* Center align items horizontally */
+    align-items: flex-start;
+    width: 100%;
+    /* Ensure full width for wrapping */
+}
+
 .genreItem {
     color: white;
-    height: 15%;
+    cursor: pointer;
     display: flex;
+    margin: 5px;
+    /* Use margin instead of margin-top for spacing */
+    font-size: 12px;
+    border: solid #b300f2 1px;
     justify-content: center;
-    align-items: center;
+    background-color: #474c7c;
+    padding: 10px;
+    /* Increase padding for better spacing */
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+    /* Allow flexible width */
+    max-width: calc(50% - 20px);
+    /* Maximum width for each item (with margin) */
+    text-align: center;
+    /* Center text inside genre item */
+
+}
+
+
+
+.genreItem:hover {
+    background-color: #B300F2;
+    /* Hover effect */
 }

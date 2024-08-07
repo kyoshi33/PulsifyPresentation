@@ -22,7 +22,7 @@ function Profil() {
     dispatch(logout());
     window.location.href = '/';
   }
-  //falseArrowRightFromBracket
+
 
   let display =
     <div className={styles.boxes}>
@@ -38,7 +38,14 @@ function Profil() {
 
         <div className={styles.scrollWindow}>
           <div className={styles.promptCard} >
-            <PromptCard isOnProfile={true} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+
           </div>
 
         </div>

@@ -11,7 +11,7 @@
 
 }
 
-.suggestionContainer {
+.leftContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -19,17 +19,16 @@
     margin: 2%;
 }
 
-.suggestionList {
+.suggestionContainer {
     width: 90%;
-    min-height: 50%;
     background-color: #272541;
-    border: solid #b300f2 1px;
+    border: solid #b300f2 3px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 5%;
-    margin: 2%;
+
 
 }
 
@@ -41,43 +40,75 @@
 
 }
 
+.suggestionList {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 5%;
+}
+
+.suggestionItem {
+    display: flex;
+    margin-top: 5%;
+    border: solid #b300f2 1px;
+    justify-content: space-between;
+    background-color: #474c7c;
+    padding: 2%;
+    border-radius: 10px;
+
+}
+
+.suggestionItemLeft {
+    display: flex;
+}
+
+.bottomSuggestionList {
+    color: white;
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    font-size: x-small;
+
+}
+
 .projectContainer {
     width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    padding-top: 3%;
+    margin: 2%;
 
 }
 
 .projectHeader {
-    width: 90%;
+    height: 15%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 
 }
 
 .inputProjectTitle {
-
-    height: 50px;
+    height: 80%;
+    width: 70%;
     background: #504E6B;
-    border: 1px solid #B300F2;
+    border: 3px solid #B300F2;
     border-radius: 8px;
-    font-size: large;
+    font-size: 16px;
     color: white;
     margin-top: 0;
     padding-left: 10px;
 }
 
 .colorTheme {
+    height: 80%;
+    width: 20%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-
-    height: 50px;
     background: #272541;
-    border: 1px solid #B300F2;
+    border: 3px solid #B300F2;
     border-radius: 8px;
     font-size: large;
     color: white;
@@ -100,18 +131,38 @@
     color: #0B0A1A;
 }
 
-.inputProjectPrompt {
+.colorTheme1Icon,
+.colorTheme2Icon,
+.colorTheme3Icon,
+.colorTheme4Icon {
+    cursor: pointer;
+    /* Cursor change on hover */
+    transition: transform 0.2s ease-in-out;
+    /* Smooth transform effect */
+}
 
+.colorTheme1Icon:hover,
+.colorTheme2Icon:hover,
+.colorTheme3Icon:hover,
+.colorTheme4Icon:hover {
+    transform: scale(1.2);
+    /* Slightly enlarge on hover */
+}
+
+.inputPromptContainer {}
+
+.inputProjectPrompt {
+    height: 40%;
     display: flex;
+    width: 100%;
     background: #504E6B;
-    border: 1px solid #B300F2;
+    border: 3px solid #B300F2;
     border-radius: 8px;
-    font-size: large;
+    font-size: 16px;
     color: white;
     padding-left: 10px;
     margin-top: 3%;
-    flex-wrap: wrap;
-
+    resize: none;
 }
 
 .btn {

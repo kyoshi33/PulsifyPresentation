@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     google_id: { type: Number, required: true, default: null, unique: true, sparse: true /* Permet les valeurs nulles*/ },
     password: {
         type: String,
-        required: function () { return !this.google_id; /* Le mot de passe est requis uniquement si googleId n'est pas défini */ },
+        required: function () { return !this.google_id; /* Le mot de passe est requis uniquement si google_id n'est pas défini */ },
         default: null
     },
     token: { type: String, required: true },
@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'likedprompts' }], required: false, default: [] },
     firstname: { type: String, required: true },
     picture: { type: String, required: false },
-
+    createdAt: { type: Date, required: true },
 });
 
 const User = mongoose.model('users', userSchema);

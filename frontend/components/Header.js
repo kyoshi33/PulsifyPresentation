@@ -26,7 +26,7 @@ function Header() {
             <div className={styles.btnContainer}>
                 <Link href='/Profil'>
                     <div className={styles.roundBtn}>
-                        {user.picture ? <Image src={require(user.picture)} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
+                        {user.picture ? <Image src={user.picture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
 
                     </div>
                 </Link>

@@ -6,6 +6,7 @@ import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 
 function Profil() {
@@ -16,11 +17,12 @@ function Profil() {
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [communaute, setCommunaute] = useState(false);
 
+
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = '../Accueil';
+    window.location.href = '/';
   }
-
+  //falseArrowRightFromBracket
 
   let display =
     <div className={styles.boxes}>
@@ -82,29 +84,11 @@ function Profil() {
       });
   }
       <div className={styles.profilesContainer}>
+        <div>
 
-
-        <div className={styles.profilesPic}>
-
-          <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
-          <h3 className={styles.identifiant}> {user.username}</h3>
-          <h4 className={styles.identifiant}>@:{user.email}</h4>
           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
         </div>
 
-      </div>
-
-      <div className={styles.profilesContainer}>
-
-
-        <div className={styles.profilesPic}>
-
-          <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
-          <h3 className={styles.identifiant}> {user.username}</h3>
-          <h4 className={styles.identifiant}>@:{user.email}</h4>
-          <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-        </div>
-        <ProfilUser username={'Laozj'} email={'ihdsghii@lguhfd.vi'} />
       </div>
   */
 
@@ -115,8 +99,10 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} email={user.email} />
+        <UserCard username={user.username} email={user.firstname} />
+        <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
+
 
 
 
@@ -135,8 +121,9 @@ function Profil() {
 
 
 
-
-      <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
+      <div className={styles.btn}>
+        <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
+      </div>
     </div >
   );
 }

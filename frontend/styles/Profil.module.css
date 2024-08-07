@@ -6,17 +6,16 @@
   width: 100vw;
   font-family: 'Arial';
   background-color: #0B0A1A;
-
 }
 
 .headerProfile {
-  width: 20vw;
+  width: 60vw;
   height: 12vh;
   margin-bottom: 2%;
   margin-top: 2%;
+  display: flex;
 
 }
-
 
 .profilesContainer {
   display: flex;
@@ -24,8 +23,8 @@
   height: 100%;
   flex-direction: row;
   align-items: center;
-}
 
+}
 
 
 .profilesPic {
@@ -49,6 +48,21 @@
 
 }
 
+.btnLogOut {
+  display: flex;
+  color: white;
+  width: 5%;
+  height: 30%;
+  border: 1px solid #EE00F2;
+  box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+  background: #272541;
+  border-radius: 8px;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+
 .identifiant {
   display: flex;
   flex-direction: row;
@@ -60,22 +74,7 @@
 }
 
 
-.btnLogOut {
-  display: flex;
-  flex-direction: row;
-  color: white;
-  width: 120%;
-  height: 50%;
-  background: #535992;
-  border: 1px solid #EE00F2;
-  box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
-  border-radius: 8px;
-  font-size: medium;
-  cursor: pointer;
-  margin: 30%;
-  align-items: center;
-  margin-inline: 200px;
-}
+
 
 
 
@@ -161,7 +160,8 @@
 }
 
 
-.btnRetour {
+
+.btn {
   color: white;
   width: 10%;
   height: 5%;
@@ -172,6 +172,23 @@
   font-size: large;
   cursor: pointer;
   margin: 10px;
-  align-items: flex-start;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
+
+.btnRetour {
+  color: white;
+  width: 0%;
+  height: 10%;
+  font-size: large;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }

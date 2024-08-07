@@ -14,6 +14,7 @@ function Project() {
     const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [searchResults, setSearchResults] = useState([])
     const router = useRouter();
 
     // Go back to previous page clicking on "retour"
@@ -28,11 +29,19 @@ function Project() {
             body: JSON.stringify({ search: search }),
         });
         const res = await fetchArtist.json();
-        console.log(res)
-
+        setSearchResults(res)
     }
-
-
+    console.log('searchResults :', searchResults)
+    const genres = searchResults.map((data, i) => {
+        console.log('data :', data);
+        return (
+            <div key={i} className={styles.genreItem}>
+                <input type="checkbox" />
+                <p>{data}</p>
+            </div>
+        );
+    });
+    console.log('genres :', genres)
 
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
@@ -65,19 +74,19 @@ function Project() {
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                className={styles.colorThemeIcon}
+                                className={styles.colorTheme1Icon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                className={styles.colorThemeIcon}
+                                className={styles.colorTheme2Icon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                className={styles.colorThemeIcon}
+                                className={styles.colorTheme3Icon}
                             />
                             <FontAwesomeIcon
                                 icon={faCircle}
-                                className={styles.colorThemeIcon}
+                                className={styles.colorTheme4Icon}
                             />
                         </div>
                     </div>
@@ -94,10 +103,11 @@ function Project() {
                                 placeholder='Enter an artist here'
                                 onChange={(e) => setSearch(e.target.value)}
                                 value={search}></input>
-                            <FontAwesomeIcon icon={faSearch} className={styles.roundBtn} onClick={() => fetchGenreArtistOnSpotify(search)} />
-
+                            <FontAwesomeIcon icon={faSearch}
+                                className={styles.searchBtn}
+                                onClick={() => fetchGenreArtistOnSpotify(search)} />
                         </div>
-
+                        {genres}
                     </div>
                     <button className={styles.btn}
                         onClick={() => openProjectModal()}

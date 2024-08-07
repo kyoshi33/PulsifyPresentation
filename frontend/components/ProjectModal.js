@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 
 
+
 function ProjectModal(props) {
 
     const [audio, setAudio] = useState(null);
@@ -72,7 +73,7 @@ function ProjectModal(props) {
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
-                    <div className={styles.voteTxt}>
+                    <div className={styles.voteStars}>
                         <FontAwesomeIcon
                             icon={faStar}
                             className={styles.colorThemeIcon}

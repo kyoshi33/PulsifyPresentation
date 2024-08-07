@@ -161,7 +161,8 @@
 }
 
 
-.btnRetour {
+
+.btn {
   color: white;
   width: 10%;
   height: 5%;
@@ -172,6 +173,24 @@
   font-size: large;
   cursor: pointer;
   margin: 10px;
-  align-items: flex-start;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: center;
+
+}
+
+
+
+
+.btnRetour {
+  color: white;
+  width: 10%;
+  height: 5%;
+  font-size: large;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: center;
+
 }

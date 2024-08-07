@@ -4,6 +4,7 @@ import Link from "next/link";
 
 
 import Header from "../components/Header";
+import ModelCard from "../components/ModelCard";
 
 let connected = false;
 
@@ -61,83 +62,14 @@ function Accueil() {
                         <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
 
                         <div className={styles.scrollWindow}>
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rock Indie
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    rock, electric guitar/bass/drums, pop,folk
-                                </div>
-                            </button>
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Modern classical
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    contemporary, mordern classical, XXcentury
-                                </div>
-                            </button>
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
-
-                            <button className={styles.listItemContainer}>
-                                <div className={styles.listItemTitle}>
-                                    Rockabilly
-                                </div>
-                                <div className={styles.listItemPrompt}>
-                                    Jazz, rock, musette, flute
-                                </div>
-                            </button>
-
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
+                            <ModelCard />
                         </div>
                     </div>
                 </div>

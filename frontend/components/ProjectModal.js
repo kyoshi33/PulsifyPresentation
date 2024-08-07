@@ -13,33 +13,41 @@ function ProjectModal(props) {
 
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
+    const [tempAudioFile, setTempAudioFile] = useState(null)
     const user = useSelector((state) => state.user.value);
-    const uploadAudio = async (files) => {
+
+
+    const uploadPrompt = async (files) => {
         const formData = new FormData();
 
-        formData.append("file", files[0]);
-        formData.append("upload_preset", "ml_default");
-        fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
-            method: "POST",
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setAudio(data.secure_url);
+        if (files) {
+            formData.append("file", files[0]);
+            formData.append("upload_preset", "ml_default");
+            fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setAudio(data.secure_url);
 
-            });
+                });
+        }
+
         const dataForPrompt = {
             genre: props.projectTitle,
-            prompt: props.prompt,
+            prompts: props.prompt,
             audio: audio,
             rating: 5,
             isPublic: isPublic,
             username: user.username,
             email: user.email,
+
         }
         const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
             method: "POST",
-            body: { dataForPrompt }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataForPrompt)
         })
         console.log(saveDataForPrompt)
 
@@ -59,7 +67,7 @@ function ProjectModal(props) {
                 </div>
                 <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
-                    <input className={styles.inputImport} type="file" onChange={(e) => uploadAudio(e.target.files)} />
+                    <input className={styles.inputImport} type="file" onChange={(e) => { setTempAudioFile(e.target.files); console.log(tempAudioFile) }} />
                 </div>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
@@ -93,7 +101,7 @@ function ProjectModal(props) {
                         <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => window.location.href = "../Profil"}>Valider</button>
+                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile) }}>Valider</button>
                 </div>
             </div>
         </Modal>

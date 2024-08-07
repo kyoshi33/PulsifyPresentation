@@ -11,7 +11,8 @@ const promptsSchema = mongoose.Schema({
     nbLikes: { type: Number, required: false },
     rating: { type: Number, required: false },
     isPublic: { type: Boolean, required: true },
-    nbSignalement: { type: Number, required: false }
+    nbSignalement: { type: Number, required: false },
+    date: { type: Date, required: true }
 });
 
 const Prompt = mongoose.model('prompts', promptsSchema);

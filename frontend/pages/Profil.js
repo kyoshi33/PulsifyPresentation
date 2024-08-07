@@ -82,29 +82,11 @@ function Profil() {
       });
   }
       <div className={styles.profilesContainer}>
+        <div>
 
-
-        <div className={styles.profilesPic}>
-
-          <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
-          <h3 className={styles.identifiant}> {user.username}</h3>
-          <h4 className={styles.identifiant}>@:{user.email}</h4>
           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
         </div>
 
-      </div>
-
-      <div className={styles.profilesContainer}>
-
-
-        <div className={styles.profilesPic}>
-
-          <img className={styles.profilesPic} src="photo1.png" alt='photo de profil' />
-          <h3 className={styles.identifiant}> {user.username}</h3>
-          <h4 className={styles.identifiant}>@:{user.email}</h4>
-          <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-        </div>
-        <ProfilUser username={'Laozj'} email={'ihdsghii@lguhfd.vi'} />
       </div>
   */
 
@@ -115,7 +97,7 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} email={user.email} />
+        <UserCard username={user.username} email={user.firstname} />
       </div>
 
 
@@ -135,8 +117,9 @@ function Profil() {
 
 
 
-
-      <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
+      <div className={styles.btn}>
+        <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
+      </div>
     </div >
   );
 }

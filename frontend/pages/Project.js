@@ -15,14 +15,14 @@ function Project() {
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
-    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums"])
+    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "caca", "couilles", "babar"])
     const router = useRouter();
 
 
 
     let suggestion = suggestionsList.map((data, i) => {
         return (
-            <div className={styles.suggestionItem}>
+            <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
                 <div className={styles.suggestionItemLeft}>
                     <div key={i} >{data}</div>
                 </div>
@@ -49,12 +49,7 @@ function Project() {
     console.log('searchResults :', searchResults)
     const genres = searchResults.map((data, i) => {
         return (
-            <div key={i} className={styles.genreItem}>
-                <FontAwesomeIcon
-                    icon={faPlus}
-                    className={styles.addGenreIcon}
-                    onClick={() => addGenreFromSearchBar(data)}
-                />
+            <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
                 <div>{data}</div>
             </div>
         );
@@ -74,9 +69,8 @@ function Project() {
     const addGenreFromSearchBar = (genre) => {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)
-        } else {
+        } else if (prompt.length < 120) {
             setPrompt(prompt + `${genre}, `)
-
         }
     }
 
@@ -91,8 +85,11 @@ function Project() {
                             {suggestion}
                         </div>
                         <div className={styles.bottomSuggestionList}>
-                            <div>Intégrez les favoris de la communauté</div>
-                            <input className={styles.checkBoxSuggestion} type="checkbox" />
+                            <label className={styles.checkboxLabel}>
+                                <input type="checkbox" className={styles.checkBoxSuggestion} />
+                                <span className={styles.customCheckbox}></span>
+                                Intégrez les favoris de la communauté
+                            </label>
                         </div>
                     </div>
                     <button className={styles.btn} onClick={handleBack}>Retour</button>
@@ -126,7 +123,8 @@ function Project() {
                         <textarea className={styles.inputProjectPrompt}
                             placeholder='Entrez votre prompt ici'
                             onChange={(e) => setPrompt(e.target.value)}
-                            value={prompt} />
+                            value={prompt}
+                            maxLength={120} />
                         <div className={styles.promptBottom}>
                             <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
                             <FontAwesomeIcon

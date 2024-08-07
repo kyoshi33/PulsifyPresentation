@@ -22,8 +22,12 @@ function Project() {
 
     let suggestion = suggestionsList.map((data, i) => {
         return (
-            <div>
-                <div key={i} className={styles.suggestionItem}>{data}</div>
+            <div className={styles.suggestionItem}>
+                <div className={styles.suggestionItemLeft}>
+                    <input type="checkbox" />
+                    <div key={i} >{data}</div>
+                </div>
+                <div className={styles.suggestionItemRight}>10%</div>
             </div>
         )
     }
@@ -68,10 +72,16 @@ function Project() {
         <div className={styles.main}>
             <Header></Header>
             <div className={styles.projectBody}>
-                <div className={styles.suggestionContainer}>
-                    <div className={styles.suggestionList}>
+                <div className={styles.leftContainer}>
+                    <div className={styles.suggestionContainer}>
                         <div className={styles.suggestionTitle}>Suggestions</div>
-                        {suggestion}
+                        <div className={styles.suggestionList}>
+                            {suggestion}
+                        </div>
+                        <div className={styles.bottomSuggestionList}>
+                            <div>Intégrez les favoris de la communauté</div>
+                            <input type="checkbox" />
+                        </div>
                     </div>
                     <button className={styles.btn} onClick={handleBack}>Retour</button>
                 </div>
@@ -100,12 +110,20 @@ function Project() {
                             />
                         </div>
                     </div>
-                    <textarea className={styles.inputProjectPrompt}
-                        placeholder='Entrez votre prompt ici'
-                        onChange={(e) => setPrompt(e.target.value)}
-                        value={prompt}
-                    />
-                    <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
+                    <div className={styles.inputPromptContainer}>
+                        <textarea className={styles.inputProjectPrompt}
+                            placeholder='Entrez votre prompt ici'
+                            onChange={(e) => setPrompt(e.target.value)}
+                            value={prompt}
+                        />
+
+                        <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
+                        <FontAwesomeIcon
+                            icon={faCircle}
+                            className={styles.colorTheme4Icon}
+                        />
+
+                    </div>
                     <div className={styles.searchContainer}>
                         <p className={styles.searchTitle}>Recherche de genre par artiste</p>
                         <div>

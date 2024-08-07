@@ -213,9 +213,15 @@
     margin: 2%;
 }
 
-.copyPasteIcon {}
+.copyPasteIcon {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
 
-
+.copyPasteIcon:hover {
+    color: #B300F2;
+    /* Change color on hover */
+}
 
 
 .searchContainer {
@@ -235,36 +241,67 @@
     font-size: 18px;
     color: white;
     font-weight: 50;
+    margin: 2%;
+
 }
 
 .searchInput {
-    width: 80%;
-    height: 100%;
+    width: 70%;
+    height: auto;
     background: #504E6B;
     border: 1px solid #B300F2;
     border-radius: 20px;
-    margin: 10px;
     font-size: large;
     color: white;
     padding-left: 10px;
-    margin-top: 0;
     font-size: 14px;
+    margin: 2%;
+
 }
 
 .searchBtn {
     color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    /* Smooth color transition */
 }
 
+.searchBtn:hover {
+    color: #B300F2;
+    /* Change color on hover */
+}
 
 .btn:hover {
     background-color: #B300F2;
     /* Hover effect */
 }
 
+.genresList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
 .genreItem {
     color: white;
-    height: 15%;
+    height: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 16px;
+}
+
+.addGenreIcon {
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin-right: 3px;
+}
+
+.addGenreIcon:hover {
+    color: #B300F2;
+    /* Hover effect */
 }

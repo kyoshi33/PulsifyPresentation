@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faSearch, faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSearch, faCopy, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
@@ -50,8 +50,12 @@ function Project() {
     const genres = searchResults.map((data, i) => {
         return (
             <div key={i} className={styles.genreItem}>
-                <input type="checkbox" />
-                <p>{data}</p>
+                <FontAwesomeIcon
+                    icon={faPlus}
+                    className={styles.addGenreIcon}
+                    onClick={() => addGenreFromSearchBar(data)}
+                />
+                <div>{data}</div>
             </div>
         );
     });
@@ -65,6 +69,15 @@ function Project() {
 
     const closeProjectModal = () => {
         setIsOpen(false);
+    }
+
+    const addGenreFromSearchBar = (genre) => {
+        if (prompt.length === 0) {
+            setPrompt(`${genre}, `)
+        } else {
+            setPrompt(prompt + `${genre}, `)
+
+        }
     }
 
     return (
@@ -119,12 +132,13 @@ function Project() {
                             <FontAwesomeIcon
                                 icon={faCopy}
                                 className={styles.copyPasteIcon}
+                                onClick={() => navigator.clipboard.writeText(prompt)}
                             />
                         </div>
 
                     </div>
                     <div className={styles.searchContainer}>
-                        <p className={styles.searchTitle}>Recherche de genre par artiste</p>
+                        <div className={styles.searchTitle}>Recherche de genre par artiste</div>
                         <div>
                             <input className={styles.searchInput}
                                 placeholder='Enter an artist here'
@@ -134,7 +148,9 @@ function Project() {
                                 className={styles.searchBtn}
                                 onClick={() => fetchGenreArtistOnSpotify(search)} />
                         </div>
-                        {genres}
+                        <div className={styles.genresList} >
+                            {genres}
+                        </div>
                     </div>
                     <button className={styles.btn}
                         onClick={() => openProjectModal()}

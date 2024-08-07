@@ -7,7 +7,8 @@
 .projectBody {
     display: flex;
     width: 100vw;
-    height: auto;
+    height: 90vh;
+
 }
 
 .suggestionContainer {
@@ -15,28 +16,29 @@
     flex-direction: column;
     justify-content: space-between;
     width: 30%;
-    margin-left: 50px;
-
+    margin: 2%;
 }
 
 .suggestionList {
-    width: 80%;
-    min-height: 30%;
+    width: 90%;
+    min-height: 50%;
     background-color: #272541;
     border: solid #b300f2 1px;
-    margin-top: 50px;
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-left: 50px;
-    padding-top: 10px;
+    padding: 5%;
+    margin: 2%;
+
 }
 
 .suggestionTitle {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 30px;
     color: white;
+    font-weight: lighter;
+
 }
 
 .projectContainer {
@@ -50,40 +52,36 @@
 }
 
 .projectHeader {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    color: white;
+
 }
 
 .inputProjectTitle {
-    width: 50%;
+
     height: 50px;
     background: #504E6B;
     border: 1px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
     font-size: large;
     color: white;
-    padding-left: 10px;
     margin-top: 0;
+    padding-left: 10px;
 }
 
 .colorTheme {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 30%;
+
     height: 50px;
     background: #272541;
     border: 1px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
     font-size: large;
     color: white;
-    margin-right: 30px;
-    margin-top: 0;
+
 }
 
 .colorTheme1Icon {
@@ -103,14 +101,11 @@
 }
 
 .inputProjectPrompt {
+
     display: flex;
-    justify-content: flex-start;
-    width: 90%;
-    height: 100%;
     background: #504E6B;
     border: 1px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
     font-size: large;
     color: white;
     padding-left: 10px;

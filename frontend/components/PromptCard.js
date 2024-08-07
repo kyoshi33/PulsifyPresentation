@@ -12,14 +12,19 @@ function PromptCard(props) {
 
     const user = useSelector((state) => state.user.value)
 
-    let displayUser =
+    const displayUser =
         <div className={styles.author}>
             <UserCard email='Doe' username='Julien' />
         </div>;
 
-    let displayXmark =
+    const displayXmark =
         <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} />
 
+    const displayicons =
+        <>
+            <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+            <FontAwesomeIcon icon={faCircleExclamation} className={styles.icon} />
+        </>
 
     return (
         <div className={styles.promptContainer}>
@@ -49,8 +54,8 @@ function PromptCard(props) {
                 </div>
                 <div className={styles.iconsBox}>
                     <FontAwesomeIcon icon={faPlay} className={styles.icon} />
-                    <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-                    <FontAwesomeIcon icon={faCircleExclamation} className={styles.icon} />
+                    {!props.isOnProfile && displayicons}
+
                 </div>
                 {props.isOnProfile && displayXmark}
             </div>

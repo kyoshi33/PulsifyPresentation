@@ -15,7 +15,19 @@ function Project() {
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
+    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums"])
     const router = useRouter();
+
+
+
+    let suggestion = suggestionsList.map((data, i) => {
+        return (
+            <div>
+                <div key={i} className={styles.suggestionItem}>{data}</div>
+            </div>
+        )
+    }
+    )
 
     // Go back to previous page clicking on "retour"
     const handleBack = () => {
@@ -33,7 +45,6 @@ function Project() {
     }
     console.log('searchResults :', searchResults)
     const genres = searchResults.map((data, i) => {
-        console.log('data :', data);
         return (
             <div key={i} className={styles.genreItem}>
                 <input type="checkbox" />
@@ -59,9 +70,8 @@ function Project() {
             <div className={styles.projectBody}>
                 <div className={styles.suggestionContainer}>
                     <div className={styles.suggestionList}>
-                        <h3 className={styles.suggestionTitle}>Suggestions</h3>
-                        <div>suggestion 1</div>
-                        <div>Suggestion 2</div>
+                        <div className={styles.suggestionTitle}>Suggestions</div>
+                        {suggestion}
                     </div>
                     <button className={styles.btn} onClick={handleBack}>Retour</button>
                 </div>

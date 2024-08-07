@@ -2,23 +2,30 @@ import styles from '../styles/PromptCard.module.css';
 import { useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faHeart, faCircleExclamation, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faHeart, faCircleExclamation, faStar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 
 import UserCard from './UserCard';
 
 
 function PromptCard(props) {
+
     const user = useSelector((state) => state.user.value)
+
+    let displayUser =
+        <div className={styles.author}>
+            <UserCard email='Doe' username='Julien' />
+        </div>;
+
+    let displayXmark =
+        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} />
 
 
     return (
         <div className={styles.promptContainer}>
 
             <div className={styles.itemContainer}>
-                <div className={styles.author}>
-                    <UserCard email='Doe' username='Julien' />
-                </div>
+                {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox}>
 
                     <div className={styles.titleBackground}>
@@ -45,7 +52,7 @@ function PromptCard(props) {
                     <FontAwesomeIcon icon={faHeart} className={styles.icon} />
                     <FontAwesomeIcon icon={faCircleExclamation} className={styles.icon} />
                 </div>
-
+                {props.isOnProfile && displayXmark}
             </div>
 
         </div >

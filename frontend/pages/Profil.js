@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-
+import PromptCard from '../components/PromptCard'
 
 function Profil() {
 
@@ -33,19 +33,86 @@ function Profil() {
   if (maBibliotheque) {
     display =
 
-      <div className={styles.boxes}>
-        <div className={styles.box}>
-          <h4>TEST 3</h4>
+
+      <div className={styles.modelChoiceContainer}>
+
+        <div className={styles.scrollWindow}>
+          <div className={styles.promptCard} >
+            <PromptCard isOnProfile={true} />
+          </div>
+
         </div>
       </div>
   }
 
   if (communaute) {
     display =
-
-      <div className={styles.boxes}>
-        <div className={styles.box}>
-          <h4>TEST</h4>
+      <div className={styles.modelChoiceContainer}>
+        <div className={styles.scrollWindow}>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz,rock, musette, flute
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rock Indie
+            </div>
+            <div className={styles.listItemPrompt}>
+              rock, electric guitar/bass/drums, pop,folk
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Modern classical
+            </div>
+            <div className={styles.listItemPrompt}>
+              contemporary, mordern classical, XXcentury
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz, rock, musette, flute
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz, rock, musette, flute
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz, rock, musette, flute
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz, rock, musette, flute
+            </div>
+          </button>
+          <button className={styles.listItemContainer}>
+            <div className={styles.listItemTitle}>
+              Rockabilly
+            </div>
+            <div className={styles.listItemPrompt}>
+              Jazz, rock, musette, flute
+            </div>
+          </button>
         </div>
       </div>
   }
@@ -104,9 +171,33 @@ function Profil() {
       </div>
 
 
+      <div className={styles.selectModelContainer}>
+        <div className={styles.tabBar}>
+          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
+            Mes modèles
+          </div>
+          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
+            Communauté
+          </div>
+        </div>
+        {display}
+      </div>
 
 
-      <div className={styles.tabBar}>
+      <div className={styles.footer}>
+        <div className={styles.btn} onClick={() => window.location.href = '/'}>
+          Retour
+        </div>
+      </div>
+
+
+    </div >
+  );
+}
+
+export default Profil;
+
+/*<div className={styles.tabBar}>
         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
           Ma bibliothèque
         </div>
@@ -123,10 +214,4 @@ function Profil() {
 
       <div className={styles.btn}>
         <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
-      </div>
-    </div >
-  );
-}
-
-export default Profil;
-
+      </div>*/

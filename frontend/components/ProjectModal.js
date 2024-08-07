@@ -34,6 +34,7 @@ function ProjectModal(props) {
                 });
         }
 
+        console.log(audio)
         const dataForPrompt = {
             genre: props.projectTitle,
             prompts: props.prompt,

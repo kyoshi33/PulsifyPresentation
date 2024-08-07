@@ -36,8 +36,22 @@ function Profil() {
     };
   }
 
-
-
+  /*fonction card ma bibliotheque
+   const clickBibliotheque = () => {
+     fetch('http://localhost:3000/', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email: data.email })
+     })
+       .then(response => response.json())
+       .then(data => {
+         if (!data) {
+           Error('Erreur lors de la récupération des prompts');
+         } else {
+           setMaBibliotheque(data.prompts)
+         }
+       });
+   }*/
 
   let display =
     <div className={styles.modelChoiceContainer}>
@@ -51,11 +65,36 @@ function Profil() {
             <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
             <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
             <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
           </div>
         </div>
       </div>
   }
+  /*fonction card ma bibliotheque
+   const clickFavoris = () => {
+     fetch('http://localhost:3000/', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email: data.email })
+     })
+       .then(response => response.json())
+       .then(data => {
+         if (!data) {
+           Error('Erreur lors de la récupération des likedprompts');
+         } else {
+           setMaBibliotheque(data.likedprompts)
+         }
+       });
+   }
+       <div className={styles.profilesContainer}>
+         <div>
+ 
+           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
+         </div>
+ 
+       </div>
+   */
 
   if (communaute) {
     display =
@@ -129,47 +168,9 @@ function Profil() {
       </div>
   }
 
-  /*fonction card ma bibliotheque
-  const clickBibliotheque = () => {
-    fetch('http://localhost:3000/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: data.email })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data) {
-          Error('Erreur lors de la récupération des prompts');
-        } else {
-          setMaBibliotheque(data.prompts)
-        }
-      });
-  }
-  
-  fonction card ma bibliotheque
-  const clickFavoris = () => {
-    fetch('http://localhost:3000/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: data.email })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data) {
-          Error('Erreur lors de la récupération des likedprompts');
-        } else {
-          setMaBibliotheque(data.likedprompts)
-        }
-      });
-  }
-      <div className={styles.profilesContainer}>
-        <div>
 
-          <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-        </div>
 
-      </div>
-  */
+
 
 
 

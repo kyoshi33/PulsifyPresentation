@@ -17,6 +17,7 @@
     justify-content: space-between;
     width: 30%;
     margin: 2%;
+
 }
 
 .suggestionContainer {
@@ -28,7 +29,8 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 5%;
-
+    margin: 2%;
+    height: 80%;
 
 }
 
@@ -41,11 +43,18 @@
 }
 
 .suggestionList {
+    max-height: 70%;
     display: flex;
     flex-direction: column;
     color: white;
     margin: 5%;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Hide horizontal overflow */
+
 }
+
 
 .suggestionItem {
     cursor: pointer;

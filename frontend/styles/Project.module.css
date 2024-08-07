@@ -7,83 +7,184 @@
 .projectBody {
     display: flex;
     width: 100vw;
-    height: auto;
+    height: 90vh;
+
 }
 
-.suggestionContainer {
+.leftContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 30%;
-    margin-left: 50px;
+    margin: 2%;
 
 }
 
-.suggestionList {
-    width: 80%;
-    min-height: 30%;
+.suggestionContainer {
+    width: 90%;
     background-color: #272541;
-    border: solid #b300f2 1px;
-    margin-top: 50px;
-    border-radius: 5px;
+    border: solid #b300f2 3px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-left: 50px;
-    padding-top: 10px;
+    padding: 5%;
+    margin: 2%;
+    height: 80%;
+
 }
 
 .suggestionTitle {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 30px;
     color: white;
+    font-weight: lighter;
+
+}
+
+.suggestionList {
+    max-height: 70%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 5%;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Hide horizontal overflow */
+
+}
+
+
+.suggestionItem {
+    cursor: pointer;
+    display: flex;
+    margin-top: 5%;
+    border: solid #b300f2 1px;
+    justify-content: space-between;
+    background-color: #474c7c;
+    padding: 2%;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+
+}
+
+.suggestionItem:hover {
+    background-color: #B300F2;
+    /* Hover effect */
+}
+
+.suggestionItemLeft {
+    display: flex;
+}
+
+.bottomSuggestionList {
+    color: white;
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    font-size: x-small;
+
+}
+
+.checkBoxSuggestion {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.customCheckbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #474c7c;
+    border: 1px solid #b300f2;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-right: 10px;
+    /* Space between checkbox and label text */
+}
+
+.customCheckbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.checkBoxSuggestion:checked+.customCheckbox {
+    background-color: #b300f2;
+    border-color: #fff;
+}
+
+/* Display the tick when checked */
+.checkBoxSuggestion:checked+.customCheckbox::after {
+    display: block;
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+}
+
+/* Hover effect */
+.checkboxLabel:hover .customCheckbox {
+    background-color: #676587;
+    border-color: #fff;
 }
 
 .projectContainer {
     width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    padding-top: 3%;
+    margin: 2%;
 
 }
 
 .projectHeader {
+    height: 15%;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    color: white;
+    margin: 2%;
+
 }
 
 .inputProjectTitle {
-    width: 50%;
-    height: 50px;
+    height: 80%;
+    width: 70%;
     background: #504E6B;
-    border: 1px solid #B300F2;
+    border: 3px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
-    font-size: large;
+    font-size: 16px;
     color: white;
-    padding-left: 10px;
     margin-top: 0;
+    padding-left: 10px;
 }
 
 .colorTheme {
+    height: 80%;
+    width: 20%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 30%;
-    height: 50px;
     background: #272541;
-    border: 1px solid #B300F2;
+    border: 3px solid #B300F2;
     border-radius: 8px;
-    margin: 10px;
     font-size: large;
     color: white;
-    margin-right: 30px;
-    margin-top: 0;
+
 }
 
 .colorTheme1Icon {
@@ -102,21 +203,41 @@
     color: #0B0A1A;
 }
 
-.inputProjectPrompt {
-    display: flex;
-    justify-content: flex-start;
-    width: 90%;
-    height: 100%;
-    background: #504E6B;
-    border: 1px solid #B300F2;
-    border-radius: 8px;
-    margin: 10px;
-    font-size: large;
-    color: white;
-    padding-left: 10px;
-    margin-top: 3%;
-    flex-wrap: wrap;
+.colorTheme1Icon,
+.colorTheme2Icon,
+.colorTheme3Icon,
+.colorTheme4Icon {
+    cursor: pointer;
+    /* Cursor change on hover */
+    transition: transform 0.2s ease-in-out;
+    /* Smooth transform effect */
+}
 
+.colorTheme1Icon:hover,
+.colorTheme2Icon:hover,
+.colorTheme3Icon:hover,
+.colorTheme4Icon:hover {
+    transform: scale(1.2);
+    /* Slightly enlarge on hover */
+}
+
+.inputPromptContainer {
+    width: 100%;
+    height: 40%;
+    margin: 2%;
+}
+
+.inputProjectPrompt {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    background: #504E6B;
+    border: 3px solid #B300F2;
+    border-radius: 8px;
+    font-size: 16px;
+    color: white;
+    padding: 3%;
+    resize: none;
 }
 
 .btn {
@@ -135,56 +256,129 @@
     box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
 }
 
+.promptBottom {
+    color: #B300F2;
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    align-items: center;
+    margin-top: -40px;
+    margin-right: 10px;
+    color: white;
+    font-size: 18px;
+}
+
 .totalCharacters {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: white;
+    /* Adjusted font size */
+    align-self: flex-end;
+    /* Align to the right */
+    margin: 2%;
+}
+
+.copyPasteIcon {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.copyPasteIcon:hover {
+    color: #B300F2;
+    /* Change color on hover */
 }
 
 
 .searchContainer {
     width: 70%;
+    height: 35%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background: #272541;
-    border: solid #b300f2 1px;
+    border: solid #b300f2 3px;
     border-radius: 8px;
+    margin: 2%;
 }
 
 .searchTitle {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: white;
+    font-weight: 50;
+    margin: 2%;
+
 }
 
 .searchInput {
-    width: 80%;
-    height: 100%;
+    width: 70%;
+    height: auto;
     background: #504E6B;
     border: 1px solid #B300F2;
-    border-radius: 8px;
-    margin: 10px;
+    border-radius: 20px;
     font-size: large;
     color: white;
     padding-left: 10px;
-    margin-top: 0;
+    font-size: 14px;
+    margin: 2%;
+
 }
 
 .searchBtn {
     color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    /* Smooth color transition */
 }
 
+.searchBtn:hover {
+    color: #B300F2;
+    /* Change color on hover */
+}
 
 .btn:hover {
     background-color: #B300F2;
     /* Hover effect */
 }
 
+.genresList {
+    display: flex;
+    flex-direction: row;
+    /* Display genres in a row */
+    flex-wrap: wrap;
+    /* Allow wrapping to next line */
+    justify-content: center;
+    /* Center align items horizontally */
+    align-items: flex-start;
+    width: 100%;
+    /* Ensure full width for wrapping */
+}
+
 .genreItem {
     color: white;
-    height: 15%;
+    cursor: pointer;
     display: flex;
+    margin: 5px;
+    /* Use margin instead of margin-top for spacing */
+    font-size: 12px;
+    border: solid #b300f2 1px;
     justify-content: center;
-    align-items: center;
+    background-color: #474c7c;
+    padding: 10px;
+    /* Increase padding for better spacing */
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
+    /* Allow flexible width */
+    max-width: calc(50% - 20px);
+    /* Maximum width for each item (with margin) */
+    text-align: center;
+    /* Center text inside genre item */
+
+}
+
+
+
+.genreItem:hover {
+    background-color: #B300F2;
+    /* Hover effect */
 }

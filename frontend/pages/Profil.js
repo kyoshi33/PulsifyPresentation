@@ -6,6 +6,7 @@ import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 
 function Profil() {
@@ -16,11 +17,12 @@ function Profil() {
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [communaute, setCommunaute] = useState(false);
 
+
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = '../Accueil';
+    window.location.href = '/';
   }
-
+  //falseArrowRightFromBracket
 
   let display =
     <div className={styles.boxes}>
@@ -98,7 +100,9 @@ function Profil() {
 
       <div className={styles.headerProfile}>
         <UserCard username={user.username} email={user.firstname} />
+        <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
+
 
 
 

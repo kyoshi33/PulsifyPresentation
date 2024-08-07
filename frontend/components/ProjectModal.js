@@ -19,10 +19,12 @@ function ProjectModal(props) {
 
     const uploadPrompt = async (files) => {
         const formData = new FormData();
+        const cloudinaryPresset = process.env.NEXT_PUBLIC_PRESSET_CLOUDINARY;
+
 
         if (files) {
             formData.append("file", files[0]);
-            formData.append("upload_preset", "ml_default");
+            formData.append("upload_preset", cloudinaryPresset);
             fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
                 method: "POST",
                 body: formData,
@@ -34,7 +36,7 @@ function ProjectModal(props) {
                 });
         }
 
-        console.log(audio)
+
         const dataForPrompt = {
             genre: props.projectTitle,
             prompts: props.prompt,

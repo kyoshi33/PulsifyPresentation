@@ -115,9 +115,16 @@
 
 }
 
+.inputImport::file-selector-button {
+    font-weight: bold;
+    background-color: #535992;
+    padding: 1em;
+    border: thin solid white;
+    border-radius: 13px;
+}
+
 .dropzone {
     border: 1px solid #EE00F2;
-
     padding: 3%;
 }
 
@@ -126,12 +133,11 @@
 }
 
 .isPublic {
-
     cursor: pointer;
     height: 20px;
     border-radius: 100%;
     width: 20px;
-    background: green
+    background: rgb(48, 216, 48)
 }
 
 .isNotPublic {

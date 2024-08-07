@@ -98,7 +98,7 @@ function Welcome() {
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-          <h3 className={styles.tutoTitleText}>Economisez vos crédits grâce à des invites de plus en plus pertinentes !</h3>
+          <h3 className={styles.tutoTitleText2}>Economisez vos crédits grâce à des invites de plus en plus pertinentes !</h3>
           <p className={styles.tutoText}>Choisissez des styles musicaux qui correspondent à ce que vous souhaitez générer et ajustez au fur et à mesure</p>
           <div className={styles.tutoText}>Sans Pulsify, 200 essais.</div>
           <div className={styles.tutoText}>Avec Pulsify, 20 essais.</div>
@@ -134,7 +134,7 @@ function Welcome() {
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-          <h3 className={styles.tutoTitleText}>Rappelez-vous des sons générés précédement, et ajustez la note si votre avis a changé</h3>
+          <h3 className={styles.tutoTitleText2}>Rappelez-vous des sons générés précédement, et ajustez la note si votre avis a changé</h3>
           <p className={styles.tutoText}>Mémorisez les styles musicaux et trouvez les mots-clés qui vont bien ensemble</p>
 
         </div>

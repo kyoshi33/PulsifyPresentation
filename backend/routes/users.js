@@ -109,20 +109,31 @@ router.post('/signup/google', (req, res) => {
 router.post('/search', async (req, res) => {
   //Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['username'])) {
-    res.json({ result: false, error: 'Champs manquants ou vides' });
+    res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
 
-  const fetchUser = await User.find({ username: req.body.username })
-  const prompts = fetchUser.prompts
+  const fetchAllUser = await User.find({ username: req.body.username })
 
-  if (fetchUser) {
-    if (prompts) {
-      const userPopulate = fetchUser.populate(prompts)
-      res.json({ result: true, list: userPopulate.prompts });
-    } else {
-      res.json({ result: false, error: 'vide' });
+  if (fetchAllUser) {
+    const prompts = []
+
+    for (const user of fetchAllUser) {
+      const userPromptsPopulated = await user.populate('prompts')
+      //const promptsUserIdPopulated = await userPromptsPopulated.populate('userId')
+      for (const userIdInPrompt of userPromptsPopulated.prompts) {
+        const userIdInPromptPopulated = await userIdInPrompt.populate('userId')
+        prompts.push(userIdInPromptPopulated)
+      }
     }
+
+    if (prompts.length) {
+
+      res.json({ result: true, promptsList: prompts });
+    } else {
+      res.json({ result: false, error: "Cet auteur n'a aucun projet" });
+    }
+
   } else {
     res.json({ result: false, error: 'Utilisateur introuvable' })
   }

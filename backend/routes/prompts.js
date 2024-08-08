@@ -164,7 +164,7 @@ router.get("/suggestions", async (req, res) => {
         {
             $match: {
                 userId: foundUser._id,
-                genre: req.body.genre,
+                // genre: req.body.genre,
                 keyword: new RegExp(req.body.formattedPrompt, 'i')
             }
         },

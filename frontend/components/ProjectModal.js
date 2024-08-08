@@ -53,16 +53,16 @@ function ProjectModal(props) {
             email: user.email,
 
         }
-        const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataForPrompt)
-        })
-        console.log(saveDataForPrompt)
+
+        if (score != 0) {
+            const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataForPrompt)
+            })
+        }
 
     };
-    console.log('errorMessage : ', displayMessage);
-    console.log('Score : ', score);
 
     return (
         <Modal

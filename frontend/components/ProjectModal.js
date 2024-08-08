@@ -76,6 +76,7 @@ function ProjectModal(props) {
                     <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
 
                 </div>
+                <div className={styles.voteTxt}>genre du projet : {props.projectGenre}</div>
                 <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
                     <input className={styles.inputImport} type="file" onChange={(e) => { setTempAudioFile(e.target.files); console.log(tempAudioFile) }} />

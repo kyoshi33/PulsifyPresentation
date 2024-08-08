@@ -131,7 +131,26 @@ router.post("/add", async (req, res) => {
 
 
 
+router.get("/suggestions", async (req, res) => {
 
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['token', 'genre', 'partialPrompt', 'email', "username"])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    // Initialisation de la liste de suggestions
+    let suggestionsList = [];
+
+    const promptsToSplit = req.body.partialPrompt.trim();
+
+    // Réponse avec la liste de suggestions
+    res.json({ result: true, suggestionsList })
+})
 
 
 module.exports = router;

@@ -23,8 +23,11 @@ router.post('/search', async (req, res) => {
                 userIdInPromptPopulated.isPublic && prompts.push(userIdInPromptPopulated)
             }
         }
-        console.log(prompts)
-        res.json({ result: true, keywordsList: prompts })
+        if (prompts.length) {
+            res.json({ result: true, keywordsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Mot clé existant mais projet associé non public' })
+        }
     } else {
         res.json({ result: false, error: 'Mot clé non utilisé' })
     }

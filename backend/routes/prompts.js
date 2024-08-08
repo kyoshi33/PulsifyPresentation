@@ -155,12 +155,17 @@ router.get("/suggestions", async (req, res) => {
     const weight_rating = 0.7;
     const weight_frequency = 0.3;
 
+    // Récupération de l'id du prompt
+    const actualPrompt = await Prompt.findOne({ userId: foundUser._id, genre: req.body.genre });
+    const actualPromptId = actualPrompt._id;
+
     // Création de la pipeline Mongoose
     let pipeline = [
         {
             $match: {
+                userId: foundUser._id,
                 genre: req.body.genre,
-                keyword: new RegExp(req.body.partial_prompt, 'i')
+                keyword: new RegExp(req.body.formattedPrompt, 'i')
             }
         },
         {
@@ -183,14 +188,7 @@ router.get("/suggestions", async (req, res) => {
         }
     ];
 
-    const userPrompt = await Prompt.findOne({ userId: foundUser._id, genre: req.body.genre, isPublic: true });
-
-    if (!userPrompt || !userPrompt.isPublic) {
-        pipeline.unshift({ $match: { userId: foundUser._id } });
-    }
-
     suggestionsList = await Keyword.aggregate(pipeline);
-
 
     // Réponse avec la liste de suggestions
     res.json({ result: true, suggestionsList })

@@ -230,7 +230,7 @@ router.post('/search', async (req, res) => {
         return;
     }
 
-    const fetchAllPrompts = await Prompt.find({ genre: req.body.genre })
+    const fetchAllPrompts = await Prompt.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

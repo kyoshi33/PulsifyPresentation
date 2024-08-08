@@ -42,6 +42,9 @@ function Explorer() {
     let colorDown = sortDown && '#504E6B'
 
     const fetchSearch = () => {
+        setSortUp(false)
+        setSortDown(false)
+
         if (checkedAutor) {
             fetchAutor()
             return
@@ -171,8 +174,8 @@ function Explorer() {
                         >
                             <FontAwesomeIcon icon={faFilter} className={styles.icon} onClick={() => setIsPopoverOpen(!isPopoverOpen)} color={colorFilter} />
                         </Popover>
-                        <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(!sortUp), setSortDown(false) }} />
-                        <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(!sortDown), setSortUp(false) }} />
+                        <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(true), setSortDown(false) }} />
+                        <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(true), setSortUp(false) }} />
                     </div>
                 </div>
 

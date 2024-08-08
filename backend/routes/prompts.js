@@ -144,7 +144,9 @@ router.get("/suggestions", async (req, res) => {
     // Initialisation de la liste de suggestions
     let suggestionsList = [];
 
-    const promptsToSplit = req.body.partialPrompt.trim();
+    const promptToSplit = req.body.partialPrompt.trim();
+
+
 
     // Réponse avec la liste de suggestions
     res.json({ result: true, suggestionsList })

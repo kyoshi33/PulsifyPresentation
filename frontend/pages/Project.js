@@ -2,21 +2,25 @@ import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectModal from '../components/ProjectModal';
+import GenresModal from '../components/GenresModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faSearch, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
+
 
 function Project() {
     const [projectTitle, setProjectTitle] = useState("");
     const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
+    const [genresModalIsOpen, setGenresModalIsOpen] = useState(false)
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
     const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"]);
     const [isCopied, setIsCopied] = useState(false);
+    const [projectGenre, setProjectGenre] = useState('')
     const router = useRouter();
 
 
@@ -64,29 +68,31 @@ function Project() {
     }
 
     console.log('searchResults :', searchResults)
-    const genres = searchResults.map((data, i) => {
-        if (searchResults.lenght === 0) {
-            console.log('mesCouilles')
-            return (
-                <div>Pas d'artistes trouvés a ce nom</div>
-            )
-        } else {
-            return (
-                <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
-                    <div>{data}</div>
-                </div>
-            );
-
-        }
-    });
+    const genres = searchResults.length === 0 ? (
+        <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div>
+    ) : (
+        searchResults.map((data, i) => (
+            <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
+                <div>{data}</div>
+            </div>
+        ))
+    );
     console.log('genres :', genres)
+
+    const openGenresModal = () => {
+        setGenresModalIsOpen(true)
+    }
+
+    const closeGenresModal = () => {
+        setGenresModalIsOpen(false)
+    }
 
 
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
         console.log('projectTitle :', projectTitle)
-        if (prompt.length === 0 || projectTitle.length === 0) {
-            alert('Renseignez un titre pour votre projet et un prompt')
+        if (prompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
+            alert('Renseignez un titre, un genre et un prompt pour votre projet.')
         } else {
             setIsOpen(true)
         }
@@ -137,27 +143,20 @@ function Project() {
                             ></input>
                         </div>
                         <div className={styles.rightPartHeader}>
-                            <div className={styles.textHeader}>theme color</div>
-                            <div className={styles.colorTheme}>
+                            <div className={styles.textHeader}>Genre de votre projet</div>
+                            <div className={styles.genreProject}>
                                 <FontAwesomeIcon
-                                    icon={faCircle}
-                                    className={styles.colorTheme1Icon}
+                                    icon={faSearch}
+                                    className={styles.searchGenreBtn}
+                                    onClick={openGenresModal}
                                 />
-                                <FontAwesomeIcon
-                                    icon={faCircle}
-                                    className={styles.colorTheme2Icon}
-                                />
-                                <FontAwesomeIcon
-                                    icon={faCircle}
-                                    className={styles.colorTheme3Icon}
-                                />
-                                <FontAwesomeIcon
-                                    icon={faCircle}
-                                    className={styles.colorTheme4Icon}
-                                />
-
+                                <input className={styles.colorTheme}
+                                    placeholder='Genre du projet'
+                                    onChange={(e) => setProjectGenre(e.target.value)}
+                                    value={projectGenre}
+                                    maxLength={40}>
+                                </input>
                             </div>
-
                         </div>
                     </div>
                     <div className={styles.inputPromptContainer}>
@@ -210,7 +209,11 @@ function Project() {
                         onRequestClose={closeProjectModal}
                         projectTitle={projectTitle}
                         prompt={prompt}
+                        projectGenre={projectGenre}
                     />
+                    <GenresModal isOpen={genresModalIsOpen}
+                        onRequestClose={closeGenresModal}
+                        projectGenre={projectGenre} />
                 </div>
             </div>
         </div>

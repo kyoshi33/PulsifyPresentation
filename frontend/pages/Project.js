@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectModal from '../components/ProjectModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faSearch, faCopy, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSearch, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
@@ -15,7 +15,8 @@ function Project() {
     const [search, setSearch] = useState("");
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
-    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"])
+    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"]);
+    const [isCopied, setIsCopied] = useState(false);
     const router = useRouter();
 
 
@@ -30,7 +31,14 @@ function Project() {
             </div>
         )
     }
-    )
+    );
+    const handleCopyToClipboard = () => {
+        navigator.clipboard.writeText(prompt).then(() => {
+            setIsCopied(true); // Set the copied state to true
+            setTimeout(() => setIsCopied(false), 2000); // Hide the icon after 2 seconds
+        });
+    };
+
 
     // Go back to previous page clicking on "retour"
     const handleBack = () => {
@@ -57,11 +65,19 @@ function Project() {
 
     console.log('searchResults :', searchResults)
     const genres = searchResults.map((data, i) => {
-        return (
-            <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
-                <div>{data}</div>
-            </div>
-        );
+        if (searchResults.lenght === 0) {
+            console.log('mesCouilles')
+            return (
+                <div>Pas d'artistes trouvés a ce nom</div>
+            )
+        } else {
+            return (
+                <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
+                    <div>{data}</div>
+                </div>
+            );
+
+        }
     });
     console.log('genres :', genres)
 
@@ -115,7 +131,7 @@ function Project() {
                             placeholder='Le nom de votre projet'
                             onChange={(e) => setProjectTitle(e.target.value)}
                             value={projectTitle}
-                            maxLength={80}
+                            maxLength={40}
                         ></input>
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
@@ -144,11 +160,18 @@ function Project() {
                             maxLength={120} />
                         <div className={styles.promptBottom}>
                             <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
-                            <FontAwesomeIcon
-                                icon={faCopy}
-                                className={styles.copyPasteIcon}
-                                onClick={() => navigator.clipboard.writeText(prompt)}
-                            />
+                            {isCopied ? (
+                                <FontAwesomeIcon
+                                    icon={faCheckCircle}
+                                    className={styles.copyPasteIcon}
+                                />
+                            ) : (
+                                <FontAwesomeIcon
+                                    icon={faCopy}
+                                    className={styles.copyPasteIcon}
+                                    onClick={handleCopyToClipboard} // Use the new copy handler
+                                />
+                            )}
                         </div>
 
                     </div>

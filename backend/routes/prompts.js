@@ -68,7 +68,11 @@ router.post("/add", async (req, res) => {
             idOfKeywordTab.push(savedKeyword._id)
         }
     }
-
+    let idsKeywordsForPrompt = [...idOfKeywordTab, ...existingKeywordIds]
+    await Prompt.updateOne({ _id: savedPrompt._id },
+        { keywords: idsKeywordsForPrompt }
+    )
+    console.log(existingKeywordIds)
     // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
     if (idOfKeywordTab.length) {
         console.log(idOfKeywordTab)
@@ -79,26 +83,45 @@ router.post("/add", async (req, res) => {
                 $push: { related_keywords: filteredIdOfKeywordTab }
             })
         }
+
     }
 
     // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
             const idsInexisting = []
-            const foundExistingKeywordInRelatedKeyword = await Keyword.findById(id)
-
+            const populateIdRelatedKeyword = await Keyword.findById(id)
+            const foundExistingKeywordInRelatedKeyword = await Keyword.findById(id).populate('prompts')
             const filteredIdOfKeywordTab = keywords.filter(e => e === foundExistingKeywordInRelatedKeyword.keyword).length > 0 ? idsInexisting : idsInexisting.filter(e => e !== id)
             for (let i = 0; i < existingKeywordIds.length; i++) {
                 if (!foundExistingKeywordInRelatedKeyword.related_keywords.some(e => String(e) === String(existingKeywordIds[i]))) {
                     idsInexisting.push(existingKeywordIds[i])
                 }
             }
-            await Keyword.updateOne({ _id: id }, {
-                $inc: { frequency: 1 },
-                $push: { related_keywords: filteredIdOfKeywordTab }
-            })
+            let resultAverageRating = 0
+            const lengthPromptsInKeyword = (foundExistingKeywordInRelatedKeyword.prompts).length
+            for (const prompt of foundExistingKeywordInRelatedKeyword.prompts) {
+                resultAverageRating += prompt.rating
+            }
+            if (!populateIdRelatedKeyword.prompts.some(e => String(e) === String(savedPrompt._id))) {
+                await Keyword.updateOne({ _id: id }, {
+                    $inc: { frequency: 1 },
+                    $push: { related_keywords: filteredIdOfKeywordTab },
+                    $push: { prompts: savedPrompt._id },
+                    average_rating: resultAverageRating / lengthPromptsInKeyword
+                })
+            } else {
+                await Keyword.updateOne({ _id: id }, {
+                    $inc: { frequency: 1 },
+                    $push: { related_keywords: filteredIdOfKeywordTab },
+                    average_rating: resultAverageRating / lengthPromptsInKeyword
+                })
+            }
         }
+
+
     }
+
     res.json({ result: true, prompt: savedPrompt })
 })
 

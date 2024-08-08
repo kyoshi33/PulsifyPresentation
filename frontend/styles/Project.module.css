@@ -52,8 +52,45 @@
     /* Enable vertical scrolling */
     overflow-x: hidden;
     /* Hide horizontal overflow */
-
+    padding-right: 10px;
+    /* Add padding to the right for the scrollbar */
 }
+
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.suggestionList::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the scrollbar */
+}
+
+.suggestionList::-webkit-scrollbar-track {
+    background: #272541;
+    /* Track color */
+    border-radius: 10px;
+}
+
+.suggestionList::-webkit-scrollbar-thumb {
+    background: #B300F2;
+    /* Thumb color */
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.suggestionList::-webkit-scrollbar-thumb:hover {
+    background: #8C00B8;
+    /* Darker shade on hover */
+}
+
+/* Firefox */
+.suggestionList {
+    scrollbar-width: thin;
+    scrollbar-color: #B300F2 #272541;
+}
+
+/* Internet Explorer and Legacy Edge */
+.suggestionList {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 
 
 .suggestionItem {

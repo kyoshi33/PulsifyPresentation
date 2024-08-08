@@ -15,7 +15,11 @@ function ProjectModal(props) {
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
     const [tempAudioFile, setTempAudioFile] = useState(null)
+    const [score, setScore] = useState(0);
+    const [displayMessage, setDisplayMessage] = useState('');
+
     const user = useSelector((state) => state.user.value);
+
 
 
     const uploadPrompt = async (files) => {
@@ -37,26 +41,28 @@ function ProjectModal(props) {
                 });
         }
 
+        score === 0 && (setDisplayMessage('Merci de renseigner une note !'));
 
         const dataForPrompt = {
             genre: props.projectTitle,
             prompts: props.prompt,
             audio: audio,
-            rating: 5,
+            rating: score,
             isPublic: isPublic,
             username: user.username,
             email: user.email,
 
         }
-        const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataForPrompt)
-        })
-        console.log(saveDataForPrompt)
+
+        if (score != 0) {
+            const saveDataForPrompt = await fetch("http://localhost:3000/prompts/add", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataForPrompt)
+            })
+        }
 
     };
-
 
     return (
         <Modal
@@ -78,23 +84,28 @@ function ProjectModal(props) {
                     <div className={styles.voteStars}>
                         <FontAwesomeIcon
                             icon={faStar}
-                            className={styles.colorThemeIcon}
+                            className={score >= 1 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
+                            onMouseOver={() => setScore(1)}
                         />
                         <FontAwesomeIcon
                             icon={faStar}
-                            className={styles.colorThemeIcon}
+                            className={score >= 2 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
+                            onMouseOver={() => setScore(2)}
                         />
                         <FontAwesomeIcon
                             icon={faStar}
-                            className={styles.colorThemeIcon}
+                            className={score >= 3 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
+                            onMouseOver={() => setScore(3)}
                         />
                         <FontAwesomeIcon
                             icon={faStar}
-                            className={styles.colorThemeIcon}
+                            className={score >= 4 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
+                            onMouseOver={() => setScore(4)}
                         />
                         <FontAwesomeIcon
                             icon={faStar}
-                            className={styles.colorThemeIcon}
+                            className={score >= 5 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
+                            onMouseOver={() => setScore(5)}
                         />
                     </div>
                 </div>
@@ -107,6 +118,7 @@ function ProjectModal(props) {
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile) }}>Valider</button>
                 </div>
+                <span className={styles.errorMessage}>{displayMessage}</span>
             </div>
         </Modal>
     )

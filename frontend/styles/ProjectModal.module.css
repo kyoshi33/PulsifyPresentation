@@ -102,11 +102,18 @@
     height: 80%;
     border: #B300F2 1px solid;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .colorThemeIcon {
     font-size: 22px;
     margin: 5px;
+}
+
+.colorThemeIconInactive {
+    font-size: 22px;
+    margin: 5px;
+    color: #39374c;
 }
 
 .btn:hover {
@@ -184,4 +191,8 @@
 .text {
     margin: 5%;
     color: white
+}
+
+.errorMessage {
+    color: red
 }

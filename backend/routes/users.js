@@ -141,4 +141,21 @@ router.post('/search', async (req, res) => {
 })
 
 
+
+router.get('/modeles', (req, res) => {
+  if (!checkBody(req.body, ['email'])) {
+    res.json({ result: false, error: 'Champs vides ou manquants' });
+    return;
+  }
+  User.find({ email: req.email })
+    .then(data => {
+      if (data) {
+        res.json({ result: true, prompt: res.prompts })
+      } else {
+        res.json({ result: false })
+      }
+    })
+})
+
+
 module.exports = router;

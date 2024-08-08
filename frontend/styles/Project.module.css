@@ -119,11 +119,13 @@
 }
 
 .bottomSuggestionList {
+
     color: white;
     display: flex;
     justify-content: right;
     text-align: right;
     font-size: x-small;
+    margin-top: 10%;
 
 }
 
@@ -238,7 +240,7 @@
 
 .colorTheme {
     height: 80%;
-    width: 50%;
+    width: 80%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -422,7 +424,7 @@
     color: white;
     cursor: pointer;
     display: flex;
-    height: 40%;
+    height: 30%;
     font-size: 12px;
     border: solid #b300f2 1px;
     justify-content: center;

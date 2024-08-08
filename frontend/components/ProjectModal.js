@@ -44,14 +44,15 @@ function ProjectModal(props) {
         score === 0 && (setDisplayMessage('Merci de renseigner une note !'));
 
         const dataForPrompt = {
-            genre: props.projectTitle,
+            genre: props.projectGenre,
             prompt: props.prompt,
             audio: audio,
             rating: score,
             isPublic: isPublic,
             username: user.username,
             email: user.email,
-            token: user.token
+            token: user.token,
+            title: props.projectTitle
 
         }
 

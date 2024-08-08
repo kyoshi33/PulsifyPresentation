@@ -103,6 +103,7 @@ function Accueil() {
     const [newProject, setNewProject] = useState(false);
     const [newExistingProject, setNewExistingProject] = useState(false);
     const [search, setSearch] = useState('');
+    const [searchCommunity, setSearchCommunity] = useState('');
     const [selectedTab, setSelectedTab] = useState(1);
     const [listProject, setListProject] = useState([]);
 
@@ -121,7 +122,22 @@ function Accueil() {
             res.result && setListProject(res.searchResults)
         }
         fetchProject();
-    }, [search])
+    }, [search]);
+
+    //Rechercher les prompts de la communauté liké par l'utilisateur pendant qu'il remplit le champ de recherche
+    useEffect(() => {
+        const fetchProject = async () => {
+            // fetch des projets 
+            const fetchProject = await fetch('http://localhost:3000/prompts/searchCommunityPrompts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ searchCommunity, email: user.email, token: user.token }),
+            })
+            const res = await fetchProject.json()
+            res.result && setListProject(res.searchResults)
+        }
+        fetchProject();
+    }, [searchCommunity])
 
 
 
@@ -154,28 +170,55 @@ function Accueil() {
 
 
     if (newExistingProject) {
-        const myProjects = fetchedProjects;
+
+
         let mappedProjects;
-        if (listProject.length && search.length) {
-            mappedProjects = listProject.map((project, i) => {
-                let { prompt, genre, titre } = project;
-                return <div>
-                    <ModelCard genre={genre}
-                        prompt={prompt}
-                        title={titre}
-                    />
-                </div>
-            });
-        } else {
-            mappedProjects = myProjects.map((project, i) => {
-                let { prompt, genre, titre } = project;
-                return <div>
-                    <ModelCard genre={genre}
-                        prompt={prompt}
-                        title={titre}
-                    />
-                </div>
-            });
+        if (selectedTab === 1) {
+            const myProjects = fetchedProjects;
+            if (listProject.length && search.length) {
+                mappedProjects = listProject.map((project, i) => {
+                    let { prompt, genre, titre } = project;
+                    return <div>
+                        <ModelCard genre={genre}
+                            prompt={prompt}
+                            title={titre}
+                        />
+                    </div>
+                });
+            } else {
+                mappedProjects = myProjects.map((project, i) => {
+                    let { prompt, genre, titre } = project;
+                    return <div>
+                        <ModelCard genre={genre}
+                            prompt={prompt}
+                            title={titre}
+                        />
+                    </div>
+                });
+            }
+        } else if (selectedTab === 2) {
+            const myProjects = fetchedProjects;
+            if (listProject.length && search.length) {
+                mappedProjects = listProject.map((project, i) => {
+                    let { prompt, genre, titre } = project;
+                    return <div>
+                        <ModelCard genre={genre}
+                            prompt={prompt}
+                            title={titre}
+                        />
+                    </div>
+                });
+            } else {
+                mappedProjects = myProjects.map((project, i) => {
+                    let { prompt, genre, titre } = project;
+                    return <div>
+                        <ModelCard genre={genre}
+                            prompt={prompt}
+                            title={titre}
+                        />
+                    </div>
+                });
+            }
         }
 
         display =

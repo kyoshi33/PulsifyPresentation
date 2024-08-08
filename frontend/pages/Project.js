@@ -68,20 +68,15 @@ function Project() {
     }
 
     console.log('searchResults :', searchResults)
-    const genres = searchResults.map((data, i) => {
-        if (!data) {
-            return (
-                <div key={i}>Pas d'artistes trouvés a ce nom</div>
-            )
-        } else {
-            return (
-                <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
-                    <div>{data}</div>
-                </div>
-            );
-
-        }
-    });
+    const genres = searchResults.length === 0 ? (
+        <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div>
+    ) : (
+        searchResults.map((data, i) => (
+            <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
+                <div>{data}</div>
+            </div>
+        ))
+    );
     console.log('genres :', genres)
 
     const openGenresModal = () => {

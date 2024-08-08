@@ -4,11 +4,28 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import SignalementModal from './SignalementModal';
+
 
 import UserCard from './UserCard';
 
 
 function PromptCard(props) {
+
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [prompt, setPrompt] = useState("")
+
+    // Open project modal on click on "Enregistrer"
+    const openProjectModal = () => {
+        setIsOpen(true)
+    }
+
+    const closeProjectModal = () => {
+        setIsOpen(false);
+    }
+
+
 
     const user = useSelector((state) => state.user.value)
     const [isPlaying, setIsPlaying] = useState(false);
@@ -21,11 +38,20 @@ function PromptCard(props) {
     const displayXmark =
         <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} />
 
+
+
+
     const displayicons =
         <>
             <FontAwesomeIcon icon={faHeart} className={styles.icon} />
-            <FontAwesomeIcon icon={faCircleExclamation} className={styles.icon} />
+            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
+            <SignalementModal isOpen={modalIsOpen}
+                onRequestClose={closeProjectModal}
+                prompt={prompt}
+            />
         </>
+
+
 
 
     let play =

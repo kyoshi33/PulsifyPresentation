@@ -55,7 +55,7 @@ function ProjectModal(props) {
         }
 
         if (score != 0) {
-            const saveDataForPrompt = await fetch("http://localhost:3000/prompts", {
+            const saveDataForPrompt = await fetch("http://localhost:3000/prompts/add", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataForPrompt)

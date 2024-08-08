@@ -8,6 +8,7 @@ import Image from 'next/image'
 
 
 
+
 function Header() {
     const user = useSelector((state) => state.user.value)
 
@@ -26,8 +27,7 @@ function Header() {
             <div className={styles.btnContainer}>
                 <Link href='/Profil'>
                     <div className={styles.roundBtn}>
-                        {user.picture ? <image src={"https://lh3.googleusercontent.com/a/ACg8ocLAEWeb_1yvO9Pvo79NErykvYrfAs8XfzWbvvs6gMinZ0jjEoJi=s96-c"} width={500} height={500} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
-
+                        {user.picture ? <Image className={styles.profilPicture} src={user.picture} width={500} height={500} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
                     </div>
                 </Link>
                 <Link href='/Help'>

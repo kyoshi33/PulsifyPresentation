@@ -97,14 +97,15 @@ router.post("/add", async (req, res) => {
             const inexistingIds = []
             const foundKeywordById = await Keyword.findById(id)
             const populatedKeyword = await Keyword.findById(id).populate('prompts')
-            const filteredKeywordIds = keywords.filter(e => e === populatedKeyword.keyword).length > 1 ? inexistingIds : inexistingIds.filter(e => e !== id)
-            const updateRelatedKeywordId = [...filteredKeywordIds, ...keywordIds]
-            console.log("a push", updateRelatedKeywordId)
+
             for (let i = 0; i < existingKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(existingKeywordIds[i]))) {
                     inexistingIds.push(existingKeywordIds[i])
                 }
             }
+            const filteredKeywordIds = keywords.filter(e => e === populatedKeyword.keyword).length > 0 ? inexistingIds : inexistingIds.filter(e => e !== id)
+            const updateRelatedKeywordId = [...filteredKeywordIds, ...keywordIds]
+            console.log("celuikonveuvoir", keywordIds)
             let resultAverageRating = 0
             const promptKeywordsCount = (populatedKeyword.prompts).length
             for (const prompt of populatedKeyword.prompts) {

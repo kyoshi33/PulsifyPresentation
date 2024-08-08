@@ -13,10 +13,10 @@ function ModelCard(props) {
     return (
         <button className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
-                {props.title}
+                Rockabilly
             </div>
             <div className={styles.listItemPrompt}>
-                {props.prompt}
+                Jazz, rock, musette, flute
             </div>
         </button>
 

@@ -43,6 +43,7 @@
 }
 
 .suggestionList {
+    width: 100%;
     max-height: 70%;
     display: flex;
     flex-direction: column;
@@ -201,7 +202,7 @@
 .inputProjectTitle {
     height: 80%;
     width: 70%;
-    background: #504E6B;
+    background-color: #272541;
     border: 3px solid #B300F2;
     border-radius: 8px;
     font-size: 16px;
@@ -268,7 +269,7 @@
     height: 100%;
     display: flex;
     width: 100%;
-    background: #504E6B;
+    background-color: #272541;
     border: 3px solid #B300F2;
     border-radius: 8px;
     font-size: 16px;
@@ -326,7 +327,7 @@
 
 .searchContainer {
     width: 70%;
-    height: 35%;
+    height: 45%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -338,7 +339,7 @@
 
 .searchTitle {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
     font-weight: 50;
     margin: 2%;
@@ -347,11 +348,11 @@
 
 .searchInput {
     width: 70%;
-    height: auto;
+    height: 35px;
     background: #504E6B;
     border: 1px solid #B300F2;
     border-radius: 20px;
-    font-size: large;
+    font-size: 17px;
     color: white;
     padding-left: 10px;
     font-size: 14px;
@@ -378,6 +379,7 @@
 }
 
 .genresList {
+    margin: 2%;
     display: flex;
     flex-direction: row;
     /* Display genres in a row */
@@ -395,6 +397,7 @@
     cursor: pointer;
     display: flex;
     margin: 5px;
+    height: 40%;
     /* Use margin instead of margin-top for spacing */
     font-size: 12px;
     border: solid #b300f2 1px;

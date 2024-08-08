@@ -30,7 +30,7 @@ router.post("/add", async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         userId: foundUser._id,
-        date: new Date(),
+        createdAt: new Date(),
 
     })
     const savedPrompt = await newPrompt.save()
@@ -246,5 +246,12 @@ router.post('/search', async (req, res) => {
         res.json({ result: false, error: 'Projet non existant' })
     }
 })
+
+//Récupérer la liste des projets enregistrés. 
+// router.get('/myproject', async (req, res) => {
+
+
+// })
+
 
 module.exports = router;

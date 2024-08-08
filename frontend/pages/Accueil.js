@@ -52,7 +52,7 @@ function Accueil() {
                 <div className={styles.selectModelContainer}>
                     <div className={styles.tabBar}>
                         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(1)}>
-                            Mes modèles
+                            Mes projets
                         </div>
                         <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(2)} >
                             Communauté

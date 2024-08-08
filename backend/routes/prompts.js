@@ -195,4 +195,56 @@ router.get("/suggestions", async (req, res) => {
 })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.post('/search', async (req, res) => {
+
+    if (!checkBody(req.body, ['genre'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    const fetchAllPrompts = await Prompt.find({ genre: req.body.genre })
+    if (fetchAllPrompts.length) {
+        const prompts = []
+        for (const populateUserId of fetchAllPrompts) {
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+        }
+        if (prompts.length) {
+            res.json({ result: true, promptsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Projet existant mais non public' })
+        }
+    } else {
+        res.json({ result: false, error: 'Projet non existant' })
+    }
+})
+
 module.exports = router;

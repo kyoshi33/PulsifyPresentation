@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let spotifyRouter = require('./routes/spotify')
 var promptsRouter = require('./routes/prompts');
-
+var keywordsRouter = require('./routes/keywords');
 
 var app = express();
 
@@ -30,5 +30,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/spotify', spotifyRouter);
 app.use('/prompts', promptsRouter);
+app.use('/keywords', keywordsRouter);
 
 module.exports = app;

@@ -127,29 +127,37 @@ function Project() {
                 </div>
                 <div className={styles.projectContainer}>
                     <div className={styles.projectHeader}>
-                        <input className={styles.inputProjectTitle}
-                            placeholder='Le nom de votre projet'
-                            onChange={(e) => setProjectTitle(e.target.value)}
-                            value={projectTitle}
-                            maxLength={40}
-                        ></input>
-                        <div className={styles.colorTheme}>
-                            <FontAwesomeIcon
-                                icon={faCircle}
-                                className={styles.colorTheme1Icon}
-                            />
-                            <FontAwesomeIcon
-                                icon={faCircle}
-                                className={styles.colorTheme2Icon}
-                            />
-                            <FontAwesomeIcon
-                                icon={faCircle}
-                                className={styles.colorTheme3Icon}
-                            />
-                            <FontAwesomeIcon
-                                icon={faCircle}
-                                className={styles.colorTheme4Icon}
-                            />
+                        <div className={styles.leftPartHeader}>
+                            <div className={styles.textHeader}>Titre du projet</div>
+                            <input className={styles.inputProjectTitle}
+                                placeholder='Le nom de votre projet'
+                                onChange={(e) => setProjectTitle(e.target.value)}
+                                value={projectTitle}
+                                maxLength={40}
+                            ></input>
+                        </div>
+                        <div className={styles.rightPartHeader}>
+                            <div className={styles.textHeader}>theme color</div>
+                            <div className={styles.colorTheme}>
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    className={styles.colorTheme1Icon}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    className={styles.colorTheme2Icon}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    className={styles.colorTheme3Icon}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    className={styles.colorTheme4Icon}
+                                />
+
+                            </div>
+
                         </div>
                     </div>
                     <div className={styles.inputPromptContainer}>
@@ -157,7 +165,11 @@ function Project() {
                             placeholder='Entrez votre prompt ici'
                             onChange={(e) => setPrompt(e.target.value)}
                             value={prompt}
-                            maxLength={120} />
+                            maxLength={120}
+                            onKeyPress={e => {
+                                if (e.key === 'Enter')
+                                    e.preventDefault()
+                            }} />
                         <div className={styles.promptBottom}>
                             <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
                             {isCopied ? (

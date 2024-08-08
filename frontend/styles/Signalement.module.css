@@ -31,7 +31,7 @@
   justify-content: center;
   align-items: center;
   width: 70%;
-  height: 20%;
+  height: 10%;
   padding: 10px;
   background-color: #0B0A1A;
   border: solid #B300F2 1px;
@@ -39,17 +39,16 @@
 }
 
 .modalTitle {
+  display: flex;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 40px;
-  background: linear-gradient(90deg, #48DEFF, #EE00F2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  font-size: 30px;
+  color: white;
   margin: 0;
   margin-left: 20px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
+  justify-content: center;
+  align-items: center;
 }
 
 .input {
@@ -64,13 +63,15 @@
 
 .promptContainer {
   width: 90%;
-  min-height: 20%;
+  min-height: 40%;
   background-color: #504E6B;
   display: flex;
   justify-content: center;
   align-items: center;
   border: solid #B300F2 1px;
   border-radius: 10px;
+  margin-top: 10%;
+  margin-bottom: 10%;
   color: white;
   font-size: 130%;
 }
@@ -78,12 +79,13 @@
 
 .btn {
   cursor: pointer;
-  background-color: #474C7C;
+  background-color: #0B0A1A;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   height: 7vh;
-  border: solid #B300F2 1px;
+  width: 10vw;
+  border: solid #B300F2 0.5px;
   border-radius: 5px;
   margin: 5px;
   padding-left: 20px;
@@ -99,8 +101,19 @@
 
 
 .text {
+  display: flex;
   margin: 5%;
-  color: white
+  color: white;
+  width: 100%;
+  margin-top: 5%;
+  padding-left: -5%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.modalBtnContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 
 

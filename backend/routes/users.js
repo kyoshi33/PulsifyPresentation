@@ -125,7 +125,7 @@ router.post('/search', async (req, res) => {
       //const promptsUserIdPopulated = await userPromptsPopulated.populate('userId')
       for (const userIdInPrompt of userPromptsPopulated.prompts) {
         const userIdInPromptPopulated = await userIdInPrompt.populate('userId')
-        prompts.push(userIdInPromptPopulated)
+        userIdInPromptPopulated.isPublic && prompts.push(userIdInPromptPopulated)
       }
     }
 

@@ -48,6 +48,13 @@ function Project() {
         const res = await fetchArtist.json();
         setSearchResults(res)
     }
+
+    const handleSearchKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            fetchGenreArtistOnSpotify(search);
+        }
+    }
+
     console.log('searchResults :', searchResults)
     const genres = searchResults.map((data, i) => {
         return (
@@ -58,10 +65,15 @@ function Project() {
     });
     console.log('genres :', genres)
 
+
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
         console.log('projectTitle :', projectTitle)
-        setIsOpen(true)
+        if (prompt.length === 0 || projectTitle.length === 0) {
+            alert('Renseignez un titre pour votre projet et un prompt')
+        } else {
+            setIsOpen(true)
+        }
     }
 
     const closeProjectModal = () => {
@@ -72,7 +84,7 @@ function Project() {
     const addGenreFromSearchBar = (genre) => {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)
-        } else if (prompt.length < 120) {
+        } else if ((prompt.length + genre.length) < 120) {
             setPrompt(prompt + `${genre}, `)
         }
     }
@@ -102,7 +114,9 @@ function Project() {
                         <input className={styles.inputProjectTitle}
                             placeholder='Le nom de votre projet'
                             onChange={(e) => setProjectTitle(e.target.value)}
-                            value={projectTitle} ></input>
+                            value={projectTitle}
+                            maxLength={80}
+                        ></input>
                         <div className={styles.colorTheme}>
                             <FontAwesomeIcon
                                 icon={faCircle}
@@ -144,7 +158,8 @@ function Project() {
                             <input className={styles.searchInput}
                                 placeholder='Enter an artist here'
                                 onChange={(e) => setSearch(e.target.value)}
-                                value={search}></input>
+                                value={search}
+                                onKeyDown={handleSearchKeyDown}></input>
                             <FontAwesomeIcon icon={faSearch}
                                 className={styles.searchBtn}
                                 onClick={() => fetchGenreArtistOnSpotify(search)} />

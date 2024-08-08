@@ -35,7 +35,8 @@ router.post('/signup', (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: hash,
-        token: uid2(32)
+        token: uid2(32),
+        createdAt: new Date()
       });
       newUser.save().then(newDoc => {
 
@@ -92,7 +93,8 @@ router.post('/signup/google', (req, res) => {
         google_id: req.body.google_id,
         picture: req.body.picture,
         token: uid2(32),
-        password: null
+        password: null,
+        createdAt: new Date()
       });
       newUser.save().then(newDoc => {
 

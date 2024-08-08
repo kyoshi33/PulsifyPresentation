@@ -194,3 +194,7 @@
   scrollbar-color: #D9D9D9 #272541;
   width: 100%;
 }
+
+.modelCard {
+  height: 60%;
+}

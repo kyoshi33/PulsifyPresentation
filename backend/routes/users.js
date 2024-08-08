@@ -115,9 +115,8 @@ router.post('/search', async (req, res) => {
     return;
   }
 
-  const fetchAllUser = await User.find({ username: req.body.username })
-
-  if (fetchAllUser) {
+  const fetchAllUser = await User.find({ username: { $regex: new RegExp(req.body.username.toLowerCase(), "i") } })
+  if (fetchAllUser.length) {
     const prompts = []
 
     for (const user of fetchAllUser) {

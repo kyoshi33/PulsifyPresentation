@@ -11,7 +11,7 @@ router.post('/search', async (req, res) => {
         return;
     }
 
-    const fetchAllKeywords = await Keyword.find({ keyword: req.body.keyword })
+    const fetchAllKeywords = await Keyword.find({ keyword: { $regex: new RegExp(req.body.keyword.toLowerCase(), "i") } })
 
     if (fetchAllKeywords.length) {
         const prompts = []

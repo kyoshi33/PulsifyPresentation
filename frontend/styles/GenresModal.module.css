@@ -53,6 +53,55 @@
     font-weight: 400;
 }
 
+.genresContainer {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Hide horizontal overflow */
+    padding-right: 10px;
+    /* Add padding to the right for the scrollbar */
+}
+
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.genresContainer::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the scrollbar */
+}
+
+.genresContainer::-webkit-scrollbar-track {
+    background: #272541;
+    /* Track color */
+    border-radius: 10px;
+}
+
+.genresContainer::-webkit-scrollbar-thumb {
+    background: #B300F2;
+    /* Thumb color */
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.genresContainer::-webkit-scrollbar-thumb:hover {
+    background: #8C00B8;
+    /* Darker shade on hover */
+}
+
+/* Firefox */
+.genresContainer {
+    scrollbar-width: thin;
+    scrollbar-color: #B300F2 #272541;
+}
+
+/* Internet Explorer and Legacy Edge */
+.genresContainer {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
 .genresBtn {
     width: 100%;
     height: 13%;

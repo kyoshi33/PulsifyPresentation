@@ -67,6 +67,7 @@ function SignUp() {
         }
     }
 
+
     const passwordMessage = <span className={styles.messages}>Les deux mots de passe ne sont pas identifiques</span>
     const mailMessage = <span className={styles.messages}>Mail invalide</span>
     const usernameMessage = <span className={styles.messages}>Nom d'utilisateur invalide</span>
@@ -112,6 +113,7 @@ function SignUp() {
             })
             const res = await fetchSignin.json()
             if (res.result) {
+                console.log(res.picture)
                 dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
                 window.location.href = '/Accueil'
             } else {

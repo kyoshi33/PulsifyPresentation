@@ -102,7 +102,7 @@ router.post('/signup/google', (req, res) => {
       });
     } else {
       // L'utilisateur existe déjà en base de données
-      res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email });
+      res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email, picture: data.picture });
     }
   });
 });

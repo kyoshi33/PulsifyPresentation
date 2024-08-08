@@ -11,6 +11,7 @@ let connected = false;
 function Accueil() {
 
 
+
     const fetchedProjects = [
         {
             "titre": "Titre",
@@ -44,7 +45,7 @@ function Accueil() {
                     "$oid": "66b494624e7495cb2dc817af"
                 }
             ],
-            "genre": "Astrox",
+            "genre": "Astrox Chocolate",
             "messages": [],
             "audio": null,
             "rating": 2,
@@ -103,8 +104,26 @@ function Accueil() {
     const [newExistingProject, setNewExistingProject] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedTab, setSelectedTab] = useState(1);
+    const [listProject, setListProject] = useState([]);
 
     const user = useSelector((state => state.user.value));
+
+    //Rechercher les prompts de l'utilisateur pendant qu'il remplit le champ de recherche
+    useEffect(() => {
+        const fetchProject = async () => {
+            // fetch des projets 
+            const fetchProject = await fetch('http://localhost:3000/prompts/searchMyPrompts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ search, email: user.email, token: user.token }),
+            })
+            const res = await fetchProject.json()
+            res.result && setListProject(res.searchResults)
+        }
+        fetchProject();
+    }, [search])
+
+
 
     let display =
         <div className={styles.container}>
@@ -134,18 +153,30 @@ function Accueil() {
     }
 
 
-
-
-
     if (newExistingProject) {
         const myProjects = fetchedProjects;
-        let mappedProjects = myProjects.map((project, i) => {
-            let { prompt, userId, genre, messages, audio, rating, titre } = project;
-            return <ModelCard genre={genre}
-                prompt={prompt}
-                title={titre}
-            />
-        })
+        let mappedProjects;
+        if (listProject.length && search.length) {
+            mappedProjects = listProject.map((project, i) => {
+                let { prompt, genre, titre } = project;
+                return <div>
+                    <ModelCard genre={genre}
+                        prompt={prompt}
+                        title={titre}
+                    />
+                </div>
+            });
+        } else {
+            mappedProjects = myProjects.map((project, i) => {
+                let { prompt, genre, titre } = project;
+                return <div>
+                    <ModelCard genre={genre}
+                        prompt={prompt}
+                        title={titre}
+                    />
+                </div>
+            });
+        }
 
         display =
             <div className={styles.container} >
@@ -161,7 +192,8 @@ function Accueil() {
                     </div>
                     <div className={styles.modelChoiceContainer}>
 
-                        <input type='string' placeholder='Recherche...' onChange={(e) => setSearch(e.target.value)} value={search} className={styles.inputSearch} />
+                        <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value) }
+                        } value={search} className={styles.inputSearch} />
 
                         <div className={styles.scrollWindow}>
                             {mappedProjects}
@@ -170,9 +202,7 @@ function Accueil() {
                 </div>
                 <button className={styles.exploreBtn} onClick={() => { setNewProject(false); setNewExistingProject(false) }}>Retour</button>
             </div >
-
     }
-
 
 
 

@@ -15,6 +15,7 @@ function ModelCard(props) {
             <div className={styles.listItemTitle}>
                 {props.title}
             </div>
+            <div className={styles.genre}>{props.genre}</div>
             <div className={styles.listItemPrompt}>
                 {props.prompt}
             </div>

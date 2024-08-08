@@ -193,7 +193,9 @@ function Profil() {
             Communauté
           </div>
         </div>
-        {display}
+        <div className={styles.display}>
+          {display}
+        </div>
       </div>
 
 

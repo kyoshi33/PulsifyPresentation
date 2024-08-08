@@ -102,6 +102,7 @@
     height: 80%;
     border: #B300F2 1px solid;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .colorThemeIcon {

@@ -1,5 +1,5 @@
 .mainContainer {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -33,6 +33,19 @@
     align-items: center;
 }
 
+.password {
+    background: #272541;
+    width: 100%;
+    padding-left: 1%;
+    color: white;
+    background: #272541;
+    border-radius: 10px;
+    border: none;
+    height: 100%;
+    padding: 4%;
+
+}
+
 .input {
 
     width: 100%;
@@ -43,6 +56,21 @@
     border-radius: 10px;
     margin: 1%;
     padding: 4%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputPassword {
+    width: 100%;
+    height: 10%;
+    color: white;
+    background: #272541;
+    border: 0px solid #0B0A1A;
+    border-radius: 10px;
+    margin: 1%;
+    padding-right: 1%;
     display: flex;
     flex-direction: row;
     justify-content: center;

@@ -67,6 +67,7 @@ function SignUp() {
         }
     }
 
+
     const passwordMessage = <span className={styles.messages}>Les deux mots de passe ne sont pas identifiques</span>
     const mailMessage = <span className={styles.messages}>Mail invalide</span>
     const usernameMessage = <span className={styles.messages}>Nom d'utilisateur invalide</span>
@@ -112,13 +113,11 @@ function SignUp() {
             })
             const res = await fetchSignin.json()
             if (res.result) {
+                console.log(res.picture)
                 dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
-
                 window.location.href = '/Accueil'
             } else {
                 setErrorLogin(true)
-
-
             }
         }
         }
@@ -146,13 +145,13 @@ function SignUp() {
                     <input className={styles.input} placeholder="Prénom" onChange={(e) => setName(e.target.value)} value={name} />
                     {isValidName && nameMessage}
 
-                    <div className={styles.inputDiv}>
-                        <input className={styles.input} type={showPassword ? "text" : "password"}
+                    <div className={styles.inputPassword}>
+                        <input className={styles.password} type={showPassword ? "text" : "password"}
                             placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} value={password} required />
                         {passwordEye}
                     </div>
-                    <div className={styles.inputDiv}>
-                        <input className={styles.input} type={showRePassword ? "text" : "password"}
+                    <div className={styles.inputPassword}>
+                        <input className={styles.password} type={showRePassword ? "text" : "password"}
                             placeholder="Confirmation mot de passe" onChange={(e) => setconfirmPassword(e.target.value)} value={confirmPassword} required />
                         {rePasswordEye}
                     </div>

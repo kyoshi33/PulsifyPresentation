@@ -18,7 +18,7 @@ function Explorer() {
     const [sortDown, setSortDown] = useState(false);
     const [errorSearch, setErrorSearch] = useState(false);
     const [listProject, setListProject] = useState([]);
-
+    const [errorMessage, setErrorMessage] = useState('')
 
     //if no connect go welcome
     /*if (user) {
@@ -37,20 +37,9 @@ function Explorer() {
         if (props === 'Project') { setCheckedProject(!checkedProject); setCheckedAutor(false); setCheckedKeyword(false); setErrorSearch(false) }
     }
 
-    let colorFilter
-    if (isPopoverOpen) {
-        colorFilter = '#504E6B'
-    }
-
-    let colorUp
-    if (sortUp) {
-        colorUp = '#504E6B'
-    }
-
-    let colorDown
-    if (sortDown) {
-        colorDown = '#504E6B'
-    }
+    let colorFilter = isPopoverOpen && '#504E6B'
+    let colorUp = sortUp && '#504E6B'
+    let colorDown = sortDown && '#504E6B'
 
     const fetchSearch = () => {
         if (checkedAutor) {
@@ -76,10 +65,11 @@ function Explorer() {
         })
         const res = await fetchAutor.json()
         if (res.result) {
-            setListProject(res.list)
+            setListProject(res.promptsList)
             setErrorSearch(false)
         } else {
             setErrorSearch(true)
+            setErrorMessage(res.error)
         }
     }
     const fetchKeyword = async () => {
@@ -91,10 +81,11 @@ function Explorer() {
          })
          const res = await fetchKeyWord.json()
          if (res.result) {
-             setListProject(res.list)
+             setListProject(res.keywordList)
              setErrorSearch(false)
          } else {
              setErrorSearch(true)
+             setErrorMessage(res.error)
          }*/
     }
     const fetchProject = async () => {
@@ -113,31 +104,16 @@ function Explorer() {
          }*/
     }
 
-
-    let tableau = [
-        { projectName: 'Rockability', stars: 4, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'Jazzy', stars: 3, prompt: 'Jazz, troubadour, techno, flute' },
-        { projectName: 'Techno', stars: 2, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'HardStyle', stars: 1, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'Pop', stars: 5, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'GhibliStyle', stars: 2, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'IDK', stars: 4, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'MFMusic', stars: 3, prompt: 'Jazz, rock, musette, flute' },
-        { projectName: 'GPluDiDé', stars: 1, prompt: 'Jazz, rock, musette, flute' }]
-
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.stars - a.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.stars - a.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.stars - b.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.projectName} stars={data.stars} prompt={data.prompt} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.stars - b.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} /></div>) }) //classé par - liké first
     }
 
-    let error
-    if (errorSearch) {
-        error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>Aucun résultat trouvé</h4>
-    }
+    let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
 
     return (
         <>

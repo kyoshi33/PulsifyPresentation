@@ -35,7 +35,8 @@ router.post('/signup', (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: hash,
-        token: uid2(32)
+        token: uid2(32),
+        createdAt: new Date()
       });
       newUser.save().then(newDoc => {
 
@@ -92,11 +93,12 @@ router.post('/signup/google', (req, res) => {
         google_id: req.body.google_id,
         picture: req.body.picture,
         token: uid2(32),
-        password: null
+        password: null,
+        createdAt: new Date()
       });
       newUser.save().then(newDoc => {
 
-        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email });
+        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email, picture: req.body.picture });
       });
     } else {
       // L'utilisateur existe déjà en base de données
@@ -109,20 +111,31 @@ router.post('/signup/google', (req, res) => {
 router.post('/search', async (req, res) => {
   //Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['username'])) {
-    res.json({ result: false, error: 'Champs manquants ou vides' });
+    res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
 
-  const fetchUser = await User.find({ username: req.body.username })
-  const prompts = fetchUser.prompts
+  const fetchAllUser = await User.find({ username: req.body.username })
 
-  if (fetchUser) {
-    if (prompts) {
-      const userPopulate = fetchUser.populate(prompts)
-      res.json({ result: true, list: userPopulate.prompts });
-    } else {
-      res.json({ result: false, error: 'vide' });
+  if (fetchAllUser) {
+    const prompts = []
+
+    for (const user of fetchAllUser) {
+      const userPromptsPopulated = await user.populate('prompts')
+      //const promptsUserIdPopulated = await userPromptsPopulated.populate('userId')
+      for (const userIdInPrompt of userPromptsPopulated.prompts) {
+        const userIdInPromptPopulated = await userIdInPrompt.populate('userId')
+        userIdInPromptPopulated.isPublic && prompts.push(userIdInPromptPopulated)
+      }
     }
+
+    if (prompts.length) {
+
+      res.json({ result: true, promptsList: prompts });
+    } else {
+      res.json({ result: false, error: "Cet auteur n'a aucun projet" });
+    }
+
   } else {
     res.json({ result: false, error: 'Utilisateur introuvable' })
   }

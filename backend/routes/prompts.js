@@ -144,9 +144,51 @@ router.get("/suggestions", async (req, res) => {
     // Initialisation de la liste de suggestions
     let suggestionsList = [];
 
-    const promptToSplit = req.body.partialPrompt.trim();
+    // Formattage du prompt
+    const splitPrompt = req.body.partialPrompt.trim();
+    let formattedPrompt = splitPrompt[splitPrompt.length - 1] === "," ? splitPrompt.slice(0, -1) : splitPrompt
+    formattedPrompt = splitPrompt[0] === "," ? splitPrompt.slice(1) : splitPrompt
+    formattedPrompt = splitPrompt[splitPrompt.length - 1] === "]" ? splitPrompt.slice(0, -1) : splitPrompt
+    formattedPrompt = splitPrompt[0] === "[" ? splitPrompt.slice(1) : splitPrompt
 
+    //Initialisation des coefficients de calcul du score
+    const weight_rating = 0.7;
+    const weight_frequency = 0.3;
 
+    // Récupération de l'id du prompt
+    const actualPrompt = await Prompt.findOne({ userId: foundUser._id, genre: req.body.genre });
+    const actualPromptId = actualPrompt._id;
+
+    // Création de la pipeline Mongoose
+    let pipeline = [
+        {
+            $match: {
+                userId: foundUser._id,
+                // genre: req.body.genre,
+                keyword: new RegExp(req.body.formattedPrompt, 'i')
+            }
+        },
+        {
+            $addFields: {
+                score_global: {
+                    $add: [
+                        { $multiply: [weight_rating, "$average_rating"] },
+                        { $multiply: [weight_frequency, { $log10: "$frequency" }] }
+                    ]
+                }
+            }
+        },
+        {
+            $sort: {
+                score_global: -1
+            }
+        },
+        {
+            $limit: 10
+        }
+    ];
+
+    suggestionsList = await Keyword.aggregate(pipeline);
 
     // Réponse avec la liste de suggestions
     res.json({ result: true, suggestionsList })

@@ -231,6 +231,22 @@ router.get("/suggestions", async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/search', async (req, res) => {
 
     if (!checkBody(req.body, ['genre'])) {

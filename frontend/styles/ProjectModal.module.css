@@ -109,6 +109,12 @@
     margin: 5px;
 }
 
+.colorThemeIconInactive {
+    font-size: 22px;
+    margin: 5px;
+    color: #39374c;
+}
+
 .btn:hover {
     background-color: #B300F2;
     /* Hover effect */
@@ -184,4 +190,8 @@
 .text {
     margin: 5%;
     color: white
+}
+
+.errorMessage {
+    color: red
 }

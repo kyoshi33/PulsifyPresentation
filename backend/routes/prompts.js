@@ -209,7 +209,35 @@ router.get("/suggestions", async (req, res) => {
 
 
 
+router.post("/searchMyPrompts", async (req, res) => {
 
+    if (!checkBody(req.body, ['search', 'email', 'token'])) {
+        res.json({ result: false, message: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    const splitSearch = req.body.search.trim();
+    let formattedSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
+    formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
+
+    let pipeline = [
+        {
+            $match: {
+                userId: foundUser._id,
+                prompt: new RegExp(formattedSearch, 'i')
+            }
+        },
+        {
+            $limit: 10
+        }
+    ];
+    searchResults = await Prompt.aggregate(pipeline);
+
+    res.json({ result: true, searchResults })
+})
 
 
 

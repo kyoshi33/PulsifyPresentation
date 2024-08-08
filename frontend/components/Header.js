@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-
+import Image from 'next/image'
 
 
 
@@ -26,7 +26,7 @@ function Header() {
             <div className={styles.btnContainer}>
                 <Link href='/Profil'>
                     <div className={styles.roundBtn}>
-                        {user.picture ? <Image src={user.picture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
+                        {user.picture ? <image src={"https://lh3.googleusercontent.com/a/ACg8ocLAEWeb_1yvO9Pvo79NErykvYrfAs8XfzWbvvs6gMinZ0jjEoJi=s96-c"} width={500} height={500} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
 
                     </div>
                 </Link>

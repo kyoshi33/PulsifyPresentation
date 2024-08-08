@@ -98,7 +98,7 @@ router.post('/signup/google', (req, res) => {
       });
       newUser.save().then(newDoc => {
 
-        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email });
+        res.json({ result: true, token: newDoc.token, firstname: newDoc.firstname, username: req.body.username, email: req.body.email, picture: req.body.picture });
       });
     } else {
       // L'utilisateur existe déjà en base de données

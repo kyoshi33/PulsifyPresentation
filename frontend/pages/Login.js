@@ -62,7 +62,7 @@ function Login() {
     })
     const res = await fetchLogin.json()
     if (res.result) {
-      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
+      dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email }));
       window.location.href = '/Accueil'
     } else {
       setErrorLogin(true)

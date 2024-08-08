@@ -77,3 +77,7 @@
   background-color: #B300F2;
   /* Hover effect */
 }
+
+.profilPicture {
+  border-radius: 50px;
+}

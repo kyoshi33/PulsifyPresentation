@@ -45,12 +45,13 @@ function ProjectModal(props) {
 
         const dataForPrompt = {
             genre: props.projectTitle,
-            prompts: props.prompt,
+            prompt: props.prompt,
             audio: audio,
             rating: score,
             isPublic: isPublic,
             username: user.username,
             email: user.email,
+            token: user.token
 
         }
 

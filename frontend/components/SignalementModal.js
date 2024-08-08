@@ -28,7 +28,7 @@ function SignalementModal(props) {
           </textarea>
         </div>
         <div className={styles.modalBtnContainer}>
-          <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
+          <button className={styles.btn} onClick={props.onRequestClose}>Annuler</button>
           <button className={styles.btn} onClick={() => { }}>Valider</button>
         </div>
       </div>

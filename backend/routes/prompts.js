@@ -242,7 +242,37 @@ router.post("/searchMyPrompts", async (req, res) => {
 
 
 
+router.post("/searchCommunityPrompts", async (req, res) => {
 
+    if (!checkBody(req.body, ['search', 'email', 'token'])) {
+        res.json({ result: false, message: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    const splitSearch = req.body.search.trim();
+    let formattedSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
+    formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
+
+    let pipeline = [
+        {
+            $match: {
+                _id: foundUser._id,
+                // likedPrompts: new RegExp(formattedSearch, 'i')
+            }
+        },
+        {
+            $limit: 10
+        }
+    ];
+    searchResults = await User.aggregate(pipeline);
+
+    searchResults = await foundUser.populate(likedprompts);
+
+    res.json({ result: true, searchResults })
+})
 
 
 

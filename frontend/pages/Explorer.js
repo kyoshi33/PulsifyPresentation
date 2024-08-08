@@ -81,10 +81,11 @@ function Explorer() {
          })
          const res = await fetchKeyWord.json()
          if (res.result) {
-             setListProject(res.list)
+             setListProject(res.keywordList)
              setErrorSearch(false)
          } else {
              setErrorSearch(true)
+             setErrorMessage(res.error)
          }*/
     }
     const fetchProject = async () => {

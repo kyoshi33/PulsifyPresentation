@@ -2,7 +2,7 @@ import styles from '../styles/Signalement.module.css';
 import React from "react";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import styles from '../styles/ProjectModal.module.css';
+
 
 
 
@@ -18,16 +18,18 @@ function SignalementModal(props) {
       contentLabel="Example Modal">
       <div className={styles.content}>
         <div className={styles.modalTitleContent}>
-          <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
-
+          <h1 className={styles.modalTitle}>Signalement</h1>
         </div>
-        <p className={styles.promptContainer}>{props.prompt}</p>
-        <div className={styles.import}>
-          <input className={styles.inputImport} type="file" onChange={(e) => { setTempAudioFile(e.target.files); console.log(tempAudioFile) }} />
+        <div>
+          <p className={styles.text}>Signalez un commentaire innaproprié ou offensant </p>
+        </div>
+        <div className={styles.promptContainer} >
+          <textarea placeholder="Expliquer votre signalement ici..." className={styles.input}>
+          </textarea>
         </div>
         <div className={styles.modalBtnContainer}>
           <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-          <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile) }}>Valider</button>
+          <button className={styles.btn} onClick={() => { }}>Valider</button>
         </div>
       </div>
     </Modal>
@@ -55,6 +57,13 @@ function SignalementModal(props) {
   </div>
 
 </div>
-</body>*/
+</body>
+
+
+
+
+
+
+*/
 
 export default SignalementModal;

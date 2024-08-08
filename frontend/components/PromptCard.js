@@ -32,7 +32,7 @@ function PromptCard(props) {
 
     const displayUser =
         <div className={styles.author}>
-            <UserCard email='Doe' username='Julien' />
+            <UserCard email={props.firstname} username={props.username} />
         </div>;
 
     const displayXmark =

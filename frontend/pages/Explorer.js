@@ -42,6 +42,9 @@ function Explorer() {
     let colorDown = sortDown && '#504E6B'
 
     const fetchSearch = () => {
+        setSortUp(false)
+        setSortDown(false)
+
         if (checkedAutor) {
             fetchAutor()
             return
@@ -74,43 +77,44 @@ function Explorer() {
     }
     const fetchKeyword = async () => {
         // fetch des mots clés
-        /* const fetchKeyWord = await fetch('http://localhost:3000/', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ keyword: search }),
-         })
-         const res = await fetchKeyWord.json()
-         if (res.result) {
-             setListProject(res.keywordList)
-             setErrorSearch(false)
-         } else {
-             setErrorSearch(true)
-             setErrorMessage(res.error)
-         }*/
+        const fetchKeyWord = await fetch('http://localhost:3000/keywords/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ keyword: search }),
+        })
+        const res = await fetchKeyWord.json()
+        if (res.result) {
+            setListProject(res.keywordsList)
+            setErrorSearch(false)
+        } else {
+            setErrorSearch(true)
+            setErrorMessage(res.error)
+        }
     }
     const fetchProject = async () => {
         // fetch des projets 
-        /* const fetchProject = await fetch('http://localhost:3000/', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify({ project: search }),
-         })
-         const res = await fetchProject.json()
-         if (res.result) {
-             setListProject(res.list)
-             setErrorSearch(false)
-         } else {
-             setErrorSearch(true)
-         }*/
+        const fetchProject = await fetch('http://localhost:3000/prompts/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ genre: search }),
+        })
+        const res = await fetchProject.json()
+        if (res.result) {
+            setListProject(res.promptsList)
+            setErrorSearch(false)
+        } else {
+            setErrorSearch(true)
+            setErrorMessage(res.error)
+        }
     }
 
     let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.stars - a.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.stars - b.stars).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} /></div>) }) //classé par - liké first
     }
 
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
@@ -170,8 +174,8 @@ function Explorer() {
                         >
                             <FontAwesomeIcon icon={faFilter} className={styles.icon} onClick={() => setIsPopoverOpen(!isPopoverOpen)} color={colorFilter} />
                         </Popover>
-                        <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(!sortUp), setSortDown(false) }} />
-                        <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(!sortDown), setSortUp(false) }} />
+                        <FontAwesomeIcon icon={faSortAmountUp} className={styles.icon} color={colorUp} onClick={() => { setSortUp(true), setSortDown(false) }} />
+                        <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(true), setSortUp(false) }} />
                     </div>
                 </div>
 

@@ -15,6 +15,7 @@ function ModelCard(props) {
             <div className={styles.listItemTitle}>
                 Rockabilly
             </div>
+            <div className={styles.genre}>genre</div>
             <div className={styles.listItemPrompt}>
                 Jazz, rock, musette, flute
             </div>

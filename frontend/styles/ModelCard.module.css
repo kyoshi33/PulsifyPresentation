@@ -42,3 +42,12 @@
   align-items: center;
   padding-left: 3%;
 }
+
+.genre {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-right: #ffffff 1px solid;
+}

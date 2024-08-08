@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const messagesSchema = mongoose.Schema({
 
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: false },
-  text: String,
-  prompts: { type: mongoose.Schema.Types.ObjectId, ref: 'prompts', required: false },
-  creationDate: Date,
-  nbSignalements: Number,
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
+  text: { type: String, required: true },
+  prompt: { type: mongoose.Schema.Types.ObjectId, ref: 'prompts', required: true },
+  createdAt: { type: Date, required: true },
+  nbSignalements: { type: Number, required: true, default: 0 },
 
 
 });

@@ -7,6 +7,7 @@ const keywordsSchema = mongoose.Schema({
     average_rating: { type: Number, required: false },
     related_keywords: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'keywords' }], required: false },
     prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'prompts' }] },
+    genre: { type: String, required: true }
 });
 
 const Keyword = mongoose.model('keywords', keywordsSchema);

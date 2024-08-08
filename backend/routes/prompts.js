@@ -30,7 +30,7 @@ router.post("/add", async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         userId: foundUser._id,
-        date: new Date(),
+        createdAt: new Date(),
 
     })
     const savedPrompt = await newPrompt.save()
@@ -193,6 +193,65 @@ router.get("/suggestions", async (req, res) => {
     // Réponse avec la liste de suggestions
     res.json({ result: true, suggestionsList })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.post('/search', async (req, res) => {
+
+    if (!checkBody(req.body, ['genre'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    const fetchAllPrompts = await Prompt.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    if (fetchAllPrompts.length) {
+        const prompts = []
+        for (const populateUserId of fetchAllPrompts) {
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+        }
+        if (prompts.length) {
+            res.json({ result: true, promptsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Projet existant mais non public' })
+        }
+    } else {
+        res.json({ result: false, error: 'Projet non existant' })
+    }
+})
+
+//Récupérer la liste des projets enregistrés. 
+// router.get('/myproject', async (req, res) => {
+
+
+// })
 
 
 module.exports = router;

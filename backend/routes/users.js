@@ -102,7 +102,7 @@ router.post('/signup/google', (req, res) => {
       });
     } else {
       // L'utilisateur existe déjà en base de données
-      res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email });
+      res.json({ result: true, token: data.token, username: data.username, firstname: data.firstname, email: data.email, picture: data.picture });
     }
   });
 });
@@ -115,14 +115,12 @@ router.post('/search', async (req, res) => {
     return;
   }
 
-  const fetchAllUser = await User.find({ username: req.body.username })
-
-  if (fetchAllUser) {
+  const fetchAllUser = await User.find({ username: { $regex: new RegExp(req.body.username.toLowerCase(), "i") } })
+  if (fetchAllUser.length) {
     const prompts = []
 
     for (const user of fetchAllUser) {
       const userPromptsPopulated = await user.populate('prompts')
-      //const promptsUserIdPopulated = await userPromptsPopulated.populate('userId')
       for (const userIdInPrompt of userPromptsPopulated.prompts) {
         const userIdInPromptPopulated = await userIdInPrompt.populate('userId')
         userIdInPromptPopulated.isPublic && prompts.push(userIdInPromptPopulated)

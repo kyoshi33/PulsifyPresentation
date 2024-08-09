@@ -10,7 +10,7 @@ const Keyword = require("../models/keywords")
 
 router.post("/add", async (req, res) => {
 
-    if (!checkBody(req.body, ['genre', 'prompt', 'email', "username", "rating"])) {
+    if (!checkBody(req.body, ['genre', 'prompt', 'email', "username", "rating", "title"])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
@@ -50,10 +50,12 @@ router.post("/add", async (req, res) => {
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
     const existingKeywordIds = []
-    const keywordIds = []
+    const newKeywordIds = []
     for (const word of keywords) {
         const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre })
         if (foundExistingKeyword) {
+
+
             existingKeywordIds.push(foundExistingKeyword._id)
         } else {
 
@@ -66,22 +68,21 @@ router.post("/add", async (req, res) => {
                 genre: req.body.genre
             })
             const savedKeyword = await newKeyword.save()
-            console.log("coucou")
-            keywordIds.push(savedKeyword._id)
+
+            newKeywordIds.push(savedKeyword._id)
         }
     }
-    const promptKeywordsIds = [...keywordIds, ...existingKeywordIds]
+    const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds]
     await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
     )
 
     // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
 
-    if (keywordIds.length) {
-        for (const id of keywordIds) {
+    if (newKeywordIds.length) {
+        for (const id of newKeywordIds) {
             const foundKeywordById = await Keyword.findById(id)
-            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? keywordIds : keywordIds.filter(e => e !== id)
-            // console.log(keywordIds)
+            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? newKeywordIds : newKeywordIds.filter(e => e !== id)
             const allKeywordsIdsOfThisGenre = [...filteredKeywordIds, ...existingKeywordIds]
             await Keyword.updateOne({ _id: id, genre: req.body.genre }, {
                 $push: { related_keywords: allKeywordsIdsOfThisGenre }
@@ -93,18 +94,16 @@ router.post("/add", async (req, res) => {
     // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
-            const inexistingIds = []
             const foundKeywordById = await Keyword.findById(id)
             const populatedKeyword = await Keyword.findById(id).populate('prompts')
-
-            for (let i = 0; i < existingKeywordIds.length; i++) {
-                if (!populatedKeyword.related_keywords.some(e => String(e) === String(existingKeywordIds[i]))) {
-                    inexistingIds.push(existingKeywordIds[i])
+            const checkIntoNewIdsIfTheyArentPresent = []
+            for (let i = 0; i < newKeywordIds.length; i++) {
+                if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
+                    checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i])
                 }
             }
-            const filteredKeywordIds = keywords.filter(e => e === populatedKeyword.keyword).length > 0 ? inexistingIds : inexistingIds.filter(e => e !== id)
-            const updateRelatedKeywordId = [...filteredKeywordIds, ...keywordIds]
-            console.log("celuikonveuvoir", keywordIds)
+            const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent]
+
             let resultAverageRating = 0
             const promptKeywordsCount = (populatedKeyword.prompts).length
             for (const prompt of populatedKeyword.prompts) {
@@ -113,14 +112,14 @@ router.post("/add", async (req, res) => {
             if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
-                    $push: { related_keywords: updateRelatedKeywordId },
+                    related_keywords: updateRelatedKeywordId,
                     $push: { prompts: savedProject._id },
                     average_rating: resultAverageRating / promptKeywordsCount
                 })
             } else {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
-                    $push: { related_keywords: updateRelatedKeywordId },
+                    related_keywords: updateRelatedKeywordId,
                     average_rating: resultAverageRating / promptKeywordsCount
                 })
             }
@@ -209,7 +208,7 @@ router.get("/suggestions", async (req, res) => {
 
 
 
-router.post("/searchMyPrompts", async (req, res) => {
+router.post("/searchMyProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -241,7 +240,7 @@ router.post("/searchMyPrompts", async (req, res) => {
 
 
 
-router.post("/searchCommunityPrompts", async (req, res) => {
+router.post("/searchCommunityProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -283,28 +282,7 @@ router.post("/searchCommunityPrompts", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post('/search', async (req, res) => {
+router.post('/searchGenre', async (req, res) => {
 
     if (!checkBody(req.body, ['genre'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
@@ -312,6 +290,30 @@ router.post('/search', async (req, res) => {
     }
 
     const fetchAllPrompts = await Project.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    if (fetchAllPrompts.length) {
+        const prompts = []
+        for (const populateUserId of fetchAllPrompts) {
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+        }
+        if (prompts.length) {
+            res.json({ result: true, promptsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Genre existant mais non public' })
+        }
+    } else {
+        res.json({ result: false, error: 'Genre non existant' })
+    }
+})
+
+router.post('/searchTitle', async (req, res) => {
+
+    if (!checkBody(req.body, ['title'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

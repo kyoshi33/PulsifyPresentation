@@ -12,9 +12,6 @@ function ModelCard(props) {
 
     return (
         <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-                Rockabilly
-            </div>
             <div className={styles.genre}>{props.genre}</div>
             <div className={styles.listItemPrompt}>
                 Jazz, rock, musette, flute

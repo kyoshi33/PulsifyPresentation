@@ -27,9 +27,9 @@ function PromptCard(props) {
     }
 
 
-
     const user = useSelector((state) => state.user.value)
     const [isPlaying, setIsPlaying] = useState(false);
+
 
     const displayUser =
         <div className={styles.author}>
@@ -37,7 +37,7 @@ function PromptCard(props) {
         </div>;
 
     const displayXmark =
-        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} />
+        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt()} />
 
 
 

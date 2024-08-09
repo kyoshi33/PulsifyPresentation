@@ -97,7 +97,7 @@ function Project() {
             </div>
         ))
     );
-    console.log('genres :', genres)
+    // console.log('genres :', genres)
 
 
     // open and close Genres modal

@@ -22,10 +22,9 @@ function Explorer() {
     const [errorMessage, setErrorMessage] = useState('')
 
     //if no connect go welcome
-    /*if (user) {
+    if (user) {
         window.location.href = '/'
-        return
-    }*/
+    }
     // enelevé résultat recherche et error 
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {

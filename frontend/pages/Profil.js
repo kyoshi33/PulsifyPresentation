@@ -41,7 +41,7 @@ function Profil() {
   // }
 
   //fonction card ma bibliotheque
-  // useEffect(() => {
+
   const clickBibliotheque = () => {
     fetch('http://localhost:3000/users/modeles', {
       method: 'POST',
@@ -54,10 +54,14 @@ function Profil() {
           Error('Erreur lors de la récupération des prompts');
         } else {
           setListMesModeles(data.profil.prompts)
+
         }
         console.log(listMesModeles)
       });
   }
+  useEffect(() => {
+    clickBibliotheque();
+  }, []);
 
 
 

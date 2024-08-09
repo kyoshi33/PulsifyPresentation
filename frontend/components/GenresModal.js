@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 function GenresModal(props) {
     const user = useSelector((state) => state.user.value)
     const [genresList, setGenresList] = useState([])
+    const [includeCommunityFavorites, setIncludeCommunityFavorites] = useState(false); // State for checkbox
 
 
     //"Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"
@@ -30,6 +31,16 @@ function GenresModal(props) {
         }
     }
 
+    const fetchLikedGenres = async () => {
+        const fetchLikedGenres = await fetch('http://localhost:3000/users/genres', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: token }),
+        })
+        const resLikedGenres = await fetchLikedGenres.json()
+        setGenresList([...genresList, ...resLikedGenres])
+    }
+
 
 
     const handleClickOnGenre = (genre) => {
@@ -42,7 +53,17 @@ function GenresModal(props) {
         return (
             <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre}</div>
         )
-    })
+    });
+
+    // Handle checkbox toggle
+    const handleCheckboxChange = (event) => {
+        const isChecked = event.target.checked;
+        setIncludeCommunityFavorites(isChecked);
+        if (isChecked) {
+            fetchLikedGenres(); // Fetch liked genres if checked
+            console.log("coucou")
+        }
+    };
 
     return (
         <Modal
@@ -60,7 +81,10 @@ function GenresModal(props) {
                 </div>
                 <div className={styles.bottomGenreModal}>
                     <label className={styles.checkboxLabel}>
-                        <input type="checkbox" className={styles.checkBoxSuggestion} />
+                        <input type="checkbox"
+                            className={styles.checkBoxSuggestion}
+                            onChange={handleCheckboxChange} // Add onChange handler
+                        />
                         <span className={styles.customCheckbox}></span>
                         Intégrez les favoris de la communauté
                     </label>

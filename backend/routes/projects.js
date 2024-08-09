@@ -240,7 +240,7 @@ router.post("/searchMyGenres", async (req, res) => {
             }
         },
         {
-            $limit: 10
+            $limit: 20
         }
     ];
 
@@ -288,7 +288,7 @@ router.post("/searchCommunityGenres", async (req, res) => {
             }
         },
         {
-            $limit: 10
+            $limit: 20
         }
     ];
 

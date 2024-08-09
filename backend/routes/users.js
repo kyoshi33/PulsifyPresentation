@@ -148,8 +148,6 @@ router.post('/modeles', async (req, res) => {
     return;
   }
   const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-
-  console.log(await foundUser.populate('prompts'))
   if (foundUser) {
     res.json({ result: true, profil: foundUser })
   } else {

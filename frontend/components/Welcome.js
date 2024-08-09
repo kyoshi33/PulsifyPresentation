@@ -1,6 +1,7 @@
 import styles from '../styles/Welcome.module.css';
 import { useState } from 'react'
 import Header from './Header';
+import ArrowDiagram from './ArrowDiagram';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link'
@@ -100,8 +101,12 @@ function Welcome() {
         <div className={styles.tutoTextContainer}>
           <h3 className={styles.tutoTitleText2}>Economisez vos crédits grâce à des invites de plus en plus pertinentes !</h3>
           <p className={styles.tutoText}>Choisissez des styles musicaux qui correspondent à ce que vous souhaitez générer et ajustez au fur et à mesure</p>
-          <div className={styles.tutoText}>Sans Pulsify, 200 essais.</div>
-          <div className={styles.tutoText}>Avec Pulsify, 20 essais.</div>
+
+
+
+          <div className={styles.straightArrowDiagram}>
+            <ArrowDiagram />
+          </div>
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>

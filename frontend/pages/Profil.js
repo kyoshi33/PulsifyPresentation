@@ -52,6 +52,7 @@ function Profil() {
           Error('Erreur lors de la récupération des prompts');
         } else {
           setListMesModeles(data.profil.prompts)
+          setListCommunaute(data.profil.likedprompts)
         }
         console.log(listMesModeles)
       });
@@ -63,7 +64,7 @@ function Profil() {
 
 
 
-  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} id="track5" stars={data.rating} projectName={data.title} prompt={data.prompt} /></div>) })
+  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} /></div>) })
 
 
   let display =
@@ -81,32 +82,6 @@ function Profil() {
       </div>
   }
 
-  <div className={styles.profilesContainer}>
-    <div>
-
-      <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-    </div>
-
-  </div>
-
-
-  const clickFavoris = () => {
-    fetch('http://localhost:3000/users/modeles', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email })
-    })
-      .then(response => response.json())
-
-      .then(data => {
-        if (!data) {
-          Error('Erreur lors de la récupération des prompts');
-        } else {
-          setListCommunaute(data.profil.likedprompts)
-        }
-        console.log(listCommunaute)
-      });
-  }
 
   // let listBibliotheque = listMesModeles.map((data, i) => {
   //   return (<div className={styles.modelChoiceContainer}>
@@ -215,10 +190,10 @@ function Profil() {
 
       <div className={styles.selectModelContainer}>
         <div className={styles.tabBar}>
-          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false); clickBibliotheque() }}>
+          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
             Mes modèles
           </div>
-          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false); clickFavoris() }} >
+          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
             Communauté
           </div>
         </div>

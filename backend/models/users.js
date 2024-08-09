@@ -11,11 +11,11 @@ const userSchema = mongoose.Schema({
         default: null
     },
     token: { type: String, required: true },
-    prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'prompts' }], required: false, default: [] },
+    prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'projects' }], required: false, default: [] },
     likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'likedprompts' }], required: false, default: [] },
     firstname: { type: String, required: true },
     picture: { type: String, required: false },
-    createdAt: { type: Date, required: true },
+    createdAt: { type: Date, default: new Date() },
 });
 
 const User = mongoose.model('users', userSchema);

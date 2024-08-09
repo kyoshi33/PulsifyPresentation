@@ -27,7 +27,6 @@
   font-weight: 400;
 }
 
-/* Frame 21 */
 .btn {
   cursor: pointer;
   background-color: #474C7C;
@@ -41,8 +40,25 @@
   margin: 5px;
 }
 
-
 .btn:hover {
+  background-color: #B300F2;
+  /* Hover effect */
+}
+
+.btnSignup {
+  cursor: pointer;
+  background-color: transparent;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  width: 15vw;
+  height: 7vh;
+  border: solid #B300F2 1px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.btnSignup:hover {
   background-color: #B300F2;
   /* Hover effect */
 }

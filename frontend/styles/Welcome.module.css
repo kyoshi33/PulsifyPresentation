@@ -73,7 +73,7 @@
 
 .tutoFooter button {
   flex: 1;
-  max-width: 120px;
+  width: 120px;
   margin-left: 15%;
   margin-right: 15vw;
 }
@@ -129,7 +129,7 @@
 }
 
 .emptyDiv {
-  width: 12vw;
+  width: 12.5vw;
   margin-left: 15%;
   margin-right: 15vw;
 }

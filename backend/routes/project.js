@@ -3,7 +3,7 @@ var router = express.Router();
 require('../models/connection');
 const { checkBody } = require('../modules/tools')
 
-const Prompt = require('../models/prompts');
+const Project = require('../models/projects');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
 
@@ -21,7 +21,7 @@ router.post("/add", async (req, res) => {
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
-    const newPrompt = new Prompt({
+    const newProject = new Project({
         genre: req.body.genre,
         prompt: promptToSplitWithoutComa,
         audio: req.body.audio,
@@ -30,14 +30,13 @@ router.post("/add", async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         userId: foundUser._id,
-        createdAt: new Date(),
         title: req.body.title
     })
-    const savedPrompt = await newPrompt.save()
+    const savedProject = await newProject.save()
 
     // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt.
     await User.updateOne({ email: req.body.email },
-        { $push: { prompts: savedPrompt._id } }
+        { $push: { prompts: savedProject._id } }
     )
 
     // Récupérer les keywords de manière formatée 
@@ -63,7 +62,7 @@ router.post("/add", async (req, res) => {
                 keyword: word,
                 frequency: 1,
                 average_rating: req.body.rating,
-                prompts: savedPrompt._id,
+                prompts: savedProject._id,
                 genre: req.body.genre
             })
             const savedKeyword = await newKeyword.save()
@@ -72,7 +71,7 @@ router.post("/add", async (req, res) => {
         }
     }
     const promptKeywordsIds = [...keywordIds, ...existingKeywordIds]
-    await Prompt.updateOne({ _id: savedPrompt._id },
+    await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
     )
 
@@ -111,11 +110,11 @@ router.post("/add", async (req, res) => {
             for (const prompt of populatedKeyword.prompts) {
                 resultAverageRating += prompt.rating
             }
-            if (!foundKeywordById.prompts.some(e => String(e) === String(savedPrompt._id))) {
+            if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
                     $push: { related_keywords: updateRelatedKeywordId },
-                    $push: { prompts: savedPrompt._id },
+                    $push: { prompts: savedProject._id },
                     average_rating: resultAverageRating / promptKeywordsCount
                 })
             } else {
@@ -128,7 +127,7 @@ router.post("/add", async (req, res) => {
         }
     }
 
-    res.json({ result: true, prompt: savedPrompt })
+    res.json({ result: true, prompt: savedProject })
 })
 
 
@@ -164,7 +163,7 @@ router.get("/suggestions", async (req, res) => {
     const weight_frequency = 0.3;
 
     // Récupération de l'id du prompt
-    const actualPrompt = await Prompt.findOne({ userId: foundUser._id, genre: req.body.genre });
+    const actualPrompt = await Project.findOne({ userId: foundUser._id, genre: req.body.genre });
     const actualPromptId = actualPrompt._id;
 
     // Création de la pipeline Mongoose
@@ -235,7 +234,7 @@ router.post("/searchMyPrompts", async (req, res) => {
             $limit: 10
         }
     ];
-    searchResults = await Prompt.aggregate(pipeline);
+    searchResults = await Project.aggregate(pipeline);
 
     res.json({ result: true, searchResults })
 })
@@ -312,7 +311,7 @@ router.post('/search', async (req, res) => {
         return;
     }
 
-    const fetchAllPrompts = await Prompt.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    const fetchAllPrompts = await Project.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

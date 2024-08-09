@@ -6,8 +6,10 @@ const keywordsSchema = mongoose.Schema({
     frequency: { type: Number, required: true, default: 0 },
     average_rating: { type: Number, required: false },
     related_keywords: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'keywords' }], required: false },
-    prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'prompts' }] },
-    genre: { type: String, required: true }
+    prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'projects' }] },
+    genre: { type: String, required: true },
+    ia: { type: String, required: false, default: "Suno" }
+
 });
 
 const Keyword = mongoose.model('keywords', keywordsSchema);

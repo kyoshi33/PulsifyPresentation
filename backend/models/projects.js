@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const promptsSchema = mongoose.Schema({
+const projectsSchema = mongoose.Schema({
     prompt: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: false },
     keywords: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'keywords' }], required: false },
@@ -13,9 +13,10 @@ const promptsSchema = mongoose.Schema({
     rating: { type: Number, required: false },
     isPublic: { type: Boolean, required: true },
     nbSignalements: { type: Number, required: false },
-    createdAt: { type: Date, required: true }
+    createdAt: { type: Date, default: new Date() },
+    ia: { type: String, required: false, default: "Suno" }
 });
 
-const Prompt = mongoose.model('prompts', promptsSchema);
+const Project = mongoose.model('projects', projectsSchema);
 
-module.exports = Prompt;
+module.exports = Project;

@@ -23,47 +23,50 @@ function ProjectModal(props) {
 
 
     const uploadPrompt = async (files) => {
-        const formData = new FormData();
-        const cloudinaryPresset = process.env.NEXT_PUBLIC_PRESSET_CLOUDINARY;
+        if (user.token) {
 
 
-        if (files) {
-            formData.append("file", files[0]);
-            formData.append("upload_preset", cloudinaryPresset);
-            fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    setAudio(data.secure_url);
+            const formData = new FormData();
+            const cloudinaryPresset = process.env.NEXT_PUBLIC_PRESSET_CLOUDINARY;
 
-                });
+
+            if (files) {
+                formData.append("file", files[0]);
+                formData.append("upload_preset", cloudinaryPresset);
+                fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setAudio(data.secure_url);
+
+                    });
+            }
+
+            score === 0 && (setDisplayMessage('Merci de renseigner une note !'));
+
+            const dataForPrompt = {
+                genre: props.projectGenre,
+                prompt: props.prompt,
+                audio: audio,
+                rating: score,
+                isPublic: isPublic,
+                username: user.username,
+                email: user.email,
+                token: user.token,
+                title: props.projectTitle
+
+            }
+
+            if (score != 0) {
+                const saveDataForPrompt = await fetch("http://localhost:3000/projects/add", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataForPrompt)
+                })
+            }
         }
-
-        score === 0 && (setDisplayMessage('Merci de renseigner une note !'));
-
-        const dataForPrompt = {
-            genre: props.projectGenre,
-            prompt: props.prompt,
-            audio: audio,
-            rating: score,
-            isPublic: isPublic,
-            username: user.username,
-            email: user.email,
-            token: user.token,
-            title: props.projectTitle
-
-        }
-
-        if (score != 0) {
-            const saveDataForPrompt = await fetch("http://localhost:3000/projects/add", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataForPrompt)
-            })
-        }
-
     };
 
     return (

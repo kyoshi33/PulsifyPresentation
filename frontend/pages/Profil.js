@@ -8,6 +8,8 @@ import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
 import { faArrowRightFromBracket, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
+import Image from 'next/image'
+
 
 
 function Profil() {
@@ -209,7 +211,15 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} firstname={user.firstname} />
+        <div className={styles.profilesContainer}>
+          {user.picture ? <Image className={styles.profilPicture} src={user.picture} width={"70%"} height={"70%"} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
+
+
+          <div className={styles.namediv}>
+            <h3 className={styles.nom}> {user.firstname}</h3>
+            <h4 className={styles.identifiant}>@{user.username}</h4>
+          </div>
+        </div>
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
 

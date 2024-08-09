@@ -157,18 +157,18 @@ router.post('/modeles', async (req, res) => {
   }
 })
 
-router.get('/genres', async (req, res) => {
+router.post('/genres', async (req, res) => {
   if (!checkBody(req.body, ['token'])) {
     res.json({ result: false, error: 'Connectez vous.' });
     return;
-  } else {
-    const user = await User.findOne({ token: req.body.token })
-    if (user) {
-      res.json({ result: true, genres: user.genres })
-    } else {
-      res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
-    }
   }
+  const user = await User.findOne({ token: req.body.token })
+  if (user) {
+    res.json({ result: true, genres: user.genres })
+  } else {
+    res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
+  }
+
 })
 
 

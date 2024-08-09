@@ -156,5 +156,19 @@ router.get('/modeles', (req, res) => {
     })
 })
 
+router.get('/genres', async (req, res) => {
+  if (!checkBody(req.body, ['token'])) {
+    res.json({ result: false, error: 'Connectez vous.' });
+    return;
+  } else {
+    const user = await User.findOne({ token: req.body.token })
+    if (user) {
+      res.json({ result: true, genres: user.genres })
+    } else {
+      res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
+    }
+  }
+})
+
 
 module.exports = router;

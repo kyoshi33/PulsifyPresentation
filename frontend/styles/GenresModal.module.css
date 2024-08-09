@@ -54,7 +54,7 @@
 }
 
 .genresContainer {
-    height: 100%;
+    height: 80%;
     width: 60%;
     display: flex;
     flex-direction: column;
@@ -121,4 +121,69 @@
 .genresBtn:hover {
     background-color: #B300F2;
     /* Hover effect */
+}
+
+.bottomGenreModal {
+
+    color: white;
+    display: flex;
+    justify-content: right;
+    text-align: right;
+    font-size: x-small;
+    margin-top: 3%;
+
+}
+
+.checkBoxSuggestion {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.customCheckbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #474c7c;
+    border: 1px solid #b300f2;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-right: 10px;
+    /* Space between checkbox and label text */
+}
+
+.customCheckbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.checkBoxSuggestion:checked+.customCheckbox {
+    background-color: #b300f2;
+    border-color: #fff;
+}
+
+/* Display the tick when checked */
+.checkBoxSuggestion:checked+.customCheckbox::after {
+    display: block;
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+}
+
+/* Hover effect */
+.checkboxLabel:hover .customCheckbox {
+    background-color: #676587;
+    border-color: #fff;
 }

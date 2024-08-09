@@ -12,7 +12,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let spotifyRouter = require('./routes/spotify')
-var projectsRouter = require('./routes/project');
+var projectsRouter = require('./routes/projects');
 var keywordsRouter = require('./routes/keywords');
 
 var app = express();

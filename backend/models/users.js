@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
 
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    google_id: { type: Number, required: false, default: null, unique: true, sparse: true /* Permet les valeurs nulles*/ },
+    google_id: { type: Number, required: false, unique: false, sparse: true /* Permet les valeurs nulles*/ },
     password: {
         type: String,
         required: function () { return !this.google_id; /* Le mot de passe est requis uniquement si google_id n'est pas défini */ },

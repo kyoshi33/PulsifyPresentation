@@ -23,6 +23,12 @@ function Project() {
     const [projectGenre, setProjectGenre] = useState('')
     const router = useRouter();
 
+    // Function to handle setting the genre from the modal
+    const handleGenreSelect = (selectedGenre) => {
+        setProjectGenre(selectedGenre);
+        closeGenresModal(); // Close the modal after selection
+    };
+
 
     //set a list of all suggestions, TODO: fetch on BD
     let suggestion = suggestionsList.map((data, i) => {
@@ -213,7 +219,9 @@ function Project() {
                     />
                     <GenresModal isOpen={genresModalIsOpen}
                         onRequestClose={closeGenresModal}
-                        projectGenre={projectGenre} />
+                        projectGenre={projectGenre}
+                        onSelectGenre={handleGenreSelect} // Pass handler to modal
+                    />
                 </div>
             </div>
         </div>

@@ -113,7 +113,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -126,7 +126,7 @@ function Accueil() {
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -136,7 +136,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}

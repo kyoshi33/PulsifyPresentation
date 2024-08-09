@@ -142,12 +142,11 @@ router.post('/search', async (req, res) => {
 
 
 router.post('/modeles', async (req, res) => {
-  console.log('coucou')
   if (!checkBody(req.body, ['email'])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts', 'likedprompts')
+  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
   if (foundUser) {
     res.json({ result: true, profil: foundUser })
   } else {

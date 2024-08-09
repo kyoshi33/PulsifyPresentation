@@ -19,6 +19,7 @@ function Profil() {
   const [communaute, setCommunaute] = useState(false);
 
 
+
   const handleLogout = () => {
     dispatch(logout());
     window.location.href = '/';
@@ -36,22 +37,26 @@ function Profil() {
     };
   }
 
-  /*fonction card ma bibliotheque
-   const clickBibliotheque = () => {
-     fetch('http://localhost:3000/', {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ email: data.email })
-     })
-       .then(response => response.json())
-       .then(data => {
-         if (!data) {
-           Error('Erreur lors de la récupération des prompts');
-         } else {
-           setMaBibliotheque(data.prompts)
-         }
-       });
-   }*/
+  //fonction card ma bibliotheque
+
+  const clickBibliotheque = () => {
+    fetch('http://localhost:3000/users/modeles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: req.email })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data) {
+          Error('Erreur lors de la récupération des prompts');
+        } else {
+          setMaBibliotheque(data.prompts)
+        }
+      });
+  }
+
+  /*let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard key={i} stars={data.rating} projectName={data.genre} prompt={data.prompt} /></div>) }) /> })*/
+
 
   let display =
     <div className={styles.modelChoiceContainer}>
@@ -62,11 +67,11 @@ function Profil() {
       <div className={styles.modelChoiceContainer}>
         <div className={styles.scrollWindow}>
           <div className={styles.promptCard} >
-            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} id="track1" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} id="track2" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} id="track3" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} id="track4" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            <PromptCard isOnProfile={true} id="track5" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
           </div>
         </div>
       </div>
@@ -179,14 +184,14 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} email={user.firstname} />
+        <UserCard username={user.username} firstname={user.firstname} />
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
 
 
       <div className={styles.selectModelContainer}>
         <div className={styles.tabBar}>
-          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
+          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false); clickBibliotheque() }}>
             Mes modèles
           </div>
           <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >

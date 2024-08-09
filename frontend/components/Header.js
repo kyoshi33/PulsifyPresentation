@@ -15,7 +15,7 @@ function Header() {
     let topMenu =
         <div className={styles.btnContainer}>
             <Link href='/SignUp'>
-                <button className={styles.btn}>Inscription</button>
+                <button className={styles.btnSignup}>Inscription</button>
             </Link>
             <Link href='/Login'>
                 <button className={styles.btn}>Connexion</button>

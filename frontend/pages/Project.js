@@ -9,7 +9,7 @@ import ProjectModal from '../components/ProjectModal';
 import GenresModal from '../components/GenresModal';
 import Header from '../components/Header';
 
-function Project(props) {
+function Project() {
     const user = useSelector((state) => state.user.value)
     const [projectTitle, setProjectTitle] = useState("");
     const [prompt, setPrompt] = useState("")
@@ -19,7 +19,11 @@ function Project(props) {
     const [searchResults, setSearchResults] = useState([])
     const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"]);
     const [isCopied, setIsCopied] = useState(false);
-    const [projectGenre, setProjectGenre] = useState('')
+    const [projectGenre, setProjectGenre] = useState('');
+    const [titleIsInvalid, setTitleIsInvalid] = useState(false);
+    const [genreIsInvalid, setGenreIsInvalid] = useState(false);
+    const [promptIsInvalid, setPromptIsInvalid] = useState(false);
+    const [blink, setBlink] = useState(false);
 
     const router = useRouter();
 
@@ -108,10 +112,27 @@ function Project(props) {
         ))
     );
 
+    const triggerBlink = () => {
+        setBlink(true);
+        setTimeout(() => {
+            setBlink(false);
+        }, 200); // Change la bordure en noir après 200ms
+
+        setTimeout(() => {
+            setBlink(true);
+        }, 400); // Réapplique la bordure rouge après 400ms
+
+        setTimeout(() => {
+            setBlink(false);
+        }, 800); // Finalise en réappliquant la bordure noire après 800ms
+    }
+
 
     // open and close Genres modal
     const openGenresModal = () => {
+
         setGenresModalIsOpen(true)
+
     }
     const closeGenresModal = () => {
         setGenresModalIsOpen(false)
@@ -121,8 +142,29 @@ function Project(props) {
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
         if (prompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
-            alert('Renseignez un titre, un genre et un prompt pour votre projet.')
+            if (prompt.length === 0) {
+                setPromptIsInvalid(true);
+            } else {
+                setPromptIsInvalid(false);
+            }
+            if (projectTitle.length === 0) {
+                setTitleIsInvalid(true);
+            } else {
+                setTitleIsInvalid(false);
+            }
+            if (projectGenre.length === 0) {
+                setGenreIsInvalid(true);
+            } else {
+                setGenreIsInvalid(false);
+            }
+            triggerBlink();
+            setTimeout(() => {
+                alert('Renseignez un titre, un genre et un prompt pour votre projet.')
+            }, 1000)
         } else {
+            setGenreIsInvalid(false);
+            setPromptIsInvalid(false);
+            setTitleIsInvalid(false);
             setIsOpen(true)
         }
     }
@@ -167,6 +209,11 @@ function Project(props) {
                             <input className={styles.inputProjectTitle}
                                 placeholder='Nom du projet'
                                 onChange={(e) => setProjectTitle(e.target.value)}
+                                style={{
+                                    border: titleIsInvalid && blink && '2px solid red',
+                                    padding: '10px',
+                                    outline: 'none',
+                                }}
                                 value={projectTitle}
                                 maxLength={40}
                             ></input>
@@ -177,6 +224,11 @@ function Project(props) {
                                 <input className={styles.inputGenreProject}
                                     placeholder='Genre du projet'
                                     onChange={(e) => setProjectGenre(e.target.value)}
+                                    style={{
+                                        border: genreIsInvalid && blink && '2px solid red',
+                                        padding: '10px',
+                                        outline: 'none',
+                                    }}
                                     value={projectGenre}
                                     maxLength={40}>
                                 </input>
@@ -192,6 +244,11 @@ function Project(props) {
                         <textarea className={styles.inputProjectPrompt}
                             placeholder='Entrez votre prompt ici'
                             onChange={(e) => setPrompt(e.target.value)}
+                            style={{
+                                border: promptIsInvalid && blink && '2px solid red',
+                                padding: '10px',
+                                outline: 'none',
+                            }}
                             value={prompt}
                             maxLength={120}
                             onKeyPress={e => {

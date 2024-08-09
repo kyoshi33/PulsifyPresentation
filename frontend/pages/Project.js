@@ -31,6 +31,8 @@ function Project() {
         closeGenresModal(); // Close the modal after selection
     };
 
+
+    // function to call route to get genre form user id
     const fetchSuggestionsFromGenre = async (genre) => {
         const fetchSuggestions = await fetch('http://localhost:3000/suggestions')
         const resSuggestions = await fetchSuggestions.json()
@@ -49,6 +51,8 @@ function Project() {
         )
     }
     );
+
+    //function to handle the copy/paste of the prompt
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(prompt).then(() => {
             setIsCopied(true); // Set the copied state to true
@@ -74,14 +78,17 @@ function Project() {
         setSearchResults(res)
     }
 
+    // launch search on spotify when search input activated and on 'Enter' key press
     const handleSearchKeyDown = (event) => {
         if (event.key === 'Enter') {
             fetchGenreArtistOnSpotify(search);
         }
     }
+    //console.log('searchResults :', searchResults)
 
-    console.log('searchResults :', searchResults)
-    const genres = searchResults.length === 0 ? (
+
+    // map to display all the genres from an artist
+    const genres = searchResults.length === 0 && search.length > 0 ? (
         <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div>
     ) : (
         searchResults.map((data, i) => (
@@ -92,10 +99,11 @@ function Project() {
     );
     console.log('genres :', genres)
 
+
+    // open and close Genres modal
     const openGenresModal = () => {
         setGenresModalIsOpen(true)
     }
-
     const closeGenresModal = () => {
         setGenresModalIsOpen(false)
     }

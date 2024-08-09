@@ -25,7 +25,7 @@ router.post('/signup', (req, res) => {
   }
 
   // Vérifier que l'utilisateur n'existe pas déjà en base de données
-  User.findOne({ username: req.body.username }).then(data => {
+  User.findOne({ username: req.body.username, email: req.body.email }).then(data => {
     if (data === null) {
       const hash = bcrypt.hashSync(req.body.password, 10);
 
@@ -154,6 +154,20 @@ router.post('/modeles', async (req, res) => {
     res.json({ result: true, profil: foundUser })
   } else {
     res.json({ result: false })
+  }
+})
+
+router.get('/genres', async (req, res) => {
+  if (!checkBody(req.body, ['token'])) {
+    res.json({ result: false, error: 'Connectez vous.' });
+    return;
+  } else {
+    const user = await User.findOne({ token: req.body.token })
+    if (user) {
+      res.json({ result: true, genres: user.genres })
+    } else {
+      res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
+    }
   }
 })
 

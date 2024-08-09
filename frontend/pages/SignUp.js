@@ -17,10 +17,10 @@ function SignUp() {
     const [confirmPassword, setconfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false)
     const [showRePassword, setShowRePassword] = useState(false)
-    const [isIdentical, setIsIdentical] = useState(false)
-    const [isValidEmail, setisValidEmail] = useState(false)
-    const [isValidUsername, setIsValidUsername] = useState(false)
-    const [isValidName, setIsValidName] = useState(false)
+    const [isIdentical, setIsIdentical] = useState(true)
+    const [isValidEmail, setisValidEmail] = useState(true)
+    const [isValidUsername, setIsValidUsername] = useState(true)
+    const [isValidName, setIsValidName] = useState(true)
     const [errorLogin, setErrorLogin] = useState(false);
 
     const dispatch = useDispatch();
@@ -56,11 +56,6 @@ function SignUp() {
         const res = await fetchSignin.json()
         if (res.result) {
             dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email }));
-            setEmail('')
-            setUsername('')
-            setName('')
-            setPassword('')
-            setconfirmPassword('')
             window.location.href = '/Accueil'
         } else {
             setErrorLogin(true)
@@ -139,11 +134,11 @@ function SignUp() {
 
                     <input className={styles.input} type="email"
                         title="Email invalide" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    {isValidEmail && mailMessage}
+                    {!isValidEmail && mailMessage}
                     <input className={styles.input} placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)} value={username} />
-                    {isValidUsername && usernameMessage}
+                    {!isValidUsername && usernameMessage}
                     <input className={styles.input} placeholder="Prénom" onChange={(e) => setName(e.target.value)} value={name} />
-                    {isValidName && nameMessage}
+                    {!isValidName && nameMessage}
 
                     <div className={styles.inputPassword}>
                         <input className={styles.password} type={showPassword ? "text" : "password"}
@@ -155,11 +150,11 @@ function SignUp() {
                             placeholder="Confirmation mot de passe" onChange={(e) => setconfirmPassword(e.target.value)} value={confirmPassword} required />
                         {rePasswordEye}
                     </div>
-                    {isIdentical && passwordMessage}
+                    {!isIdentical && passwordMessage}
 
                     <h3 className={styles.h3}> En créant un compte, vous acceptez les conditions d'utilisation et la politique de confidentialité </h3>
                     <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
-                    {errorLogin && errorMessage}
+                    {!errorLogin && errorMessage}
                     <div className={styles.returnBtn}>
                         <button className={styles.createBtn} onClick={() => window.location.href = "/"}>Retour</button>
                     </div>

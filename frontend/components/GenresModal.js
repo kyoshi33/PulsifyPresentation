@@ -2,19 +2,26 @@ import React, { useEffect } from "react";
 import Modal from 'react-modal';
 import styles from '../styles/GenresModal.module.css';
 import { Component, useState } from 'react';
+import { useSelector } from "react-redux";
 
 function GenresModal(props) {
+    const user = useSelector((state) => state.user.value)
     const [genresList, setGenresList] = useState(["Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"])
 
+    // console.log('token :', user.token)
+    // useEffect(() => {
+    //     fetchAllGenres
 
-    useEffect(() => {
-        const fetchAllGenres = async () => {
-            const fetchGenres = await fetch('http://localhost:3000/genres')
-            const resGenre = await fetchGenres.json()
-            setGenresList(resGenre)
-        }
+    // }, []);
 
-    }, [])
+    // const fetchAllGenres = async (token) => {
+    //     let token = user.token
+    //     if (token) {
+    //         const fetchGenres = await fetch('http://localhost:3000/genres')
+    //         const resGenre = await fetchGenres.json()
+    //         setGenresList(resGenre)
+    //     }
+    // }
 
 
     const handleClickOnGenre = (genre) => {

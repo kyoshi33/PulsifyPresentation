@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 
 function UserCard(props) {
   const user = useSelector((state) => state.user.value)
-  console.log(props)
-  console.log(user)
   let profil =
     <div className={styles.profilesContainer}>
       <img className={styles.profilesPic} src={user.picture} alt='photo de profil' />

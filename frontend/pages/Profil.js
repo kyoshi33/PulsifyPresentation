@@ -17,7 +17,7 @@ function Profil() {
   const [selectedTab, setSelectedTab] = useState(1);
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [communaute, setCommunaute] = useState(false);
-
+  const [listMesModeles, setListMesModeles] = useState([]);
 
 
   const handleLogout = () => {
@@ -25,17 +25,17 @@ function Profil() {
     window.location.href = '/';
   }
   // fonction supprime un prompt
-  const removePrompt = () => {
-    (prompts, id) => {
-      return ''.filter(prompts => prompts.id !== id);
-    };
-  }
+  // const removePrompt = () => {
+  //   (prompts, id) => {
+  //     return ''.filter(prompts => prompts.id !== id);
+  //   };
+  // }
 
-  //fonction lancer un prompt
-  const playPrompt = () => {
-    (cards, id) => {
-    };
-  }
+  // //fonction lancer un prompt
+  // const playPrompt = () => {
+  //   (cards, id) => {
+  //   };
+  // }
 
   //fonction card ma bibliotheque
 
@@ -43,20 +43,24 @@ function Profil() {
     fetch('http://localhost:3000/users/modeles', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: req.email })
+      body: JSON.stringify({ email: user.email })
     })
+
       .then(response => response.json())
+
       .then(data => {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          setMaBibliotheque(data.prompts)
+          setListMesModeles(data.profil)
         }
+        console.log(listMesModeles)
       });
   }
 
-  /*let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard key={i} stars={data.rating} projectName={data.genre} prompt={data.prompt} /></div>) }) /> })*/
 
+  // let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard key={i} stars={data.rating} projectName={data.genre} prompt={data.prompts} name={data.username} /></div>) })
+  // console.log(listBibliotheque)
 
   let display =
     <div className={styles.modelChoiceContainer}>

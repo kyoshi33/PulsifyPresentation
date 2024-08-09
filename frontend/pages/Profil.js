@@ -67,6 +67,7 @@ function Profil() {
 
   let display =
     <div className={styles.modelChoiceContainer}>
+      {listBibliotheque}
     </div>
   if (maBibliotheque) {
     display =

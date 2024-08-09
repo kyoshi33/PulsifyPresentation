@@ -4,8 +4,21 @@ import styles from '../styles/GenresModal.module.css';
 import { Component, useState } from 'react';
 
 function GenresModal(props) {
-    return (
+    const [genresList, setGenresList] = useState(["Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"])
 
+    const handleClickOnGenre = (genre) => {
+        props.handleGenreSelect(genre)
+    }
+
+
+
+    const genreButtons = genresList.map((genre, i) => {
+        return (
+            <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre}</div>
+        )
+    })
+
+    return (
         <Modal
             isOpen={props.isOpen}
             className={styles.modalContainer}
@@ -17,15 +30,7 @@ function GenresModal(props) {
 
                 </div>
                 <div className={styles.genresContainer}>
-                    <div className={styles.genresBtn}>Rock </div>
-                    <div className={styles.genresBtn}>Folk </div>
-                    <div className={styles.genresBtn}>Classic </div>
-                    <div className={styles.genresBtn}>Jazz </div>
-                    <div className={styles.genresBtn}>Indie </div>
-                    <div className={styles.genresBtn}>Transe </div>
-                    <div className={styles.genresBtn}>Drum'n'Bass </div>
-                    <div className={styles.genresBtn}>Couilles </div>
-                    <div className={styles.genresBtn}>Chocolat </div>
+                    {genreButtons}
                 </div>
 
             </div>

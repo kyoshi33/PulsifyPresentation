@@ -37,11 +37,22 @@ router.post("/searchMyGenres", async (req, res) => {
         },
         {
             $limit: 20
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userId'
+            }
+        },
+        {
+            $unwind: '$userId'
         }
     ];
 
     // Recherche grâce à la pipeline
-    const searchResults = await Project.aggregate(pipeline);
+    let searchResults = await Project.aggregate(pipeline);
 
     // Si la recherche est vide, afficher tous les résultats
     if (req.body.search = '') {
@@ -85,16 +96,29 @@ router.post("/searchCommunityGenres", async (req, res) => {
         },
         {
             $limit: 20
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'userId'
+            }
+        },
+        {
+            $unwind: '$userId'
         }
     ];
 
     // Recherche grâce à la pipeline
-    const searchResults = await Project.aggregate(pipeline);
+    let searchResults = await Project.aggregate(pipeline);
 
     // Si la recherche est vide, afficher tous les résultats
     if (req.body.search = '') {
-        searchResults = Project.find({ isPublic: true })
+        searchResults = await Project.find({ isPublic: true })
     }
+
+
 
     res.json({ result: true, searchResults })
 })

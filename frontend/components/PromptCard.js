@@ -82,6 +82,7 @@ function PromptCard(props) {
                             {props.projectName}
                         </div>
                     </div>
+                    <div className={styles.genre}>{props.genre}</div>
 
                     <div className={styles.score}>
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 1 ? styles.star : styles.starGrey} />

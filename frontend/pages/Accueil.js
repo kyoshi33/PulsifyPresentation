@@ -93,21 +93,27 @@ function Accueil() {
             const myProjects = listProjects;
             if (listProjects.length && search.length) {
                 mappedProjects = listProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
+                    let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
+                    let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
@@ -116,21 +122,27 @@ function Accueil() {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
-                    let { prompt, genre, titre } = project;
+                    let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
+                    let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });

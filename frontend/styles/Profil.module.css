@@ -30,10 +30,10 @@
 
 .profilesPic {
   display: flex;
-  max-width: 120%;
-  max-height: 120%;
+  max-width: 100%;
+  max-height: 100%;
   cursor: pointer;
-  margin-left: 5%;
+  margin: 5%;
   border-radius: 50%;
 }
 
@@ -268,8 +268,8 @@
 
 .icon {
   color: #ffffff;
-  width: 50px;
-  height: 50px;
+  width: 20%;
+  height: 70%;
   margin: 10px;
 }
 

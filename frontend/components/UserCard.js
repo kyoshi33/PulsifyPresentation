@@ -10,10 +10,11 @@ import Image from 'next/image'
 
 function UserCard(props) {
   const user = useSelector((state) => state.user.value)
+
+
   let profil =
     <div className={styles.profilesContainer}>
-      {user.picture ? <Image className={styles.profilPicture} src={user.picture} width={"80%"} height={"80%"} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
-
+      <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />
 
       <div className={styles.namediv}>
         <h3 className={styles.nom}> {props.firstname}</h3>

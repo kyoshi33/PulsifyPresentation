@@ -13,6 +13,7 @@ import UserCard from './UserCard';
 function PromptCard(props) {
 
 
+
     const [modalIsOpen, setIsOpen] = useState(false);
     const [prompt, setPrompt] = useState("")
 

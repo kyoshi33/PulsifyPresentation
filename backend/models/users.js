@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema({
     firstname: { type: String, required: true },
     picture: { type: String, required: false },
     createdAt: { type: Date, default: new Date() },
+    genres: [String]
 });
 
 const User = mongoose.model('users', userSchema);

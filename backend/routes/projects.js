@@ -34,10 +34,19 @@ router.post("/add", async (req, res) => {
     })
     const savedProject = await newProject.save()
 
-    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt.
-    await User.updateOne({ email: req.body.email },
-        { $push: { prompts: savedProject._id } }
-    )
+    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
+    if (foundUser.genres.some(e => e === req.body.genre)) {
+        await User.updateOne({ email: req.body.email },
+            { $push: { prompts: savedProject._id } }
+        )
+    } else {
+        await User.updateOne({ email: req.body.email },
+            {
+                $push: { prompts: savedProject._id },
+                $push: { genres: req.body.genre }
+            },
+        )
+    }
 
     // Récupérer les keywords de manière formatée 
 

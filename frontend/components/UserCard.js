@@ -10,6 +10,8 @@ import Image from 'next/image'
 
 function UserCard(props) {
   const user = useSelector((state) => state.user.value)
+
+
   let profil =
     <div className={styles.profilesContainer}>
       <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />

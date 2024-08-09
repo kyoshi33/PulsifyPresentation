@@ -39,6 +39,7 @@
 
 .namediv {
   color: white;
+  margin-left: 3%;
 }
 
 .nom {
@@ -274,4 +275,5 @@
 
 .profilPicture {
   border-radius: 50px;
+
 }

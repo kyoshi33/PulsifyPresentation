@@ -313,7 +313,7 @@ router.post('/searchTitle', async (req, res) => {
         return;
     }
 
-    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

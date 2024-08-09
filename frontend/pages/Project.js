@@ -8,7 +8,6 @@ import styles from '../styles/Project.module.css'
 import ProjectModal from '../components/ProjectModal';
 import GenresModal from '../components/GenresModal';
 import Header from '../components/Header';
-import user from '../reducers/user'
 
 function Project() {
     const user = useSelector((state) => state.user.value)
@@ -97,7 +96,7 @@ function Project() {
             </div>
         ))
     );
-    console.log('genres :', genres)
+    // console.log('genres :', genres)
 
 
     // open and close Genres modal

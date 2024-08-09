@@ -1,6 +1,6 @@
 import styles from '../styles/Profil.module.css';
 import User, { login } from '../reducers/user';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,7 @@ function Profil() {
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [communaute, setCommunaute] = useState(false);
   const [listMesModeles, setListMesModeles] = useState([]);
+  const [listCommunaute, setListCommunaute] = useState([]);
 
 
   const handleLogout = () => {
@@ -38,72 +39,88 @@ function Profil() {
   // }
 
   //fonction card ma bibliotheque
-
+  // useEffect(() => {
   const clickBibliotheque = () => {
     fetch('http://localhost:3000/users/modeles', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: user.email })
     })
-
       .then(response => response.json())
-
       .then(data => {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          setListMesModeles(data.profil)
+          setListMesModeles(data.profil.prompts)
         }
         console.log(listMesModeles)
       });
   }
 
 
-  // let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard key={i} stars={data.rating} projectName={data.genre} prompt={data.prompts} name={data.username} /></div>) })
-  // console.log(listBibliotheque)
+
+
+  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} id="track5" stars={data.rating} projectName={data.title} prompt={data.prompt} /></div>) })
+
 
   let display =
     <div className={styles.modelChoiceContainer}>
+      {listBibliotheque}
     </div>
-
   if (maBibliotheque) {
     display =
       <div className={styles.modelChoiceContainer}>
         <div className={styles.scrollWindow}>
           <div className={styles.promptCard} >
-            <PromptCard isOnProfile={true} id="track1" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} id="track2" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} id="track3" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} id="track4" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
-            <PromptCard isOnProfile={true} id="track5" stars={4} projectName={'Funk'} prompt={'Guitar, slap bass, funky, dj'} />
+            {listBibliotheque}
           </div>
         </div>
       </div>
   }
-  /*fonction card ma bibliotheque
-   const clickFavoris = () => {
-     fetch('http://localhost:3000/', {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ email: data.email })
-     })
-       .then(response => response.json())
-       .then(data => {
-         if (!data) {
-           Error('Erreur lors de la récupération des likedprompts');
-         } else {
-           setMaBibliotheque(data.likedprompts)
-         }
-       });
-   }
-       <div className={styles.profilesContainer}>
-         <div>
- 
-           <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-         </div>
- 
-       </div>
-   */
+
+  <div className={styles.profilesContainer}>
+    <div>
+
+      <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
+    </div>
+
+  </div>
+
+
+  const clickFavoris = () => {
+    fetch('http://localhost:3000/users/modeles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: user.email })
+    })
+      .then(response => response.json())
+
+      .then(data => {
+        if (!data) {
+          Error('Erreur lors de la récupération des prompts');
+        } else {
+          setListCommunaute(data.profil.likedprompts)
+        }
+        console.log(listCommunaute)
+      });
+  }
+
+  // let listBibliotheque = listMesModeles.map((data, i) => {
+  //   return (<div className={styles.modelChoiceContainer}>
+  //     <div className={styles.scrollWindow}>
+  //       <button className={styles.listItemContainer}>
+  //         <div className={styles.listItemTitle}>
+  //          { data.}
+  //         </div>
+  //         <div className={styles.listItemPrompt}>
+  //           { data.}
+  //         </div>
+  //       </button>
+  //     </div>
+  //   </div>
+  //   )
+  // })
+
 
   if (communaute) {
     display =
@@ -198,7 +215,7 @@ function Profil() {
           <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false); clickBibliotheque() }}>
             Mes modèles
           </div>
-          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
+          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false); clickFavoris() }} >
             Communauté
           </div>
         </div>

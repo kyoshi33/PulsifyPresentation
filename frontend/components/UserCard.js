@@ -1,5 +1,9 @@
 import styles from '../styles/Profil.module.css';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image'
 
 
 

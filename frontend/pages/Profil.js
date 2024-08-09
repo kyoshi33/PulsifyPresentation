@@ -26,7 +26,7 @@ function Profil() {
     window.location.href = '/';
   }
   //fonction supprime un prompt
-  //const removePrompt = () => {
+  // const removePrompt = () => {
   //   (prompts, id) => {
   //     return ''.filter(prompts => prompts.id !== id);
   //   };
@@ -37,6 +37,10 @@ function Profil() {
   //   (cards, id) => {
   //   };
   // }
+
+
+
+
 
   //fonction card ma bibliotheque
 

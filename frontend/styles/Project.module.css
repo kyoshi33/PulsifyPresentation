@@ -193,7 +193,7 @@
 }
 
 .projectHeader {
-    height: 15%;
+    height: 10%;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -208,6 +208,7 @@
 
 .rightPartHeader {
     width: 80%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     /* Stack items vertically */
@@ -217,7 +218,7 @@
 
 .textHeader {
     color: white;
-    font-size: 10px;
+    font-size: 13px;
     margin-bottom: 1%;
 }
 
@@ -239,6 +240,7 @@
     height: 90%;
     justify-content: flex-end;
     align-items: center;
+
 }
 
 .inputGenreProject {
@@ -317,7 +319,7 @@
     justify-content: right;
     text-align: right;
     align-items: center;
-    margin-top: -40px;
+    margin-top: -5vh;
     margin-right: 10px;
     color: white;
     font-size: 18px;

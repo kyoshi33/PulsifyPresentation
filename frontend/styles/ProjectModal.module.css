@@ -63,6 +63,7 @@
     border-radius: 10px;
     color: white;
     font-size: 20px;
+    padding: 2%;
 }
 
 .btn {
@@ -91,6 +92,7 @@
 .voteTxt {
     color: white;
     font-size: 18px;
+    margin: 1%;
 }
 
 .voteStars {

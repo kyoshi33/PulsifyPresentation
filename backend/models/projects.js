@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const projetSchema = mongoose.Schema({
+const projectsSchema = mongoose.Schema({
     prompt: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: false },
     keywords: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'keywords' }], required: false },
@@ -17,6 +17,6 @@ const projetSchema = mongoose.Schema({
     ia: { type: String, required: false, default: "Suno" }
 });
 
-const Projet = mongoose.model('projet', projetSchema);
+const Project = mongoose.model('projects', projectsSchema);
 
-module.exports = Projet;
+module.exports = Project;

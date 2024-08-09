@@ -12,7 +12,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let spotifyRouter = require('./routes/spotify')
-var projetRouter = require('./routes/projet');
+var projectsRouter = require('./routes/project');
 var keywordsRouter = require('./routes/keywords');
 
 var app = express();
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/spotify', spotifyRouter);
-app.use('/projet', projetRouter);
+app.use('/projects', projectsRouter);
 app.use('/keywords', keywordsRouter);
 
 module.exports = app;

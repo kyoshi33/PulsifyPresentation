@@ -141,20 +141,36 @@ router.post('/search', async (req, res) => {
 
 
 
-router.get('/modeles', (req, res) => {
+router.post('/modeles', async (req, res) => {
+  console.log('coucou')
   if (!checkBody(req.body, ['email'])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-  User.findOne({ email: req.body.email })
-    .then(data => {
-      if (data) {
-        res.json({ result: true, prompt: data.prompts })
-      } else {
-        res.json({ result: false })
-      }
-    })
+  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
+
+  console.log(await foundUser.populate('prompts'))
+  if (foundUser) {
+    res.json({ result: true, profil: foundUser })
+  } else {
+    res.json({ result: false })
+  }
 })
+
+router.get('/genres', async (req, res) => {
+  if (!checkBody(req.body, ['token'])) {
+    res.json({ result: false, error: 'Connectez vous.' });
+    return;
+  } else {
+    const user = await User.findOne({ token: req.body.token })
+    if (user) {
+      res.json({ result: true, genres: user.genres })
+    } else {
+      res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
+    }
+  }
+})
+
 
 
 module.exports = router;

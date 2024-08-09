@@ -113,7 +113,7 @@ function Accueil() {
     useEffect(() => {
         const fetchProject = async () => {
             // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/projects/searchMyPrompts', {
+            const fetchProject = await fetch('http://localhost:3000/projects/searchMyProjects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ search, email: user.email, token: user.token }),
@@ -128,7 +128,7 @@ function Accueil() {
     useEffect(() => {
         const fetchProject = async () => {
             // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityPrompts', {
+            const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityProjects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ searchCommunity, email: user.email, token: user.token }),
@@ -156,7 +156,7 @@ function Accueil() {
             <>
                 <div className={styles.selectModelContainer}>
                     <div className={styles.choiceContainer}>
-                        <button className={styles.createBtn} onClick={() => setNewExistingProject(true)}>Utiliser un modèle existant</button>
+                        <button className={styles.createBtn} onClick={() => setNewExistingProject(true)}>Utiliser un genre</button>
                         <Link href='/Project'>
                             <button className={styles.createBtn}>Démarrer un projet vierge</button>
                         </Link>
@@ -178,7 +178,7 @@ function Accueil() {
             if (listProject.length && search.length) {
                 mappedProjects = listProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div>
+                    return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -188,7 +188,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div>
+                    return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -201,7 +201,7 @@ function Accueil() {
             if (listProject.length && search.length) {
                 mappedProjects = listProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div>
+                    return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -211,7 +211,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre } = project;
-                    return <div>
+                    return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -223,11 +223,11 @@ function Accueil() {
 
         display =
             <div className={styles.container} >
-                <div className={styles.title}>Sélectionnez un modèle enregistré</div>
+                <div className={styles.title}>Sélectionnez un genre enregistré</div>
                 <div className={styles.selectModelContainer}>
                     <div className={styles.tabBar}>
                         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(1)}>
-                            Mes projets
+                            Mes genres
                         </div>
                         <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(2)} >
                             Communauté

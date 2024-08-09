@@ -34,10 +34,19 @@ router.post("/add", async (req, res) => {
     })
     const savedProject = await newProject.save()
 
-    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt.
-    await User.updateOne({ email: req.body.email },
-        { $push: { prompts: savedProject._id } }
-    )
+    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
+    if (foundUser.genres.some(e => e === req.body.genre)) {
+        await User.updateOne({ email: req.body.email },
+            { $push: { prompts: savedProject._id } }
+        )
+    } else {
+        await User.updateOne({ email: req.body.email },
+            {
+                $push: { prompts: savedProject._id },
+                $push: { genres: req.body.genre }
+            },
+        )
+    }
 
     // Récupérer les keywords de manière formatée 
 
@@ -208,7 +217,7 @@ router.get("/suggestions", async (req, res) => {
 
 
 
-router.post("/searchMyPrompts", async (req, res) => {
+router.post("/searchMyProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -240,7 +249,7 @@ router.post("/searchMyPrompts", async (req, res) => {
 
 
 
-router.post("/searchCommunityPrompts", async (req, res) => {
+router.post("/searchCommunityProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -282,28 +291,7 @@ router.post("/searchCommunityPrompts", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post('/search', async (req, res) => {
+router.post('/searchGenre', async (req, res) => {
 
     if (!checkBody(req.body, ['genre'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
@@ -311,6 +299,30 @@ router.post('/search', async (req, res) => {
     }
 
     const fetchAllPrompts = await Project.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    if (fetchAllPrompts.length) {
+        const prompts = []
+        for (const populateUserId of fetchAllPrompts) {
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+        }
+        if (prompts.length) {
+            res.json({ result: true, promptsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Genre existant mais non public' })
+        }
+    } else {
+        res.json({ result: false, error: 'Genre non existant' })
+    }
+})
+
+router.post('/searchTitle', async (req, res) => {
+
+    if (!checkBody(req.body, ['title'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

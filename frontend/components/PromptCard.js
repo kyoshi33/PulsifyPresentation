@@ -1,5 +1,5 @@
 import styles from '../styles/PromptCard.module.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -21,9 +21,25 @@ function PromptCard(props) {
     const openProjectModal = () => {
         setIsOpen(true)
     }
-
     const closeProjectModal = () => {
         setIsOpen(false);
+    }
+
+    const removePrompt = () => {
+        fetch('http://localhost:3000/projects/prompt', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email, id: props.id })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                    Error('Erreur lors de la récupération des prompts');
+                } else {
+                    set
+                    console.log("Successfully deleted one document.")
+                }
+            });
     }
 
 
@@ -31,13 +47,14 @@ function PromptCard(props) {
     const user = useSelector((state) => state.user.value)
     const [isPlaying, setIsPlaying] = useState(false);
 
+
     const displayUser =
         <div className={styles.author}>
             <UserCard email={props.firstname} username={props.username} picture={props.picture} />
         </div>;
 
     const displayXmark =
-        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} />
+        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt(console.log("coucou"))} />
 
 
 

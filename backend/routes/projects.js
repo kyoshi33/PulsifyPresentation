@@ -235,5 +235,23 @@ router.post('/searchTitle', async (req, res) => {
 
 // })
 
+router.delete("/prompt", (req, res) => {
+    if (!checkBody(req.body, ['id', 'email'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    const { id } = req.body;
+    Project.deleteOne({ _id: id })
+        .then(deletedDoc => {
+            if (deletedDoc.deletedCount > 0) {
+                res.json({ result: true })
+            } else {
+                res.json({ resutl: false })
+            }
+        })
+});
+
+
+
 
 module.exports = router;

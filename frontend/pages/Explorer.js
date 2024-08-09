@@ -22,10 +22,9 @@ function Explorer() {
     const [errorMessage, setErrorMessage] = useState('')
 
     //if no connect go welcome
-    /*if (user) {
+    if (user) {
         window.location.href = '/'
-        return
-    }*/
+    }
     // enelevé résultat recherche et error 
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
@@ -116,7 +115,7 @@ function Explorer() {
 
     const fetchGenre = async () => {
         // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/genre/searchGenre', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ genre: search }),

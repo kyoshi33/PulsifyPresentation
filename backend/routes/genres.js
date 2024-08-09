@@ -31,8 +31,12 @@ router.post("/searchMyGenres", async (req, res) => {
     let pipeline = [
         {
             $match: {
-                userId: foundUser._id,
-                prompt: new RegExp(formattedSearch, 'i')
+                $and: [{ userId: foundUser._id },
+                ],
+                $or: [
+                    { genre: { $regex: new RegExp(formattedSearch, 'i') } },
+                    { prompt: { $regex: new RegExp(formattedSearch, 'i') } }
+                ],
             }
         },
         {
@@ -89,8 +93,8 @@ router.post("/searchCommunityGenres", async (req, res) => {
         {
             $match: {
                 $or: [
-                    { genre: { $regex: new RegExp(req.body.search, 'i') } },
-                    { prompt: { $regex: new RegExp(req.body.search, 'i') } }
+                    { genre: { $regex: new RegExp(formattedSearch, 'i') } },
+                    { prompt: { $regex: new RegExp(formattedSearch, 'i') } }
                 ]
             }
         },

@@ -187,7 +187,7 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} firstname={user.firstname} />
+        <UserCard username={user.username} firstname={user.firstname} picture={user.picture ? user.picture : null} />
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
 

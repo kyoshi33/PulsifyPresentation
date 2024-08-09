@@ -1,6 +1,7 @@
 import styles from "../styles/Accueil.module.css"
 import { useEffect, useState } from 'react';
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Header from "../components/Header";
 import ModelCard from "../components/ModelCard";
@@ -19,7 +20,16 @@ function Accueil() {
     const [listCommunityProject, setListCommunityProject] = useState([]);
 
 
+    const router = useRouter();
     const user = useSelector((state => state.user.value));
+
+
+    const handleClick = (genre) => {
+        router.push({
+            pathname: '/Project',
+            query: { genre },
+        });
+    };
 
     //Rechercher les prompts de l'utilisateur pendant qu'il remplit le champ de recherche
     const fetchProjects = async () => {
@@ -92,21 +102,27 @@ function Accueil() {
             const myProjects = listProjects;
             if (listProjects.length && search.length) {
                 mappedProjects = listProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    let { prompt, genre, titre, userId } = project;
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    let { prompt, genre, titre, userId } = project;
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
@@ -115,21 +131,27 @@ function Accueil() {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
-                    let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    let { prompt, genre, titre, userId } = project;
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre } = project;
-                    return <div className={styles.modelCard}>
+                    let { prompt, genre, titre, userId } = project;
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
+                            firstname={userId.firstname}
+                            username={userId.username}
+                            picture={userId.picture}
                         />
                     </div>
                 });

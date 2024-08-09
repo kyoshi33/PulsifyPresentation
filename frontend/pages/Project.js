@@ -9,7 +9,7 @@ import ProjectModal from '../components/ProjectModal';
 import GenresModal from '../components/GenresModal';
 import Header from '../components/Header';
 
-function Project() {
+function Project(props) {
     const user = useSelector((state) => state.user.value)
     const [projectTitle, setProjectTitle] = useState("");
     const [prompt, setPrompt] = useState("")
@@ -20,9 +20,15 @@ function Project() {
     const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"]);
     const [isCopied, setIsCopied] = useState(false);
     const [projectGenre, setProjectGenre] = useState('')
+
     const router = useRouter();
 
-    console.log('user :', user.token)
+    useEffect(() => {
+        if (router.query.genre) {
+            const incomingGenre = router.query.genre
+            setProjectGenre(incomingGenre)
+        }
+    }, [])
 
     // Function to handle setting the genre from the modal
     const handleGenreSelect = (selectedGenre) => {
@@ -89,7 +95,6 @@ function Project() {
             fetchGenreArtistOnSpotify(search);
         }
     }
-    //console.log('searchResults :', searchResults)
 
 
     // map to display all the genres from an artist
@@ -102,7 +107,6 @@ function Project() {
             </div>
         ))
     );
-    // console.log('genres :', genres)
 
 
     // open and close Genres modal
@@ -116,7 +120,6 @@ function Project() {
 
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
-        console.log('projectTitle :', projectTitle)
         if (prompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
             alert('Renseignez un titre, un genre et un prompt pour votre projet.')
         } else {

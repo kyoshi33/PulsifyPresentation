@@ -4,7 +4,7 @@ const messagesSchema = mongoose.Schema({
 
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
   text: { type: String, required: true },
-  prompt: { type: mongoose.Schema.Types.ObjectId, ref: 'prompts', required: true },
+  prompt: { type: mongoose.Schema.Types.ObjectId, ref: 'projects', required: true },
   createdAt: { type: Date, default: new Date() },
   nbSignalements: { type: Number, required: true, default: 0 },
 

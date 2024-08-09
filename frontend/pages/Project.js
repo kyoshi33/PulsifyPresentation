@@ -1,17 +1,17 @@
-import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProjectModal from '../components/ProjectModal';
-import GenresModal from '../components/GenresModal';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
+import styles from '../styles/Project.module.css'
+import ProjectModal from '../components/ProjectModal';
+import GenresModal from '../components/GenresModal';
 import Header from '../components/Header';
-
+import user from '../reducers/user'
 
 function Project() {
+    const user = useSelector((state) => state.user.value)
     const [projectTitle, setProjectTitle] = useState("");
     const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
@@ -23,6 +23,19 @@ function Project() {
     const [projectGenre, setProjectGenre] = useState('')
     const router = useRouter();
 
+    console.log('user :', user.token)
+
+    // Function to handle setting the genre from the modal
+    const handleGenreSelect = (selectedGenre) => {
+        setProjectGenre(selectedGenre);
+        closeGenresModal(); // Close the modal after selection
+    };
+
+    const fetchSuggestionsFromGenre = async (genre) => {
+        const fetchSuggestions = await fetch('http://localhost:3000/suggestions')
+        const resSuggestions = await fetchSuggestions.json()
+        setSuggestionsList([...suggestionsList, ...resSuggestions])
+    }
 
     //set a list of all suggestions, TODO: fetch on BD
     let suggestion = suggestionsList.map((data, i) => {
@@ -145,17 +158,17 @@ function Project() {
                         <div className={styles.rightPartHeader}>
                             <div className={styles.textHeader}>Genre de votre projet</div>
                             <div className={styles.genreProject}>
-                                <FontAwesomeIcon
-                                    icon={faSearch}
-                                    className={styles.searchGenreBtn}
-                                    onClick={openGenresModal}
-                                />
-                                <input className={styles.colorTheme}
+                                <input className={styles.inputGenreProject}
                                     placeholder='Genre du projet'
                                     onChange={(e) => setProjectGenre(e.target.value)}
                                     value={projectGenre}
                                     maxLength={40}>
                                 </input>
+                                <FontAwesomeIcon
+                                    icon={faSearch}
+                                    className={styles.searchGenreBtn}
+                                    onClick={openGenresModal}
+                                />
                             </div>
                         </div>
                     </div>
@@ -188,7 +201,7 @@ function Project() {
                     </div>
                     <div className={styles.searchContainer}>
                         <div className={styles.searchTitle}>Recherche de genre par artiste</div>
-                        <div>
+                        <div className={styles.searchInputContainer}>
                             <input className={styles.searchInput}
                                 placeholder='Enter an artist here'
                                 onChange={(e) => setSearch(e.target.value)}
@@ -213,7 +226,9 @@ function Project() {
                     />
                     <GenresModal isOpen={genresModalIsOpen}
                         onRequestClose={closeGenresModal}
-                        projectGenre={projectGenre} />
+                        projectGenre={projectGenre}
+                        handleGenreSelect={handleGenreSelect} // Pass handler to modal
+                    />
                 </div>
             </div>
         </div>

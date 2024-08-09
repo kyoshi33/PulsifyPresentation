@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 let spotifyRouter = require('./routes/spotify')
 var projectsRouter = require('./routes/projects');
 var keywordsRouter = require('./routes/keywords');
+var genresRouter = require('./routes/genres');
 
 var app = express();
 
@@ -31,5 +32,6 @@ app.use('/users', usersRouter);
 app.use('/spotify', spotifyRouter);
 app.use('/projects', projectsRouter);
 app.use('/keywords', keywordsRouter);
+app.use('/genres', genresRouter);
 
 module.exports = app;

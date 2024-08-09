@@ -17,7 +17,6 @@ function Accueil() {
     const [selectedTab, setSelectedTab] = useState(1);
     const [listProjects, setListProject] = useState([]);
     const [listCommunityProject, setListCommunityProject] = useState([]);
-    const [reRender, setReRender] = useState(false);
 
 
     const user = useSelector((state => state.user.value));
@@ -25,7 +24,7 @@ function Accueil() {
     //Rechercher les prompts de l'utilisateur pendant qu'il remplit le champ de recherche
     const fetchProjects = async () => {
         // Fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/projects/searchMyGenres', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchMyGenres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search, email: user.email, token: user.token }),
@@ -37,7 +36,7 @@ function Accueil() {
     //Rechercher les prompts de la communauté liké par l'utilisateur pendant qu'il remplit le champ de recherche
     const fetchCommunityProjects = async () => {
         // Fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityGenres', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchCommunityGenres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search: searchCommunity, email: user.email, token: user.token }),

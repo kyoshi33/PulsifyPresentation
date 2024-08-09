@@ -47,7 +47,6 @@ function Explorer() {
     const fetchSearch = () => {
         setSortUp(false)
         setSortDown(false)
-
         if (checkedAutor) {
             fetchAutor()
             return
@@ -152,7 +151,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value); setErrorSearch(false) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]) }} value={search} className={styles.inputSearch} />
                     <button onClick={() => fetchSearch()} className={styles.btnSearch}>Rechercher</button>
                     <div className={styles.containerIcon}>
                         <Popover

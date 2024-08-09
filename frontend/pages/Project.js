@@ -160,9 +160,9 @@ function Project() {
                 <div className={styles.projectContainer}>
                     <div className={styles.projectHeader}>
                         <div className={styles.leftPartHeader}>
-                            <div className={styles.textHeader}>Titre du projet</div>
+                            <div className={styles.textHeader}>Titre de votre projet</div>
                             <input className={styles.inputProjectTitle}
-                                placeholder='Le nom de votre projet'
+                                placeholder='Nom du projet'
                                 onChange={(e) => setProjectTitle(e.target.value)}
                                 value={projectTitle}
                                 maxLength={40}

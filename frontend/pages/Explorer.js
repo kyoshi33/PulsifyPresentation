@@ -22,7 +22,7 @@ function Explorer() {
     const [errorMessage, setErrorMessage] = useState('')
 
     //if no connect go welcome
-    if (user) {
+    if (!user.isLogged) {
         window.location.href = '/'
     }
     // enelevé résultat recherche et error 

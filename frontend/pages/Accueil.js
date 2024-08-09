@@ -17,7 +17,6 @@ function Accueil() {
     const [selectedTab, setSelectedTab] = useState(1);
     const [listProjects, setListProject] = useState([]);
     const [listCommunityProject, setListCommunityProject] = useState([]);
-    const [reRender, setReRender] = useState(false);
 
 
     const user = useSelector((state => state.user.value));

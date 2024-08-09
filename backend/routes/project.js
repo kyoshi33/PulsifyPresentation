@@ -94,15 +94,8 @@ router.post("/add", async (req, res) => {
     // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
-            const inexistingIds = []
             const foundKeywordById = await Keyword.findById(id)
             const populatedKeyword = await Keyword.findById(id).populate('prompts')
-            // for (let i = 0; i < existingKeywordIds.length; i++) {
-            //     if (!populatedKeyword.related_keywords.some(e => String(e) === String(existingKeywordIds[i]))) {
-            //         inexistingIds.push(existingKeywordIds[i])
-            //     }
-            // }
-            const filteredKeywordIds = keywords.filter(e => e === populatedKeyword.keyword).length > 1 ? inexistingIds : inexistingIds.filter(e => e !== id)
             const checkIntoNewIdsIfTheyArentPresent = []
             for (let i = 0; i < newKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
@@ -110,7 +103,6 @@ router.post("/add", async (req, res) => {
                 }
             }
             const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent]
-            console.log("updateRelatedKeywordId", updateRelatedKeywordId)
 
             let resultAverageRating = 0
             const promptKeywordsCount = (populatedKeyword.prompts).length

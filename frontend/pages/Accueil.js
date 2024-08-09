@@ -10,17 +10,15 @@ let connected = false;
 
 function Accueil() {
 
-
-
-
-
     const [newProject, setNewProject] = useState(false);
     const [newExistingProject, setNewExistingProject] = useState(false);
     const [search, setSearch] = useState('');
     const [searchCommunity, setSearchCommunity] = useState('');
     const [selectedTab, setSelectedTab] = useState(1);
-    const [listProject, setListProject] = useState([]);
+    const [listProjects, setListProject] = useState([]);
     const [listCommunityProject, setListCommunityProject] = useState([]);
+    const [reRender, setReRender] = useState(false);
+
 
     const user = useSelector((state => state.user.value));
 
@@ -32,8 +30,8 @@ function Accueil() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search, email: user.email, token: user.token }),
         })
-        const res = await fetchProject.json()
-        res.result && setListProject(res.searchResults)
+        const res = await fetchProject.json();
+        res.result && setListProject(res.searchResults);
     }
 
     //Rechercher les prompts de la communauté liké par l'utilisateur pendant qu'il remplit le champ de recherche
@@ -44,20 +42,19 @@ function Accueil() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search: searchCommunity, email: user.email, token: user.token }),
         })
-        const res = await fetchProject.json()
-        res.result && setListCommunityProject(res.searchResults)
+        const res = await fetchProject.json();
+        res.result && setListCommunityProject(res.searchResults);
     }
 
-
-
+    // Mettre à jour la liste des résultats personnels à chaque frappe de clavier dans le champ de recherche
     useEffect(() => {
         fetchProjects();
     }, [search]);
 
+    // Mettre à jour la liste des résultats de la communauté à chaque frappe de clavier dans le champ de recherche
     useEffect(() => {
         fetchCommunityProjects();
-    }, [searchCommunity])
-
+    }, [searchCommunity]);
 
 
     let display =
@@ -93,9 +90,9 @@ function Accueil() {
 
         let mappedProjects;
         if (selectedTab === 1) {
-            const myProjects = listProject;
-            if (listProject.length && search.length) {
-                mappedProjects = listProject.map((project, i) => {
+            const myProjects = listProjects;
+            if (listProjects.length && search.length) {
+                mappedProjects = listProjects.map((project, i) => {
                     let { prompt, genre, titre } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
@@ -117,7 +114,7 @@ function Accueil() {
             }
         } else if (selectedTab === 2) {
             const myProjects = listCommunityProject;
-            if (listProject.length && search.length) {
+            if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
                     return <div className={styles.modelCard}>
@@ -146,13 +143,11 @@ function Accueil() {
                 <div className={styles.selectModelContainer}>
                     <div className={styles.tabBar}>
                         <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => {
-                            setSearch('');
                             setSelectedTab(1)
                         }}>
                             Mes genres
                         </div>
                         <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => {
-                            setSearchCommunity('');
                             setSelectedTab(2)
                         }} >
                             Communauté

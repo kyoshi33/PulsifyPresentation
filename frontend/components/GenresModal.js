@@ -6,22 +6,30 @@ import { useSelector } from "react-redux";
 
 function GenresModal(props) {
     const user = useSelector((state) => state.user.value)
-    const [genresList, setGenresList] = useState(["Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"])
+    const [genresList, setGenresList] = useState([])
 
-    // console.log('token :', user.token)
-    // useEffect(() => {
-    //     fetchAllGenres
 
-    // }, []);
+    //"Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"
 
-    // const fetchAllGenres = async (token) => {
-    //     let token = user.token
-    //     if (token) {
-    //         const fetchGenres = await fetch('http://localhost:3000/genres')
-    //         const resGenre = await fetchGenres.json()
-    //         setGenresList(resGenre)
-    //     }
-    // }
+    useEffect(() => {
+        fetchAllGenres()
+
+    }, []);
+
+    const fetchAllGenres = async () => {
+        let token = user.token
+        if (token) {
+            const fetchGenres = await fetch('http://localhost:3000/users/genres', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: token }),
+            })
+            const resGenre = await fetchGenres.json()
+            setGenresList(resGenre.genres)
+            console.log("genres :", resGenre)
+        }
+    }
+
 
 
     const handleClickOnGenre = (genre) => {
@@ -30,7 +38,7 @@ function GenresModal(props) {
 
 
 
-    const genreButtons = genresList.map((genre, i) => {
+    const genreButtons = genresList && genresList.map((genre, i) => {
         return (
             <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre}</div>
         )

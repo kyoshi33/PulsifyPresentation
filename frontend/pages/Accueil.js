@@ -12,92 +12,6 @@ function Accueil() {
 
 
 
-    const fetchedProjects = [
-        {
-            "titre": "Titre",
-            "_id": {
-                "$oid": "66b494914e7495cb2dc817c1"
-            },
-            "prompt": "Psytrance, Ethereal Melodies, Driving Basslines, Cosmic Synths, Progressive Build-ups, Hypnotic Beats, Mystical Vocals",
-            "userId": {
-                "$oid": "66b2666d4c79a02b2fedee4c"
-            },
-            "keywords": [
-                {
-                    "$oid": "66b494614e7495cb2dc8179d"
-                },
-                {
-                    "$oid": "66b494614e7495cb2dc817a0"
-                },
-                {
-                    "$oid": "66b494614e7495cb2dc817a3"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817a6"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817a9"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817ac"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817af"
-                }
-            ],
-            "genre": "Astrox Chocolate",
-            "messages": [],
-            "audio": null,
-            "rating": 2,
-            "isPublic": false,
-            "date": {
-                "$date": "2024-08-08T09:49:05.838Z"
-            },
-            "__v": 0
-        },
-        {
-            "titre": "Titre",
-            "_id": {
-                "$oid": "66b494914e7495cb2dc817c1"
-            },
-            "prompt": "Psytrance, Ethereal Melodies, Driving Basslines, Cosmic Synths, Progressive Build-ups, Hypnotic Beats, Mystical Vocals",
-            "userId": {
-                "$oid": "66b2666d4c79a02b2fedee4c"
-            },
-            "keywords": [
-                {
-                    "$oid": "66b494614e7495cb2dc8179d"
-                },
-                {
-                    "$oid": "66b494614e7495cb2dc817a0"
-                },
-                {
-                    "$oid": "66b494614e7495cb2dc817a3"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817a6"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817a9"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817ac"
-                },
-                {
-                    "$oid": "66b494624e7495cb2dc817af"
-                }
-            ],
-            "genre": "Astrox",
-            "messages": [],
-            "audio": null,
-            "rating": 2,
-            "isPublic": false,
-            "date": {
-                "$date": "2024-08-08T09:49:05.838Z"
-            },
-            "__v": 0
-        }
-    ]
 
 
     const [newProject, setNewProject] = useState(false);
@@ -106,37 +20,42 @@ function Accueil() {
     const [searchCommunity, setSearchCommunity] = useState('');
     const [selectedTab, setSelectedTab] = useState(1);
     const [listProject, setListProject] = useState([]);
+    const [listCommunityProject, setListCommunityProject] = useState([]);
 
     const user = useSelector((state => state.user.value));
 
     //Rechercher les prompts de l'utilisateur pendant qu'il remplit le champ de recherche
-    useEffect(() => {
-        const fetchProject = async () => {
-            // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/projects/searchMyProjects', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ search, email: user.email, token: user.token }),
-            })
-            const res = await fetchProject.json()
-            res.result && setListProject(res.searchResults)
-        }
-        fetchProject();
-    }, [search]);
+    const fetchProjects = async () => {
+        // Fetch des projets 
+        const fetchProject = await fetch('http://localhost:3000/projects/searchMyGenres', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ search, email: user.email, token: user.token }),
+        })
+        const res = await fetchProject.json()
+        res.result && setListProject(res.searchResults)
+    }
 
     //Rechercher les prompts de la communauté liké par l'utilisateur pendant qu'il remplit le champ de recherche
+    const fetchCommunityProjects = async () => {
+        // Fetch des projets 
+        const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityGenres', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ search: searchCommunity, email: user.email, token: user.token }),
+        })
+        const res = await fetchProject.json()
+        res.result && setListCommunityProject(res.searchResults)
+    }
+
+
+
     useEffect(() => {
-        const fetchProject = async () => {
-            // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityProjects', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ searchCommunity, email: user.email, token: user.token }),
-            })
-            const res = await fetchProject.json()
-            res.result && setListProject(res.searchResults)
-        }
-        fetchProject();
+        fetchProjects();
+    }, [search]);
+
+    useEffect(() => {
+        fetchCommunityProjects();
     }, [searchCommunity])
 
 
@@ -174,7 +93,7 @@ function Accueil() {
 
         let mappedProjects;
         if (selectedTab === 1) {
-            const myProjects = fetchedProjects;
+            const myProjects = listProject;
             if (listProject.length && search.length) {
                 mappedProjects = listProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
@@ -197,9 +116,9 @@ function Accueil() {
                 });
             }
         } else if (selectedTab === 2) {
-            const myProjects = fetchedProjects;
+            const myProjects = listCommunityProject;
             if (listProject.length && search.length) {
-                mappedProjects = listProject.map((project, i) => {
+                mappedProjects = listCommunityProject.map((project, i) => {
                     let { prompt, genre, titre } = project;
                     return <div className={styles.modelCard}>
                         <ModelCard genre={genre}
@@ -226,17 +145,23 @@ function Accueil() {
                 <div className={styles.title}>Sélectionnez un genre enregistré</div>
                 <div className={styles.selectModelContainer}>
                     <div className={styles.tabBar}>
-                        <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(1)}>
+                        <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => {
+                            setSearch('');
+                            setSelectedTab(1)
+                        }}>
                             Mes genres
                         </div>
-                        <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => setSelectedTab(2)} >
+                        <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => {
+                            setSearchCommunity('');
+                            setSelectedTab(2)
+                        }} >
                             Communauté
                         </div>
                     </div>
                     <div className={styles.modelChoiceContainer}>
 
-                        <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value) }
-                        } value={search} className={styles.inputSearch} />
+                        <input type='string' placeholder='Recherche...' value={selectedTab === 1 ? search : searchCommunity} onChange={(e) => { selectedTab === 1 ? setSearch(e.target.value) : setSearchCommunity(e.target.value) }
+                        } className={styles.inputSearch} />
 
                         <div className={styles.scrollWindow}>
                             {mappedProjects}

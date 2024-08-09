@@ -208,7 +208,7 @@ router.get("/suggestions", async (req, res) => {
 
 
 
-router.post("/searchMyProjects", async (req, res) => {
+router.post("/searchMyGenres", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -216,7 +216,7 @@ router.post("/searchMyProjects", async (req, res) => {
     }
     // Authentification de l'utilisateur
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-    !foundUser && res.json({ result: false, error: 'Access denied' });
+    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
     const splitSearch = req.body.search.trim();
     let formattedSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
@@ -233,41 +233,54 @@ router.post("/searchMyProjects", async (req, res) => {
             $limit: 10
         }
     ];
-    searchResults = await Project.aggregate(pipeline);
+    const searchResults = await Project.aggregate(pipeline);
 
     res.json({ result: true, searchResults })
 })
 
 
 
-router.post("/searchCommunityProjects", async (req, res) => {
+router.post("/searchCommunityGenres", async (req, res) => {
 
-    if (!checkBody(req.body, ['search', 'email', 'token'])) {
+    if (!checkBody(req.body, ['email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
         return;
     }
     // Authentification de l'utilisateur
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-    !foundUser && res.json({ result: false, error: 'Access denied' });
+    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
-    const splitSearch = req.body.search.trim();
-    let formattedSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
-    formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
+    if (req.body.search) {
+        const splitSearch = req.body.search.trim();
+        let formattedSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
+        formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
+    }
+
 
     let pipeline = [
         {
             $match: {
-                _id: foundUser._id,
-                // likedPrompts: new RegExp(formattedSearch, 'i')
+                prompt: new RegExp(req.body.search, 'i'),
+                isPublic: true
+            }
+        },
+        {
+            $match: {
+                genre: new RegExp(req.body.search, 'i'),
+                isPublic: true
             }
         },
         {
             $limit: 10
         }
     ];
-    searchResults = await User.aggregate(pipeline);
+    const searchResults = await Project.aggregate(pipeline);
 
-    searchResults = await foundUser.populate(likedprompts);
+    if (req.body.search = '') {
+        searchResults = Project.find({ isPublic: true })
+    }
+
+    console.log(searchResults);
 
     res.json({ result: true, searchResults })
 })

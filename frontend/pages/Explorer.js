@@ -115,7 +115,7 @@ function Explorer() {
 
     const fetchGenre = async () => {
         // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/genre/searchGenre', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ genre: search }),

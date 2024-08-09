@@ -113,7 +113,7 @@ function Accueil() {
     useEffect(() => {
         const fetchProject = async () => {
             // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/prompts/searchMyPrompts', {
+            const fetchProject = await fetch('http://localhost:3000/projects/searchMyPrompts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ search, email: user.email, token: user.token }),
@@ -128,7 +128,7 @@ function Accueil() {
     useEffect(() => {
         const fetchProject = async () => {
             // fetch des projets 
-            const fetchProject = await fetch('http://localhost:3000/prompts/searchCommunityPrompts', {
+            const fetchProject = await fetch('http://localhost:3000/projects/searchCommunityPrompts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ searchCommunity, email: user.email, token: user.token }),

@@ -32,8 +32,14 @@ function Project() {
 
 
     // function to call route to get genre form user id
-    const fetchSuggestionsFromGenre = async (genre) => {
-        const fetchSuggestions = await fetch('http://localhost:3000/suggestions')
+    const fetchSuggestionsFromGenre = async () => {
+        const fetchSuggestions = await fetch('http://localhost:3000/suggestions',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ genre: token }),
+            })
+
         const resSuggestions = await fetchSuggestions.json()
         setSuggestionsList([...suggestionsList, ...resSuggestions])
     }

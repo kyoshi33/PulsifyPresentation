@@ -6,7 +6,7 @@ import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
-import { faArrowRightFromBracket, faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faPlay, faPause, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
 import Image from 'next/image'
 
@@ -41,7 +41,7 @@ function Profil() {
   // }
 
   //fonction card ma bibliotheque
-  // useEffect(() => {
+
   const clickBibliotheque = () => {
     fetch('http://localhost:3000/users/modeles', {
       method: 'POST',
@@ -54,10 +54,14 @@ function Profil() {
           Error('Erreur lors de la récupération des prompts');
         } else {
           setListMesModeles(data.profil.prompts)
+
         }
         console.log(listMesModeles)
       });
   }
+  useEffect(() => {
+    clickBibliotheque();
+  }, []);
 
 
 

@@ -14,6 +14,7 @@ function Explorer() {
     const [checkedAutor, setCheckedAutor] = useState(false);
     const [checkedKeyword, setCheckedKeyword] = useState(true);
     const [checkedProject, setCheckedProject] = useState(false);
+    const [checkedGenre, setCheckedGenre] = useState(false);
     const [sortUp, setSortUp] = useState(false);
     const [sortDown, setSortDown] = useState(false);
     const [errorSearch, setErrorSearch] = useState(false);
@@ -27,14 +28,16 @@ function Explorer() {
     }*/
     // enelevé résultat recherche et error 
 
-    if (!checkedAutor && !checkedKeyword && !checkedProject) {
+    if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
         setCheckedKeyword(true)
     }
 
     const handleChange = (props) => {
-        if (props === 'Autor') { setCheckedAutor(!checkedAutor); setCheckedKeyword(false); setCheckedProject(false); setErrorSearch(false) }
-        if (props === 'Keyword') { setCheckedKeyword(!checkedKeyword); setCheckedAutor(false); setCheckedProject(false); setErrorSearch(false) }
-        if (props === 'Project') { setCheckedProject(!checkedProject); setCheckedAutor(false); setCheckedKeyword(false); setErrorSearch(false) }
+        if (props === 'Autor') { setCheckedAutor(!checkedAutor); setCheckedKeyword(false); setCheckedProject(false); setErrorSearch(false); setCheckedGenre(false); }
+        if (props === 'Keyword') { setCheckedKeyword(!checkedKeyword); setCheckedAutor(false); setCheckedProject(false); setErrorSearch(false); setCheckedGenre(false); }
+        if (props === 'Project') { setCheckedProject(!checkedProject); setCheckedAutor(false); setCheckedKeyword(false); setErrorSearch(false); setCheckedGenre(false); }
+        if (props === 'Genre') { setCheckedGenre(!checkedGenre); setCheckedAutor(false); setCheckedKeyword(false); setErrorSearch(false); setCheckedProject(false); }
+
     }
 
     let colorFilter = isPopoverOpen && '#504E6B'
@@ -51,6 +54,10 @@ function Explorer() {
         }
         if (checkedProject) {
             fetchProject()
+            return
+        }
+        if (checkedGenre) {
+            fetchGenre()
             return
         }
         if (checkedKeyword) {
@@ -93,7 +100,24 @@ function Explorer() {
     }
     const fetchProject = async () => {
         // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/project/search', {
+        const fetchProject = await fetch('http://localhost:3000/project/searchTitle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: search }),
+        })
+        const res = await fetchProject.json()
+        if (res.result) {
+            setListProject(res.promptsList)
+            setErrorSearch(false)
+        } else {
+            setErrorSearch(true)
+            setErrorMessage(res.error)
+        }
+    }
+
+    const fetchGenre = async () => {
+        // fetch des projets 
+        const fetchProject = await fetch('http://localhost:3000/project/searchGenre', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ genre: search }),
@@ -169,6 +193,17 @@ function Explorer() {
                                         />
                                         Nom du projet
                                     </div>
+
+                                    <div className={styles.checkboxContainer}>
+                                        <input
+                                            type="checkbox"
+                                            checked={checkedGenre}
+                                            onChange={() => handleChange('Genre')}
+                                            className={styles.checkbox}
+                                        />
+                                        Genre
+                                    </div>
+
                                 </div>
                             }
                         >

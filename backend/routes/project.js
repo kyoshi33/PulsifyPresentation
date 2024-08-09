@@ -283,28 +283,7 @@ router.post("/searchCommunityPrompts", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post('/search', async (req, res) => {
+router.post('/searchGenre', async (req, res) => {
 
     if (!checkBody(req.body, ['genre'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
@@ -312,6 +291,30 @@ router.post('/search', async (req, res) => {
     }
 
     const fetchAllPrompts = await Project.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    if (fetchAllPrompts.length) {
+        const prompts = []
+        for (const populateUserId of fetchAllPrompts) {
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+        }
+        if (prompts.length) {
+            res.json({ result: true, promptsList: prompts })
+        } else {
+            res.json({ result: false, error: 'Genre existant mais non public' })
+        }
+    } else {
+        res.json({ result: false, error: 'Genre non existant' })
+    }
+})
+
+router.post('/searchTitle', async (req, res) => {
+
+    if (!checkBody(req.body, ['title'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

@@ -35,17 +35,22 @@
   display: flex;
   align-items: center;
   padding-left: 3%;
-  font-size: small;
+  font-size: 60%;
+  word-wrap: break-word;
 }
 
 .genre {
-  height: 100%;
-  width: 20%;
+  width: 40%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-left: 2%;
+  text-align: center;
+  font-size: 58%;
   padding-right: 2%;
+  padding-left: 2%;
   border-right: #ffffff 1px solid;
+  border-left: #ffffff 1px solid;
+  box-sizing: content-box;
+  word-wrap: break-word;
 }

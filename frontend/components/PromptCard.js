@@ -36,8 +36,9 @@ function PromptCard(props) {
                 if (!data) {
                     Error('Erreur lors de la récupération des prompts');
                 } else {
-                    set
+
                     console.log("Successfully deleted one document.")
+                    window.location.reload();
                 }
             });
     }

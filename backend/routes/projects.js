@@ -208,7 +208,7 @@ router.get("/suggestions", async (req, res) => {
 
 
 
-router.post("/searchMyPrompts", async (req, res) => {
+router.post("/searchMyProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
@@ -240,7 +240,7 @@ router.post("/searchMyPrompts", async (req, res) => {
 
 
 
-router.post("/searchCommunityPrompts", async (req, res) => {
+router.post("/searchCommunityProjects", async (req, res) => {
 
     if (!checkBody(req.body, ['search', 'email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });

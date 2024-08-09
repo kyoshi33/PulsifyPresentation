@@ -93,7 +93,7 @@ function Explorer() {
     }
     const fetchProject = async () => {
         // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/prompts/search', {
+        const fetchProject = await fetch('http://localhost:3000/projet/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ genre: search }),

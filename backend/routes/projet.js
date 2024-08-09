@@ -3,7 +3,7 @@ var router = express.Router();
 require('../models/connection');
 const { checkBody } = require('../modules/tools')
 
-const Prompt = require('../models/prompts');
+const Projet = require('../models/projet');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
 
@@ -21,7 +21,7 @@ router.post("/add", async (req, res) => {
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
-    const newPrompt = new Prompt({
+    const newPrompt = new Projet({
         genre: req.body.genre,
         prompt: promptToSplitWithoutComa,
         audio: req.body.audio,
@@ -30,7 +30,6 @@ router.post("/add", async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         userId: foundUser._id,
-        createdAt: new Date(),
         title: req.body.title
     })
     const savedPrompt = await newPrompt.save()
@@ -72,7 +71,7 @@ router.post("/add", async (req, res) => {
         }
     }
     const promptKeywordsIds = [...keywordIds, ...existingKeywordIds]
-    await Prompt.updateOne({ _id: savedPrompt._id },
+    await Projet.updateOne({ _id: savedPrompt._id },
         { keywords: promptKeywordsIds }
     )
 
@@ -164,7 +163,7 @@ router.get("/suggestions", async (req, res) => {
     const weight_frequency = 0.3;
 
     // Récupération de l'id du prompt
-    const actualPrompt = await Prompt.findOne({ userId: foundUser._id, genre: req.body.genre });
+    const actualPrompt = await Projet.findOne({ userId: foundUser._id, genre: req.body.genre });
     const actualPromptId = actualPrompt._id;
 
     // Création de la pipeline Mongoose
@@ -235,7 +234,7 @@ router.post("/searchMyPrompts", async (req, res) => {
             $limit: 10
         }
     ];
-    searchResults = await Prompt.aggregate(pipeline);
+    searchResults = await Projet.aggregate(pipeline);
 
     res.json({ result: true, searchResults })
 })
@@ -312,7 +311,7 @@ router.post('/search', async (req, res) => {
         return;
     }
 
-    const fetchAllPrompts = await Prompt.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+    const fetchAllPrompts = await Projet.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {

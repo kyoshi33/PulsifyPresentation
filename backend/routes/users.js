@@ -147,9 +147,7 @@ router.post('/modeles', async (req, res) => {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-
-  console.log(await foundUser.populate('prompts'))
+  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts', 'likedprompts')
   if (foundUser) {
     res.json({ result: true, profil: foundUser })
   } else {

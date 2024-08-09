@@ -121,7 +121,7 @@ function Accueil() {
                             prompt={prompt}
                             title={titre}
                             firstname={userId.firstname}
-                            username={userId.username}
+                            username={"Moi"}
                             picture={userId.picture}
                         />
                     </div>

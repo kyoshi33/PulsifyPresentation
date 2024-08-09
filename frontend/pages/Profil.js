@@ -8,8 +8,6 @@ import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
 import { faArrowRightFromBracket, faPlay, faPause, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
-import Image from 'next/image'
-
 
 
 function Profil() {
@@ -27,12 +25,12 @@ function Profil() {
     dispatch(logout());
     window.location.href = '/';
   }
-  // fonction supprime un prompt
-  // const removePrompt = () => {
-  //   (prompts, id) => {
-  //     return ''.filter(prompts => prompts.id !== id);
-  //   };
-  // }
+  //fonction supprime un prompt
+  const removePrompt = () => {
+    (prompts, id) => {
+      return ''.filter(prompts => prompts.id !== id);
+    };
+  }
 
   // //fonction lancer un prompt
   // const playPrompt = () => {
@@ -54,7 +52,7 @@ function Profil() {
           Error('Erreur lors de la récupération des prompts');
         } else {
           setListMesModeles(data.profil.prompts)
-
+          setListCommunaute(data.profil.likedprompts)
         }
         console.log(listMesModeles)
       });
@@ -66,7 +64,7 @@ function Profil() {
 
 
 
-  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} id="track5" stars={data.rating} projectName={data.title} prompt={data.prompt} /></div>) })
+  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} /></div>) })
 
 
   let display =
@@ -84,32 +82,6 @@ function Profil() {
       </div>
   }
 
-  <div className={styles.profilesContainer}>
-    <div>
-
-      <button className={styles.btnLogOut} onClick={() => handleLogout()}>LogOut</button>
-    </div>
-
-  </div>
-
-
-  const clickFavoris = () => {
-    fetch('http://localhost:3000/users/modeles', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email })
-    })
-      .then(response => response.json())
-
-      .then(data => {
-        if (!data) {
-          Error('Erreur lors de la récupération des prompts');
-        } else {
-          setListCommunaute(data.profil.likedprompts)
-        }
-        console.log(listCommunaute)
-      });
-  }
 
   // let listBibliotheque = listMesModeles.map((data, i) => {
   //   return (<div className={styles.modelChoiceContainer}>
@@ -211,25 +183,17 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <div className={styles.profilesContainer}>
-          {user.picture ? <Image className={styles.profilPicture} src={user.picture} width={"70%"} height={"70%"} alt="Picture of the author" /> : <FontAwesomeIcon icon={faUser} className={styles.icon} />}
-
-
-          <div className={styles.namediv}>
-            <h3 className={styles.nom}> {user.firstname}</h3>
-            <h4 className={styles.identifiant}>@{user.username}</h4>
-          </div>
-        </div>
+        <UserCard username={user.username} firstname={user.firstname} />
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
 
 
       <div className={styles.selectModelContainer}>
         <div className={styles.tabBar}>
-          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false); clickBibliotheque() }}>
+          <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
             Mes modèles
           </div>
-          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false); clickFavoris() }} >
+          <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
             Communauté
           </div>
         </div>

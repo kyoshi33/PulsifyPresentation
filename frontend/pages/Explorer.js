@@ -22,10 +22,9 @@ function Explorer() {
     const [errorMessage, setErrorMessage] = useState('')
 
     //if no connect go welcome
-    /*if (user) {
+    if (user) {
         window.location.href = '/'
-        return
-    }*/
+    }
     // enelevé résultat recherche et error 
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
@@ -47,7 +46,6 @@ function Explorer() {
     const fetchSearch = () => {
         setSortUp(false)
         setSortDown(false)
-
         if (checkedAutor) {
             fetchAutor()
             return
@@ -117,7 +115,7 @@ function Explorer() {
 
     const fetchGenre = async () => {
         // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/projects/searchGenre', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ genre: search }),
@@ -132,13 +130,13 @@ function Explorer() {
         }
     }
 
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par - liké first
     }
 
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
@@ -152,7 +150,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value); setErrorSearch(false) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder='Recherche...' onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]) }} value={search} className={styles.inputSearch} />
                     <button onClick={() => fetchSearch()} className={styles.btnSearch}>Rechercher</button>
                     <div className={styles.containerIcon}>
                         <Popover

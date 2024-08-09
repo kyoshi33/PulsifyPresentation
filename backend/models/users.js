@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     },
     token: { type: String, required: true },
     prompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'projects' }], required: false, default: [] },
-    likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'likedprompts' }], required: false, default: [] },
+    likedprompts: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'projects' }], required: false, default: [] },
     firstname: { type: String, required: true },
     picture: { type: String, required: false, default: null },
     createdAt: { type: Date, default: new Date() },

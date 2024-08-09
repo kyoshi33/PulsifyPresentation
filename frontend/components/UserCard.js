@@ -8,7 +8,7 @@ function UserCard(props) {
   const user = useSelector((state) => state.user.value)
   let profil =
     <div className={styles.profilesContainer}>
-      <img className={styles.profilesPic} src={user.picture} alt='photo de profil' />
+      <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />
 
       <div className={styles.namediv}>
         <h3 className={styles.nom}> {props.firstname}</h3>

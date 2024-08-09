@@ -271,3 +271,7 @@
   height: 50px;
   margin: 10px;
 }
+
+.profilPicture {
+  border-radius: 50px;
+}

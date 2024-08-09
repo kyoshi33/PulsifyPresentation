@@ -13,9 +13,7 @@ function ModelCard(props) {
     return (
         <button className={styles.listItemContainer}>
             <div className={styles.genre}>{props.genre}</div>
-            <div className={styles.listItemPrompt}>
-                Jazz, rock, musette, flute
-            </div>
+            <div className={styles.listItemPrompt}>{props.prompt}</div>
         </button>
 
     );

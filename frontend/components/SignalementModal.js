@@ -39,31 +39,5 @@ function SignalementModal(props) {
 }
 
 
-/*<body className={styles.main}>
-<div className={styles.container}>
-  <h1 className={styles.title}>Signalement</h1>
-  <div>
-    <p className={styles.text}>Signalez un commentaire innaproprié ou offensant </p>
-  </div>
-  <div className={styles.inputContainer} >
-    <textarea placeholder="Expliquer votre signalement ici..." className={styles.input}>
-    </textarea>
-  </div>
-  <div className={styles.footer}>
-    <div className={styles.btn} onClick={() => window.location.href = '/'}>
-      Annuler
-    </div>
-    <div className={styles.btn}>Valider</div>
-  </div>
-
-</div>
-</body>
-
-
-
-
-
-
-*/
 
 export default SignalementModal;

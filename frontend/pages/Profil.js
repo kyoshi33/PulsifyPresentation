@@ -66,9 +66,15 @@ function Profil() {
   }, []);
 
 
+  //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
+  const handleUpdate = (id) => {
+    // Filtrez la liste pour exclure l'élément supprimé
+    const newModeles = listMesModeles.filter(model => model._id !== id);
+    setListMesModeles(newModeles);
+  };
 
 
-  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} /></div>) })
+  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} onRemove={() => handleUpdate(data._id)} /></div>) })
 
 
   let display =

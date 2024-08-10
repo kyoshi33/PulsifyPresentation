@@ -38,10 +38,15 @@ function PromptCard(props) {
                 } else {
 
                     console.log("Successfully deleted one document.")
-                    window.location.reload();
+                    props.onRemove()
                 }
             });
     }
+
+
+
+    const displayXmark =
+        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt()} />
 
 
 
@@ -54,8 +59,7 @@ function PromptCard(props) {
             <UserCard email={props.firstname} username={props.username} picture={props.picture} />
         </div>;
 
-    const displayXmark =
-        <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt(console.log("coucou"))} />
+
 
 
 

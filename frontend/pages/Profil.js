@@ -68,7 +68,6 @@ function Profil() {
 
   //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
   const handleUpdate = (id) => {
-    // Filtrez la liste pour exclure l'élément supprimé
     const newModeles = listMesModeles.filter(model => model._id !== id);
     setListMesModeles(newModeles);
   };

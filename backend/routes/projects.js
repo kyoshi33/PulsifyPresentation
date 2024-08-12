@@ -206,13 +206,13 @@ router.post("/projectById", async (req, res) => {
     console.log(req.body)
     console.log(req.body.id)
     const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId })
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
     console.log('project 1 :', project)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" })
     } else {
-        console.log('project :', project)
+        // console.log('project :', project)
         return res.json({ result: true, info: project })
 
     }

@@ -24,6 +24,7 @@ function Project() {
     const [genreIsInvalid, setGenreIsInvalid] = useState(false);
     const [promptIsInvalid, setPromptIsInvalid] = useState(false);
     const [blink, setBlink] = useState(false);
+    const [totalScore, setTotalScore] = useState(0);
 
     const router = useRouter();
 
@@ -34,6 +35,31 @@ function Project() {
         }
     }, [])
 
+
+    // Fetch des suggestions
+    const suggestions = [];
+    const fetchSuggestions = async () => {
+        const { token, email } = user;
+        const fetchSuggestions = await fetch('http://localhost:3000/keywords/suggestions',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, token, genre: projectGenre, partialPrompt: prompt }),
+            })
+
+        const resSuggestions = await fetchSuggestions.json();
+
+        setTotalScore(resSuggestions.totalScore);
+        suggestions = resSuggestions.suggestionsList;
+
+        suggestions && setSuggestionsList([...suggestions])
+    };
+
+    // Rechercher des suggestions à chaque fois que l'utilisateur entre un caractère dans l'imput de prompt
+    useEffect(() => {
+        fetchSuggestions();
+    }, [prompt])
+
     // Function to handle setting the genre from the modal
     const handleGenreSelect = (selectedGenre) => {
         setProjectGenre(selectedGenre);
@@ -41,31 +67,24 @@ function Project() {
     };
 
 
-    // function to call route to get genre form user id
-    const fetchSuggestionsFromGenre = async () => {
-        const fetchSuggestions = await fetch('http://localhost:3000/suggestions',
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ genre: token }),
-            })
-
-        const resSuggestions = await fetchSuggestions.json()
-        setSuggestionsList([...suggestionsList, ...resSuggestions])
-    }
 
     //set a list of all suggestions, TODO: fetch on BD
     let suggestion = suggestionsList.map((data, i) => {
+        const pourcentage = (data.score_global / totalScore).toPrecision(4) * 100
         return (
             <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
                 <div className={styles.suggestionItemLeft}>
-                    <div key={i} >{data}</div>
+                    <div key={i} >{data.keyword}</div>
                 </div>
-                <div className={styles.suggestionItemRight}>10%</div>
+                <div className={styles.suggestionItemRight}>{pourcentage}%</div>
             </div>
         )
     }
     );
+
+    if (suggestionsList.length === 0) {
+        suggestion = [];
+    }
 
     //function to handle the copy/paste of the prompt
     const handleCopyToClipboard = () => {
@@ -215,7 +234,7 @@ function Project() {
                                     outline: 'none',
                                 }}
                                 value={projectTitle}
-                                maxLength={40}
+                                maxLength={25}
                             ></input>
                         </div>
                         <div className={styles.rightPartHeader}>
@@ -230,7 +249,7 @@ function Project() {
                                         outline: 'none',
                                     }}
                                     value={projectGenre}
-                                    maxLength={40}>
+                                    maxLength={25}>
                                 </input>
                                 <FontAwesomeIcon
                                     icon={faSearch}

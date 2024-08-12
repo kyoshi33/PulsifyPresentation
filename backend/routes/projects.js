@@ -185,25 +185,28 @@ router.delete("/prompt", (req, res) => {
 
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
+
     const newSignalement = new Signalement({
         userId: req.body.id,
         text: req.body.text,
-        prompt: req.body.prompt,
-        message: req.body.message
+        prompt: req.body.id,
+        message: req.body.message,
     })
     const savedProject = await newSignalement.save()
-    try {
-        const projectId = req.body.id;
-        const project = await Project.findByIdAndUpdate(
-            projectId,
-            { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-        ); console.log(project)
-        if (!project) {
-            return res.json({ result: false });
+    if (savedProject) {
+        try {
+            const projectId = req.body.id;
+            const project = await Project.findByIdAndUpdate(
+                projectId,
+                { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+            ); console.log(project)
+            if (!project) {
+                return res.json({ result: false });
+            }
+            res.json({ result: true })
+        } catch (error) {
+            res.json({ result: error });
         }
-        res.json({ result: true })
-    } catch (error) {
-        res.json({ result: error });
     }
 });
 

@@ -17,8 +17,8 @@ function Profil() {
   const [selectedTab, setSelectedTab] = useState(1);
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [community, setCommunaute] = useState(false);
-  const [listMesModeles, setMyPrompts] = useState([]);
-  const [listCommunaute, setListCommunaute] = useState([]);
+  const [myPrompts, setMyPrompts] = useState([]);
+  const [listCommunaute, setCommunityList] = useState([]);
 
 
   const handleLogout = () => {
@@ -51,9 +51,9 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          console.log(data.likedPrompts)
-          setMyPrompts(data.profil.prompts)
-          setListCommunaute(data.likedprompts)
+          console.log(data.likedprompts)
+          setMyPrompts(data.myPrompts.prompts)
+          setCommunityList(data.likedprompts.likedprompts)
         }
 
       });
@@ -65,13 +65,13 @@ function Profil() {
 
   //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
   const handleUpdate = (id) => {
-    const newModeles = listMesModeles.filter(model => model._id !== id);
+    const newModeles = myPrompts.filter(model => model._id !== id);
     setMyPrompts(newModeles);
   };
 
 
-  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.promptCard}><PromptCard className={styles.insidePromptCard} isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
-  const communityMap = listCommunaute.map((data, i) => { return (<div className={styles.promptCard}><PromptCard className={styles.insidePromptCard} isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
+  let listBibliotheque = myPrompts.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
+  const communityMap = listCommunaute.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
 
   let display =
     <div className={styles.modelChoiceContainer}>

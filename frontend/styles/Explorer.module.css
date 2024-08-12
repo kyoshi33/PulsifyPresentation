@@ -360,11 +360,26 @@
 }
 
 .discoverText {
+    font-weight: bold;
+    font-size: medium;
+    cursor: pointer;
+    transition-duration: 500ms;
+}
+
+.discoverText:hover {
     background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-weight: bold;
+    font-size: larger;
+}
+
+.discoverMessage {
+    display: flex;
+    justify-content: center;
     font-size: large;
-    cursor: pointer;
+    background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }

@@ -21,7 +21,7 @@ function SignUp() {
     const [isValidEmail, setisValidEmail] = useState(true)
     const [isValidUsername, setIsValidUsername] = useState(true)
     const [isValidName, setIsValidName] = useState(true)
-    const [errorLogin, setErrorLogin] = useState(false);
+    const [errorLogin, setErrorLogin] = useState(true);
 
     const dispatch = useDispatch();
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;

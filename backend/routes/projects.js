@@ -246,4 +246,20 @@ router.get('/allGenres', async (req, res) => {
     }
 })
 
+
+router.post('/comment', async (req, res) => {
+    const findUser = await User.findOne({ email: req.body.email })
+    if (findUser) {
+        const projectToComment = await Project.findByIdAndUpdate(req.body.id, { $push: { messages: { comment: req.body.comment, userId: findUser._id } } },
+            { new: true }
+        )
+        if (projectToComment) {
+            console.log('project to comment :', projectToComment)
+            res.json({ result: true, message: 'comment successfully added' })
+        } else {
+            res.json({ result: false, message: 'project not found' })
+        }
+
+    }
+})
 module.exports = router;

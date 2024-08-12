@@ -6,7 +6,12 @@ const projectsSchema = mongoose.Schema({
     keywords: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'keywords' }], required: false },
     title: { type: String, required: true },
     genre: { type: String, required: true },
-    messages: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'messages' }], required: false },
+    messages: [{
+        comment: { type: String, required: true },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
+        createdAt: { type: Date, default: new Date() },
+        nbSignalements: { type: Number, required: false, default: 0 },
+    }],
     theme: { type: String, required: false },
     audio: { type: String, required: false },
     nbLikes: { type: Number, required: false },

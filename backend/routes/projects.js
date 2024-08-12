@@ -198,7 +198,7 @@ router.post('/signalement', async (req, res) => {
         }
         res.json({ resutl: false })
     } catch (error) {
-        res.status(500).send('Erreur serveur');
+        res.json({ result: error });
     }
 });
 

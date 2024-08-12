@@ -2,20 +2,22 @@ import styles from '../styles/Signalement.module.css';
 import React from "react";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import { useState } from 'react';
 
 
 
 
 function SignalementModal(props) {
+  const [commentaire, setCommentaire] = useState('')
 
   const handleValidation = async () => {
     try {
-      const signalement = await fetch(`http://localhost:3000/projects/signalement`, {
+      const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: props.id }),
+        body: JSON.stringify({ idPrompt: props.id, text: commentaire }),
       });
       const response = await signalement.json()
       props.onRequestClose()
@@ -48,7 +50,7 @@ function SignalementModal(props) {
           <p className={styles.text}>Signalez un commentaire innaproprié ou offensant </p>
         </div>
         <div className={styles.promptContainer} >
-          <textarea placeholder="Expliquer votre signalement ici..." className={styles.input}>
+          <textarea placeholder="Expliquer votre signalement ici..." className={styles.input} onChange={e => setCommentaire(e.target.value)} value={commentaire}>
           </textarea>
         </div>
         <div className={styles.modalBtnContainer}>

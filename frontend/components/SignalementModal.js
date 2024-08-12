@@ -18,7 +18,7 @@ function SignalementModal(props) {
         body: JSON.stringify({ id: props.id }),
       });
       const response = await signalement.json()
-
+      props.onRequestClose()
       if (!response.result) {
         Error('Erreur lors de la validation du signalement');
       } else {
@@ -54,7 +54,7 @@ function SignalementModal(props) {
         </div>
         <div className={styles.modalBtnContainer}>
           <button className={styles.btn} onClick={props.onRequestClose}>Annuler</button>
-          <button className={styles.btn} onClick={handleValidation(props.onRequestClose)}>Valider</button>
+          <button className={styles.btn} onClick={handleValidation}>Valider</button>
         </div>
       </div>
     </Modal >

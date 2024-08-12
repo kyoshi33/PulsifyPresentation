@@ -10,6 +10,7 @@
   border: 1px solid #B300F2;
   border-radius: 10px;
   transition-duration: 500ms;
+
 }
 
 .promptContainer:hover {
@@ -21,6 +22,7 @@
 .itemContainer {
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 96%;
   height: 90%;
   font-size: 18px;
@@ -29,6 +31,7 @@
 
 .titleBackground {
   background-color: #272541;
+  border-radius: 50px;
 }
 
 .title {
@@ -38,10 +41,13 @@
   background-color: black;
   background-clip: text;
   font-size: 100%;
-  margin: 2%;
+  display: flex;
+  justify-content: center;
   text-align: center;
   border: white 1px solid;
-  padding: 8px;
+  padding: 10%;
+  width: 10vw;
+  border-radius: 50px;
 }
 
 
@@ -52,16 +58,20 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  padding-left: 1%;
+
 }
 
 .score {
   display: flex;
-  justify-content: flex-start;
+  width: 10vw;
+
 }
 
 .star {
   margin-left: 5px;
   font-size: 11px;
+
 }
 
 .starGrey {
@@ -71,10 +81,14 @@
 }
 
 .itemPrompt {
-  padding-left: 3%;
+  padding-left: 22%;
   font-size: 15px;
   padding-top: 6px;
   width: 70%;
+  display: flex;
+  align-items: center;
+  margin-left: 3%;
+
 }
 
 .iconsBox {
@@ -83,6 +97,7 @@
   flex-direction: row;
   justify-content: center;
   margin-top: 2%;
+  margin-left: 10%;
 }
 
 .icon {
@@ -98,9 +113,24 @@
 .xmark {
   cursor: pointer;
   margin-left: 20px;
+
 }
 
 .genre {
   border: #ffffff 1px solid;
+  border-radius: 15px;
+  padding: 2%;
+  margin-right: 10%;
+  margin-left: 15%;
+  width: 10vw;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
 
+.author {
+  margin-right: 1%;
+  width: 10%;
 }

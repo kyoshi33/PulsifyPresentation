@@ -64,7 +64,7 @@ function PromptCard(props) {
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeProjectModal}
-                prompt={prompt}
+                prompt='bonjour'
             />
         </>
 
@@ -91,7 +91,10 @@ function PromptCard(props) {
                             {props.projectName}
                         </div>
                     </div>
-                    <div className={styles.genre}>{props.genre}</div>
+                    <div className={styles.genre}>
+                        {props.genre}
+                    </div>
+
                     <div className={styles.score}>
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 1 ? styles.star : styles.starGrey} />
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 2 ? styles.star : styles.starGrey} />

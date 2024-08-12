@@ -50,8 +50,10 @@ function Explorer() {
     if (discover) {
         discoverGenres = allGenres.map((genre, i) => {
             return (
-                <div key={i} style={styles.discover}>
-                    {genre}
+                <div key={i} className={styles.discover}>
+                    <div className={styles.discoverText}>
+                        {genre}
+                    </div>
                 </div>
             )
         })
@@ -132,7 +134,7 @@ function Explorer() {
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: search }),
+            body: JSON.stringify({ username: search, token: user.token, email: user.email }),
         })
         const res = await fetchAutor.json()
         if (res.result) {
@@ -195,13 +197,13 @@ function Explorer() {
 
 
 
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par - liké first
     }
 
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>

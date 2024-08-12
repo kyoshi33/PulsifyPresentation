@@ -189,11 +189,11 @@ router.post('/signalement', async (req, res) => {
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-        );
+        ); console.log(req.body.projectI)
         if (!project) {
             return res.json({ result: false });
         }
-        res.json({ resutl: true })
+        res.json({ result: true })
     } catch (error) {
         res.json({ result: error });
     }

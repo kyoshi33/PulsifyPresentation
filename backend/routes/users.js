@@ -169,6 +169,20 @@ router.post('/genres', async (req, res) => {
 
 })
 
-
+router.get('/allGenres', async (req, res) => {
+  const foundAllUsers = await User.find()
+  if (foundAllUsers.length) {
+    allGenres = []
+    for (const genreArray of foundAllUsers) {
+      for (const genre of genreArray.genres) {
+        if (!allGenres.some(e => e === genre))
+          allGenres.push(genre)
+      }
+    }
+    res.json({ result: true, allUser: allGenres })
+  } else {
+    res.json({ result: false })
+  }
+})
 
 module.exports = router;

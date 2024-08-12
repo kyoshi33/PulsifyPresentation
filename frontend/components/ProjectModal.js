@@ -131,7 +131,7 @@ function ProjectModal(props) {
                         <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile); window.location.href = "./Profil" }}>Valider</button>
+                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile); score !== 0 && (window.location.href = "./Profil") }}>Valider</button>
                 </div>
                 <span className={styles.errorMessage}>{displayMessage}</span>
             </div>

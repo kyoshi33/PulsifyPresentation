@@ -51,7 +51,7 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          console.log(data.likedprompts)
+          console.log(data.likedprompts.likedprompts)
           setMyPrompts(data.myPrompts.prompts)
           setCommunityList(data.likedprompts.likedprompts)
         }
@@ -70,7 +70,7 @@ function Profil() {
   };
 
 
-  let listBibliotheque = myPrompts.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
+  const listBibliotheque = myPrompts.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
   const communityMap = listCommunaute.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
 
   let display =

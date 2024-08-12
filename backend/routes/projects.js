@@ -185,16 +185,15 @@ router.get("/projectById", (req, res) => { });
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
     try {
-        const { projectId } = req.params;
+        const { projectId } = req.body;
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            { new: true }
         );
         if (!project) {
             return res.json({ result: false });
         }
-        res.json({ resutl: false })
+        res.json({ resutl: true })
     } catch (error) {
         res.json({ result: error });
     }

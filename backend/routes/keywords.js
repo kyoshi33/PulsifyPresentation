@@ -39,10 +39,10 @@ router.post('/search', async (req, res) => {
 
 
 
-router.get("/suggestions", async (req, res) => {
+router.post("/suggestions", async (req, res) => {
 
     // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['token', 'genre', 'partialPrompt', 'email'])) {
+    if (!checkBody(req.body, ['token', 'genre', 'email'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
@@ -54,12 +54,17 @@ router.get("/suggestions", async (req, res) => {
     // Initialisation de la liste de suggestions
     let suggestionsList = [];
 
-    // Formattage du prompt
-    const trimmedPartialPrompt = req.body.partialPrompt.trim();
-    let formattedPrompt = trimmedPartialPrompt[trimmedPartialPrompt.length - 1] === "," ? trimmedPartialPrompt.slice(0, -1) : trimmedPartialPrompt
-    formattedPrompt = trimmedPartialPrompt[0] === "," ? trimmedPartialPrompt.slice(1) : trimmedPartialPrompt
-    formattedPrompt = trimmedPartialPrompt[trimmedPartialPrompt.length - 1] === "]" ? trimmedPartialPrompt.slice(0, -1) : trimmedPartialPrompt
-    formattedPrompt = trimmedPartialPrompt[0] === "[" ? trimmedPartialPrompt.slice(1) : trimmedPartialPrompt
+    // Récupérer les keywords de manière formatée 
+    const promptToSplit = req.body.partialPrompt.trim()
+    const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
+    const splittedKeywords = promptToSplitWithoutComa.split(',')
+    const keywords = []
+    for (const wordToFormat of splittedKeywords) {
+        const trimmedWords = wordToFormat.trim()
+        keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+    }
+
+    let regexKeywords = keywords.map(keyword => new RegExp(`^${keyword}$`, 'i'));
 
 
     //Initialisation des coefficients de calcul du score
@@ -68,37 +73,84 @@ router.get("/suggestions", async (req, res) => {
 
     // Création de la pipeline Mongoose
     let pipeline = [
+        // Match pour garder les keywords qui correspondent à l'utilisateur, au genre et à ce qui est tapé dans le prompt
         {
             $match: {
                 userId: foundUser._id,
                 genre: req.body.genre,
-                keyword: new RegExp(req.body.formattedPrompt, 'i')
+                keyword: { $in: regexKeywords }
             }
         },
+        // On unwind related_keywords pour traiter chacun individuellement
+        {
+            $unwind: "$related_keywords"
+        },
+        // Populate ou 'jointure'
+        {
+            $lookup: {
+                from: "keywords",
+                localField: "related_keywords",
+                foreignField: "_id",
+                as: "related_keyword_data"
+            }
+        },
+        // On acède aux data des related_keywords de façon individuelle
+        {
+            $unwind: "$related_keyword_data"
+        },
+        // On ajoute des champs temporaires pour calculer le score global
         {
             $addFields: {
                 score_global: {
                     $add: [
-                        { $multiply: [weight_rating, "$average_rating"] },
-                        { $multiply: [weight_frequency, { $log10: "$frequency" }] }
+                        { $multiply: [weight_rating, "$related_keyword_data.average_rating"] },
+                        { $multiply: [weight_frequency, { $log10: "$related_keyword_data.frequency" }] }
                     ]
                 }
             }
         },
+        // Si un related_keyword vient deux ou plusieurs fois, on en garde qu'un et on additionne le score_global
+        {
+            $group: {
+                _id: "$related_keyword_data._id",
+                keyword: { $first: "$related_keyword_data.keyword" },
+                score_global: { $sum: "$score_global" }
+            }
+        },
+        // On enlève des résultats les keywords que l'utilisateur a déjà tapé
+        {
+            $match: {
+                keyword: { $nin: keywords }
+            }
+        },
+        // Le tri
         {
             $sort: {
                 score_global: -1
             }
         },
+        // On en garde que 10
         {
             $limit: 10
+        },
+        // On rajoute un totalScore qui servira au front à calculer le pourcentage et on range le reste dans 'suggestions'
+        {
+            $group: {
+                _id: null,
+                totalScore: { $sum: "$score_global" },
+                suggestions: { $push: { keyword: "$keyword", score_global: "$score_global" } }
+            }
         }
     ];
 
     suggestionsList = await Keyword.aggregate(pipeline);
 
     // Réponse avec la liste de suggestions
-    res.json({ result: true, suggestionsList })
+    if (suggestionsList.length > 0) {
+        res.json({ result: true, totalScore: suggestionsList[0].totalScore, suggestionsList: suggestionsList[0].suggestions });
+    } else {
+        res.json({ result: true, totalScore: 0, suggestionsList: [] });
+    }
 })
 
 

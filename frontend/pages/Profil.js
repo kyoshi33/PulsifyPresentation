@@ -8,7 +8,7 @@ import { logout } from '../reducers/user';
 import UserCard from '../components/UserCard';
 import { faArrowRightFromBracket, faPlay, faPause, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
-
+import Image from 'next/image';
 
 function Profil() {
 
@@ -16,8 +16,8 @@ function Profil() {
   const user = useSelector((state) => state.user.value)
   const [selectedTab, setSelectedTab] = useState(1);
   const [maBibliotheque, setMaBibliotheque] = useState(true);
-  const [communaute, setCommunaute] = useState(false);
-  const [listMesModeles, setListMesModeles] = useState([]);
+  const [community, setCommunaute] = useState(false);
+  const [listMesModeles, setMyPrompts] = useState([]);
   const [listCommunaute, setListCommunaute] = useState([]);
 
 
@@ -55,7 +55,7 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          setListMesModeles(data.profil.prompts)
+          setMyPrompts(data.profil.prompts)
           setListCommunaute(data.profil.likedprompts)
         }
         console.log(listMesModeles)
@@ -69,12 +69,12 @@ function Profil() {
   //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
   const handleUpdate = (id) => {
     const newModeles = listMesModeles.filter(model => model._id !== id);
-    setListMesModeles(newModeles);
+    setMyPrompts(newModeles);
   };
 
 
-  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.test}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} onRemove={() => handleUpdate(data._id)} /></div>) })
-
+  let listBibliotheque = listMesModeles.map((data, i) => { return (<div className={styles.promptCard}><PromptCard className={styles.insidePromptCard} isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
+  const communityMap = listCommunaute.map((data, i) => { return (<div className={styles.promptCard}><PromptCard className={styles.insidePromptCard} isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
 
   let display =
     <div className={styles.modelChoiceContainer}>
@@ -86,6 +86,15 @@ function Profil() {
         <div className={styles.scrollWindow}>
           <div className={styles.promptCard} >
             {listBibliotheque}
+          </div>
+        </div>
+      </div>
+  } else if (community) {
+    display =
+      <div className={styles.modelChoiceContainer}>
+        <div className={styles.scrollWindow}>
+          <div className={styles.promptCard} >
+            {communityMap}
           </div>
         </div>
       </div>
@@ -109,90 +118,18 @@ function Profil() {
   // })
 
 
-  if (communaute) {
-    display =
-      <div className={styles.modelChoiceContainer}>
-        <div className={styles.scrollWindow}>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz,rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rock Indie
-            </div>
-            <div className={styles.listItemPrompt}>
-              rock, electric guitar/bass/drums, pop,folk
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Modern classical
-            </div>
-            <div className={styles.listItemPrompt}>
-              contemporary, mordern classical, XXcentury
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-          <button className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
-              Rockabilly
-            </div>
-            <div className={styles.listItemPrompt}>
-              Jazz, rock, musette, flute
-            </div>
-          </button>
-        </div>
-      </div>
+  if (community) {
+
   }
-
-
-
-
-
-
-
 
   return (
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <UserCard username={user.username} firstname={user.firstname} picture={user.picture ? user.picture : null} />
+        <Image src={user.picture ? user.picture : null} width={150} height={150} className={styles.profilPicture} />
+        <div className={styles.usernameAndName}> {user.firstname}
+          <span className={styles.username}>@{user.username}</span>
+        </div>
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
 

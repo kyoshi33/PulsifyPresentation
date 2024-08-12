@@ -57,11 +57,13 @@ function ProjectModal(props) {
             }
 
             if (score != 0) {
+                console.log('coucou')
                 const saveDataForPrompt = await fetch("http://localhost:3000/projects/add", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dataForPrompt)
                 })
+                console.log('c good, project enregistré', saveDataForPrompt)
             }
         }
     };
@@ -74,7 +76,7 @@ function ProjectModal(props) {
         setHoveredStars(0);
     };
 
-    const click = (rating) => {
+    const clickToRate = (rating) => {
         setScore(rating);
 
     };
@@ -117,7 +119,7 @@ function ProjectModal(props) {
                                     style={{ color: color }}
                                     onMouseEnter={() => mouseOver(star)}
                                     onMouseLeave={mouseLeave}
-                                    onClick={() => click(star)}
+                                    onClick={() => clickToRate(star)}
                                 />
                             );
                         })}

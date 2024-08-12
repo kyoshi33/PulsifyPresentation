@@ -22,6 +22,7 @@ function Explorer() {
     const [errorMessage, setErrorMessage] = useState('')
     const [placeHolder, setPlaceHolder] = useState('Recherche par mots clés...')
     const [allGernres, setAllgenres] = useState([])
+    const [discover, setDiscover] = useState(false)
 
     //if no connect go welcome
     if (!user.isLogged) {
@@ -29,7 +30,30 @@ function Explorer() {
     }
     // enelevé résultat recherche et error 
 
-    useEffect({}, [])
+    useEffect(() => {
+        fetch('http://localhost:3000/users/allGenres')
+            .then(res => res.json())
+            .then(genres => {
+                console.log(genres)
+                if (genres.result) {
+                    setAllgenres(genres.allGEnres)
+                    setDiscover(true)
+                } else {
+                    setDiscover(false)
+                }
+            })
+    }, [])
+
+
+    let discoverGenres
+
+    if (discover) {
+
+    }
+
+    if (search.length) {
+
+    }
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
         setCheckedKeyword(true)
@@ -252,6 +276,7 @@ function Explorer() {
 
                 <div className={styles.scrollWindow}>
                     {error}
+                    {discoverGenres}
                     {listProjectSearch}
                 </div>
                 <button className={styles.btnRetour} onClick={() => window.location.href = '/Accueil'}>Retour</button>

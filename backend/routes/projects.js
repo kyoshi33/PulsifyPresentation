@@ -21,6 +21,7 @@ router.post("/add", async (req, res) => {
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
+
     const newProject = new Project({
         genre: req.body.genre,
         prompt: promptToSplitWithoutComa,
@@ -33,6 +34,7 @@ router.post("/add", async (req, res) => {
         title: req.body.title
     })
     const savedProject = await newProject.save()
+
 
     // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
     await User.updateOne({ email: req.body.email },
@@ -48,7 +50,9 @@ router.post("/add", async (req, res) => {
     const keywords = []
     for (const wordToFormat of splittedKeywords) {
         const trimmedWords = wordToFormat.trim()
-        keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+        if (trimmedWords) {
+            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+        }
     }
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.

@@ -1,10 +1,10 @@
+import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCopy, faCheckCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
-import styles from '../styles/Project.module.css'
 import ProjectModal from '../components/ProjectModal';
 import GenresModal from '../components/GenresModal';
 import Header from '../components/Header';
@@ -260,7 +260,7 @@ function Project() {
                                     maxLength={25}>
                                 </input>
                                 <FontAwesomeIcon
-                                    icon={faSearch}
+                                    icon={faBars}
                                     className={styles.searchGenreBtn}
                                     onClick={openGenresModal}
                                 />

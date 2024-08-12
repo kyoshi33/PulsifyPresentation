@@ -8,7 +8,7 @@ const { checkBody } = require('../modules/tools')
 
 router.post('/search', async (req, res) => {
 
-    if (!checkBody(req.body, ['keyword'])) {
+    if (!checkBody(req.body, ['keyword', 'email', "token"])) {
         res.json({ result: false, error: 'Champs vides ou manquants' });
         return;
     }

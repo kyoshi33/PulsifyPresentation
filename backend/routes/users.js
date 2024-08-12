@@ -185,4 +185,23 @@ router.get('/allGenres', async (req, res) => {
   }
 })
 
+
+
+router.post("/like", async (req, res) => {
+
+
+  const updateUsers = await User.updateOne({ email: req.body.email },
+
+    { $push: { likedprompts: req.body.id } }
+  )
+
+
+  console.log(foundUsers);
+
+})
+
+
+
+
+
 module.exports = router;

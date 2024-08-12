@@ -180,21 +180,20 @@ router.delete("/prompt", (req, res) => {
 });
 
 
-router.get("/projectById", (req, res) => { });
+
 
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
     try {
-        const { projectId } = req.params;
+        const { projectId } = req.body;
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            { new: true }
         );
         if (!project) {
             return res.json({ result: false });
         }
-        res.json({ resutl: false })
+        res.json({ resutl: true })
     } catch (error) {
         res.json({ result: error });
     }
@@ -203,6 +202,20 @@ router.post('/signalement', async (req, res) => {
 
 
 
+router.post("/projectById", async (req, res) => {
+    console.log(req.body)
+    console.log(req.body.id)
+    const projectId = req.body.id;
+    const project = await Project.findById({ _id: projectId })
+    console.log('project 1 :', project)
 
+    if (!project) {
+        return res.json({ result: false, message: "project not found" })
+    } else {
+        console.log('project :', project)
+        return res.json({ result: true, info: project })
+
+    }
+});
 
 module.exports = router;

@@ -14,7 +14,8 @@ const projectsSchema = mongoose.Schema({
     isPublic: { type: Boolean, required: true },
     nbSignalements: { type: Number, required: false, default: 0 },
     createdAt: { type: Date, default: new Date() },
-    ia: { type: String, required: false, default: "Suno" }
+    ia: { type: String, required: false, default: "Suno" },
+    comments: { type: [{ comment: String, creationDate: Date }] }
 });
 
 const Project = mongoose.model('projects', projectsSchema);

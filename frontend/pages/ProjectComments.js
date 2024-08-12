@@ -82,7 +82,13 @@ function ProjectComments() {
                 <button className={styles.btn}>Utiliser ce modèle</button>
             </div>
             <div className={styles.promptCardContainer}>
-                <PromptCard id={id}></PromptCard>
+                <PromptCard id={id} username={projectInfo.userId.username}
+                    firstname={projectInfo.userId.firstname}
+                    picture={projectInfo.userId.picture}
+                    rating={projectInfo.rating}
+                    projectName={projectInfo.title}
+                    genre={projectInfo.genre}
+                    prompt={projectInfo.prompt}></PromptCard>
             </div>
             <div className={styles.commentsContainer}>
                 {comments}

@@ -135,76 +135,6 @@ router.post("/add", async (req, res) => {
 
 
 
-
-
-
-router.get("/suggestions", async (req, res) => {
-
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['token', 'genre', 'partialPrompt', 'email', "username"])) {
-        res.json({ result: false, error: 'Champs manquants ou vides' });
-        return;
-    }
-
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-    !foundUser && res.json({ result: false, error: 'Access denied' });
-
-    // Initialisation de la liste de suggestions
-    let suggestionsList = [];
-
-    // Formattage du prompt
-    const splitPrompt = req.body.partialPrompt.trim();
-    let formattedPrompt = splitPrompt[splitPrompt.length - 1] === "," ? splitPrompt.slice(0, -1) : splitPrompt
-    formattedPrompt = splitPrompt[0] === "," ? splitPrompt.slice(1) : splitPrompt
-    formattedPrompt = splitPrompt[splitPrompt.length - 1] === "]" ? splitPrompt.slice(0, -1) : splitPrompt
-    formattedPrompt = splitPrompt[0] === "[" ? splitPrompt.slice(1) : splitPrompt
-
-    //Initialisation des coefficients de calcul du score
-    const weight_rating = 0.7;
-    const weight_frequency = 0.3;
-
-    // Récupération de l'id du prompt
-    const actualPrompt = await Project.findOne({ userId: foundUser._id, genre: req.body.genre });
-    const actualPromptId = actualPrompt._id;
-
-    // Création de la pipeline Mongoose
-    let pipeline = [
-        {
-            $match: {
-                userId: foundUser._id,
-                // genre: req.body.genre,
-                keyword: new RegExp(req.body.formattedPrompt, 'i')
-            }
-        },
-        {
-            $addFields: {
-                score_global: {
-                    $add: [
-                        { $multiply: [weight_rating, "$average_rating"] },
-                        { $multiply: [weight_frequency, { $log10: "$frequency" }] }
-                    ]
-                }
-            }
-        },
-        {
-            $sort: {
-                score_global: -1
-            }
-        },
-        {
-            $limit: 10
-        }
-    ];
-
-    suggestionsList = await Keyword.aggregate(pipeline);
-
-    // Réponse avec la liste de suggestions
-    res.json({ result: true, suggestionsList })
-})
-
-
-
 router.post('/searchTitle', async (req, res) => {
 
     if (!checkBody(req.body, ['title'])) {
@@ -251,6 +181,29 @@ router.delete("/prompt", (req, res) => {
         })
 });
 
+
+
+
+// Route pour incrémenter nbSignalements
+router.post('/signalement/:projectId', async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const project = await Project.findByIdAndUpdate(
+            projectId,
+            { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+            { new: true }  // Retourne le projet mis à jour
+        );
+        if (!project) {
+            return res.status(404).send('Projet non trouvé');
+        }
+        res.status(200).json(project);
+    } catch (error) {
+        res.status(500).send('Erreur serveur');
+    }
+});
+
+
+module.exports = router;
 
 
 

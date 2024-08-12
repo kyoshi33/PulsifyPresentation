@@ -50,8 +50,10 @@ function Explorer() {
     if (discover) {
         discoverGenres = allGenres.map((genre, i) => {
             return (
-                <div key={i} style={styles.discover}>
-                    {genre}
+                <div key={i} className={styles.discover}>
+                    <div className={styles.discoverText}>
+                        {genre}
+                    </div>
                 </div>
             )
         })

@@ -178,4 +178,14 @@
     margin: 12px;
 }
 
-.discover {}
+.discover {
+    display: flex;
+    justify-content: center;
+}
+
+.discoverText {
+    background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

@@ -139,27 +139,17 @@ router.post('/search', async (req, res) => {
 
 })
 
+
 router.post('/projets', async (req, res) => {
   if (!checkBody(req.body, ['email', "token"])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-
-  const foundAllUser = await User.find()
-  const allLikedprompts = []
-  if (foundAllUser) {
-    for (const liked of foundAllUser) {
-      if (liked.likedprompts.length) {
-        console.log("liked", liked)
-        allLikedprompts.push(await liked.populate('likedprompts'))
-      }
-    }
-    console.log("tous les prompts liké", allLikedprompts)
-
-    const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-    const foundUserPopulated = await foundUser.populate('likedprompts')
-
-    res.json({ result: true, profil: foundUserPopulated, likedprompts: allLikedprompts })
+  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
+  const foundUserPopulated = await foundUser.populate('likedprompts')
+  console.log(foundUserPopulated)
+  if (foundUser) {
+    res.json({ result: true, myPrompts: foundUser, likedprompts: foundUserPopulated })
   } else {
     res.json({ result: false })
   }

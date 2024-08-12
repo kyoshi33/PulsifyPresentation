@@ -16,7 +16,7 @@ function SignalementModal(props) {
           'Content-Type': 'application/json',
         },
       });
-      if (!response) {
+      if (!response.ok) {
         Error('Erreur lors de la validation du signalement');
       }
       const data = await response.json();

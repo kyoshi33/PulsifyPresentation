@@ -17,7 +17,7 @@ function Project() {
     const [genresModalIsOpen, setGenresModalIsOpen] = useState(false)
     const [modalIsOpen, setIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
-    const [suggestionsList, setSuggestionsList] = useState(["Rock", "Pop", "Guitar", "Bass", "Drums", "papa", "Maman", "couilles", "babar"]);
+    const [suggestionsList, setSuggestionsList] = useState([]);
     const [isCopied, setIsCopied] = useState(false);
     const [projectGenre, setProjectGenre] = useState('');
     const [titleIsInvalid, setTitleIsInvalid] = useState(false);
@@ -68,23 +68,24 @@ function Project() {
 
 
 
-    //set a list of all suggestions, TODO: fetch on BD
-    let suggestion = suggestionsList.map((data, i) => {
-        const pourcentage = (data.score_global / totalScore).toPrecision(4) * 100
-        return (
-            <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
-                <div className={styles.suggestionItemLeft}>
-                    <div key={i} >{data.keyword}</div>
+    // Map des suggestions
+    let suggestion = [];
+    console.log(suggestionsList)
+    if (suggestionsList.length != 0) {
+        suggestion = suggestionsList.map((data, i) => {
+            const pourcentage = (data.score_global / totalScore).toPrecision(4) * 100
+            return (
+                <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
+                    <div className={styles.suggestionItemLeft}>
+                        <div key={i} >{data.keyword}</div>
+                    </div>
+                    <div className={styles.suggestionItemRight}>{pourcentage}%</div>
                 </div>
-                <div className={styles.suggestionItemRight}>{pourcentage}%</div>
-            </div>
-        )
+            )
+        }
+        );
     }
-    );
 
-    if (suggestionsList.length === 0) {
-        suggestion = [];
-    }
 
     //function to handle the copy/paste of the prompt
     const handleCopyToClipboard = () => {

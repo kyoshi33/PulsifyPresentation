@@ -15,6 +15,7 @@ function ProjectComments() {
     const [commentsList, setCommentsList] = useState(["coucou", "couilles", "bite", "j'en aurai bouffé du CSS", "je sais plus", "quoi taper", "pour tester", "ma scrollBar", "plus un truc"])
     const [comment, setComment] = useState("")
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
     const { id } = router.query; // Retrieve the project ID from the query parameters
 
@@ -37,7 +38,7 @@ function ProjectComments() {
 
     useEffect(() => {
         if (id) {
-            fetchProjectData()
+            fetchProjectData(id)
             // Fetch the project data using the ID, or perform any required logic
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
@@ -45,13 +46,16 @@ function ProjectComments() {
     }, []);
 
     const fetchProjectData = async (id) => {
-        const fetchData = fetch(`http://localhost:3000/projects/ProjectById`, {
+        console.log('id :', id)
+        const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id }),
         });
+        console.log('fetchData :', fetchData)
         const res = await fetchData.json()
-        console.log('project info :', res)
+        console.log('project info :', res.info)
+        setProjectInfo(res.info)
     }
 
     const comments = commentsList.map((data, i) => {

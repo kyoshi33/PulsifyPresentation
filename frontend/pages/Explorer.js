@@ -35,7 +35,7 @@ function Explorer() {
     }, [])
 
     const foundAllGenres = async () => {
-        const foundGenres = await fetch('http://localhost:3000/users/allGenres')
+        const foundGenres = await fetch('http://localhost:3000/projects/allGenres')
         const res = await foundGenres.json()
         if (res.result) {
             setAllGenres(res.allGenres)
@@ -47,6 +47,7 @@ function Explorer() {
 
     let discoverGenres
     let discoverMessage
+
     if (discover) {
         discoverMessage = <div className={styles.discoverMessage}>Découvrez des nouveaux genres...</div>
         discoverGenres = allGenres.map((genre, i) => {

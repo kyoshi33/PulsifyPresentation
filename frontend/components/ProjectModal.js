@@ -22,6 +22,7 @@ function ProjectModal(props) {
     console.log(props)
 
     const uploadPrompt = async (files) => {
+        console.log('token :', user.token)
         if (user.token) {
 
             const formData = new FormData();
@@ -64,6 +65,7 @@ function ProjectModal(props) {
                     body: JSON.stringify(dataForPrompt)
                 })
                 console.log('c good, project enregistré', saveDataForPrompt)
+                window.location.href = "./Profil"
             }
         }
     };
@@ -133,7 +135,11 @@ function ProjectModal(props) {
                         <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile); score !== 0 && (window.location.href = "./Profil") }}>Valider</button>
+                    <button className={styles.btn} onClick={() => {
+                        uploadPrompt(tempAudioFile);
+                        // score !== 0 &&  
+
+                    }}>Valider</button>
                 </div>
                 <span className={styles.errorMessage}>{displayMessage}</span>
             </div>

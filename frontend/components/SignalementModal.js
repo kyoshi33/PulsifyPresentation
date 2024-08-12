@@ -7,6 +7,7 @@ import Modal from 'react-modal';
 
 
 function SignalementModal(props) {
+  console.log(props.prompt)
   const handleValidation = async () => {
     try {
       const response = await fetch(`http://localhost:3000/projects/signalement`, {

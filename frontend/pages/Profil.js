@@ -2,15 +2,15 @@ import styles from '../styles/Profil.module.css';
 import User, { login } from '../reducers/user';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import user from '../reducers/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
-import UserCard from '../components/UserCard';
-import { faArrowRightFromBracket, faPlay, faPause, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
 import Image from 'next/image';
+import { addLike, removeLike } from '../reducers/user';
 
-function Profil() {
+
+function Profil(props) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value)
@@ -51,9 +51,9 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          console.log(data.likedprompts.likedprompts)
+          console.log(data)
           setMyPrompts(data.myPrompts.prompts)
-          setCommunityList(data.likedprompts.likedprompts)
+          setCommunityList(data.likedprompts)
         }
 
       });
@@ -69,9 +69,43 @@ function Profil() {
     setMyPrompts(newModeles);
   };
 
+  const handleCardClick = () => {
+    router.push(`/ProjectComments?id=${props.id}`); // Navigate to the ProjectComments page with the project ID as a query parameter
+  }
 
-  const listBibliotheque = myPrompts.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
-  const communityMap = listCommunaute.map((data, i) => { return (<div className={styles.promptCard}><PromptCard isOnProfile={true} stars={data.rating} projectName={data.title} prompt={data.prompt} id={data._id} genre={data.genre} onRemove={() => handleUpdate(data._id)} /></div>) })
+
+
+  // 
+
+  const listBibliotheque = myPrompts.map((data, i) => {
+    return (
+      <div className={styles.promptCard}>
+        <PromptCard isOnProfile={true}
+          isOnMyProjects={true}
+          stars={data.rating}
+          projectName={data.title}
+          prompt={data.prompt}
+          id={data._id}
+          genre={data.genre}
+          onRemove={() => handleUpdate(data._id)} />
+
+      </div>)
+  })
+  const communityMap = listCommunaute.map((data, i) => {
+    return (
+      <div className={styles.promptCard}>
+        <PromptCard firstname={data.userId.firstname}
+          username={data.userId.username}
+          picture={data.userId.picture}
+          isOnProfile={false}
+          stars={data.rating}
+          projectName={data.title}
+          prompt={data.prompt}
+          id={data._id}
+          genre={data.genre}
+          onRemove={() => handleUpdate(data._id)} />
+      </div>)
+  })
 
   let display =
     <div className={styles.modelChoiceContainer}>
@@ -119,7 +153,9 @@ function Profil() {
     <div className={styles.container}>
 
       <div className={styles.headerProfile}>
-        <Image src={user.picture ? user.picture : null} width={150} height={150} className={styles.profilPicture} />
+        {user.picture ? <Image src={user.picture} width={150} height={150} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
+
+
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>

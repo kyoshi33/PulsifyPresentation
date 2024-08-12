@@ -18,7 +18,6 @@ function UserCard(props) {
         <h3 className={styles.nom} > {props.firstname}</h3>
         <h4 className={styles.identifiant}>@{props.username}</h4>
       </div>
-
     </div>
 
 

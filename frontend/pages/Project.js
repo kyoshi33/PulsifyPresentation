@@ -26,6 +26,7 @@ function Project() {
     const [blink, setBlink] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
     const [spotifyNoResult, setSpotifyNoResult] = useState(false);
+    const [includeLikedPrompts, setIncludeLikedPrompts] = useState(false);
 
     const router = useRouter();
 
@@ -47,7 +48,7 @@ function Project() {
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, token, genre: projectGenre, partialPrompt: prompt }),
+                body: JSON.stringify({ email, token, genre: projectGenre, partialPrompt: prompt, includeLikedPrompts }),
             })
 
         const resSuggestions = await fetchSuggestions.json();
@@ -61,7 +62,7 @@ function Project() {
     // Rechercher des suggestions à chaque fois que l'utilisateur entre un caractère dans l'imput de prompt
     useEffect(() => {
         fetchSuggestions();
-    }, [prompt])
+    }, [prompt, projectGenre, includeLikedPrompts])
 
     // Fonction qui permet de sélectionner le genre depuis la modale
     const handleGenreSelect = (selectedGenre) => {
@@ -71,16 +72,19 @@ function Project() {
 
     // Map des suggestions
     let suggestion = [];
-    console.log(suggestionsList)
     if (suggestionsList.length != 0) {
         suggestion = suggestionsList.map((data, i) => {
-            const pourcentage = (data.score_global / totalScore).toPrecision(4) * 100
+            let pourcentage = 0;
+            if (totalScore) {
+                (pourcentage = 100 * (data.score_global / totalScore));
+                pourcentage = pourcentage.toPrecision(3)
+            }
             return (
                 <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data.keyword)}>
                     <div className={styles.suggestionItemLeft}>
                         <div key={i} >{data.keyword}</div>
                     </div>
-                    <div className={styles.suggestionItemRight}>{pourcentage}%</div>
+                    {totalScore ? <div className={styles.suggestionItemRight}>{pourcentage}%</div> : <></>}
                 </div>
             )
         }
@@ -217,7 +221,7 @@ function Project() {
                         </div>
                         <div className={styles.bottomSuggestionList}>
                             <label className={styles.checkboxLabel}>
-                                <input type="checkbox" className={styles.checkBoxSuggestion} />
+                                <input type="checkbox" className={styles.checkBoxSuggestion} value={includeLikedPrompts} onChange={() => setIncludeLikedPrompts(!includeLikedPrompts)} />
                                 <span className={styles.customCheckbox}></span>
                                 Intégrez les favoris de la communauté
                             </label>

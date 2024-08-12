@@ -71,11 +71,11 @@ function PromptCard(props) {
 
     const displayUser =
         <div className={styles.author}>
-            <UserCard email={props.firstname} username={props.username} picture={props.picture} />
+            <UserCard firstname={props.firstname} username={props.username} picture={props.picture} />
         </div>;
     const displayicons =
         <>
-            {props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />}
+            {!props.isOnMyProjects && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
             <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={handleCardClick} />
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
@@ -88,12 +88,14 @@ function PromptCard(props) {
         <div className={styles.iconsBox}>
             <FontAwesomeIcon icon={faPlay} className={styles.icon} />
             {!props.isOnProfile && displayicons}
+            {props.isOnMyProjects && displayicons}
         </div>
     if (isPlaying) {
         play =
             <div className={styles.iconsBox}>
                 <FontAwesomeIcon icon={faPause} className={styles.icon} />
                 {!props.isOnProfile && displayicons}
+                {props.isOnMyProjects && displayicons}
             </div>
     }
 
@@ -101,6 +103,7 @@ function PromptCard(props) {
         <div className={styles.promptContainer}>
             <div className={styles.itemContainer} >
                 {!props.isOnProfile && displayUser}
+
                 <div className={styles.titleBox}>
                     <div className={styles.titleBackground}>
                         <div className={styles.title}>

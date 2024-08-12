@@ -215,7 +215,7 @@ function Project() {
                                     outline: 'none',
                                 }}
                                 value={projectTitle}
-                                maxLength={40}
+                                maxLength={25}
                             ></input>
                         </div>
                         <div className={styles.rightPartHeader}>
@@ -230,7 +230,7 @@ function Project() {
                                         outline: 'none',
                                     }}
                                     value={projectGenre}
-                                    maxLength={40}>
+                                    maxLength={25}>
                                 </input>
                                 <FontAwesomeIcon
                                     icon={faSearch}

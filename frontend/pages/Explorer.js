@@ -34,8 +34,9 @@ function Explorer() {
         fetch('http://localhost:3000/users/allGenres')
             .then(res => res.json())
             .then(genres => {
-                if (res.result) {
-                    setAllgenres(res.allGEnres)
+                console.log(genres)
+                if (genres.result) {
+                    setAllgenres(genres.allGEnres)
                     setDiscover(true)
                 } else {
                     setDiscover(false)

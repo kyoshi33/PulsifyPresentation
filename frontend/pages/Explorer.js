@@ -21,7 +21,7 @@ function Explorer() {
     const [listProject, setListProject] = useState([]);
     const [errorMessage, setErrorMessage] = useState('')
     const [placeHolder, setPlaceHolder] = useState('Recherche par mots clés...')
-    const [allGernres, setAllgenres] = useState([])
+    const [allGenres, setAllGenres] = useState([])
     const [discover, setDiscover] = useState(false)
 
     //if no connect go welcome
@@ -31,28 +31,32 @@ function Explorer() {
     // enelevé résultat recherche et error 
 
     useEffect(() => {
-        fetch('http://localhost:3000/users/allGenres')
-            .then(res => res.json())
-            .then(genres => {
-                console.log(genres)
-                if (genres.result) {
-                    setAllgenres(genres.allGEnres)
-                    setDiscover(true)
-                } else {
-                    setDiscover(false)
-                }
-            })
+        foundAllGenres()
     }, [])
 
+    const foundAllGenres = async () => {
+        const foundGenres = await fetch('http://localhost:3000/users/allGenres')
+        const res = await foundGenres.json()
+        if (res.result) {
+            setAllGenres(res.allGenres)
+            setDiscover(true)
+        } else {
+            setDiscover(false)
+        }
+    }
 
     let discoverGenres
 
     if (discover) {
-
-    }
-
-    if (search.length) {
-
+        discoverGenres = allGenres.map((genre, i) => {
+            return (
+                <div key={i} className={styles.discover}>
+                    <div className={styles.discoverText}>
+                        {genre}
+                    </div>
+                </div>
+            )
+        })
     }
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
@@ -130,7 +134,7 @@ function Explorer() {
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: search }),
+            body: JSON.stringify({ username: search, token: user.token, email: user.email }),
         })
         const res = await fetchAutor.json()
         if (res.result) {
@@ -193,13 +197,13 @@ function Explorer() {
 
 
 
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par - liké first
     }
 
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
@@ -213,7 +217,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search); setDiscover(false) }} value={search} className={styles.inputSearch} />
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

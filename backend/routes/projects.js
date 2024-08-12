@@ -43,12 +43,11 @@ router.post("/add", async (req, res) => {
     }
 
     // Récupérer les keywords de manière formatée 
-
     const splittedKeywords = promptToSplitWithoutComa.split(',')
     const keywords = []
     for (const wordToFormat of splittedKeywords) {
-        const wordToTrim = wordToFormat.trim()
-        keywords.push(wordToTrim.charAt(0).toUpperCase() + wordToTrim.slice(1))
+        const trimmedWords = wordToFormat.trim()
+        keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
     }
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
@@ -81,7 +80,6 @@ router.post("/add", async (req, res) => {
     )
 
     // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
-
     if (newKeywordIds.length) {
         for (const id of newKeywordIds) {
             const foundKeywordById = await Keyword.findById(id)
@@ -187,18 +185,17 @@ router.delete("/prompt", (req, res) => {
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
     try {
-        const { projectId } = req.params;
+        const { projectId } = req.body;
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            { new: true }
         );
         if (!project) {
             return res.json({ result: false });
         }
-        res.json({ resutl: false })
+        res.json({ resutl: true })
     } catch (error) {
-        res.status(500).send('Erreur serveur');
+        res.json({ result: error });
     }
 });
 

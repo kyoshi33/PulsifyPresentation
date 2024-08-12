@@ -54,7 +54,7 @@ function SignalementModal(props) {
         </div>
         <div className={styles.modalBtnContainer}>
           <button className={styles.btn} onClick={props.onRequestClose}>Annuler</button>
-          <button className={styles.btn} onClick={handleValidation}>Valider</button>
+          <button className={styles.btn} onClick={handleValidation(props.onRequestClose)}>Valider</button>
         </div>
       </div>
     </Modal >

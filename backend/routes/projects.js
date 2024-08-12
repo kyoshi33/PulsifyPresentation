@@ -180,6 +180,29 @@ router.delete("/prompt", (req, res) => {
 });
 
 
+router.get("/projectById", (req, res) => { });
+
+// Route pour incrémenter nbSignalements
+router.post('/signalement', async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const project = await Project.findByIdAndUpdate(
+            projectId,
+            { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+            { new: true }
+        );
+        if (!project) {
+            return res.json({ result: false });
+        }
+        res.json({ resutl: false })
+    } catch (error) {
+        res.json({ result: error });
+    }
+});
+
+
+
+
 
 
 module.exports = router;

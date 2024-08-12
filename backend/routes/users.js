@@ -139,17 +139,27 @@ router.post('/search', async (req, res) => {
 
 })
 
-
-
-router.post('/modeles', async (req, res) => {
-  if (!checkBody(req.body, ['email'])) {
+router.post('/projets', async (req, res) => {
+  if (!checkBody(req.body, ['email', "token"])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-  const foundUserPopulated = await foundUser.populate('likedprompts')
-  if (foundUser) {
-    res.json({ result: true, profil: foundUserPopulated })
+
+  const foundAllUser = await User.find()
+  const allLikedprompts = []
+  if (foundAllUser) {
+    for (const liked of foundAllUser) {
+      if (liked.likedprompts.length) {
+        console.log("liked", liked)
+        allLikedprompts.push(await liked.populate('likedprompts'))
+      }
+    }
+    console.log("tous les prompts liké", allLikedprompts)
+
+    const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
+    const foundUserPopulated = await foundUser.populate('likedprompts')
+
+    res.json({ result: true, profil: foundUserPopulated, likedprompts: allLikedprompts })
   } else {
     res.json({ result: false })
   }
@@ -188,16 +198,23 @@ router.get('/allGenres', async (req, res) => {
 
 
 router.post("/like", async (req, res) => {
+  if (!checkBody(req.body, ['token'])) {
+    res.json({ result: false, error: 'Connectez vous.' });
+    return;
+  }
+  const foundUser = await User.findOne({ email: req.body.email })
 
-
-  const updateUsers = await User.updateOne({ email: req.body.email },
-
-    { $push: { likedprompts: req.body.id } }
-  )
-
-
-  console.log(foundUsers);
-
+  if (!foundUser.likedprompts.includes(req.body.id)) {
+    await User.updateOne({ email: req.body.email },
+      { $push: { likedprompts: req.body.id } }
+    )
+    res.json({ result: true })
+  } else {
+    await User.updateOne({ email: req.body.email },
+      { $pull: { likedprompts: req.body.id } }
+    )
+    res.json({ result: true })
+  }
 })
 
 

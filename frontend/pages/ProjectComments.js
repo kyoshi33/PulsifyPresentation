@@ -31,10 +31,16 @@ function ProjectComments() {
         setIsOpen(false)
     }
 
-    const postComment = () => {
-        setCommentsList([...commentsList, comment])
-        setComment('')
-    }
+    // const postComment = async () => {
+    //     const postCommentInBD = await fetch('http://localhost:3000/projects/Comment', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ id: id, messages: comment, creationDate: new Date }),
+    //     })
+
+    //     setCommentsList([...commentsList, comment])
+    //     setComment('')
+    // }
 
     useEffect(() => {
         if (id) {

@@ -202,21 +202,21 @@ router.post('/signalement', async (req, res) => {
 
 
 
-router.post("/projectById", async (req, res) => {
-    console.log(req.body)
-    console.log(req.body.id)
-    const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
-    console.log('project 1 :', project)
+// router.post("/projectById", async (req, res) => {
+//     console.log(req.body)
+//     console.log(req.body.id)
+//     const projectId = req.body.id;
+//     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
+//     console.log('project 1 :', project)
 
-    if (!project) {
-        return res.json({ result: false, message: "project not found" })
-    } else {
-        // console.log('project :', project)
-        return res.json({ result: true, info: project })
+//     if (!project) {
+//         return res.json({ result: false, message: "project not found" })
+//     } else {
+//         // console.log('project :', project)
+//         return res.json({ result: true, info: project })
 
-    }
-});
+//     }
+// });
 
 router.get('/allGenres', async (req, res) => {
     const foundAllProject = await Project.find()
@@ -232,4 +232,14 @@ router.get('/allGenres', async (req, res) => {
     }
 })
 
+
+// router.post('/comment', async (req, res) => {
+//     const projectToComment = await Project.findByIdAndUpdate(req.body.id, { comment: req.body.prompt, createdAt: req.body.date })
+//     if (projectToComment) {
+//         console.log('project to comment :', projectToComment)
+//         res.json({ result: true })
+//     } else {
+//         res.json({ result: false })
+//     }
+// })
 module.exports = router;

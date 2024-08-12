@@ -185,11 +185,11 @@ router.delete("/prompt", (req, res) => {
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
     try {
-        const { projectId } = req.body;
+        const projectId = req.body.id;
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-        ); console.log(req.body.projectI)
+        ); console.log(project)
         if (!project) {
             return res.json({ result: false });
         }

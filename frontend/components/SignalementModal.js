@@ -24,7 +24,6 @@ function SignalementModal(props) {
       } else {
         console.log('Signalement mis à jour');
       }
-
     } catch (error) {
       console.error('Erreur:', error);
     }

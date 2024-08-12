@@ -53,7 +53,7 @@ function Explorer() {
         discoverGenres = allGenres.map((genre, i) => {
             return (
                 <div key={i} className={styles.discover}>
-                    <div className={styles.discoverText} onClick={() => { }} >
+                    <div className={styles.discoverText} onClick={() => fetchGenre(genre)} >
                         {genre}
                     </div>
                 </div>
@@ -111,6 +111,7 @@ function Explorer() {
     let colorDown = sortDown && '#504E6B'
 
     const fetchSearch = () => {
+        setDiscover(false)
         setSortUp(false)
         setSortDown(false)
         if (checkedAutor) {
@@ -180,20 +181,39 @@ function Explorer() {
         }
     }
 
-    const fetchGenre = async () => {
-        // fetch des projets 
-        const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ genre: search }),
-        })
-        const res = await fetchProject.json()
-        if (res.result) {
-            setListProject(res.promptsList)
-            setErrorSearch(false)
+    const fetchGenre = async (genre) => {
+        setDiscover(false)
+        if (genre) {
+            setSearch(genre)
+            // fetch des projets depuis discover
+            const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ genre: genre }),
+            })
+            const res = await fetchProject.json()
+            if (res.result) {
+                setListProject(res.promptsList)
+                setErrorSearch(false)
+            } else {
+                setErrorSearch(true)
+                setErrorMessage(res.error)
+            }
         } else {
-            setErrorSearch(true)
-            setErrorMessage(res.error)
+            // fetch des projets 
+            const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ genre: search }),
+            })
+            const res = await fetchProject.json()
+            if (res.result) {
+                setListProject(res.promptsList)
+                setErrorSearch(false)
+            } else {
+                setErrorSearch(true)
+                setErrorMessage(res.error)
+            }
         }
     }
 
@@ -219,7 +239,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search); setDiscover(false) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search) }} value={search} className={styles.inputSearch} />
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

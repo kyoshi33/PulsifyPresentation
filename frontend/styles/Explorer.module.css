@@ -174,7 +174,7 @@
 }
 
 .containerPromptCard {
-    height: 12%;
+    height: 25%;
 }
 
 .container {
@@ -364,6 +364,10 @@
     font-size: medium;
     cursor: pointer;
     transition-duration: 500ms;
+    background: linear-gradient(90deg, white 0%, white 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .discoverText:hover {
@@ -382,4 +386,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.test {
+    display: flex;
+    flex-direction: row;
 }

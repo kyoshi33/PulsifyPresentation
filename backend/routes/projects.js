@@ -5,6 +5,7 @@ const { checkBody } = require('../modules/tools')
 const Project = require('../models/projects');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
+const Signalement = require("../models/signalements")
 
 
 router.post("/add", async (req, res) => {
@@ -184,12 +185,19 @@ router.delete("/prompt", (req, res) => {
 
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {
+    const newSignalement = new Signalement({
+        userId: req.body.id,
+        text: req.body.text,
+        prompt: req.body.prompt,
+        message: req.body.message
+    })
+    const savedProject = await newSignalement.save()
     try {
-        const { projectId } = req.body;
+        const projectId = req.body.id;
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-        ); console.log(req.body.projectI)
+        ); console.log(project)
         if (!project) {
             return res.json({ result: false });
         }

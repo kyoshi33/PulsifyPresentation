@@ -72,15 +72,35 @@ router.post("/suggestions", async (req, res) => {
     const weight_frequency = 0.3;
 
     // Création de la pipeline Mongoose
-    let pipeline = [
-        // Match pour garder les keywords qui correspondent à l'utilisateur, au genre et à ce qui est tapé dans le prompt
-        {
-            $match: {
-                userId: foundUser._id,
-                genre: req.body.genre,
-                keyword: { $in: regexKeywords }
+
+    let pipeline = [];
+    if (req.body.includeLikedPrompts) {
+        // Si la case Inclure la Communauté est cochée
+        pipeline.push(
+            // Match pour garder les keywords qui correspondent à tous le prompts likés, au genre et à ce qui est tapé dans le prompt
+            {
+                $match: {
+                    _id: { $in: foundUser.likedprompts },
+                    genre: req.body.genre,
+                    keyword: { $in: regexKeywords }
+                }
             }
-        },
+        );
+    } else {
+        // Si la case Inclure la Communauté n'est pas cochée
+        pipeline.push(
+            // Match pour garder les keywords qui correspondent à l'utilisateur, au genre et à ce qui est tapé dans le prompt
+            {
+                $match: {
+                    userId: foundUser._id,
+                    genre: req.body.genre,
+                    keyword: { $in: regexKeywords }
+                }
+            }
+        );
+    }
+
+    pipeline.push(
         // On unwind related_keywords pour traiter chacun individuellement
         {
             $unwind: "$related_keywords"
@@ -141,7 +161,7 @@ router.post("/suggestions", async (req, res) => {
                 suggestions: { $push: { keyword: "$keyword", score_global: "$score_global" } }
             }
         }
-    ];
+    );
 
     suggestionsList = await Keyword.aggregate(pipeline);
 

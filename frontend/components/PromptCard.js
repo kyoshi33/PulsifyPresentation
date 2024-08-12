@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -44,6 +44,15 @@ function PromptCard(props) {
             });
     }
 
+    const like = async (props) => {
+        let id = props.id
+        await fetch("http://localhost:3000/users/like", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email, id: id, token: user.token })
+        })
+    }
+
     const handleCardClick = () => {
         router.push(`/ProjectComments?id=${props.id}`); // Navigate to the ProjectComments page with the project ID as a query parameter
     }
@@ -60,7 +69,8 @@ function PromptCard(props) {
 
     const displayicons =
         <>
-            <FontAwesomeIcon icon={faHeart} className={styles.icon} />
+            <FontAwesomeIcon icon={faHeart} className={styles.icon} onClick={() => { like(props) }} />
+            <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={handleCardClick} />
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeProjectModal}
@@ -82,8 +92,8 @@ function PromptCard(props) {
     }
 
     return (
-        <div className={styles.promptContainer} onClick={handleCardClick}>
-            <div className={styles.itemContainer}>
+        <div className={styles.promptContainer}>
+            <div className={styles.itemContainer} >
                 {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox}>
                     <div className={styles.titleBackground}>
@@ -108,6 +118,7 @@ function PromptCard(props) {
                 </div>
                 <div className={styles.iconsBox} onClick={() => setIsPlaying(!isPlaying)}>
                     {play}
+
                 </div>
                 {props.isOnProfile && displayXmark}
             </div>

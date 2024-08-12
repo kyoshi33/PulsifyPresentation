@@ -146,20 +146,20 @@ router.post('/projets', async (req, res) => {
   }
 
   const foundAllUser = await User.find()
-  console.log("foundallUser", foundAllUser)
-  const allLikedPrompts = []
-  for (const liked of foundAllUser) {
-    if (liked.likedPrompts) {
-      allLikedPrompts.push(liked.populate('likedprompts'))
+  const allLikedprompts = []
+  if (foundAllUser) {
+    for (const liked of foundAllUser) {
+      if (liked.likedprompts.length) {
+        console.log("liked", liked)
+        allLikedprompts.push(await liked.populate('likedprompts'))
+      }
     }
-  }
-  console.log(allLikedPrompts)
+    console.log("tous les prompts liké", allLikedprompts)
 
+    const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
+    const foundUserPopulated = await foundUser.populate('likedprompts')
 
-  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-  const foundUserPopulated = await foundUser.populate('likedprompts')
-  if (foundUser) {
-    res.json({ result: true, profil: foundUserPopulated })
+    res.json({ result: true, profil: foundUserPopulated, likedprompts: allLikedprompts })
   } else {
     res.json({ result: false })
   }

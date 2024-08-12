@@ -51,8 +51,9 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
+          console.log(data.likedPrompts)
           setMyPrompts(data.profil.prompts)
-          setListCommunaute(data.profil.likedprompts)
+          setListCommunaute(data.likedprompts)
         }
 
       });

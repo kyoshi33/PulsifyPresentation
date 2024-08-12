@@ -191,12 +191,12 @@ router.post('/signalement/:projectId', async (req, res) => {
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            { new: true }  // Retourne le projet mis à jour
+            { new: true }
         );
         if (!project) {
-            return res.status(404).send('Projet non trouvé');
+            return res.json({ result: false });
         }
-        res.status(200).json(project);
+        res.json({ resutl: false })
     } catch (error) {
         res.status(500).send('Erreur serveur');
     }

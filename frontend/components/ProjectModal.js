@@ -19,7 +19,7 @@ function ProjectModal(props) {
     const [score, setScore] = useState(0);
 
     const user = useSelector((state) => state.user.value);
-
+    console.log(props)
 
     const uploadPrompt = async (files) => {
         if (user.token) {

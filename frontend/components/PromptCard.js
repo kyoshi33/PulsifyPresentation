@@ -64,7 +64,7 @@ function PromptCard(props) {
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeProjectModal}
-                prompt={prompt}
+                prompt='bonjour'
             />
         </>
 

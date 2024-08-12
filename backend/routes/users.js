@@ -146,14 +146,19 @@ router.post('/projets', async (req, res) => {
     return;
   }
   const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-  const foundUserPopulated = await foundUser.populate('likedprompts')
-  console.log(foundUserPopulated)
-  if (foundUser) {
-    res.json({ result: true, myPrompts: foundUser, likedprompts: foundUserPopulated })
-  } else {
-    res.json({ result: false })
+  const foundUserLikedPromptPopulated = await foundUser.populate('likedprompts')
+  let foundUserPopulated = []
+  for (const id of foundUserLikedPromptPopulated.likedprompts) {
+    foundUserPopulated.push(await id.populate('userId'))
   }
+
+  res.json({ result: true, myPrompts: foundUser, likedprompts: foundUserPopulated })
+
+
 })
+
+
+
 
 router.post('/genres', async (req, res) => {
   if (!checkBody(req.body, ['token'])) {

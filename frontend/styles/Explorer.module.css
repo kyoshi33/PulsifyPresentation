@@ -47,11 +47,7 @@
     padding: 10px;
 }
 
-.containerIcon {
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
+
 
 .icon {
     height: 50%;
@@ -174,12 +170,14 @@
 }
 
 .containerPromptCard {
-    height: 25%;
+    height: 12%;
+
 }
 
 .container {
     display: flex;
     align-items: center;
+
     flex-direction: column;
     height: 90vh;
     width: 100vw;
@@ -227,14 +225,14 @@
 }
 
 .containerIcon {
-    display: flex;
-    align-items: center;
     height: 100%;
+
 }
 
 .icon {
     height: 50%;
     margin: 10px;
+
     cursor: pointer;
 }
 

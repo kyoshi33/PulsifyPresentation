@@ -134,7 +134,7 @@ function Explorer() {
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: search }),
+            body: JSON.stringify({ username: search, token: user.token, email: user.email }),
         })
         const res = await fetchAutor.json()
         if (res.result) {

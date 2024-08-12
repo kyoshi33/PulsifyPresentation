@@ -54,6 +54,19 @@ router.post("/suggestions", async (req, res) => {
     // Initialisation de la liste de suggestions
     let suggestionsList = [];
 
+    // Afficher des suggestions de départ si le champ prompt n'est pas rempli
+    if (req.body.partialPrompt === '') {
+        if (!req.body.includeLikedPrompts) {
+            const allKeywords = await Keyword.find({ userId: foundUser._id, genre: req.body.genre })
+            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords })
+            return;
+        } else {
+            const allKeywords = await Keyword.find({ genre: req.body.genre })
+            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords.sort((a, b) => { a.frequency - b.frequency }) })
+            return;
+        }
+    }
+
     // Récupérer les keywords de manière formatée 
     const promptToSplit = req.body.partialPrompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
@@ -74,27 +87,40 @@ router.post("/suggestions", async (req, res) => {
     // Création de la pipeline Mongoose
 
     let pipeline = [];
-    if (req.body.includeLikedPrompts) {
-        // Si la case Inclure la Communauté est cochée
+
+    if (req.body.partialPrompt) {
+        if (req.body.includeLikedPrompts) {
+            // Si la case Inclure la Communauté est cochée
+            pipeline.push(
+                // Match pour garder les keywords qui correspondent à tous le prompts likés, au genre et à ce qui est tapé dans le prompt
+                {
+                    $match: {
+                        // _id: { $in: foundUser.likedprompts },
+                        genre: req.body.genre,
+                        keyword: { $in: regexKeywords }
+                    }
+                }
+            );
+        } else {
+            // Si la case Inclure la Communauté n'est pas cochée
+            pipeline.push(
+                // Match pour garder les keywords qui correspondent à l'utilisateur, au genre et à ce qui est tapé dans le prompt
+                {
+                    $match: {
+                        userId: foundUser._id,
+                        genre: req.body.genre,
+                        keyword: { $in: regexKeywords }
+                    }
+                }
+            );
+        }
+    } else {
         pipeline.push(
             // Match pour garder les keywords qui correspondent à tous le prompts likés, au genre et à ce qui est tapé dans le prompt
             {
                 $match: {
                     _id: { $in: foundUser.likedprompts },
                     genre: req.body.genre,
-                    keyword: { $in: regexKeywords }
-                }
-            }
-        );
-    } else {
-        // Si la case Inclure la Communauté n'est pas cochée
-        pipeline.push(
-            // Match pour garder les keywords qui correspondent à l'utilisateur, au genre et à ce qui est tapé dans le prompt
-            {
-                $match: {
-                    userId: foundUser._id,
-                    genre: req.body.genre,
-                    keyword: { $in: regexKeywords }
                 }
             }
         );

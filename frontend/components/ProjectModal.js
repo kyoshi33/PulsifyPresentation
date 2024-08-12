@@ -1,8 +1,8 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from '../styles/ProjectModal.module.css';
-import { Component, useState } from 'react';
+
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 
 
 function ProjectModal(props) {
-
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
     const [tempAudioFile, setTempAudioFile] = useState(null)
@@ -22,14 +21,11 @@ function ProjectModal(props) {
     const user = useSelector((state) => state.user.value);
 
 
-
     const uploadPrompt = async (files) => {
         if (user.token) {
 
-
             const formData = new FormData();
             const cloudinaryPresset = process.env.NEXT_PUBLIC_PRESSET_CLOUDINARY;
-
 
             if (files) {
                 formData.append("file", files[0]);

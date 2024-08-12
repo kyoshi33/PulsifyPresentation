@@ -21,11 +21,10 @@
 
 .profilesContainer {
   display: flex;
-  width: 80%;
+  width: 100%;
   height: 100%;
   flex-direction: row;
   align-items: center;
-
 }
 
 
@@ -43,8 +42,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  margin-left: 10%;
+  align-items: flex-start
 }
 
 .nom {
@@ -53,7 +51,6 @@
   color: white;
   font-size: 90%;
   margin-block: 0;
-
 }
 
 .btnLogOut {
@@ -269,10 +266,13 @@
 
 .icon {
   color: #ffffff;
-  width: 70%;
+  display: flex;
+  cursor: pointer;
   height: 70%;
-  margin-left: 22%;
+  border-radius: 50%;
+  display: flex;
 
+  margin: 6.5%;
 }
 
 .profilPicture {
@@ -293,5 +293,5 @@
 .username {
   color: grey;
   font-weight: 100;
-  width: 200%;
+  width: 100%;
 }

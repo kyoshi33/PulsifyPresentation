@@ -1,21 +1,22 @@
-import styles from '../styles/PromptCard.module.css';
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+
+import styles from '../styles/PromptCard.module.css';
 import SignalementModal from './SignalementModal';
-
-
+import Link from 'next/link'
 import UserCard from './UserCard';
 
 
+
 function PromptCard(props) {
-
-
-
+    const router = useRouter()
+    const user = useSelector((state) => state.user.value)
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [prompt, setPrompt] = useState("")
+    const [prompt, setPrompt] = useState("");
+    const [isPlaying, setIsPlaying] = useState(false);
 
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
@@ -43,26 +44,19 @@ function PromptCard(props) {
             });
     }
 
+    const handleCardClick = () => {
+        router.push(`/ProjectComments?id=${props.id}`); // Navigate to the ProjectComments page with the project ID as a query parameter
+    }
 
 
     const displayXmark =
         <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt()} />
 
 
-
-    const user = useSelector((state) => state.user.value)
-    const [isPlaying, setIsPlaying] = useState(false);
-
-
     const displayUser =
         <div className={styles.author}>
             <UserCard email={props.firstname} username={props.username} picture={props.picture} />
         </div>;
-
-
-
-
-
 
     const displayicons =
         <>
@@ -73,9 +67,6 @@ function PromptCard(props) {
                 prompt={prompt}
             />
         </>
-
-
-
 
     let play =
         <div className={styles.iconsBox}>
@@ -90,22 +81,17 @@ function PromptCard(props) {
             </div>
     }
 
-
-
     return (
-        <div className={styles.promptContainer}>
-
+        <div className={styles.promptContainer} onClick={handleCardClick}>
             <div className={styles.itemContainer}>
                 {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox}>
-
                     <div className={styles.titleBackground}>
                         <div className={styles.title}>
                             {props.projectName}
                         </div>
                     </div>
                     <div className={styles.genre}>{props.genre}</div>
-
                     <div className={styles.score}>
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 1 ? styles.star : styles.starGrey} />
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 2 ? styles.star : styles.starGrey} />
@@ -114,13 +100,11 @@ function PromptCard(props) {
                         <FontAwesomeIcon icon={faStar} className={props.stars === 5 ? styles.star : styles.starGrey} />
                     </div>
                 </div>
-
                 <div className={styles.itemPrompt}>
                     {props.prompt}
                 </div>
                 <div className={styles.iconsBox} onClick={() => setIsPlaying(!isPlaying)}>
                     {play}
-
                 </div>
                 {props.isOnProfile && displayXmark}
             </div>

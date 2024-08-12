@@ -12,15 +12,15 @@ function Explorer() {
     const [search, setSearch] = useState('')
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [checkedAutor, setCheckedAutor] = useState(false);
-    const [checkedKeyword, setCheckedKeyword] = useState(true);
+    const [checkedKeyword, setCheckedKeyword] = useState(false);
     const [checkedProject, setCheckedProject] = useState(false);
-    const [checkedGenre, setCheckedGenre] = useState(false);
+    const [checkedGenre, setCheckedGenre] = useState(true);
     const [sortUp, setSortUp] = useState(false);
     const [sortDown, setSortDown] = useState(false);
     const [errorSearch, setErrorSearch] = useState(false);
     const [listProject, setListProject] = useState([]);
     const [errorMessage, setErrorMessage] = useState('')
-    const [placeHolder, setPlaceHolder] = useState('Recherche par mots clés...')
+    const [placeHolder, setPlaceHolder] = useState('Recherche par genre...')
     const [allGenres, setAllGenres] = useState([])
     const [discover, setDiscover] = useState(false)
 
@@ -35,7 +35,7 @@ function Explorer() {
     }, [])
 
     const foundAllGenres = async () => {
-        const foundGenres = await fetch('http://localhost:3000/users/allGenres')
+        const foundGenres = await fetch('http://localhost:3000/projects/allGenres')
         const res = await foundGenres.json()
         if (res.result) {
             setAllGenres(res.allGenres)
@@ -46,12 +46,14 @@ function Explorer() {
     }
 
     let discoverGenres
+    let discoverMessage
 
     if (discover) {
+        discoverMessage = <div className={styles.discoverMessage}>Découvrez des nouveaux genres...</div>
         discoverGenres = allGenres.map((genre, i) => {
             return (
                 <div key={i} className={styles.discover}>
-                    <div className={styles.discoverText}>
+                    <div className={styles.discoverText} onClick={() => { }} >
                         {genre}
                     </div>
                 </div>
@@ -60,8 +62,8 @@ function Explorer() {
     }
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
-        setCheckedKeyword(true)
-        setPlaceHolder('Recherche par mots clés...')
+        setCheckedGenre(true)
+        setPlaceHolder('Recherche par genre...')
     }
 
     const handleChange = (props) => {
@@ -277,7 +279,7 @@ function Explorer() {
                         <FontAwesomeIcon icon={faSortAmountDown} className={styles.icon} color={colorDown} onClick={() => { setSortDown(true), setSortUp(false) }} />
                     </div>
                 </div>
-
+                {discoverMessage}
                 <div className={styles.scrollWindow}>
                     {error}
                     {discoverGenres}

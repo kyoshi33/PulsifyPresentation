@@ -189,11 +189,11 @@ router.post('/signalement', async (req, res) => {
         const project = await Project.findByIdAndUpdate(
             projectId,
             { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-        );
+        ); console.log(req.body.projectI)
         if (!project) {
             return res.json({ result: false });
         }
-        res.json({ resutl: true })
+        res.json({ result: true })
     } catch (error) {
         res.json({ result: error });
     }
@@ -217,5 +217,19 @@ router.post("/projectById", async (req, res) => {
 
     }
 });
+
+router.get('/allGenres', async (req, res) => {
+    const foundAllProject = await Project.find()
+    if (foundAllProject.length) {
+        allGenres = []
+        for (const project of foundAllProject) {
+            if (!allGenres.some(e => e === project.genre) && project.isPublic)
+                allGenres.push(project.genre)
+        }
+        res.json({ result: true, allGenres: allGenres })
+    } else {
+        res.json({ result: false })
+    }
+})
 
 module.exports = router;

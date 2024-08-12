@@ -15,8 +15,9 @@ function ProjectModal(props) {
     const [audio, setAudio] = useState(null);
     const [isPublic, setIsPublic] = useState(false)
     const [tempAudioFile, setTempAudioFile] = useState(null)
-    const [score, setScore] = useState(0);
     const [displayMessage, setDisplayMessage] = useState('');
+    const [hoveredStars, setHoveredStars] = useState(0);
+    const [score, setScore] = useState(0);
 
     const user = useSelector((state) => state.user.value);
 
@@ -69,6 +70,19 @@ function ProjectModal(props) {
         }
     };
 
+    const mouseOver = (rating) => {
+        setHoveredStars(rating);
+    };
+
+    const mouseLeave = () => {
+        setHoveredStars(0);
+    };
+
+    const click = (rating) => {
+        setScore(rating);
+
+    };
+
     return (
         <Modal
             isOpen={props.isOpen}
@@ -88,31 +102,30 @@ function ProjectModal(props) {
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
                     <div className={styles.voteStars}>
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            className={score >= 1 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
-                            onMouseOver={() => setScore(1)}
-                        />
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            className={score >= 2 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
-                            onMouseOver={() => setScore(2)}
-                        />
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            className={score >= 3 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
-                            onMouseOver={() => setScore(3)}
-                        />
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            className={score >= 4 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
-                            onMouseOver={() => setScore(4)}
-                        />
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            className={score >= 5 ? styles.colorThemeIcon : styles.colorThemeIconInactive}
-                            onMouseOver={() => setScore(5)}
-                        />
+
+                        {[1, 2, 3, 4, 5].map((star) => {
+                            const isStarSelected = score >= star;
+                            const isStarHovered = hoveredStars >= star;
+
+                            let color = "gray"; // Couleur par défaut
+
+                            if (isStarHovered && !isStarSelected) {
+                                color = "white"; // Couleur lors du survol
+                            } else if (isStarSelected) {
+                                color = "#B300F2"; // Couleur lorsqu'une étoile est cliquée
+                            }
+
+                            return (
+                                <FontAwesomeIcon
+                                    icon={faStar}
+                                    style={{ color: color }}
+                                    onMouseEnter={() => mouseOver(star)}
+                                    onMouseLeave={mouseLeave}
+                                    onClick={() => click(star)}
+                                />
+                            );
+                        })}
+
                     </div>
                 </div>
                 <div className={styles.modalBtnContainer}>
@@ -122,7 +135,7 @@ function ProjectModal(props) {
                         <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile) }}>Valider</button>
+                    <button className={styles.btn} onClick={() => { uploadPrompt(tempAudioFile); window.location.href = "./Profil" }}>Valider</button>
                 </div>
                 <span className={styles.errorMessage}>{displayMessage}</span>
             </div>

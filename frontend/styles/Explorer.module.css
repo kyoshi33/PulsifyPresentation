@@ -367,4 +367,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
 }

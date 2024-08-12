@@ -63,13 +63,11 @@ function Project() {
         fetchSuggestions();
     }, [prompt])
 
-    // Function to handle setting the genre from the modal
+    // Fonction qui permet de sélectionner le genre depuis la modale
     const handleGenreSelect = (selectedGenre) => {
         setProjectGenre(selectedGenre);
-        closeGenresModal(); // Close the modal after selection
+        closeGenresModal();
     };
-
-
 
     // Map des suggestions
     let suggestion = [];
@@ -89,23 +87,22 @@ function Project() {
         );
     }
 
-
-    // Function to handle the copy/paste of the prompt
+    // Fonction de copier / coller du prompt
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(prompt).then(() => {
-            setIsCopied(true); // Set the copied state to true
-            setTimeout(() => setIsCopied(false), 2000); // Hide the icon after 2 seconds
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 2000);
         });
     };
 
 
-    // Go back to previous page clicking on "retour"
+    // Retourner sur la page précédente lors du clic sur "Retour"
     const handleBack = () => {
         router.back();
     };
 
 
-    // Call route to fetch Genre by Artist name on Spotify
+    // Appeler la route de recherche sur Spotify
     const fetchGenreArtistOnSpotify = async (search) => {
         const { token, email } = user;
         const fetchArtist = await fetch('http://localhost:3000/spotify', {
@@ -121,15 +118,14 @@ function Project() {
         } else { setSpotifyNoResult(false); }
     }
 
-    // Launch search on spotify when search input activated and on 'Enter' key press
+    // Rechercher sur Spotify lorsque l'utilisateur appuie sur Entrée
     const handleSearchKeyDown = (event) => {
         if (event.key === 'Enter') {
             fetchGenreArtistOnSpotify(search);
         }
     }
 
-
-    // Map to display all the genres from an artist
+    // Mapper les genres d'un artiste
     spotifyNoResult ? (genres = search ? <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div> : <div className={styles.searchTitle}>Entrez d'abord un artiste</div>) :
         searchResults.length &&
         (genres = searchResults.map((data, i) => (
@@ -137,7 +133,6 @@ function Project() {
                 <div>{data}</div>
             </div>
         )))
-
 
     const triggerBlink = () => {
         setBlink(true);
@@ -155,18 +150,15 @@ function Project() {
     }
 
 
-    // Open and close Genres modal
+    // Ouvrir et fermer la modale de genres
     const openGenresModal = () => {
-
         setGenresModalIsOpen(true)
-
     }
     const closeGenresModal = () => {
         setGenresModalIsOpen(false)
     }
 
-
-    // Open project modal on click on "Enregistrer"
+    // Ouvrir la modale de projet au clic sur "Enregistrer"
     const openProjectModal = () => {
         if (prompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
             if (prompt.length === 0) {
@@ -200,7 +192,7 @@ function Project() {
         setIsOpen(false);
     }
 
-    // Add a genre from the search Container to the prompt with onClick
+    // Ajouter un genre depuis la recherche par artiste
     const addGenreFromSearchBar = (genre) => {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)

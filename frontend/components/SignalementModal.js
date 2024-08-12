@@ -10,16 +10,15 @@ function SignalementModal(props) {
 
   const handleValidation = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/projects/signalement/${props.projectId}`, {
+      const response = await fetch(`http://localhost:3000/projects/signalement`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      if (!response.ok) {
-        throw new Error('Erreur lors de la validation du signalement');
+      if (!response) {
+        Error('Erreur lors de la validation du signalement');
       }
-
       const data = await response.json();
       console.log('Signalement mis à jour :', data);
 

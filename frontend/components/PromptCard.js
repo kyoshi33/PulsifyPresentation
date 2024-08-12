@@ -1,10 +1,10 @@
+import styles from '../styles/PromptCard.module.css';
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-
-import styles from '../styles/PromptCard.module.css';
+import { addLike, removeLike } from '../reducers/user';
 import SignalementModal from './SignalementModal';
 import Link from 'next/link'
 import UserCard from './UserCard';
@@ -13,10 +13,12 @@ import UserCard from './UserCard';
 
 function PromptCard(props) {
     const router = useRouter()
-    const user = useSelector((state) => state.user.value)
     const [modalIsOpen, setIsOpen] = useState(false);
     const [prompt, setPrompt] = useState("");
     const [isPlaying, setIsPlaying] = useState(false);
+
+    const dispatch = useDispatch()
+    const user = useSelector((state) => state.user.value)
 
     // Open project modal on click on "Enregistrer"
     const openProjectModal = () => {
@@ -37,7 +39,6 @@ function PromptCard(props) {
                 if (!data) {
                     Error('Erreur lors de la récupération des prompts');
                 } else {
-
                     console.log("Successfully deleted one document.")
                     props.onRemove()
                 }
@@ -51,6 +52,12 @@ function PromptCard(props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: user.email, id: id, token: user.token })
         })
+        if (!user.liked.includes(props.id)) {
+            dispatch(addLike(props.id))
+        } else {
+            dispatch(removeLike(props.id))
+        }
+        console.log(props)
     }
 
     const handleCardClick = () => {
@@ -68,7 +75,7 @@ function PromptCard(props) {
         </div>;
     const displayicons =
         <>
-            <FontAwesomeIcon icon={faHeart} className={styles.icon} onClick={() => { like(props) }} />
+            {props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />}
             <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={handleCardClick} />
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}

@@ -182,6 +182,6 @@ router.delete("/prompt", (req, res) => {
 });
 
 
-
+router.get("/projectById", (req, res) => { });
 
 module.exports = router;

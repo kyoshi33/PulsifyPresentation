@@ -25,8 +25,11 @@ function Project() {
     const [promptIsInvalid, setPromptIsInvalid] = useState(false);
     const [blink, setBlink] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
+    const [spotifyNoResult, setSpotifyNoResult] = useState(false);
 
     const router = useRouter();
+
+    let genres = [];
 
     useEffect(() => {
         if (router.query.genre) {
@@ -87,7 +90,7 @@ function Project() {
     }
 
 
-    //function to handle the copy/paste of the prompt
+    // Function to handle the copy/paste of the prompt
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(prompt).then(() => {
             setIsCopied(true); // Set the copied state to true
@@ -102,18 +105,23 @@ function Project() {
     };
 
 
-    //Call route to fetch Genre by Artist name on Spotify
+    // Call route to fetch Genre by Artist name on Spotify
     const fetchGenreArtistOnSpotify = async (search) => {
+        const { token, email } = user;
         const fetchArtist = await fetch('http://localhost:3000/spotify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ search: search }),
+            body: JSON.stringify({ search, token, email }),
         });
         const res = await fetchArtist.json();
         setSearchResults(res)
+        if (!res.length) {
+            genres = <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div>
+            setSpotifyNoResult(true);
+        } else { setSpotifyNoResult(false); }
     }
 
-    // launch search on spotify when search input activated and on 'Enter' key press
+    // Launch search on spotify when search input activated and on 'Enter' key press
     const handleSearchKeyDown = (event) => {
         if (event.key === 'Enter') {
             fetchGenreArtistOnSpotify(search);
@@ -121,16 +129,15 @@ function Project() {
     }
 
 
-    // map to display all the genres from an artist
-    const genres = searchResults.length === 0 && search.length > 0 ? (
-        <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div>
-    ) : (
-        searchResults.map((data, i) => (
+    // Map to display all the genres from an artist
+    spotifyNoResult ? (genres = search ? <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div> : <div className={styles.searchTitle}>Entrez d'abord un artiste</div>) :
+        searchResults.length &&
+        (genres = searchResults.map((data, i) => (
             <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
                 <div>{data}</div>
             </div>
-        ))
-    );
+        )))
+
 
     const triggerBlink = () => {
         setBlink(true);
@@ -148,7 +155,7 @@ function Project() {
     }
 
 
-    // open and close Genres modal
+    // Open and close Genres modal
     const openGenresModal = () => {
 
         setGenresModalIsOpen(true)
@@ -193,7 +200,7 @@ function Project() {
         setIsOpen(false);
     }
 
-    //Add a genre from the search Container to the prompt with onClick
+    // Add a genre from the search Container to the prompt with onClick
     const addGenreFromSearchBar = (genre) => {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)
@@ -296,7 +303,7 @@ function Project() {
                         <div className={styles.searchTitle}>Recherche de genre par artiste</div>
                         <div className={styles.searchInputContainer}>
                             <input className={styles.searchInput}
-                                placeholder='Enter an artist here'
+                                placeholder='Recherchez vos artistes préférés'
                                 onChange={(e) => setSearch(e.target.value)}
                                 value={search}
                                 onKeyDown={handleSearchKeyDown}></input>

@@ -38,17 +38,13 @@ function Profil() {
   //   };
   // }
 
-
-
-
-
   //fonction card ma bibliotheque
 
   const clickBibliotheque = () => {
-    fetch('http://localhost:3000/users/modeles', {
+    fetch('http://localhost:3000/users/projets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email })
+      body: JSON.stringify({ email: user.email, token: user.token })
     })
       .then(response => response.json())
       .then(data => {
@@ -58,7 +54,7 @@ function Profil() {
           setMyPrompts(data.profil.prompts)
           setListCommunaute(data.profil.likedprompts)
         }
-        console.log(listMesModeles)
+
       });
   }
   useEffect(() => {
@@ -118,10 +114,6 @@ function Profil() {
   // })
 
 
-  if (community) {
-
-  }
-
   return (
     <div className={styles.container}>
 
@@ -137,10 +129,10 @@ function Profil() {
       <div className={styles.selectModelContainer}>
         <div className={styles.tabBar}>
           <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
-            Mes modèles
+            Mes projets
           </div>
           <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
-            Communauté
+            Projets favoris
           </div>
         </div>
         <div className={styles.display}>

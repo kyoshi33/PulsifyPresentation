@@ -37,11 +37,22 @@ function ProjectComments() {
 
     useEffect(() => {
         if (id) {
+            fetchProjectData()
             // Fetch the project data using the ID, or perform any required logic
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
         }
     }, []);
+
+    const fetchProjectData = async (id) => {
+        const fetchData = fetch(`http://localhost:3000/projects/ProjectById`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id }),
+        });
+        const res = await fetchData.json()
+        console.log('project info :', res)
+    }
 
     const comments = commentsList.map((data, i) => {
         return (

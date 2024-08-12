@@ -21,7 +21,7 @@ function Explorer() {
     const [listProject, setListProject] = useState([]);
     const [errorMessage, setErrorMessage] = useState('')
     const [placeHolder, setPlaceHolder] = useState('Recherche par mots clés...')
-    const [allGernres, setAllgenres] = useState([])
+    const [allGenres, setAllGenres] = useState([])
     const [discover, setDiscover] = useState(false)
 
     //if no connect go welcome
@@ -31,28 +31,30 @@ function Explorer() {
     // enelevé résultat recherche et error 
 
     useEffect(() => {
-        fetch('http://localhost:3000/users/allGenres')
-            .then(res => res.json())
-            .then(genres => {
-                console.log(genres)
-                if (genres.result) {
-                    setAllgenres(genres.allGEnres)
-                    setDiscover(true)
-                } else {
-                    setDiscover(false)
-                }
-            })
+        foundAllGenres()
     }, [])
 
+    const foundAllGenres = async () => {
+        const foundGenres = await fetch('http://localhost:3000/users/allGenres')
+        const res = await foundGenres.json()
+        if (res.result) {
+            setAllGenres(res.allGenres)
+            setDiscover(true)
+        } else {
+            setDiscover(false)
+        }
+    }
 
     let discoverGenres
 
     if (discover) {
-
-    }
-
-    if (search.length) {
-
+        discoverGenres = allGenres.map((genre, i) => {
+            return (
+                <div key={i} style={styles.discover}>
+                    {genre}
+                </div>
+            )
+        })
     }
 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
@@ -213,7 +215,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search); setDiscover(false) }} value={search} className={styles.inputSearch} />
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

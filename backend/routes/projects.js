@@ -182,7 +182,7 @@ router.delete("/prompt", (req, res) => {
 });
 
 
-
+router.get("/projectById", (req, res) => { });
 
 // Route pour incrémenter nbSignalements
 router.post('/signalement', async (req, res) => {

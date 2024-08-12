@@ -16,6 +16,7 @@ function ProjectComments() {
     const [comment, setComment] = useState("")
     const [modalIsOpen, setIsOpen] = useState(false);
     const router = useRouter();
+    const { id } = router.query; // Retrieve the project ID from the query parameters
 
     const handleBack = () => {
         router.back();
@@ -33,6 +34,14 @@ function ProjectComments() {
         setCommentsList([...commentsList, comment])
         setComment('')
     }
+
+    useEffect(() => {
+        if (id) {
+            // Fetch the project data using the ID, or perform any required logic
+            console.log('Project ID:', id);
+            // You can use this ID to fetch data associated with the specific project
+        }
+    }, []);
 
     const comments = commentsList.map((data, i) => {
         return (
@@ -58,7 +67,7 @@ function ProjectComments() {
                 <button className={styles.btn}>Utiliser ce modèle</button>
             </div>
             <div className={styles.promptCardContainer}>
-                <PromptCard></PromptCard>
+                <PromptCard id={id}></PromptCard>
             </div>
             <div className={styles.commentsContainer}>
                 {comments}

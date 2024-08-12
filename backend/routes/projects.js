@@ -254,4 +254,27 @@ router.delete("/prompt", (req, res) => {
 
 
 
+// Route pour incrémenter nbSignalements
+router.post('/signalement/:projectId', async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const project = await Project.findByIdAndUpdate(
+            projectId,
+            { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+            { new: true }  // Retourne le projet mis à jour
+        );
+        if (!project) {
+            return res.status(404).send('Projet non trouvé');
+        }
+        res.status(200).json(project);
+    } catch (error) {
+        res.status(500).send('Erreur serveur');
+    }
+});
+
+
+module.exports = router;
+
+
+
 module.exports = router;

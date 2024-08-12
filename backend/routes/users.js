@@ -179,7 +179,7 @@ router.get('/allGenres', async (req, res) => {
           allGenres.push(genre)
       }
     }
-    res.json({ result: true, allUser: allGenres })
+    res.json({ result: true, allGenres: allGenres })
   } else {
     res.json({ result: false })
   }

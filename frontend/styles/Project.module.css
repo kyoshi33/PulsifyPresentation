@@ -345,9 +345,11 @@
     align-self: flex-end;
     /* Align to the right */
     margin: 2%;
+    padding-right: 5%;
 }
 
 .copyPasteIcon {
+    padding-bottom: 2%;
     cursor: pointer;
     transition: color 0.3s ease;
 }

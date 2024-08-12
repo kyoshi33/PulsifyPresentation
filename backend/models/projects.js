@@ -12,7 +12,7 @@ const projectsSchema = mongoose.Schema({
     nbLikes: { type: Number, required: false },
     rating: { type: Number, required: false },
     isPublic: { type: Boolean, required: true },
-    nbSignalements: { type: Number, required: false },
+    nbSignalements: { type: Number, required: false, default: 0 },
     createdAt: { type: Date, default: new Date() },
     ia: { type: String, required: false, default: "Suno" }
 });

@@ -76,7 +76,7 @@ function Project() {
         suggestion = suggestionsList.map((data, i) => {
             const pourcentage = (data.score_global / totalScore).toPrecision(4) * 100
             return (
-                <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data)}>
+                <div className={styles.suggestionItem} onClick={() => addGenreFromSearchBar(data.keyword)}>
                     <div className={styles.suggestionItemLeft}>
                         <div key={i} >{data.keyword}</div>
                     </div>
@@ -197,7 +197,11 @@ function Project() {
         if (prompt.length === 0) {
             setPrompt(`${genre}, `)
         } else if ((prompt.length + genre.length) < 120) {
-            setPrompt(prompt + `${genre}, `)
+            if (prompt[prompt.length - 1] === ' ' && prompt[prompt.length - 2] === ',') {
+                setPrompt(prompt + `${genre}, `)
+            } else {
+                setPrompt(prompt + `, ${genre}, `)
+            }
         }
     }
 

@@ -218,4 +218,18 @@ router.post("/projectById", async (req, res) => {
     }
 });
 
+router.get('/allGenres', async (req, res) => {
+    const foundAllProject = await Project.find()
+    if (foundAllProject.length) {
+        allGenres = []
+        for (const project of foundAllProject) {
+            if (!allGenres.some(e => e === project.genre) && project.isPublic)
+                allGenres.push(project.genre)
+        }
+        res.json({ result: true, allGenres: allGenres })
+    } else {
+        res.json({ result: false })
+    }
+})
+
 module.exports = router;

@@ -25,47 +25,7 @@ router.post("/add", async (req, res) => {
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
-    //test cloudinary 
-
-    try {
-        const chunks = [];
-
-        req.on('data', chunk => chunks.push(chunk));
-
-        req.on('end', async () => {
-            const buffer = Buffer.concat(chunks);
-            const tempPath = path.join(__dirname, 'temp-audio.mp3');
-
-            // Écrire temporairement le fichier
-            fs.writeFileSync(tempPath, buffer);
-
-            // Créer un FormData et attacher le fichier
-            const form = new FormData();
-            const audioFile = await fileFromPath(tempPath);
-            form.append('audio', audioFile);
-
-            // Uploader vers Cloudinary
-            cloudinary.uploader.upload(
-                tempPath,
-                { resource_type: 'video', folder: 'audios' },
-                (error, result) => {
-                    // Supprimer le fichier localement après upload
-                    fs.unlinkSync(tempPath);
-
-                    if (error) {
-                        return res.status(500).json({ message: 'Upload failed', error });
-                    }
-                    return res.status(200).json({ message: 'Audio uploaded successfully', url: result.secure_url });
-                }
-            );
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'An error occurred', error });
-    }
-
-
-
-    //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
+    //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin, et sans l'audio, même s'il y en a un
     const promptToSplit = req.body.prompt.trim();
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit;
 
@@ -84,7 +44,7 @@ router.post("/add", async (req, res) => {
     const savedProject = await newProject.save();
 
 
-    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
+    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre n'y est pas déjà 
     await User.updateOne({ email: req.body.email },
         { $push: { prompts: savedProject._id } });
 
@@ -154,7 +114,7 @@ router.post("/add", async (req, res) => {
 
     }
 
-    // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
+    // Si il y a déjà des related_keywords pour ce projet, ajoute ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
             const foundKeywordById = await Keyword.findById(id);

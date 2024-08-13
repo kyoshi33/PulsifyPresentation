@@ -81,9 +81,10 @@
 .itemPrompt {
   flex-shrink: 0;
   padding-left: 13%;
-  font-size: 100%;
+  font-size: 1vmax;
   width: 30%;
-  height: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
 
@@ -147,7 +148,7 @@
 }
 
 .audioInput {
-  width: 300px;
+  width: 250px;
   height: 30px;
   margin: 2%;
 }

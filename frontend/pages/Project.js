@@ -27,6 +27,7 @@ function Project() {
     const [totalScore, setTotalScore] = useState(0);
     const [spotifyNoResult, setSpotifyNoResult] = useState(false);
     const [includeLikedPrompts, setIncludeLikedPrompts] = useState(false);
+    const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
 
     const router = useRouter();
 
@@ -187,9 +188,7 @@ function Project() {
                 setGenreIsInvalid(false);
             }
             triggerBlink();
-            setTimeout(() => {
-                alert('Renseignez un titre, un genre et un prompt pour votre projet.')
-            }, 1000)
+
         } else {
             setGenreIsInvalid(false);
             setPromptIsInvalid(false);
@@ -216,8 +215,21 @@ function Project() {
         }
     }
 
+
+    const checkbox = (e) => {
+        if (projectGenre) {
+            setGenreIsInvalid(false)
+            setIsCheckBoxChecked(e.target.checked)
+            setIncludeLikedPrompts(!includeLikedPrompts)
+        } else {
+            setGenreIsInvalid(true)
+            triggerBlink()
+        }
+
+    }
     return (
         <div className={styles.main}>
+
             <Header></Header>
             <div className={styles.projectBody}>
                 <div className={styles.leftContainer}>
@@ -228,9 +240,13 @@ function Project() {
                         </div>
                         <div className={styles.bottomSuggestionList}>
                             <label className={styles.checkboxLabel}>
-                                <input type="checkbox" className={styles.checkBoxSuggestion} value={includeLikedPrompts} onChange={() => setIncludeLikedPrompts(!includeLikedPrompts)} />
+                                <input type="checkbox"
+                                    className={styles.checkBoxSuggestion}
+                                    checked={isCheckBoxChecked}
+                                    value={includeLikedPrompts}
+                                    onChange={(e) => { checkbox(e) }} />
                                 <span className={styles.customCheckbox}></span>
-                                Intégrez les favoris de la communauté
+                                Intégrez les mots-clés de la communauté
                             </label>
                         </div>
                     </div>

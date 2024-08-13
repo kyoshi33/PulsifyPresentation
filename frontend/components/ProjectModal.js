@@ -40,7 +40,7 @@ function ProjectModal(props) {
 
 
             if (jsonResponse.result) {
-                setMessage('Project data saved. Uploading audio...');
+                setMessage(`Ajout de l'audio en cours`);
 
                 // Envoyer le fichier audio avec le l'id du prompt sauvegardé 
                 if (file && file.length > 0) {
@@ -55,14 +55,14 @@ function ProjectModal(props) {
                     const audioResult = await audioResponse.json();
 
                     if (audioResult.result) {
-                        setMessage('Audio uploaded successfully');
+                        setMessage(`L'audio a été ajouté avec succes`);
 
                     } else {
-                        setMessage('Failed to upload audio');
+                        setMessage(`Echec de l'ajout de l'audio`);
                     }
                 }
             } else {
-                setMessage('Failed to save project data');
+                setMessage('Echec de la sauvegarde');
             }
         }
         window.location.href = '/Profil'

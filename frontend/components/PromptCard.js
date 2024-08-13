@@ -13,8 +13,6 @@ import UserCard from './UserCard';
 function PromptCard(props) {
     const router = useRouter()
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [prompt, setPrompt] = useState("");
-    const [isPlaying, setIsPlaying] = useState(false);
 
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user.value)
@@ -39,7 +37,7 @@ function PromptCard(props) {
                 if (!data) {
                     Error('Erreur lors de la récupération des prompts');
                 } else {
-                    console.log("Successfully deleted one document.")
+                    Error("Successfully deleted one document.")
                     props.onRemove()
                 }
             });
@@ -84,21 +82,9 @@ function PromptCard(props) {
             />
         </>
 
-    let play =
-        <div className={styles.iconsBox}>
-            {!props.isOnProfile && displayicons}
-            {props.isOnMyProjects && displayicons}
-        </div>
-    if (isPlaying) {
-        play =
-            <div className={styles.iconsBox}>
-                {!props.isOnProfile && displayicons}
-                {props.isOnMyProjects && displayicons}
-            </div>
-    }
 
     const handleClick = (genre, title, prompt) => {
-        console.log("test", props.isOnExplore)
+
         if (!props.isOnExplore) {
             router.push({
                 pathname: '/Project',

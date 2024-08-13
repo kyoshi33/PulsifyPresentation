@@ -156,3 +156,13 @@
   height: 30px;
   margin: 2%;
 }
+
+.audioInput::-webkit-media-controls-current-time-display,
+.audioInput::-webkit-media-controls-time-remaining-display {
+  display: none;
+}
+
+.audioInput::-webkit-media-controls-panel {
+  background-color: #c03df5;
+
+}

@@ -12,14 +12,14 @@ import Header from '../components/Header';
 function Project() {
     const user = useSelector((state) => state.user.value)
     const [projectTitle, setProjectTitle] = useState("");
-    const [prompt, setPrompt] = useState("")
+    const [projectGenre, setProjectGenre] = useState('');
+    const [projectPrompt, setProjectPrompt] = useState("")
     const [search, setSearch] = useState("");
     const [genresModalIsOpen, setGenresModalIsOpen] = useState(false)
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
     const [suggestionsList, setSuggestionsList] = useState([]);
     const [isCopied, setIsCopied] = useState(false);
-    const [projectGenre, setProjectGenre] = useState('');
     const [titleIsInvalid, setTitleIsInvalid] = useState(false);
     const [genreIsInvalid, setGenreIsInvalid] = useState(false);
     const [promptIsInvalid, setPromptIsInvalid] = useState(false);
@@ -33,10 +33,16 @@ function Project() {
     let genres = [];
 
     useEffect(() => {
-        if (router.query.genre) {
-            const incomingGenre = router.query.genre
-            setProjectGenre(incomingGenre)
+        if (router.query.genre && !router.query.title && !router.query.prompt) {
+            setProjectGenre(router.query.genre)
+
         }
+        if (router.query.genre && router.query.title && router.query.prompt) {
+            setProjectGenre(router.query.genre)
+            setProjectTitle(router.query.title)
+            setProjectPrompt(router.query.prompt)
+        }
+
     }, [])
 
 
@@ -48,7 +54,7 @@ function Project() {
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, token, genre: projectGenre, partialPrompt: prompt, includeLikedPrompts }),
+                body: JSON.stringify({ email, token, genre: projectGenre, partialPrompt: projectPrompt, includeLikedPrompts }),
             })
 
         const resSuggestions = await fetchSuggestions.json();
@@ -62,7 +68,7 @@ function Project() {
     // Rechercher des suggestions à chaque fois que l'utilisateur entre un caractère dans l'imput de prompt
     useEffect(() => {
         fetchSuggestions();
-    }, [prompt, projectGenre, includeLikedPrompts])
+    }, [projectPrompt, projectGenre, includeLikedPrompts])
 
     // Fonction qui permet de sélectionner le genre depuis la modale
     const handleGenreSelect = (selectedGenre) => {
@@ -93,7 +99,7 @@ function Project() {
 
     // Fonction de copier / coller du prompt
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(prompt).then(() => {
+        navigator.clipboard.writeText(projectPrompt).then(() => {
             setIsCopied(true);
             setTimeout(() => setIsCopied(false), 2000);
         });
@@ -164,8 +170,8 @@ function Project() {
 
     // Ouvrir la modale de projet au clic sur "Enregistrer"
     const openProjectModal = () => {
-        if (prompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
-            if (prompt.length === 0) {
+        if (projectPrompt.length === 0 || projectTitle.length === 0 || projectGenre.length === 0) {
+            if (projectPrompt.length === 0) {
                 setPromptIsInvalid(true);
             } else {
                 setPromptIsInvalid(false);
@@ -198,13 +204,13 @@ function Project() {
 
     // Ajouter un genre depuis la recherche par artiste
     const addGenreFromSearchBar = (genre) => {
-        if (prompt.length === 0) {
-            setPrompt(`${genre}, `)
-        } else if ((prompt.length + genre.length) < 120) {
-            if (prompt[prompt.length - 1] === ' ' && prompt[prompt.length - 2] === ',') {
-                setPrompt(prompt + `${genre}, `)
+        if (projectPrompt.length === 0) {
+            setProjectPrompt(`${genre}, `)
+        } else if ((projectPrompt.length + genre.length) < 120) {
+            if (projectPrompt[projectPrompt.length - 1] === ' ' && projectPrompt[projectPrompt.length - 2] === ',') {
+                setProjectPrompt(projectPrompt + `${genre}, `)
             } else {
-                setPrompt(prompt + `, ${genre}, `)
+                setProjectPrompt(projectPrompt + `, ${genre}, `)
 
             }
         }
@@ -271,20 +277,20 @@ function Project() {
                     <div className={styles.inputPromptContainer}>
                         <textarea className={styles.inputProjectPrompt}
                             placeholder='Entrez votre prompt ici'
-                            onChange={(e) => setPrompt(e.target.value)}
+                            onChange={(e) => setProjectPrompt(e.target.value)}
                             style={{
                                 border: promptIsInvalid && blink && '2px solid red',
                                 padding: '10px',
                                 outline: 'none',
                             }}
-                            value={prompt}
+                            value={projectPrompt}
                             maxLength={120}
                             onKeyPress={e => {
                                 if (e.key === 'Enter')
                                     e.preventDefault()
                             }} />
                         <div className={styles.promptBottom}>
-                            <div className={styles.totalCharacters}>{`${prompt.length} / 120`}</div>
+                            <div className={styles.totalCharacters}>{`${projectPrompt.length} / 120`}</div>
                             {isCopied ? (
                                 <FontAwesomeIcon
                                     icon={faCheckCircle}
@@ -322,7 +328,7 @@ function Project() {
                     <ProjectModal isOpen={modalIsOpen}
                         onRequestClose={closeProjectModal}
                         projectTitle={projectTitle}
-                        prompt={prompt}
+                        prompt={projectPrompt}
                         projectGenre={projectGenre}
                     />
                     <GenresModal isOpen={genresModalIsOpen}

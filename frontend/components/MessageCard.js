@@ -31,12 +31,13 @@ function MessageCard(props) {
             },
             body: JSON.stringify({
                 projectId: props.idProject,
-                commentId: props.commentId,
+                comment: props.comment,
             }),
         });
         const result = await response.json()
         if (result.result) {
             console.log('Comment deleted:', result.message);
+            props.refresh();
         } else {
             console.error('Failed to delete comment:', result.message);
         }

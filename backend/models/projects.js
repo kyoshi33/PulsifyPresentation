@@ -7,9 +7,9 @@ const projectsSchema = mongoose.Schema({
     title: { type: String, required: true },
     genre: { type: String, required: true },
     messages: {
-        comment: { type: String, required: true },
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
-        createdAt: { type: Date, default: new Date() },
+        comment: { type: String, required: false },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: false },
+        createdAt: { type: Date, required: false, default: new Date() },
         nbSignalements: { type: Number, required: false, default: 0 },
     },
     theme: { type: String, required: false },

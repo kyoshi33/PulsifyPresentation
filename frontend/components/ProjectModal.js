@@ -12,13 +12,13 @@ function ProjectModal(props) {
     const [score, setScore] = useState(0);
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState('');
-    const [audioUrl, setAudioUrl] = useState('');
 
     const user = useSelector((state) => state.user.value);
 
+    //upload prompt + audio si l'audio est présent
     const uploadPrompt = async () => {
         if (user.token) {
-            // Étape 1 : Envoyer les données JSON pour créer le projet
+
             const dataForPrompt = {
                 genre: props.projectGenre,
                 prompt: props.prompt,
@@ -29,7 +29,7 @@ function ProjectModal(props) {
                 token: user.token,
                 title: props.projectTitle,
             };
-
+            // Envoyer les data du prompt sans l'audio
             const saveDataForPrompt = await fetch("http://localhost:3000/projects/add", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -37,32 +37,29 @@ function ProjectModal(props) {
             });
 
             const jsonResponse = await saveDataForPrompt.json();
-            console.log(jsonResponse.prompt._id)
+
 
             if (jsonResponse.result) {
                 setMessage('Project data saved. Uploading audio...');
 
-                // Étape 2 : Envoyer le fichier audio avec le projectId
+                // Envoyer le fichier audio avec le l'id du prompt sauvegardé 
                 if (file && file.length > 0) {
                     const formData = new FormData();
                     formData.append('audio', file[0]);
-                    console.log(file[0])
 
+                    // Envoyer l'audio au backend au format formData
                     const audioResponse = await fetch(`http://localhost:3000/projects/${jsonResponse.prompt._id}/upload-audio`, {
                         method: "POST",
                         body: formData,
                     });
-
                     const audioResult = await audioResponse.json();
 
                     if (audioResult.result) {
                         setMessage('Audio uploaded successfully');
-                        setAudioUrl(audioResult.url);
+
                     } else {
                         setMessage('Failed to upload audio');
                     }
-                } else {
-                    setMessage('No audio file selected');
                 }
             } else {
                 setMessage('Failed to save project data');
@@ -71,9 +68,16 @@ function ProjectModal(props) {
         window.location.href = '/Profil'
     };
 
-    const mouseOver = (rating) => setHoveredStars(rating);
-    const mouseLeave = () => setHoveredStars(0);
-    const clickToRate = (rating) => setScore(rating);
+    const mouseOver = (rating) => {
+        setHoveredStars(rating)
+    }
+    const mouseLeave = () => {
+        setHoveredStars(0)
+    }
+    const clickToRate = (rating) => {
+        setScore(rating)
+    }
+
 
     return (
         <Modal

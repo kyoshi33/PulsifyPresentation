@@ -258,7 +258,7 @@ function Project() {
                                         outline: 'none',
                                     }}
                                     value={projectGenre}
-                                    maxLength={25}>
+                                    maxLength={20}>
                                 </input>
                                 <FontAwesomeIcon
                                     icon={faBars}

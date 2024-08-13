@@ -99,6 +99,11 @@
 
 }
 
+.iconsBoxAndAudio {
+  font-size: 1vmax;
+  margin-left: auto;
+}
+
 .icon {
   display: flex;
   font-size: 160%;
@@ -112,7 +117,7 @@
 
 .xmark {
   cursor: pointer;
-  margin-left: 2%
+  margin-left: 1vw
 }
 
 .genre {
@@ -142,7 +147,7 @@
 }
 
 .audioInput {
-  width: 250px;
+  width: 300px;
   height: 30px;
   margin: 2%;
 }

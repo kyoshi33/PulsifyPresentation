@@ -8,134 +8,136 @@ const Keyword = require("../models/keywords")
 
 
 router.post("/searchMyGenres", async (req, res) => {
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['email', 'token'])) {
+        res.json({ result: false, message: 'Champs manquants ou vides' });
+        return;
+    }
+
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    if (!foundUser) {
+        return res.json({ result: false, error: 'Access denied' });
+    }
+
+    // Formattage du champ de recherche
+    let formattedSearch = req.body.search ? req.body.search.trim() : '';
+    if (formattedSearch) {
+        formattedSearch = formattedSearch[formattedSearch.length - 1] === "," ? formattedSearch.slice(0, -1) : formattedSearch;
+        formattedSearch = formattedSearch[0] === "," ? formattedSearch.slice(1) : formattedSearch;
+    }
+
+    // Récupération des projets correspondant à l'utilisateur et au critère de recherche
+    let projects = await Project.find({
+        userId: foundUser._id,
+        ...(formattedSearch && {
+            $or: [
+                { genre: { $regex: new RegExp(formattedSearch, 'i') } },
+                { title: { $regex: new RegExp(formattedSearch, 'i') } }
+            ]
+        })
+    }).populate('userId', 'firstname picture');
+
+    // Regroupement des projets par genre et récupération des titres des projets
+    let genreMap = {};
+
+    projects.forEach(project => {
+        const genre = project.genre;
+        // Cette condition pour éviter les doublons quand on liste les genres
+        if (!genreMap[genre]) {
+            genreMap[genre] = {
+                genre: genre,
+                userId: project.userId,
+                titles: [],  // Liste des titres pour ce genre
+            };
+        }
+
+        // Ajouter le titre du projet à la liste des titres pour ce genre
+        genreMap[genre].titles.push(project.title);
+    });
+
+    // Conversion de genreMap en tableau
+    let genresList = Object.values(genreMap).map(genreItem => {
+        const { genre, userId, titles } = genreItem;
+        return {
+            genre: genre,
+            userId: userId,
+            titles: titles.join(', ')
+        };
+    });
+
+    res.json({ result: true, searchResults: genresList });
+});
+
+
+
+
+
+
+
+router.post("/searchLikedGenres", async (req, res) => {
 
     // Vérification des éléments requis pour la route
     if (!checkBody(req.body, ['email', 'token'])) {
         res.json({ result: false, message: 'Champs manquants ou vides' });
         return;
     }
+
     // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    if (!foundUser) {
+        return res.json({ result: false, error: 'Access denied' });
+    }
 
     // Formattage du champ de recherche
-    let formattedSearch;
-    let splitSearch;
-    if (req.body.search) {
-        splitSearch = req.body.search.trim();
-        splitSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
-        formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
+    let formattedSearch = req.body.search ? req.body.search.trim() : '';
+    if (formattedSearch) {
+        formattedSearch = formattedSearch[formattedSearch.length - 1] === "," ? formattedSearch.slice(0, -1) : formattedSearch;
+        formattedSearch = formattedSearch[0] === "," ? formattedSearch.slice(1) : formattedSearch;
     }
 
-    // Etablissement de la pipeline
-    let pipeline = [
-        {
-            $match: {
-                $and: [{ userId: foundUser._id },
-                ],
-                $or: [
-                    { genre: { $regex: new RegExp(formattedSearch, 'i') } },
-                    { prompt: { $regex: new RegExp(formattedSearch, 'i') } },
-                    { userId: { $regex: new RegExp(formattedSearch, 'i') } }
-                ],
-            }
-        },
-        {
-            $limit: 20
-        },
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userId'
-            }
-        },
-        {
-            $unwind: '$userId'
+    // Récupération des projets que l'utilisateur a liké et qui sont publics
+    let likedProjects = await Project.find({
+        _id: { $in: foundUser.likedprompts },
+        isPublic: true,
+        ...(formattedSearch && {
+            $or: [
+                { genre: { $regex: new RegExp(formattedSearch, 'i') } },
+                { title: { $regex: new RegExp(formattedSearch, 'i') } }
+            ]
+        })
+    }).populate('userId', 'firstname picture');
+
+    // Regroupement des projets par genre et récupération des titres des projets
+    let genreMap = {};
+
+    likedProjects.forEach(project => {
+        const genre = project.genre;
+        if (!genreMap[genre]) {
+            genreMap[genre] = {
+                genre: genre,
+                userId: project.userId,
+                titles: [],
+            };
         }
-    ];
 
-    // Recherche grâce à la pipeline
-    let searchResults = await Project.aggregate(pipeline);
+        // Ajouter le titre du projet à la liste des titres pour ce genre
+        genreMap[genre].titles.push(project.title);
+    });
 
-    // Si la recherche est vide, afficher tous les résultats
-    if (req.body.search = '') {
-        searchResults = Project.find({ userId: foundUser._id })
-    }
+    // Conversion de genreMap en tableau
+    let genresList = Object.values(genreMap).map(genreItem => {
+        const { genre, userId, titles } = genreItem;
+        return {
+            genre: genre,
+            userId: userId,
+            titles: titles.join(', ')
+        };
+    });
 
-    res.json({ result: true, searchResults })
-})
+    res.json({ result: true, searchResults: genresList });
+});
 
-
-
-router.post("/searchCommunityGenres", async (req, res) => {
-
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['email', 'token'])) {
-        res.json({ result: false, message: 'Champs manquants ou vides' });
-        return;
-    }
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
-
-    // Formattage du champ de recherche
-    let formattedSearch;
-    let splitSearch;
-    if (req.body.search) {
-        splitSearch = req.body.search.trim();
-        splitSearch = splitSearch[splitSearch.length - 1] === "," ? splitSearch.slice(0, -1) : splitSearch
-        formattedSearch = splitSearch[0] === "," ? splitSearch.slice(1) : splitSearch
-    }
-
-    // Etablissement de la pipeline
-    let pipeline = [
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userDetails'
-            }
-        },
-        {
-            $match: {
-                $or: [
-                    { 'userDetails.username': { $regex: new RegExp(req.body.search, 'i') } },
-                    { genre: { $regex: new RegExp(formattedSearch, 'i') } },
-                    { prompt: { $regex: new RegExp(formattedSearch, 'i') } }
-                ]
-            }
-        },
-        {
-            $limit: 20
-        },
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'userId',
-                foreignField: '_id',
-                as: 'userId'
-            }
-        },
-        {
-            $unwind: '$userId'
-        }
-    ];
-
-    // Recherche grâce à la pipeline
-    let searchResults = await Project.aggregate(pipeline);
-
-    // Si la recherche est vide, afficher tous les résultats
-    if (req.body.search = '') {
-        searchResults = await Project.find({ isPublic: true })
-    }
-
-
-
-    res.json({ result: true, searchResults })
-})
 
 
 
@@ -201,6 +203,34 @@ router.post('/allGenres', async (req, res) => {
     }
 })
 
+
+
+// Supprimer un genre et tous les mots-clés asscociés
+router.post('/removeGenre', async (req, res) => {
+
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['token', 'email', 'genre'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+    // Récupération de tous les genres
+
+    foundUser.genres = foundUser.genres.filter(e => { e != req.body.genre });
+    await foundUser.save();
+
+    const foundKeywords = await Keyword.deleteMany({ genre: req.body.genre, userId: foundUser._id });
+    const foundProject = await Project.deleteMany({ genre: req.body.genre, userId: foundUser._id });
+
+    if (foundProject) {
+        res.json({ result: true, message: 'Successfully deleted', genre: req.body.genre, projects: foundProject, keywords: foundKeywords })
+    }
+
+
+})
 
 
 

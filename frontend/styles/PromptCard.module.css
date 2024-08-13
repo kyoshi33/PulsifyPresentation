@@ -81,9 +81,10 @@
 .itemPrompt {
   flex-shrink: 0;
   padding-left: 13%;
-  font-size: 100%;
+  font-size: 1vmax;
   width: 30%;
-  height: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
 
@@ -99,6 +100,11 @@
 
 }
 
+.iconsBoxAndAudio {
+  font-size: 1vmax;
+  margin-left: auto;
+}
+
 .icon {
   display: flex;
   font-size: 160%;
@@ -112,7 +118,7 @@
 
 .xmark {
   cursor: pointer;
-  margin-left: 2%
+  margin-left: 1vw
 }
 
 .genre {

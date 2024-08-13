@@ -162,17 +162,30 @@ router.post('/projets', async (req, res) => {
 
 router.post('/genres', async (req, res) => {
   if (!checkBody(req.body, ['token'])) {
-    res.json({ result: false, error: 'Connectez vous.' });
+    res.json({ result: false, error: 'Champs manquants.' });
     return;
   }
   const user = await User.findOne({ token: req.body.token })
-  if (user) {
-    res.json({ result: true, genres: user.genres })
-  } else {
+  if (!user.genres) {
     res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
+    return;
   }
 
-})
+  if (req.body.getLikedGenres) {
+    const populatedUser = await user.populate('likedprompts');
+    const listPrompts = [];
+    for (let prompt of populatedUser.likedprompts) {
+      !listPrompts.includes(prompt) && listPrompts.push(prompt.genre)
+    }
+
+    res.json({ result: true, genres: listPrompts })
+  } else {
+    res.json({ result: true, genres: user.genres })
+  }
+
+}
+
+)
 
 router.get('/allGenres', async (req, res) => {
   const foundAllUsers = await User.find()
@@ -194,7 +207,7 @@ router.get('/allGenres', async (req, res) => {
 
 router.post("/like", async (req, res) => {
   if (!checkBody(req.body, ['token'])) {
-    res.json({ result: false, error: 'Connectez vous.' });
+    res.json({ result: false, error: 'Access denied.' });
     return;
   }
   const foundUser = await User.findOne({ email: req.body.email })

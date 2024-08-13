@@ -10,9 +10,8 @@ function GenresModal(props) {
     const [includeCommunityFavorites, setIncludeCommunityFavorites] = useState(false); // State for checkbox
 
     useEffect(() => {
-        fetchAllGenres()
-
-    }, []);
+        includeCommunityFavorites ? fetchLikedGenres() : fetchAllGenres();
+    }, [includeCommunityFavorites]);
 
     const fetchAllGenres = async () => {
         const { token, email } = user
@@ -33,10 +32,10 @@ function GenresModal(props) {
         const fetchLikedGenres = await fetch('http://localhost:3000/users/genres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token, email }),
+            body: JSON.stringify({ token, email, getLikedGenres: true }),
         })
         const resLikedGenres = await fetchLikedGenres.json()
-        setGenresList([...genresList, ...resLikedGenres])
+        setGenresList([...new Set([...genresList, ...resLikedGenres.genres])])
     }
 
 
@@ -57,10 +56,6 @@ function GenresModal(props) {
     const handleCheckboxChange = (event) => {
         const isChecked = event.target.checked;
         setIncludeCommunityFavorites(isChecked);
-        if (isChecked) {
-            fetchLikedGenres(); // Fetch liked genres if checked
-            console.log("coucou")
-        }
     };
 
     return (

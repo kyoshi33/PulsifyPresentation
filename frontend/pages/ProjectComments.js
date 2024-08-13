@@ -122,7 +122,8 @@ function ProjectComments(props) {
                 {comments}
             </div>
             <div className={styles.addYourOwnCommentContainer}>
-                <textarea placeholder='enter your comment' className={styles.commentInput} onChange={(e) => setComment(e.target.value)}
+                <textarea placeholder='Laisser un commentaire' className={styles.commentInput} onChange={(e) => setComment(e.target.value)}
+                    autofocus={'true'}
                     value={comment}
                     maxLength={250} />
                 <button className={styles.postYrCommentBtn} onClick={() => postComment()}>Publier</button>

@@ -7,10 +7,10 @@
     font-family: 'Arial';
     background-color: #0B0A1A;
     color: white;
-    background-image: url('../public/background.jpg');
+    /* background-image: url('../public/background2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-blend-mode: color-dodge;
+    background-blend-mode: difference; */
 }
 
 .title {

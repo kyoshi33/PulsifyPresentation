@@ -68,6 +68,7 @@ function ProjectModal(props) {
                 setMessage('Failed to save project data');
             }
         }
+        window.location.href = '/Profil'
     };
 
     const mouseOver = (rating) => setHoveredStars(rating);

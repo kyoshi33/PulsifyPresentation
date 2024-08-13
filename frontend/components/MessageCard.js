@@ -24,7 +24,7 @@ function MessageCard(props) {
         <div className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
                 <UserCard
-                // email={props.userId.email} username={props.userId.username} picture={props.userId.picture}
+                    firstname={props.userId.firstname} username={props.userId.username} picture={props.userId.picture}
                 />
             </div>
             <div className={styles.listItemMessage}>

@@ -60,8 +60,6 @@ function ProjectComments() {
     }, [id]);
 
 
-
-
     const fetchProjectData = async (id) => {
         console.log('id :', id)
         const { email, token } = user;
@@ -94,7 +92,7 @@ function ProjectComments() {
 
         comments = commentsList.map((data, i) => {
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
             )
         }).reverse()
     }

@@ -228,8 +228,8 @@ router.post('/signalementProject', async (req, res) => {
                 { $inc: { nbSignalements: 1 } },
             );
             if (!project) {
-                return res.json({ result: false, error: 'Projet non trouvé' });
-            }
+                return res.json({ result: false, error: 'Pas trouvé projet à update' });
+            }// Enregistrer le nouveau signalement 
             const newSignalement = new Signalement({
                 userId: foundProject.userId,
                 text: req.body.text,
@@ -259,7 +259,11 @@ router.post("/projectById", async (req, res) => {
 
     // Récupération d'un projet par son ID
     const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords');
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
+    console.log('project 1 :', project)
+    // for (const user of project.messages) {
+    //     user.populate('userId')
+    // }
 
     if (!project) {
         return res.json({ result: false, message: "project not found" });
@@ -304,7 +308,5 @@ router.post('/comment', async (req, res) => {
         }
 
     }
-});
-
-
+})
 module.exports = router;

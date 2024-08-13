@@ -397,6 +397,7 @@ router.post('/signalementComment', async (req, res) => {
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
+            { new: true }
         );
         console.log('project', project)
         // Enregistrer le nouveau signalement 

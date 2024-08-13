@@ -226,9 +226,14 @@ router.post("/projectById", async (req, res) => {
     const projectId = req.body.id;
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
     console.log('project 1 :', project)
-    // for (const user of project.messages) {
-    //     user.populate('userId')
-    // }
+    const newMessages = [];
+    for (const message of project.messages) {
+        message.username = await User.findById({ _id: message.userId })
+        newMessages.push(message)
+        console.log('message ,', message)
+    }
+    project.messages = newMessages
+    console.log('project ,', project)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" })

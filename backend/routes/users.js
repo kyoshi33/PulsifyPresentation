@@ -10,8 +10,9 @@ const { checkBody } = require('../modules/tools')
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-// POST créer un nouvel utilisateur.
+// Créer un nouvel utilisateur.
 router.post('/signup', (req, res) => {
+
   //Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['firstname', 'username', 'password', 'email'])) {
     res.json({ result: false, error: 'Champs manquants ou vides' });
@@ -49,10 +50,11 @@ router.post('/signup', (req, res) => {
   });
 });
 
-/* Route POST se connecter/signin     */
 
+// Se connecter
 router.post('/signin', (req, res) => {
 
+  // Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['email', 'password'])) {
     res.json({ result: false, error: 'Champs manquants ou vides' });
     return;
@@ -69,7 +71,9 @@ router.post('/signin', (req, res) => {
 });
 
 
+// Se log avec Google
 router.post('/signup/google', (req, res) => {
+
   //Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['firstname', 'username', "google_id", 'email', "picture"])) {
     res.json({ result: false, error: 'Champs manquants ou vides' });
@@ -106,13 +110,17 @@ router.post('/signup/google', (req, res) => {
   });
 });
 
-//recherche par Username depuis la page Explorer
+// Recherche par Username depuis la page Explorer
 router.post('/search', async (req, res) => {
-  //Vérifier que les champs sont tous fournis
+  // Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['username'])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
+
+  // Authentification de l'utilisateur
+  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
   const fetchAllUser = await User.find({ username: { $regex: new RegExp(req.body.username.toLowerCase(), "i") } })
   if (fetchAllUser.length) {
@@ -140,78 +148,77 @@ router.post('/search', async (req, res) => {
 })
 
 
+// Rechercher les prompts de l'utilisateur
 router.post('/projets', async (req, res) => {
+
+  // Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['email', "token"])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
-  const foundUser = await User.findOne({ email: req.body.email }).populate('prompts')
-  const foundUserLikedPromptPopulated = await foundUser.populate('likedprompts')
+
+  // Authentification de l'utilisateur
+  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+  // Populate
+  const populatedUser = await foundUser.populate('prompts')
+  const populatedUserWithLikes = await populatedUser.populate('likedprompts')
   let foundUserPopulated = []
-  for (const id of foundUserLikedPromptPopulated.likedprompts) {
+  for (const id of populatedUserWithLikes.likedprompts) {
     foundUserPopulated.push(await id.populate('userId'))
   }
 
+  // Réponse
   res.json({ result: true, myPrompts: foundUser, likedprompts: foundUserPopulated })
-
 
 })
 
 
 
-
+// Recherche des genres de l'utilisateurs
 router.post('/genres', async (req, res) => {
   if (!checkBody(req.body, ['token'])) {
     res.json({ result: false, error: 'Champs manquants.' });
     return;
   }
-  const user = await User.findOne({ token: req.body.token })
-  if (!user.genres) {
-    res.json({ result: false, message: "Vous n'avez pas encore créé de genres" })
-    return;
+
+  // Authentification de l'utilisateur
+  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+  // Vérifie si l'utilisateur a déjà des genres personnels
+  if (!foundUser.genres) {
+    return res.json({ result: false, message: "Vous n'avez pas encore créé de genres" });
   }
 
+  // Récupération de tous les genres
   if (req.body.getLikedGenres) {
-    const populatedUser = await user.populate('likedprompts');
+    const populatedUser = await foundUser.populate('likedprompts');
     const listPrompts = [];
     for (let prompt of populatedUser.likedprompts) {
       !listPrompts.includes(prompt) && listPrompts.push(prompt.genre)
     }
-
     res.json({ result: true, genres: listPrompts })
   } else {
-    res.json({ result: true, genres: user.genres })
-  }
-
-}
-
-)
-
-router.get('/allGenres', async (req, res) => {
-  const foundAllUsers = await User.find()
-  if (foundAllUsers.length) {
-    allGenres = []
-    for (const genreArray of foundAllUsers) {
-      for (const genre of genreArray.genres) {
-        if (!allGenres.some(e => e === genre))
-          allGenres.push(genre)
-      }
-    }
-    res.json({ result: true, allGenres: allGenres })
-  } else {
-    res.json({ result: false })
+    res.json({ result: true, genres: foundUser.genres })
   }
 })
 
 
-
+// Ajouter et returer un like en BDD
 router.post("/like", async (req, res) => {
+
+  // Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['token'])) {
     res.json({ result: false, error: 'Access denied.' });
     return;
   }
-  const foundUser = await User.findOne({ email: req.body.email })
+  // Authentification de l'utilisateur
+  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
+  // Ajouter ou retirer un like
   if (!foundUser.likedprompts.includes(req.body.id)) {
     await User.updateOne({ email: req.body.email },
       { $push: { likedprompts: req.body.id } }
@@ -224,8 +231,6 @@ router.post("/like", async (req, res) => {
     res.json({ result: true })
   }
 })
-
-
 
 
 

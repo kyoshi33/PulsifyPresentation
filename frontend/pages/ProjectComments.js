@@ -59,8 +59,6 @@ function ProjectComments() {
     }, [id]);
 
 
-
-
     const fetchProjectData = async (id) => {
         console.log('id :', id)
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {

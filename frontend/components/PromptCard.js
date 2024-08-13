@@ -124,11 +124,14 @@ function PromptCard(props) {
                 <div className={styles.itemPrompt}>
                     {props.prompt}
                 </div>
-                <div className={styles.iconsBox} >
+                <div className={styles.iconsBoxAndAudio} >
                     {props.audio && <audio className={styles.audioInput} type='file' controls src={props.audio} ></audio>}
-                    {play}
+                    <div className={styles.iconsBox} >
+                        {play}
+                        {props.isOnProfile && displayXmark}
+                    </div>
                 </div>
-                {props.isOnProfile && displayXmark}
+
             </div>
 
         </div >

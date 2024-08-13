@@ -12,7 +12,9 @@ function ModelCard(props) {
 
     return (
         <button className={styles.listItemContainer}>
-            <UserCard username={props.username} firstname={props.firstname} picture={props.picture} ></UserCard>
+            <div className={styles.author}>
+                <UserCard username={props.username} firstname={props.firstname} picture={props.picture} ></UserCard>
+            </div>
             <div className={styles.genre}>{props.genre}</div>
             <div className={styles.listItemPrompt}>{props.prompt}</div>
         </button>

@@ -58,11 +58,10 @@ function PromptCard(props) {
         } else {
             dispatch(removeLike(props.id))
         }
-        console.log(props)
     }
 
-    const handleCardClick = () => {
-        router.push(`/ProjectComments?id=${props.id}`); // Navigate to the ProjectComments page with the project ID as a query parameter
+    const commentClick = () => {
+        router.push(`/ProjectComments?id=${props.id}`); // Naviguer vers la page ProjectComments avec l'id du projet 
     }
 
 
@@ -77,7 +76,7 @@ function PromptCard(props) {
     const displayicons =
         <>
             {!props.isOnMyProjects && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
-            <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={handleCardClick} />
+            <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} />
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
@@ -93,17 +92,31 @@ function PromptCard(props) {
     if (isPlaying) {
         play =
             <div className={styles.iconsBox}>
-
                 {!props.isOnProfile && displayicons}
                 {props.isOnMyProjects && displayicons}
             </div>
     }
 
+    const handleClick = (genre, title, prompt) => {
+        console.log("test", props.isOnExplore)
+        if (!props.isOnExplore) {
+            router.push({
+                pathname: '/Project',
+                query: { genre, title, prompt },
+            });
+        } else {
+            router.push({
+                pathname: '/Project',
+                query: { genre },
+            });
+        }
+    };
+
     return (
         <div className={styles.promptContainer}>
-            <div className={styles.itemContainer} >
+            <div className={styles.itemContainer}  >
                 {!props.isOnProfile && displayUser}
-                <div className={styles.titleBox}>
+                <div className={styles.titleBox} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     <div className={styles.titleBackground}>
                         <div className={styles.title}>
                             {props.projectName}
@@ -127,7 +140,10 @@ function PromptCard(props) {
                 <div className={styles.iconsBoxAndAudio} >
                     {props.audio && <audio className={styles.audioInput} type='file' controls src={props.audio} ></audio>}
                     <div className={styles.iconsBox} >
-                        {play}
+                        <div className={styles.iconsBox}>
+                            {!props.isOnProfile && displayicons}
+                            {props.isOnMyProjects && displayicons}
+                        </div>
                         {props.isOnProfile && displayXmark}
                     </div>
                 </div>

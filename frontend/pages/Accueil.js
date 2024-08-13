@@ -24,10 +24,10 @@ function Accueil() {
     const user = useSelector((state => state.user.value));
 
 
-    const handleClick = (genre) => {
+    const handleClick = (genre, title, prompt) => {
         router.push({
             pathname: '/Project',
-            query: { genre },
+            query: { genre, title, prompt },
         });
     };
 
@@ -103,7 +103,7 @@ function Accueil() {
             if (listProjects.length && search.length) {
                 mappedProjects = listProjects.map((project, i) => {
                     let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -116,7 +116,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -132,7 +132,7 @@ function Accueil() {
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
                     let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}
@@ -145,7 +145,7 @@ function Accueil() {
             } else {
                 mappedProjects = myProjects.map((project, i) => {
                     let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
                             prompt={prompt}
                             title={titre}

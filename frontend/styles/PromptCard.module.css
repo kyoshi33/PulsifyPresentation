@@ -29,10 +29,12 @@
 }
 
 .titleBackground {
+  background-color: #272541;
   flex-wrap: wrap;
   margin: 1%;
   width: 50%;
   flex-shrink: 0;
+  border-radius: 20px;
 }
 
 .title {

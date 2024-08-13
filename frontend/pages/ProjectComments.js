@@ -11,7 +11,7 @@ import UserCard from '../components/UserCard';
 import SignalementModal from '../components/SignalementModal';
 import MessageCard from '../components/MessageCard'
 
-function ProjectComments(props) {
+function ProjectComments() {
     const user = useSelector((state) => state.user.value)
     const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
@@ -24,6 +24,14 @@ function ProjectComments(props) {
 
     const handleBack = () => {
         router.back();
+    };
+
+    const handleUse = () => {
+        const { title, genre, prompt } = projectInfo;
+        router.push({
+            pathname: '/Project',
+            query: { genre, title, prompt },
+        });
     };
 
 
@@ -104,6 +112,10 @@ function ProjectComments(props) {
                 />
             )
         }).reverse()
+
+        if (comments = []) {
+            comments = <div className={styles.noMessage}>Aucun commentaire</div>
+        }
     }
 
 
@@ -113,11 +125,12 @@ function ProjectComments(props) {
             <Header></Header>
             <div className={styles.topCommentPage}>
                 <button className={styles.btn} onClick={handleBack}>Retour</button>
-                <button className={styles.btn}>Utiliser ce modèle</button>
+                <div className={styles.promptCardContainer}>
+                    {projet}
+                </div>
+                <button className={styles.btn} onClick={handleUse}>Utiliser ce modèle</button>
             </div>
-            <div className={styles.promptCardContainer}>
-                {projet}
-            </div>
+
             <div className={styles.commentsContainer}>
                 {comments}
             </div>

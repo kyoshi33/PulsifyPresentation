@@ -46,7 +46,7 @@
     flex-direction: column;
     align-items: center;
     width: 70%;
-    height: 80%;
+    height: 60%;
     border: solid #b300f2 3px;
     border-radius: 10px;
     overflow-y: auto;
@@ -134,7 +134,7 @@
 
 .commentInput {
     height: 100%;
-    width: 78%;
+    width: 70%;
     background: #504E6B;
     border: solid #b300f2 1px;
     border-radius: 10px;
@@ -156,8 +156,17 @@
     box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
     margin-left: -80px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .postYrCommentBtn:hover {
     background-color: #B300F2;
+}
+
+.noMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
 }

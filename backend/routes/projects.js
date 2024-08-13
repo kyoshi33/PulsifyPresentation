@@ -11,7 +11,9 @@ const { fileFromPath } = require('formdata-node/file-from-path');
 const cloudinary = require('../cloudinary');
 const fs = require('fs');
 const path = require('path');
-
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 router.post("/add", async (req, res) => {
 
@@ -23,45 +25,6 @@ router.post("/add", async (req, res) => {
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
-    //test cloudinary 
-
-    try {
-        const chunks = [];
-
-        req.on('data', chunk => chunks.push(chunk));
-
-        req.on('end', async () => {
-            const buffer = Buffer.concat(chunks);
-            const tempPath = path.join(__dirname, 'temp-audio.mp3');
-
-            // Écrire temporairement le fichier
-            fs.writeFileSync(tempPath, buffer);
-
-            // Créer un FormData et attacher le fichier
-            const form = new FormData();
-            const audioFile = await fileFromPath(tempPath);
-            form.append('audio', audioFile);
-
-            // Uploader vers Cloudinary
-            cloudinary.uploader.upload(
-                tempPath,
-                { resource_type: 'video', folder: 'audios' },
-                (error, result) => {
-                    // Supprimer le fichier localement après upload
-                    fs.unlinkSync(tempPath);
-
-                    if (error) {
-                        return res.status(500).json({ message: 'Upload failed', error });
-                    }
-                    return res.status(200).json({ message: 'Audio uploaded successfully', url: result.secure_url });
-                }
-            );
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'An error occurred', error });
-    }
-
-
 
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()
@@ -70,7 +33,7 @@ router.post("/add", async (req, res) => {
     const newProject = new Project({
         genre: req.body.genre,
         prompt: promptToSplitWithoutComa,
-        audio: req.body.audio,
+        audio: "",
         rating: req.body.rating,
         isPublic: req.body.isPublic,
         username: req.body.username,
@@ -179,6 +142,33 @@ router.post("/add", async (req, res) => {
 
     res.json({ result: true, prompt: savedProject })
 })
+
+router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res) => {
+
+    const projectId = req.params.projectId;
+    const project = await Project.findById(projectId);
+    if (!project) {
+        return res.status(404).json({ result: false, message: "Project not found" });
+    }
+    console.log("test", req.file)
+    if (req.files && req.file.audio) {
+        const audioFile = req.file.audio;
+    }
+    cloudinary.uploader.upload_stream(
+        { resource_type: 'video', folder: 'audios' },
+        async (error, result) => {
+            if (error) {
+                return res.status(500).json({ message: 'Upload failed', error });
+            }
+
+
+            project.audio = result.secure_url;
+            await project.save();
+
+            res.json({ result: true, message: 'Audio uploaded successfully', url: result.secure_url });
+        }
+    ).end(req.file.buffer);
+});
 
 
 

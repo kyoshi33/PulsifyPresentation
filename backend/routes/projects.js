@@ -299,15 +299,23 @@ router.post('/signalementComment', async (req, res) => {
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
+            { new: true }
         );
+        console.log('project', project)
         // Enregistrer le nouveau signalement 
-        const newSignalement = new Signalement({
+        const newSignalementComment = new Signalement({
             userId: userId,
             text: text,
-            message: comment,
+            message: {
+                projectId: idProject,
+                comment: {
+                    comment: comment,
+                    userId: userId
+                }
+            },
         });
-
-        const savedSignalement = await newSignalement.save();
+        //  console.log(newSignalementComment)
+        const savedSignalement = await newSignalementComment.save();
 
         res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });
     } catch (error) {

@@ -34,7 +34,7 @@
   margin: 1%;
   width: 50%;
   flex-shrink: 0;
-  border-radius: 20px;
+  border-radius: 50px;
 }
 
 .title {
@@ -59,6 +59,10 @@
   align-items: center;
   width: 30%;
   flex-shrink: 0;
+}
+
+.titleBox:hover {
+  cursor: pointer;
 }
 
 .score {

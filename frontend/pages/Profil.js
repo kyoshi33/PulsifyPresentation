@@ -71,6 +71,7 @@ function Profil(props) {
 
 
   const listBibliotheque = myPrompts.map((data, i) => {
+    console.log(data.audio)
     return (
       <div className={styles.promptCard}>
         <PromptCard
@@ -78,6 +79,7 @@ function Profil(props) {
           isOnProfile={true}
           isOnMyProjects={true}
           stars={data.rating}
+          audio={data.audio}
           projectName={data.title}
           prompt={data.prompt}
           id={data._id}
@@ -87,6 +89,7 @@ function Profil(props) {
   })
 
   const communityMap = communityList.map((data, i) => {
+
     return (
       <div className={styles.promptCard}>
         <PromptCard
@@ -96,6 +99,7 @@ function Profil(props) {
           picture={data.userId.picture}
           isOnProfile={false}
           stars={data.rating}
+          audio={data.audio}
           projectName={data.title}
           prompt={data.prompt}
           id={data._id}

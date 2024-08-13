@@ -87,14 +87,13 @@ function PromptCard(props) {
 
     let play =
         <div className={styles.iconsBox}>
-            <FontAwesomeIcon icon={faPlay} className={styles.icon} />
             {!props.isOnProfile && displayicons}
             {props.isOnMyProjects && displayicons}
         </div>
     if (isPlaying) {
         play =
             <div className={styles.iconsBox}>
-                <FontAwesomeIcon icon={faPause} className={styles.icon} />
+
                 {!props.isOnProfile && displayicons}
                 {props.isOnMyProjects && displayicons}
             </div>
@@ -125,9 +124,9 @@ function PromptCard(props) {
                 <div className={styles.itemPrompt}>
                     {props.prompt}
                 </div>
-                <div className={styles.iconsBox} onClick={() => setIsPlaying(!isPlaying)}>
+                <div className={styles.iconsBox} >
+                    {props.audio && <audio className={styles.audioInput} type='file' controls src={props.audio} ></audio>}
                     {play}
-
                 </div>
                 {props.isOnProfile && displayXmark}
             </div>

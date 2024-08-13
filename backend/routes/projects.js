@@ -143,17 +143,16 @@ router.post("/add", async (req, res) => {
     res.json({ result: true, prompt: savedProject })
 })
 
+// Route pour upload l'audio
 router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res) => {
 
     const projectId = req.params.projectId;
+    // Recherche dans la Bdd le projet pour lequel il faut rajouter l'audio
     const project = await Project.findById(projectId);
     if (!project) {
         return res.status(404).json({ result: false, message: "Project not found" });
     }
-    console.log("test", req.file)
-    if (req.files && req.file.audio) {
-        const audioFile = req.file.audio;
-    }
+    // Ouverture du flux de données pour envoyer l'audio a Cloudinary
     cloudinary.uploader.upload_stream(
         { resource_type: 'video', folder: 'audios' },
         async (error, result) => {
@@ -161,13 +160,15 @@ router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res)
                 return res.status(500).json({ message: 'Upload failed', error });
             }
 
-
+            // Update du projet pour ajouter l'audio
             project.audio = result.secure_url;
             await project.save();
 
             res.json({ result: true, message: 'Audio uploaded successfully', url: result.secure_url });
         }
+        // Fermeture du flux de données 
     ).end(req.file.buffer);
+
 });
 
 
@@ -197,11 +198,6 @@ router.post('/searchTitle', async (req, res) => {
     }
 })
 
-//Récupérer la liste des projets enregistrés. 
-// router.get('/myproject', async (req, res) => {
-
-
-// })
 
 router.delete("/prompt", (req, res) => {
     if (!checkBody(req.body, ['id', 'email'])) {
@@ -229,28 +225,26 @@ router.post('/signalementProject', async (req, res) => {
     const foundProject = await Project.findById(req.body.idPrompt)
 
     if (foundProject) {
-
-        try {
-            const projectId = req.body.idPrompt;
-            const project = await Project.findByIdAndUpdate(
-                projectId,
-                { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            );
-            if (!project) {
-                return res.json({ result: false, error: 'Pas trouvé projet à update' });
-            }// Enregistrer le nouveau signalement 
-            const newSignalement = new Signalement({
-                userId: foundProject.userId,
-                text: req.body.text,
-                prompt: req.body.idPrompt,
-            })
-            const savedSignalement = await newSignalement.save()
-            res.json({ result: true, msg: savedSignalement })
-        } catch (error) {
-            res.json({ result: error });
-        }
+        const projectId = req.body.idPrompt;
+        const project = await Project.findByIdAndUpdate(
+            projectId,
+            { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+        );
+        if (!project) {
+            return res.json({ result: false, error: 'Pas trouvé projet à update' });
+        }// Enregistrer le nouveau signalement 
+        const newSignalement = new Signalement({
+            userId: foundProject.userId,
+            text: req.body.text,
+            prompt: req.body.idPrompt,
+        })
+        const savedSignalement = await newSignalement.save()
+        res.json({ result: true, msg: savedSignalement })
+    } else {
+        res.json({ result: error });
     }
-});
+})
+
 
 
 

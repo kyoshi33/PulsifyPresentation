@@ -349,6 +349,16 @@ router.delete('/comment', async (req, res) => {
 
 // Route pour incrémenter nbSignalements des commentaires
 router.post('/signalementComment', async (req, res) => {
+
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['idProject', 'text', 'email', "token"])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
     const { userId, comment, idProject, text } = req.body;
     console.log(idProject)
     try {
@@ -371,7 +381,6 @@ router.post('/signalementComment', async (req, res) => {
                 }
             },
         });
-        //  console.log(newSignalementComment)
         const savedSignalement = await newSignalementComment.save();
 
         res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });

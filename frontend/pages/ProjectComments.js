@@ -28,8 +28,6 @@ function ProjectComments() {
 
 
 
-
-
     const postComment = async () => {
         const postCommentInBD = await fetch('http://localhost:3000/projects/comment', {
             method: 'POST',
@@ -41,7 +39,7 @@ function ProjectComments() {
         console.log('res :', res)
         if (res.result) {
             console.log('comment :', comment)
-            setCommentsList([...commentsList, comment])
+            setCommentsList([...commentsList, res.newComment])
             setComment('')
         } else {
             console.log('Error:', res.message);

@@ -350,24 +350,17 @@ router.delete('/comment', async (req, res) => {
 // Route pour incrémenter nbSignalements des commentaires
 router.post('/signalementComment', async (req, res) => {
     const { userId, comment, idProject, text } = req.body;
-
     try {
         // trouve le projet par ID et par cible le commentaire
-        const project = await Project.updateOne(
-            { _id: idProject, "messages.comment": comment, "message.userId": userId },
+        const project = await Project.findOneAndUpdate(
+            { _id: idProject, "messages.comment": comment, "message.userId": userId._id },
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
-
         );
-
-        if (project.nModified === 0) {
-            return res.status(404).json({ result: false, msg: 'Comment not found or already updated.' });
-        }
-        console.log('project', project)
         // Enregistrer le nouveau signalement 
         const newSignalementComment = new Signalement({
-            userId: userId,
+            userId: userId._id,
             text: text,
             message: {
                 projectId: idProject,

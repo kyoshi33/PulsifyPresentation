@@ -1,7 +1,7 @@
 .promptContainer {
   display: flex;
   flex-direction: column;
-  padding-top: 1vh;
+  padding-top: 1%;
   /* padding-bottom: 1vh; */
   align-items: center;
   width: 100%;
@@ -10,7 +10,6 @@
   border: 1px solid #B300F2;
   border-radius: 10px;
   transition-duration: 500ms;
-
 }
 
 .promptContainer:hover {
@@ -30,116 +29,109 @@
 }
 
 .titleBackground {
-  background-color: #272541;
-  border-radius: 50px;
+  flex-wrap: wrap;
+  margin: 1%;
+  width: 50%;
+  flex-shrink: 0;
 }
 
 .title {
   background: linear-gradient(90deg, #48DEFF 0%, #EE00F2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-color: black;
   background-clip: text;
   font-size: 100%;
   display: flex;
   justify-content: center;
   text-align: center;
   border: white 1px solid;
-  padding: 7%;
-  width: 10vw;
+  padding: 5%;
+  flex-shrink: 0;
   border-radius: 50px;
 }
 
 
 .titleBox {
-  width: 20%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  padding-left: 3%;
-
+  width: 30%;
+  flex-shrink: 0;
 }
 
 .score {
   display: flex;
-  width: 10vw;
 
 }
 
 .star {
-  margin-left: 5px;
-  font-size: 11px;
+  margin-left: auto;
+  font-size: 80%;
 
 }
 
 .starGrey {
-  margin-left: 5px;
-  font-size: 11px;
+  margin-left: 2%;
+  font-size: 70%;
   color: #504E6B;
 }
 
 .itemPrompt {
-  padding-left: 22%;
-  font-size: 15px;
-
-  width: 70%;
+  flex-shrink: 0;
+  padding-left: 13%;
+  font-size: 100%;
+  width: 42%;
+  height: auto;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-
+  flex-wrap: wrap;
 }
 
 .iconsBox {
-  font-size: 14px;
+  font-size: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-right: 3%;
-
+  margin-left: auto;
 }
 
 .icon {
   display: flex;
-  font-size: 25px;
+  font-size: 160%;
   color: white;
-  margin-right: 20%;
   cursor: pointer;
+  justify-content: flex-end;
+  align-items: flex-end;
 
 }
 
-
-
 .xmark {
   cursor: pointer;
-  margin-left: 20px;
+
 }
 
 .genre {
   border: #ffffff 1px solid;
   border-radius: 15px;
-  padding: 2%;
-  margin-right: 10%;
-  margin-left: 15%;
-  width: 10vw;
-  height: 5vh;
+  padding: 1%;
+  margin-right: 2%;
+  margin-left: 2%;
+  width: 50%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  text-align: center;
   flex-shrink: 0;
 }
 
 .author {
-  margin-right: 1%;
+  margin-right: 5%;
   width: 10%;
+  flex-shrink: 0;
 }
 
 .likedIcon {
   color: red;
   display: flex;
-  font-size: 25px;
-  margin-right: 20%;
+  font-size: 160%;
   cursor: pointer;
 }

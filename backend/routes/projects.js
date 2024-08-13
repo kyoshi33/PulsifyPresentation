@@ -247,28 +247,17 @@ router.post('/signalementProject', async (req, res) => {
 
 // Récupération d'un projet par son ID
 router.post("/projectById", async (req, res) => {
-
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['id', 'email', "token"])) {
-        res.json({ result: false, error: 'Champs manquants ou vides' });
-        return;
-    }
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
-    !foundUser && res.json({ result: false, error: 'Access denied' });
-
-    // Récupération d'un projet par son ID
     const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
-    console.log('project 1 :', project)
-    // for (const user of project.messages) {
-    //     user.populate('userId')
-    // }
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
+        path: 'messages.userId', // Populate userId within each message
+    });
+    console.log('commentator :', project.messages)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" });
     } else {
-        return res.json({ result: true, info: project });
+        // console.log('project :', project)
+        return res.json({ result: true, info: project })
     }
 });
 

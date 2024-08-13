@@ -40,7 +40,8 @@ function ProjectComments() {
         console.log('res :', res)
         if (res.result) {
             console.log('comment :', comment)
-            setCommentsList([...commentsList, res.newComment])
+            //setCommentsList([...commentsList, res.newComment])
+            fetchProjectData(id)
             setComment('')
         } else {
             console.log('Error:', res.message);

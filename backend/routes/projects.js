@@ -348,27 +348,23 @@ router.post('/comment', async (req, res) => {
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
     // Ajout d'un commentaire
-    const findUser = await User.findOne({ email: req.body.email });
-    if (findUser) {
-        const newComment = { comment: req.body.comment, userId: findUser._id };
-        const projectToComment = await Project.findByIdAndUpdate(
-            req.body.id,
-            { $push: { messages: newComment } },
-            { new: true }
-        );
-        if (projectToComment) {
-            res.json({
-                result: true,
-                message: 'Comment successfully added',
-                newComment: {
-                    comment: req.body.comment,
-                    userId: findUser._id,
-                },
-            });
-        } else {
-            res.json({ result: false, message: 'project not found' });
-        }
+    const newComment = { comment: req.body.comment, userId: foundUser._id, createdAt: new Date(), nbSignalements: 0 };
+    const projectToComment = await Project.findByIdAndUpdate(
+        req.body.id,
+        { $push: { messages: newComment } },
 
+    );
+    if (projectToComment) {
+        res.json({
+            result: true,
+            message: 'Comment successfully added',
+            newComment: {
+                comment: req.body.comment,
+                userId: foundUser._id,
+            },
+        });
+    } else {
+        res.json({ result: false, message: 'project not found' });
     }
 });
 

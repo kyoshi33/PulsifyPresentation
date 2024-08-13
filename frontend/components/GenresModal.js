@@ -9,21 +9,18 @@ function GenresModal(props) {
     const [genresList, setGenresList] = useState([])
     const [includeCommunityFavorites, setIncludeCommunityFavorites] = useState(false); // State for checkbox
 
-
-    //"Rock", "Folk", "Classic", "Jazz", "Indie", "Transe", "Drum'n'Bass", "Couilles", "Chocolat"
-
     useEffect(() => {
         fetchAllGenres()
 
     }, []);
 
     const fetchAllGenres = async () => {
-        let token = user.token
+        const { token, email } = user
         if (token) {
             const fetchGenres = await fetch('http://localhost:3000/users/genres', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token: token }),
+                body: JSON.stringify({ token, email }),
             })
             const resGenre = await fetchGenres.json()
             setGenresList(resGenre.genres)
@@ -32,10 +29,11 @@ function GenresModal(props) {
     }
 
     const fetchLikedGenres = async () => {
+        const { token, email } = user
         const fetchLikedGenres = await fetch('http://localhost:3000/users/genres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token: token }),
+            body: JSON.stringify({ token, email }),
         })
         const resLikedGenres = await fetchLikedGenres.json()
         setGenresList([...genresList, ...resLikedGenres])

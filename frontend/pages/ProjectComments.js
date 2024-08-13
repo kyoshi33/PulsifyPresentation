@@ -15,10 +15,12 @@ function ProjectComments() {
     const user = useSelector((state) => state.user.value)
     const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
-    const [modalIsOpen, setIsOpen] = useState(false);
+
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
     const { id } = router.query; // Retrieve the project ID from the query parameters
+
+    // console.log('id :', id)
 
     const handleBack = () => {
         router.back();
@@ -26,24 +28,18 @@ function ProjectComments() {
 
 
 
-    const openSignalementModal = () => {
-        setIsOpen(true)
-    }
-
-    const closeSignalementModal = () => {
-        setIsOpen(false)
-    }
-
     const postComment = async () => {
         const postCommentInBD = await fetch('http://localhost:3000/projects/comment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id, comment: comment, email: user.email }),
         })
-        console.log(postCommentInBD)
+        //console.log("postCommentInBD :", postCommentInBD)
         const res = await postCommentInBD.json()
+        console.log('res :', res)
         if (res.result) {
-            setCommentsList([...commentsList, comment])
+            console.log('comment :', comment)
+            setCommentsList([...commentsList, res.newComment])
             setComment('')
         } else {
             console.log('Error:', res.message);
@@ -60,7 +56,9 @@ function ProjectComments() {
             // You can use this ID to fetch data associated with the specific project
         }
 
-    }, []);
+    }, [id]);
+
+
 
 
     const fetchProjectData = async (id) => {
@@ -74,6 +72,7 @@ function ProjectComments() {
         const res = await fetchData.json()
         console.log('project info :', res.info)
         setProjectInfo(res.info)
+        setCommentsList(res.info.messages)
     }
 
 
@@ -81,7 +80,7 @@ function ProjectComments() {
     let projet
     let comments
     if (projectInfo._id) {
-        projet = <PromptCard //id={id}
+        projet = <PromptCard id={id}
             username={projectInfo.userId.username}
             firstname={projectInfo.userId.firstname}
             picture={projectInfo.userId.picture}
@@ -91,21 +90,9 @@ function ProjectComments() {
             prompt={projectInfo.prompt}
         />
 
-        comments = projectInfo.messages.map((data, i) => {
-            console.log(data)
+        comments = commentsList.map((data, i) => {
             return (
                 < MessageCard key={i} comment={data.comment} userId={data.userId} />
-                // <div key={i} className={styles.fullComment}>
-                //     <UserCard className={styles.userCardInComment}></UserCard>
-                //     <div className={styles.textComment}>{data}</div>
-                //     <FontAwesomeIcon icon={faCircleExclamation}
-                //         onClick={() => openSignalementModal()}
-                //         className={styles.signalementIcon} />
-                //     <SignalementModal isOpen={modalIsOpen}
-                //         onRequestClose={closeSignalementModal}
-
-                //     />
-                // </div>
             )
         }).reverse()
     }

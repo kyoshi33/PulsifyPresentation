@@ -1,10 +1,23 @@
 import styles from '../styles/MessageCard.module.css';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import UserCard from './UserCard'
 
 
 function MessageCard(props) {
+
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    const openSignalementModal = () => {
+        setIsOpen(true)
+    }
+
+    const closeSignalementModal = () => {
+        setIsOpen(false)
+    }
 
 
     return (
@@ -17,6 +30,10 @@ function MessageCard(props) {
             <div className={styles.listItemMessage}>
                 {props.comment}
             </div>
+            <FontAwesomeIcon
+                icon={faCircleExclamation}
+                onClick={() => openSignalementModal()}
+            />
         </div>
 
     );

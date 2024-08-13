@@ -99,6 +99,7 @@ function ProjectComments() {
             firstname={projectInfo.userId.firstname}
             picture={projectInfo.userId.picture}
             stars={projectInfo.rating}
+            audio={projectInfo.audio}
             projectName={projectInfo.title}
             genre={projectInfo.genre}
             prompt={projectInfo.prompt}

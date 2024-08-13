@@ -30,6 +30,7 @@ function SignalementModal(props) {
     } catch (error) {
       console.error('Erreur:', error);
     }
+    console.log(handleValidation('coucou'))
   };
 
 

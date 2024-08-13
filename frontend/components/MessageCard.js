@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-
+import SignalementModal from './SignalementModal';
 import UserCard from './UserCard'
 
 
@@ -30,9 +30,10 @@ function MessageCard(props) {
             <div className={styles.listItemMessage}>
                 {props.comment}
             </div>
-            <FontAwesomeIcon
-                icon={faCircleExclamation}
-                onClick={() => openSignalementModal()}
+            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
+            <SignalementModal isOpen={modalIsOpen}
+                onRequestClose={closeSignalementModal}
+                id={props.id}
             />
         </div>
 

@@ -1,25 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
 import styles from '../styles/ProjectComments.module.css'
 import PromptCard from '../components/PromptCard';
+import UserCard from '../components/UserCard';
+import SignalementModal from '../components/SignalementModal';
 import MessageCard from '../components/MessageCard'
 
-function ProjectComments() {
+function ProjectComments(props) {
     const user = useSelector((state) => state.user.value)
     const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
 
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
-    const { id } = router.query; // Retrieve the project ID from the query parameter
+    const { id } = router.query; // Retrieve the project ID from the query parameters
+    const [reload, setReload] = useState(false)
     // console.log('id :', id)
 
     const handleBack = () => {
         router.back();
     };
+
+
 
     const postComment = async () => {
         const { email, token } = user;
@@ -33,7 +40,7 @@ function ProjectComments() {
         console.log('res :', res)
         if (res.result) {
             console.log('comment :', comment)
-            //setCommentsList([...commentsList, res.newComment])
+            setCommentsList([...commentsList, res.newComment])
             fetchProjectData(id)
             setComment('')
         } else {
@@ -50,6 +57,7 @@ function ProjectComments() {
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
         }
+
     }, [id]);
 
 
@@ -70,7 +78,10 @@ function ProjectComments() {
 
     const refresh = () => {
         fetchProjectData(id)
+
     }
+
+    // console.log('comments list :', commentsList)
 
     let projet
     let comments
@@ -94,6 +105,7 @@ function ProjectComments() {
             )
         }).reverse()
     }
+
 
 
     return (

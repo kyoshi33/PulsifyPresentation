@@ -329,14 +329,15 @@ router.post('/comment', async (req, res) => {
 
 // Supprimer un commentaire
 router.delete('/comment', async (req, res) => {
-    const { projectId, comment } = req.body;
+    const { projectId, comment, userId } = req.body;
     console.log('projectId, commentId', projectId, comment)
     const project = await Project.findByIdAndUpdate(
         projectId,
-        { $pull: { messages: { comment: comment } } },
+        { $pull: { messages: { comment: comment, userId: userId } } },
         { new: true }
     )
     if (project) {
+        await Signalement.deleteMany({ message: { projectId: projectId, comment: { comment: comment, userId: userId } } })
         res.json({ result: true, message: 'Comment successfully deleted', project });
     } else {
         res.json({ result: false, message: 'Project not found' });
@@ -375,7 +376,7 @@ router.post('/signalementComment', async (req, res) => {
 
         res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });
     } catch (error) {
-        res.json({ result: error });
+        res.json({ result: false, error: error.message });
     }
 });
 

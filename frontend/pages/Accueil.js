@@ -24,10 +24,10 @@ function Accueil() {
     const user = useSelector((state => state.user.value));
 
 
-    const handleClick = (genre, title, prompt) => {
+    const handleClick = (genre) => {
         router.push({
             pathname: '/Project',
-            query: { genre, title, prompt },
+            query: { genre },
         });
     };
 
@@ -115,13 +115,9 @@ function Accueil() {
             const myProjects = listProjects;
             if (listProjects.length && search.length) {
                 mappedProjects = listProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
-                        <ModelCard
-                            key={i}
-                            genre={genre}
-                            prompt={prompt}
-                            title={titre}
+                    const { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
+                        <ModelCard genre={genre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
@@ -134,24 +130,29 @@ function Accueil() {
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
-                        <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
-                            firstname={userId.firstname}
-                            username={"Moi"}
-                            picture={userId.picture}
-                        />
-                    </div>
+                    const { genre, userId, titles } = project;
+                    return (
+                        <div className={styles.modelCard} key={i}>
+                            <ModelCard
+                                genre={genre}
+                                firstname={userId.firstname}
+                                username={"Moi"}
+                                picture={userId.picture}
+                                projects={titles}
+                                isOwnGenre={true}
+                                handleRemoveGenre={handleRemoveGenre}
+                                handleClick={handleClick}
+                            />
+                        </div>
+                    );
                 });
             }
         } else if (selectedTab === 2) {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
+                    let { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
                             firstname={userId.firstname}
                             username={userId.username}
@@ -164,8 +165,8 @@ function Accueil() {
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
+                    let { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
                             firstname={userId.firstname}
                             username={userId.username}

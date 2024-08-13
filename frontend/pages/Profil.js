@@ -133,22 +133,6 @@ function Profil(props) {
   }
 
 
-  // let listBibliotheque = listMesModeles.map((data, i) => {
-  //   return (<div className={styles.modelChoiceContainer}>
-  //     <div className={styles.scrollWindow}>
-  //       <button className={styles.listItemContainer}>
-  //         <div className={styles.listItemTitle}>
-  //          { data.}
-  //         </div>
-  //         <div className={styles.listItemPrompt}>
-  //           { data.}
-  //         </div>
-  //       </button>
-  //     </div>
-  //   </div>
-  //   )
-  // })
-
 
   return (
     <div className={styles.container}>

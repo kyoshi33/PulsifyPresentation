@@ -10,12 +10,14 @@
 
 .topCommentPage {
     width: 100%;
+    height: 15%;
     display: flex;
     justify-content: space-between;
 }
 
 .promptCardContainer {
     width: 80%;
+
     height: 80%;
     margin: 1%;
 }

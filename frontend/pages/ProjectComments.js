@@ -1,3 +1,4 @@
+import styles from '../styles/ProjectComments.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -5,7 +6,6 @@ import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
-import styles from '../styles/ProjectComments.module.css'
 import PromptCard from '../components/PromptCard';
 import UserCard from '../components/UserCard';
 import SignalementModal from '../components/SignalementModal';
@@ -37,6 +37,7 @@ function ProjectComments() {
 
 
     const postComment = async () => {
+
         const { email, token } = user;
         const postCommentInBD = await fetch('http://localhost:3000/projects/comment', {
             method: 'POST',
@@ -79,7 +80,7 @@ function ProjectComments() {
         });
         // console.log('fetchData :', fetchData)
         const res = await fetchData.json()
-        console.log('project info :', res.info)
+        console.log('project info :', res.info.messages)
         setProjectInfo(res.info)
         setCommentsList(res.info.messages)
     }

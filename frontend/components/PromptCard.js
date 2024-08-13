@@ -129,8 +129,8 @@ function PromptCard(props) {
                         <div className={styles.iconsBox}>
                             {!props.isOnProfile && displayicons}
                             {props.isOnMyProjects && displayicons}
+                            {props.isOnProfile && displayXmark}
                         </div>
-                        {props.isOnProfile && displayXmark}
                     </div>
                 </div>
 

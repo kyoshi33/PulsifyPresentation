@@ -63,6 +63,7 @@
 
 .titleBox:hover {
   cursor: pointer;
+
 }
 
 .score {
@@ -101,6 +102,7 @@
   justify-content: center;
   align-items: center;
   margin-left: auto;
+  margin-right: 5%;
 
 }
 
@@ -114,15 +116,22 @@
   font-size: 160%;
   color: white;
   cursor: pointer;
-  justify-content: flex-end;
-  align-items: flex-end;
-  margin: 5%;
+  margin: 10%;
+}
 
+.icon:hover {
+  color: #0b0a1a;
 }
 
 .xmark {
   cursor: pointer;
-  margin-left: 1vw
+  margin: 7%;
+}
+
+.xmark:hover {
+  cursor: pointer;
+  color: #0b0a1a;
+
 }
 
 .genre {
@@ -149,6 +158,7 @@
   display: flex;
   font-size: 160%;
   cursor: pointer;
+  margin: 10%;
 }
 
 .audioInput {

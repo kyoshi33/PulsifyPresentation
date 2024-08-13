@@ -6,11 +6,8 @@ const Project = require('../models/projects');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
 const Signalement = require("../models/signalements")
-const { FormData } = require('formdata-node');
-const { fileFromPath } = require('formdata-node/file-from-path');
 const cloudinary = require('../cloudinary');
-const fs = require('fs');
-const path = require('path');
+
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

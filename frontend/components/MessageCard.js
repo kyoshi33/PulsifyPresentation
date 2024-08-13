@@ -56,7 +56,7 @@ function MessageCard(props) {
             <div className={styles.iconContainer}>
                 <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
                 {isCommentPoster && (
-                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={removeComment} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={() => removeComment()} />
                 )}
             </div>
             <SignalementModal isOpen={modalIsOpen}

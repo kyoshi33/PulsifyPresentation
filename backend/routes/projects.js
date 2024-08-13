@@ -349,10 +349,11 @@ router.delete('/comment', async (req, res) => {
 // Route pour incrémenter nbSignalements des commentaires
 router.post('/signalementComment', async (req, res) => {
     const { userId, comment, idProject, text } = req.body;
+    console.log(idProject)
     try {
         // trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(
-            { _id: idProject, "messages.comment": comment, "message.userId": userId._id },
+            { _id: idProject, "messages.comment": comment },
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },

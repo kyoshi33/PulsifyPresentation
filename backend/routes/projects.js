@@ -225,7 +225,6 @@ router.post("/projectById", async (req, res) => {
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
         path: 'messages.userId', // Populate userId within each message
     });
-    console.log('commentator :', project.messages)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" })
@@ -250,7 +249,7 @@ router.get('/allGenres', async (req, res) => {
 })
 
 
-
+//Poste un commentaire en sous document dans la base de donnée dans le document projet
 router.post('/comment', async (req, res) => {
     const findUser = await User.findOne({ email: req.body.email })
     if (findUser) {
@@ -258,7 +257,7 @@ router.post('/comment', async (req, res) => {
         const projectToComment = await Project.findByIdAndUpdate(
             req.body.id,
             { $push: { messages: newComment } },
-            { new: true } // `new: true` returns the updated document
+            { new: true }
         );
         if (projectToComment) {
             res.json({

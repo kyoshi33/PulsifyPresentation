@@ -15,7 +15,7 @@ function Project() {
     const [prompt, setPrompt] = useState("")
     const [search, setSearch] = useState("");
     const [genresModalIsOpen, setGenresModalIsOpen] = useState(false)
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([])
     const [suggestionsList, setSuggestionsList] = useState([]);
     const [isCopied, setIsCopied] = useState(false);
@@ -188,12 +188,12 @@ function Project() {
             setGenreIsInvalid(false);
             setPromptIsInvalid(false);
             setTitleIsInvalid(false);
-            setIsOpen(true)
+            setModalIsOpen(true)
         }
     }
 
     const closeProjectModal = () => {
-        setIsOpen(false);
+        setModalIsOpen(false);
     }
 
     // Ajouter un genre depuis la recherche par artiste
@@ -205,6 +205,7 @@ function Project() {
                 setPrompt(prompt + `${genre}, `)
             } else {
                 setPrompt(prompt + `, ${genre}, `)
+
             }
         }
     }

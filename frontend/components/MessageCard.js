@@ -2,13 +2,13 @@ import styles from '../styles/MessageCard.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faTrash } from '@fortawesome/free-solid-svg-icons';
 import SignalementModal from './SignalementModal';
 import UserCard from './UserCard'
 
 
 function MessageCard(props) {
-
+    const user = useSelector((state) => state.user.value)
     const [modalIsOpen, setIsOpen] = useState(false);
 
     const openSignalementModal = () => {
@@ -17,6 +17,14 @@ function MessageCard(props) {
 
     const closeSignalementModal = () => {
         setIsOpen(false)
+    }
+
+    const isCommentPoster = user.email === props.userId.email;
+    console.log('user :', user)
+    console.log('props.user :', props.userId)
+
+    const removeComment = () => {
+
     }
 
     return (
@@ -29,7 +37,12 @@ function MessageCard(props) {
             <div className={styles.listItemMessage}>
                 {props.comment}
             </div>
-            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
+            <div className={styles.iconContainer}>
+                <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
+                {isCommentPoster && (
+                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={removeComment} />
+                )}
+            </div>
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
                 userId={props.userId}

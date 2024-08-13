@@ -57,7 +57,6 @@ function ProjectComments() {
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
         }
-
     }, [id]);
 
 

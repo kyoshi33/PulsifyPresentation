@@ -142,27 +142,67 @@ router.post("/searchCommunityGenres", async (req, res) => {
 
 router.post('/searchGenre', async (req, res) => {
 
-    if (!checkBody(req.body, ['genre'])) {
-        res.json({ result: false, error: 'Champs manquants ou vides' });
+    // Authentification de l'utilisateur
+    if (!checkBody(req.body, ['genre', 'email', 'token'])) {
+        res.json({ result: false });
         return;
     }
 
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+    // Recherche par genre en ignorant la casse
     const fetchAllPrompts = await Project.find({ genre: { $regex: new RegExp(req.body.genre.toLowerCase(), "i") } })
+
     if (fetchAllPrompts.length) {
+
         const prompts = []
+
         for (const populateUserId of fetchAllPrompts) {
             const userIdPopulatedInPrompt = await populateUserId.populate('userId')
             userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
         }
+
         if (prompts.length) {
             res.json({ result: true, promptsList: prompts })
         } else {
             res.json({ result: false, error: 'Genre existant mais non public' })
         }
+
     } else {
         res.json({ result: false, error: 'Genre non existant' })
     }
+});
+
+
+router.post('/allGenres', async (req, res) => {
+
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['token', 'email'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+    if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+    // Récupération de tous les genres
+    const foundAllProject = await Project.find()
+    if (foundAllProject.length) {
+        allGenres = []
+        for (const project of foundAllProject) {
+            if (!allGenres.some(e => e === project.genre) && project.isPublic)
+                allGenres.push(project.genre)
+        }
+        res.json({ result: true, allGenres: allGenres })
+    } else {
+        res.json({ result: false })
+    }
 })
+
+
+
 
 
 module.exports = router;

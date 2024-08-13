@@ -52,7 +52,7 @@ function Profil(props) {
         } else {
           setMyPrompts(data.myPrompts.prompts)
           setCommunityList(data.likedprompts)
-          // console.log(communityList[0].userId.firstname)
+
         }
 
       });
@@ -71,7 +71,7 @@ function Profil(props) {
 
 
   const listBibliotheque = myPrompts.map((data, i) => {
-    console.log(data.audio)
+
     return (
       <div className={styles.promptCard}>
         <PromptCard

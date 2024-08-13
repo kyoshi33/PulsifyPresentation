@@ -34,7 +34,7 @@ function SignalementModal(props) {
       }
     }
 
-    if (comment) {
+    if (props.comment) {
       try {
         const signalement = await fetch(`http://localhost:3000/projects/signalementComment`, {
           method: 'POST',

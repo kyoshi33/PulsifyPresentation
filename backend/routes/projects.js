@@ -370,11 +370,13 @@ router.post('/comment', async (req, res) => {
 });
 
 
+// Supprimer un commentaire
 router.delete('/comment', async (req, res) => {
-    const { projectId, commentId } = req.body;
+    const { projectId, comment } = req.body;
+    console.log('projectId, commentId', projectId, comment)
     const project = await Project.findByIdAndUpdate(
         projectId,
-        { $pull: { messages: { _id: commentId } } },
+        { $pull: { messages: { comment: comment } } },
         { new: true }
     )
     if (project) {

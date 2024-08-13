@@ -78,6 +78,8 @@ function ProjectComments() {
 
 
 
+
+
     let projet
     let comments
     if (projectInfo._id) {
@@ -94,7 +96,7 @@ function ProjectComments() {
         comments = commentsList.map((data, i) => {
             console.log('data :', data)
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} refresh={fetchProjectData} />
             )
         }).reverse()
     }

@@ -92,6 +92,7 @@ function ProjectComments() {
         />
 
         comments = commentsList.map((data, i) => {
+            console.log('data :', data)
             return (
                 < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
             )

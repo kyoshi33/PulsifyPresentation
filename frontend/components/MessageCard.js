@@ -19,9 +19,13 @@ function MessageCard(props) {
         setIsOpen(false)
     }
 
-    const isCommentPoster = user.email === props.userId._id;
+    const isCommentPoster = user.email === props.userId.email;
     console.log('user :', user)
     console.log('props.user :', props.userId)
+
+    const removeComment = () => {
+
+    }
 
     return (
         <div className={styles.listItemContainer}>

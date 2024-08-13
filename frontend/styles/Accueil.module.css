@@ -8,6 +8,10 @@
   font-family: 'Arial';
   background-color: #0B0A1A;
   color: white;
+  background-image: url('../public/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: color-dodge;
 }
 
 .title {
@@ -115,8 +119,8 @@
   overflow-y: auto;
   scrollbar-width: large;
   scrollbar-color: #272541 #B300F2;
-  background: #272541;
-  border: 3px solid #B300F2;
+  background: #27254175;
+  border: 2px solid #B300F2;
   border-radius: 10px;
 }
 

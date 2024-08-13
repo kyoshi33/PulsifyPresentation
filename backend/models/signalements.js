@@ -5,7 +5,13 @@ const signalementsSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
   text: { type: String, required: true },
   prompt: { type: mongoose.Schema.Types.ObjectId, ref: 'projects', required: false },
-  message: { type: mongoose.Schema.Types.ObjectId, ref: 'messages', required: false },
+  message: {
+    projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'projects', required: false },
+    comment: [{
+      comment: { type: String, required: true },
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }
+    }]
+  },
   createdAt: { type: Date, default: new Date() },
 
 

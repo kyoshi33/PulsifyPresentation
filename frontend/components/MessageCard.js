@@ -19,9 +19,28 @@ function MessageCard(props) {
         setIsOpen(false)
     }
 
-    const isCommentPoster = user.email === props.userId._id;
+    const isCommentPoster = user.email === props.userId.email;
     console.log('user :', user)
     console.log('props.user :', props.userId)
+
+    const removeComment = async () => {
+        const response = await fetch('http://localhost:3000/projects/comment', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectId: props.idProject,
+                commentId: props.commentId,
+            }),
+        });
+        const result = await response.json()
+        if (result.result) {
+            console.log('Comment deleted:', result.message);
+        } else {
+            console.error('Failed to delete comment:', result.message);
+        }
+    }
 
     return (
         <div className={styles.listItemContainer}>

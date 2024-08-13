@@ -48,7 +48,7 @@ function Accueil() {
     const fetchCommunityProjects = async () => {
         // Fetch des projets 
         const { email, token } = user;
-        const fetchProject = await fetch('http://localhost:3000/genres/searchCommunityGenres', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchLikedGenres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search: searchCommunity, email, token }),
@@ -66,6 +66,19 @@ function Accueil() {
     useEffect(() => {
         fetchCommunityProjects();
     }, [searchCommunity]);
+
+
+    // Fonction pour supprimer un genre et tous les mots-clés associés.
+    const handleRemoveGenre = async (genre) => {
+        const { email, token } = user;
+        const removedGenre = await fetch('http://localhost:3000/genres/removeGenre', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ genre, email, token }),
+        })
+        fetchProjects();
+        fetchCommunityProjects();
+    }
 
 
     let display =
@@ -104,12 +117,18 @@ function Accueil() {
                 mappedProjects = listProjects.map((project, i) => {
                     let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
-                        <ModelCard genre={genre}
+                        <ModelCard
+                            key={i}
+                            genre={genre}
                             prompt={prompt}
                             title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            isOwnGenre={true}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });
@@ -134,11 +153,12 @@ function Accueil() {
                     let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });
@@ -147,11 +167,12 @@ function Accueil() {
                     let { prompt, genre, titre, userId } = project;
                     return <div className={styles.modelCard} onClick={() => handleClick(genre, prompt, titre)}>
                         <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });

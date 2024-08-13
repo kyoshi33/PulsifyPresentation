@@ -11,7 +11,7 @@ import UserCard from '../components/UserCard';
 import SignalementModal from '../components/SignalementModal';
 import MessageCard from '../components/MessageCard'
 
-function ProjectComments() {
+function ProjectComments(props) {
     const user = useSelector((state) => state.user.value)
     const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
@@ -19,7 +19,7 @@ function ProjectComments() {
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
     const { id } = router.query; // Retrieve the project ID from the query parameters
-
+    const [reload, setReload] = useState(false)
     // console.log('id :', id)
 
     const handleBack = () => {
@@ -40,7 +40,7 @@ function ProjectComments() {
         console.log('res :', res)
         if (res.result) {
             console.log('comment :', comment)
-            //setCommentsList([...commentsList, res.newComment])
+            setCommentsList([...commentsList, res.newComment])
             fetchProjectData(id)
             setComment('')
         } else {
@@ -62,7 +62,7 @@ function ProjectComments() {
 
 
     const fetchProjectData = async (id) => {
-        console.log('id :', id)
+        // console.log('id :', id)
         const { email, token } = user;
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
             method: 'POST',
@@ -76,9 +76,12 @@ function ProjectComments() {
         setCommentsList(res.info.messages)
     }
 
+    const refresh = () => {
+        fetchProjectData(id)
 
+    }
 
-
+    // console.log('comments list :', commentsList)
 
     let projet
     let comments
@@ -94,9 +97,11 @@ function ProjectComments() {
         />
 
         comments = commentsList.map((data, i) => {
-            console.log('data :', data)
+            // console.log('data :', data)
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} refresh={fetchProjectData} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id}
+                    refresh={refresh}
+                />
             )
         }).reverse()
     }

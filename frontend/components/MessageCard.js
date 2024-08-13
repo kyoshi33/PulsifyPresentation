@@ -32,6 +32,7 @@ function MessageCard(props) {
             body: JSON.stringify({
                 projectId: props.idProject,
                 comment: props.comment,
+                userId: props.userId._id
             }),
         });
         const result = await response.json()
@@ -56,7 +57,7 @@ function MessageCard(props) {
             <div className={styles.iconContainer}>
                 <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
                 {isCommentPoster && (
-                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={removeComment} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={() => removeComment()} />
                 )}
             </div>
             <SignalementModal isOpen={modalIsOpen}

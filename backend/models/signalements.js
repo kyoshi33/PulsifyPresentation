@@ -7,10 +7,10 @@ const signalementsSchema = mongoose.Schema({
   prompt: { type: mongoose.Schema.Types.ObjectId, ref: 'projects', required: false },
   message: {
     projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'projects', required: false },
-    comment: [{
-      comment: { type: String, required: true },
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }
-    }]
+    comment: {
+      comment: { type: String, required: false },
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: false }
+    }
   },
   createdAt: { type: Date, default: new Date() },
 

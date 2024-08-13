@@ -29,17 +29,19 @@ function ProjectComments() {
 
 
     const postComment = async () => {
+        const { email, token } = user;
         const postCommentInBD = await fetch('http://localhost:3000/projects/comment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id, comment: comment, email: user.email }),
+            body: JSON.stringify({ id, comment, email, token }),
         })
         //console.log("postCommentInBD :", postCommentInBD)
         const res = await postCommentInBD.json()
         console.log('res :', res)
         if (res.result) {
             console.log('comment :', comment)
-            setCommentsList([...commentsList, res.newComment])
+            //setCommentsList([...commentsList, res.newComment])
+            fetchProjectData(id)
             setComment('')
         } else {
             console.log('Error:', res.message);
@@ -61,10 +63,11 @@ function ProjectComments() {
 
     const fetchProjectData = async (id) => {
         console.log('id :', id)
+        const { email, token } = user;
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id }),
+            body: JSON.stringify({ id, email, token }),
         });
         // console.log('fetchData :', fetchData)
         const res = await fetchData.json()

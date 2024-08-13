@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 
 function Explorer() {
     const user = useSelector((state) => state.user.value)
-    const [search, setSearch] = useState('')
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const [search, setSearch] = useState('');
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [checkedAutor, setCheckedAutor] = useState(false);
     const [checkedKeyword, setCheckedKeyword] = useState(false);
     const [checkedProject, setCheckedProject] = useState(false);
@@ -19,34 +19,39 @@ function Explorer() {
     const [sortDown, setSortDown] = useState(false);
     const [errorSearch, setErrorSearch] = useState(false);
     const [listProject, setListProject] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('')
-    const [placeHolder, setPlaceHolder] = useState('Recherche par genre...')
-    const [allGenres, setAllGenres] = useState([])
-    const [discover, setDiscover] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('');
+    const [placeHolder, setPlaceHolder] = useState('Recherche par genre...');
+    const [allGenres, setAllGenres] = useState([]);
+    const [discover, setDiscover] = useState(false);
 
     //if no connect go welcome
     if (!user.isLogged) {
-        window.location.href = '/'
+        window.location.href = '/';
     }
     // enelevé résultat recherche et error 
 
     useEffect(() => {
-        foundAllGenres()
-    }, [])
+        search || foundAllGenres();
+    }, [search])
 
     const foundAllGenres = async () => {
-        const foundGenres = await fetch('http://localhost:3000/projects/allGenres')
-        const res = await foundGenres.json()
+        const { token, email } = user;
+        const foundGenres = await fetch('http://localhost:3000/genres/allGenres', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, email }),
+        })
+        const res = await foundGenres.json();
         if (res.result) {
-            setAllGenres(res.allGenres)
-            setDiscover(true)
+            setAllGenres(res.allGenres);
+            setDiscover(true);
         } else {
-            setDiscover(false)
+            setDiscover(false);
         }
     }
 
-    let discoverGenres
-    let discoverMessage
+    let discoverGenres;
+    let discoverMessage;
 
     if (discover) {
         discoverMessage = <div className={styles.discoverMessage}>Découvrez des nouveaux genres...</div>
@@ -134,10 +139,11 @@ function Explorer() {
 
     const fetchAutor = async () => {
         // fetch des auteurs 
+        const { email, token } = user;
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: search, token: user.token, email: user.email }),
+            body: JSON.stringify({ username: search, token, email }),
         })
         const res = await fetchAutor.json()
         if (res.result) {
@@ -148,12 +154,14 @@ function Explorer() {
             setErrorMessage(res.error)
         }
     }
+
     const fetchKeyword = async () => {
         // fetch des mots clés
+        const { email, token } = user;
         const fetchKeyWord = await fetch('http://localhost:3000/keywords/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ keyword: search }),
+            body: JSON.stringify({ keyword: search, email, token }),
         })
         const res = await fetchKeyWord.json()
         if (res.result) {
@@ -166,10 +174,11 @@ function Explorer() {
     }
     const fetchProject = async () => {
         // fetch des projets 
+        const { email, token } = user;
         const fetchProject = await fetch('http://localhost:3000/projects/searchTitle', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: search }),
+            body: JSON.stringify({ title: search, email, token }),
         })
         const res = await fetchProject.json()
         if (res.result) {
@@ -183,13 +192,14 @@ function Explorer() {
 
     const fetchGenre = async (genre) => {
         setDiscover(false)
+        const { email, token } = user;
         if (genre) {
             setSearch(genre)
             // fetch des projets depuis discover
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ genre: genre }),
+                body: JSON.stringify({ genre, email, token }),
             })
             const res = await fetchProject.json()
             if (res.result) {
@@ -204,7 +214,7 @@ function Explorer() {
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ genre: search }),
+                body: JSON.stringify({ genre: search, email, token }),
             })
             const res = await fetchProject.json()
             if (res.result) {
@@ -217,8 +227,7 @@ function Explorer() {
         }
     }
 
-    // map
-
+    // Map
     let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
@@ -303,7 +312,7 @@ function Explorer() {
                 <div className={styles.scrollWindow}>
                     {error}
                     {discoverGenres}
-                    {listProjectSearch}
+                    {discover || listProjectSearch}
                 </div>
                 <button className={styles.btnRetour} onClick={() => window.location.href = '/Accueil'}>Retour</button>
             </div>

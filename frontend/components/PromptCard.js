@@ -28,10 +28,11 @@ function PromptCard(props) {
     }
 
     const removePrompt = () => {
+        const { email, token } = user;
         fetch('http://localhost:3000/projects/prompt', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: user.email, id: props.id })
+            body: JSON.stringify({ email, token, id: props.id })
         })
             .then(response => response.json())
             .then(data => {
@@ -46,10 +47,11 @@ function PromptCard(props) {
 
     const like = async (props) => {
         let id = props.id
+        const { email, token } = user;
         await fetch("http://localhost:3000/users/like", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: user.email, id: id, token: user.token })
+            body: JSON.stringify({ email, id, token })
         })
         if (!user.liked.includes(props.id)) {
             dispatch(addLike(props.id))

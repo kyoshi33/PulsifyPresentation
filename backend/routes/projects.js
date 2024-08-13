@@ -220,6 +220,9 @@ router.post("/projectById", async (req, res) => {
     const projectId = req.body.id;
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
     console.log('project 1 :', project)
+    // for (const user of project.messages) {
+    //     user.populate('userId')
+    // }
 
     if (!project) {
         return res.json({ result: false, message: "project not found" })
@@ -243,6 +246,7 @@ router.get('/allGenres', async (req, res) => {
         res.json({ result: false })
     }
 })
+
 
 
 router.post('/comment', async (req, res) => {

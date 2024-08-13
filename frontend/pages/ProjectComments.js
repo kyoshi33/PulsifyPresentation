@@ -9,10 +9,11 @@ import styles from '../styles/ProjectComments.module.css'
 import PromptCard from '../components/PromptCard';
 import UserCard from '../components/UserCard';
 import SignalementModal from '../components/SignalementModal';
+import MessageCard from '../components/MessageCard'
 
 function ProjectComments() {
     const user = useSelector((state) => state.user.value)
-    const [commentsList, setCommentsList] = useState(["coucou", "couilles", "bite", "j'en aurai bouffé du CSS", "je sais plus", "quoi taper", "pour tester", "ma scrollBar", "plus un truc"])
+    const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
     const [modalIsOpen, setIsOpen] = useState(false);
     const [projectInfo, setProjectInfo] = useState({})
@@ -22,6 +23,8 @@ function ProjectComments() {
     const handleBack = () => {
         router.back();
     };
+
+
 
     const openSignalementModal = () => {
         setIsOpen(true)
@@ -56,6 +59,7 @@ function ProjectComments() {
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
         }
+
     }, []);
 
 
@@ -68,28 +72,14 @@ function ProjectComments() {
         });
         // console.log('fetchData :', fetchData)
         const res = await fetchData.json()
-        // console.log('project info :', res.info)
+        console.log('project info :', res.info)
         setProjectInfo(res.info)
     }
 
-    const comments = commentsList.map((data, i) => {
-        return (
-            <div key={i} className={styles.fullComment}>
-                <UserCard className={styles.userCardInComment}></UserCard>
-                <div className={styles.textComment}>{data}</div>
-                <FontAwesomeIcon icon={faCircleExclamation}
-                    onClick={() => openSignalementModal()}
-                    className={styles.signalementIcon} />
-                <SignalementModal isOpen={modalIsOpen}
-                    onRequestClose={closeSignalementModal}
 
-                />
-            </div>
-        )
-    }).reverse()
 
     let projet
-
+    let comments
     if (projectInfo._id) {
         projet = <PromptCard //id={id}
             username={projectInfo.userId.username}
@@ -100,6 +90,24 @@ function ProjectComments() {
             genre={projectInfo.genre}
             prompt={projectInfo.prompt}
         />
+
+        comments = projectInfo.messages.map((data, i) => {
+            console.log(data)
+            return (
+                < MessageCard key={i} comment={data.comment} userId={data.userId} />
+                // <div key={i} className={styles.fullComment}>
+                //     <UserCard className={styles.userCardInComment}></UserCard>
+                //     <div className={styles.textComment}>{data}</div>
+                //     <FontAwesomeIcon icon={faCircleExclamation}
+                //         onClick={() => openSignalementModal()}
+                //         className={styles.signalementIcon} />
+                //     <SignalementModal isOpen={modalIsOpen}
+                //         onRequestClose={closeSignalementModal}
+
+                //     />
+                // </div>
+            )
+        }).reverse()
     }
 
 

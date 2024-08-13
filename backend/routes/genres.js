@@ -48,7 +48,7 @@ router.post("/searchMyGenres", async (req, res) => {
             genreMap[genre] = {
                 genre: genre,
                 userId: project.userId,
-                titles: [],  // Liste des titres pour ce genre
+                titles: [],
             };
         }
 

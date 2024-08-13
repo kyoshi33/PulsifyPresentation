@@ -19,9 +19,29 @@ function MessageCard(props) {
         setIsOpen(false)
     }
 
-    const isCommentPoster = user.email === props.userId._id;
+    const isCommentPoster = user.email === props.userId.email;
     console.log('user :', user)
     console.log('props.user :', props.userId)
+
+    const removeComment = async () => {
+        const response = await fetch('http://localhost:3000/projects/comment', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectId: props.idProject,
+                comment: props.comment,
+            }),
+        });
+        const result = await response.json()
+        if (result.result) {
+            console.log('Comment deleted:', result.message);
+            props.refresh();
+        } else {
+            console.error('Failed to delete comment:', result.message);
+        }
+    }
 
     return (
         <div className={styles.listItemContainer}>
@@ -36,7 +56,7 @@ function MessageCard(props) {
             <div className={styles.iconContainer}>
                 <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
                 {isCommentPoster && (
-                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={removeComment} />
+                    <FontAwesomeIcon icon={faTrash} className={styles.icon} onClick={() => removeComment()} />
                 )}
             </div>
             <SignalementModal isOpen={modalIsOpen}

@@ -24,7 +24,7 @@
   align-items: center;
   width: 96%;
   height: 90%;
-  font-size: 80%;
+  font-size: 2vmin;
   /* user-select: none; */
 }
 
@@ -42,7 +42,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: 100%;
+  font-size: auto;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -81,19 +81,27 @@
 .itemPrompt {
   flex-shrink: 0;
   padding-left: 13%;
-  font-size: 100%;
-  width: 42%;
-  height: auto;
+  font-size: 1vmax;
+  width: 30%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
+
 }
 
 .iconsBox {
-  font-size: 100%;
+  font-size: 1vmax;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-left: auto;
+
+}
+
+.iconsBoxAndAudio {
+  font-size: 1vmax;
   margin-left: auto;
 }
 
@@ -110,7 +118,7 @@
 
 .xmark {
   cursor: pointer;
-  margin-left: 2%
+  margin-left: 1vw
 }
 
 .genre {
@@ -137,4 +145,10 @@
   display: flex;
   font-size: 160%;
   cursor: pointer;
+}
+
+.audioInput {
+  width: 250px;
+  height: 30px;
+  margin: 2%;
 }

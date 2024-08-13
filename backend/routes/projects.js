@@ -6,11 +6,8 @@ const Project = require('../models/projects');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
 const Signalement = require("../models/signalements")
-const { FormData } = require('formdata-node');
-const { fileFromPath } = require('formdata-node/file-from-path');
 const cloudinary = require('../cloudinary');
-const fs = require('fs');
-const path = require('path');
+
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -25,10 +22,9 @@ router.post("/add", async (req, res) => {
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
-
-    //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
-    const promptToSplit = req.body.prompt.trim()
-    const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
+    //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin, et sans l'audio, même s'il y en a un
+    const promptToSplit = req.body.prompt.trim();
+    const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit;
 
     const newProject = new Project({
         genre: req.body.genre,
@@ -40,38 +36,48 @@ router.post("/add", async (req, res) => {
         email: req.body.email,
         userId: foundUser._id,
         title: req.body.title
-    })
-    const savedProject = await newProject.save()
+    });
+
+    const savedProject = await newProject.save();
 
 
-    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
+    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre n'y est pas déjà 
     await User.updateOne({ email: req.body.email },
-        { $push: { prompts: savedProject._id } })
+        { $push: { prompts: savedProject._id } });
+
     if (!foundUser.genres.some(e => e === req.body.genre)) {
         await User.updateOne({ email: req.body.email },
             { $push: { genres: req.body.genre } }
-        )
+        );
     }
 
     // Récupérer les keywords de manière formatée 
-    const splittedKeywords = promptToSplitWithoutComa.split(',')
-    const keywords = []
+    const splittedKeywords = promptToSplitWithoutComa.split(',');
+    const keywords = [];
+
     for (const wordToFormat of splittedKeywords) {
-        const trimmedWords = wordToFormat.trim()
+
+        const trimmedWords = wordToFormat.trim();
+
         if (trimmedWords) {
-            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+
+            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1));
+
         }
     }
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
-    const existingKeywordIds = []
-    const newKeywordIds = []
+    const existingKeywordIds = [];
+    const newKeywordIds = [];
+
     for (const word of keywords) {
-        const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre })
+
+        const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre });
+
         if (foundExistingKeyword) {
 
+            existingKeywordIds.push(foundExistingKeyword._id);
 
-            existingKeywordIds.push(foundExistingKeyword._id)
         } else {
 
             const newKeyword = new Keyword({
@@ -81,47 +87,47 @@ router.post("/add", async (req, res) => {
                 average_rating: req.body.rating,
                 prompts: savedProject._id,
                 genre: req.body.genre
-            })
-            const savedKeyword = await newKeyword.save()
+            });
+            const savedKeyword = await newKeyword.save();
 
-            newKeywordIds.push(savedKeyword._id)
+            newKeywordIds.push(savedKeyword._id);
         }
     }
-    const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds]
+    const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds];
     await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
-    )
+    );
 
     // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
     if (newKeywordIds.length) {
         for (const id of newKeywordIds) {
-            const foundKeywordById = await Keyword.findById(id)
-            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? newKeywordIds : newKeywordIds.filter(e => e !== id)
-            const allKeywordsIdsOfThisGenre = [...filteredKeywordIds, ...existingKeywordIds]
+            const foundKeywordById = await Keyword.findById(id);
+            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? newKeywordIds : newKeywordIds.filter(e => e !== id);
+            const allKeywordsIdsOfThisGenre = [...filteredKeywordIds, ...existingKeywordIds];
             await Keyword.updateOne({ _id: id, genre: req.body.genre }, {
                 $push: { related_keywords: allKeywordsIdsOfThisGenre }
-            })
+            });
         }
 
     }
 
-    // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
+    // Si il y a déjà des related_keywords pour ce projet, ajoute ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
-            const foundKeywordById = await Keyword.findById(id)
-            const populatedKeyword = await Keyword.findById(id).populate('prompts')
-            const checkIntoNewIdsIfTheyArentPresent = []
+            const foundKeywordById = await Keyword.findById(id);
+            const populatedKeyword = await Keyword.findById(id).populate('prompts');
+            const checkIntoNewIdsIfTheyArentPresent = [];
             for (let i = 0; i < newKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
-                    checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i])
+                    checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i]);
                 }
             }
-            const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent]
+            const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent];
 
-            let resultAverageRating = 0
-            const promptKeywordsCount = (populatedKeyword.prompts).length
+            let resultAverageRating = 0;
+            const promptKeywordsCount = (populatedKeyword.prompts).length;
             for (const prompt of populatedKeyword.prompts) {
-                resultAverageRating += prompt.rating
+                resultAverageRating += prompt.rating;
             }
             if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
@@ -129,31 +135,30 @@ router.post("/add", async (req, res) => {
                     related_keywords: updateRelatedKeywordId,
                     $push: { prompts: savedProject._id },
                     average_rating: resultAverageRating / promptKeywordsCount
-                })
+                });
             } else {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
                     related_keywords: updateRelatedKeywordId,
                     average_rating: resultAverageRating / promptKeywordsCount
-                })
+                });
             }
         }
     }
 
-    res.json({ result: true, prompt: savedProject })
+    res.json({ result: true, prompt: savedProject });
 })
 
+// Route pour upload l'audio
 router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res) => {
 
     const projectId = req.params.projectId;
+    // Recherche dans la Bdd le projet pour lequel il faut rajouter l'audio
     const project = await Project.findById(projectId);
     if (!project) {
         return res.status(404).json({ result: false, message: "Project not found" });
     }
-    console.log("test", req.file)
-    if (req.files && req.file.audio) {
-        const audioFile = req.file.audio;
-    }
+    // Ouverture du flux de données pour envoyer l'audio a Cloudinary
     cloudinary.uploader.upload_stream(
         { resource_type: 'video', folder: 'audios' },
         async (error, result) => {
@@ -161,80 +166,98 @@ router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res)
                 return res.status(500).json({ message: 'Upload failed', error });
             }
 
-
+            // Update du projet pour ajouter l'audio
             project.audio = result.secure_url;
             await project.save();
 
             res.json({ result: true, message: 'Audio uploaded successfully', url: result.secure_url });
         }
+        // Fermeture du flux de données 
     ).end(req.file.buffer);
+
 });
 
 
-
-
+// Recherche par titre
 router.post('/searchTitle', async (req, res) => {
 
-    if (!checkBody(req.body, ['title'])) {
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['title', 'email', "token"])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
 
-    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } })
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    // Recherche par titre en ignorant la casse
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } });
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {
-            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
-            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId');
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt);
         }
         if (prompts.length) {
-            res.json({ result: true, promptsList: prompts })
+            res.json({ result: true, promptsList: prompts });
         } else {
-            res.json({ result: false, error: 'Projet existant mais non public' })
+            res.json({ result: false, error: 'Projet existant mais non public' });
         }
     } else {
-        res.json({ result: false, error: 'Projet non existant' })
+        res.json({ result: false, error: 'Projet non existant' });
     }
 })
 
-//Récupérer la liste des projets enregistrés. 
-// router.get('/myproject', async (req, res) => {
 
+// Suppression d'un prompt
+router.delete("/prompt", async (req, res) => {
 
-// })
-
-router.delete("/prompt", (req, res) => {
-    if (!checkBody(req.body, ['id', 'email'])) {
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['id', 'email', "token"])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    // Suppression du prompt
     const { id } = req.body;
     Project.deleteOne({ _id: id })
         .then(async deletedDoc => {
             if (deletedDoc.deletedCount > 0) {
-                await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } })
-                await Signalement.deleteMany({ prompt: req.body.id })
-                res.json({ result: true })
+                await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } });
+                await Signalement.deleteMany({ prompt: req.body.id });
+                res.json({ result: true });
             } else {
-                res.json({ resutl: false })
+                res.json({ resutl: false });
             }
         })
 });
 
 
 
-
-// Route pour incrémenter nbSignalements
+// Incrémenter le nombre de signalements
 router.post('/signalementProject', async (req, res) => {
-    const foundProject = await Project.findById(req.body.idPrompt)
 
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['idPrompt', 'text', 'email', "token"])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    // Incrémentation du nombre de signalements
+    const foundProject = await Project.findById(req.body.idPrompt);
     if (foundProject) {
-
         try {
             const projectId = req.body.idPrompt;
             const project = await Project.findByIdAndUpdate(
                 projectId,
-                { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
+                { $inc: { nbSignalements: 1 } },
             );
             if (!project) {
                 return res.json({ result: false, error: 'Pas trouvé projet à update' });
@@ -244,8 +267,8 @@ router.post('/signalementProject', async (req, res) => {
                 text: req.body.text,
                 prompt: req.body.idPrompt,
             })
-            const savedSignalement = await newSignalement.save()
-            res.json({ result: true, msg: savedSignalement })
+            const savedSignalement = await newSignalement.save();
+            res.json({ result: true, msg: savedSignalement });
         } catch (error) {
             res.json({ result: error });
         }
@@ -254,69 +277,69 @@ router.post('/signalementProject', async (req, res) => {
 
 
 
-
+// Récupération d'un projet par son ID
 router.post("/projectById", async (req, res) => {
-    console.log(req.body)
-    console.log(req.body.id)
     const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
-    console.log('project 1 :', project)
-    const newMessages = [];
-    for (const message of project.messages) {
-        message.username = await User.findById({ _id: message.userId })
-        newMessages.push(message)
-        console.log('message ,', message)
-    }
-    project.messages = newMessages
-    console.log('project ,', project)
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
+        path: 'messages.userId', // Populate userId within each message
+    });
 
     if (!project) {
-        return res.json({ result: false, message: "project not found" })
+        return res.json({ result: false, message: "project not found" });
     } else {
         // console.log('project :', project)
         return res.json({ result: true, info: project })
-
     }
 });
 
-router.get('/allGenres', async (req, res) => {
-    const foundAllProject = await Project.find()
-    if (foundAllProject.length) {
-        allGenres = []
-        for (const project of foundAllProject) {
-            if (!allGenres.some(e => e === project.genre) && project.isPublic)
-                allGenres.push(project.genre)
-        }
-        res.json({ result: true, allGenres: allGenres })
-    } else {
-        res.json({ result: false })
-    }
-})
 
-
-
+// Ajout d'un commentaire
 router.post('/comment', async (req, res) => {
-    const findUser = await User.findOne({ email: req.body.email })
-    if (findUser) {
-        const newComment = { comment: req.body.comment, userId: findUser._id };
-        const projectToComment = await Project.findByIdAndUpdate(
-            req.body.id,
-            { $push: { messages: newComment } },
-            { new: true } // `new: true` returns the updated document
-        );
-        if (projectToComment) {
-            res.json({
-                result: true,
-                message: 'Comment successfully added',
-                newComment: {
-                    comment: req.body.comment,
-                    userId: findUser._id,
-                },
-            });
-        } else {
-            res.json({ result: false, message: 'project not found' })
-        }
 
+    // Vérification des éléments requis pour la route
+    if (!checkBody(req.body, ['id', 'email', "token", 'comment'])) {
+        res.json({ result: false, error: 'Champs manquants ou vides' });
+        return;
+    }
+    // Authentification de l'utilisateur
+    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
+    !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    // Ajout d'un commentaire
+    const newComment = { comment: req.body.comment, userId: foundUser._id, createdAt: new Date(), nbSignalements: 0 };
+    const projectToComment = await Project.findByIdAndUpdate(
+        req.body.id,
+        { $push: { messages: newComment } },
+
+    );
+    if (projectToComment) {
+        res.json({
+            result: true,
+            message: 'Comment successfully added',
+            newComment: {
+                comment: req.body.comment,
+                userId: foundUser._id,
+            },
+        });
+    } else {
+        res.json({ result: false, message: 'project not found' });
+    }
+});
+
+
+// Supprimer un commentaire
+router.delete('/comment', async (req, res) => {
+    const { projectId, comment } = req.body;
+    console.log('projectId, commentId', projectId, comment)
+    const project = await Project.findByIdAndUpdate(
+        projectId,
+        { $pull: { messages: { comment: comment } } },
+        { new: true }
+    )
+    if (project) {
+        res.json({ result: true, message: 'Comment successfully deleted', project });
+    } else {
+        res.json({ result: false, message: 'Project not found' });
     }
 })
 
@@ -326,23 +349,28 @@ router.post('/comment', async (req, res) => {
 // Route pour incrémenter nbSignalements des commentaires
 router.post('/signalementComment', async (req, res) => {
     const { userId, comment, idProject, text } = req.body;
-
     try {
         // trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(
-            { _id: idProject, "messages.comment": comment },
+            { _id: idProject, "messages.comment": comment, "message.userId": userId._id },
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
         );
         // Enregistrer le nouveau signalement 
-        const newSignalement = new Signalement({
-            userId: userId,
+        const newSignalementComment = new Signalement({
+            userId: userId._id,
             text: text,
-            message: comment,
+            message: {
+                projectId: idProject,
+                comment: {
+                    comment: comment,
+                    userId: userId
+                }
+            },
         });
-
-        const savedSignalement = await newSignalement.save();
+        //  console.log(newSignalementComment)
+        const savedSignalement = await newSignalementComment.save();
 
         res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });
     } catch (error) {

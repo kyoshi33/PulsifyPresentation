@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
 import styles from '../styles/ProjectComments.module.css'
 import PromptCard from '../components/PromptCard';
-import UserCard from '../components/UserCard';
-import SignalementModal from '../components/SignalementModal';
 import MessageCard from '../components/MessageCard'
 
 function ProjectComments() {
@@ -18,15 +14,12 @@ function ProjectComments() {
 
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
-    const { id } = router.query; // Retrieve the project ID from the query parameters
-
+    const { id } = router.query; // Retrieve the project ID from the query parameter
     // console.log('id :', id)
 
     const handleBack = () => {
         router.back();
     };
-
-
 
     const postComment = async () => {
         const { email, token } = user;
@@ -57,12 +50,11 @@ function ProjectComments() {
             console.log('Project ID:', id);
             // You can use this ID to fetch data associated with the specific project
         }
-
     }, [id]);
 
 
     const fetchProjectData = async (id) => {
-        console.log('id :', id)
+        // console.log('id :', id)
         const { email, token } = user;
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
             method: 'POST',
@@ -76,7 +68,9 @@ function ProjectComments() {
         setCommentsList(res.info.messages)
     }
 
-
+    const refresh = () => {
+        fetchProjectData(id)
+    }
 
     let projet
     let comments
@@ -92,12 +86,14 @@ function ProjectComments() {
         />
 
         comments = commentsList.map((data, i) => {
+            // console.log('data :', data)
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id}
+                    refresh={refresh}
+                />
             )
         }).reverse()
     }
-
 
 
     return (

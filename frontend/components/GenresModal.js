@@ -65,7 +65,7 @@ function GenresModal(props) {
             contentLabel="Example Modal">
             <div className={styles.content}>
                 <div className={styles.modalTitleContent}>
-                    <div className={styles.modalTitle}>Vos genres favoris</div>
+                    <div className={styles.modalTitle}>Mes genres</div>
 
                 </div>
                 <div className={styles.genresContainer}>
@@ -78,7 +78,7 @@ function GenresModal(props) {
                             onChange={handleCheckboxChange}
                         />
                         <span className={styles.customCheckbox}></span>
-                        Intégrez les favoris de la communauté
+                        Intégrez les genres ajoutés en favori
                     </label>
                 </div>
             </div>

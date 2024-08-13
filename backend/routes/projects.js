@@ -330,14 +330,19 @@ router.post('/comment', async (req, res) => {
 // Supprimer un commentaire
 router.delete('/comment', async (req, res) => {
     const { projectId, comment, userId } = req.body;
-    console.log('projectId, commentId', projectId, comment)
+    console.log('projectId, commentId, userId', projectId, comment, userId)
     const project = await Project.findByIdAndUpdate(
         projectId,
         { $pull: { messages: { comment: comment, userId: userId } } },
         { new: true }
     )
     if (project) {
-        await Signalement.deleteMany({ message: { projectId: projectId, comment: { comment: comment, userId: userId } } })
+        const del = await Signalement.deleteMany({
+            "message.projectId": projectId,
+            "message.comment.comment": comment,
+            "message.comment.userId": userId
+        })
+        console.log('del', del)
         res.json({ result: true, message: 'Comment successfully deleted', project });
     } else {
         res.json({ result: false, message: 'Project not found' });

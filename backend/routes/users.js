@@ -110,10 +110,12 @@ router.post('/signup/google', (req, res) => {
   });
 });
 
+
 // Recherche par Username depuis la page Explorer
 router.post('/search', async (req, res) => {
+
   // Vérifier que les champs sont tous fournis
-  if (!checkBody(req.body, ['username'])) {
+  if (!checkBody(req.body, ['username', 'token', 'email'])) {
     res.json({ result: false, error: 'Champs vides ou manquants' });
     return;
   }
@@ -144,7 +146,6 @@ router.post('/search', async (req, res) => {
   } else {
     res.json({ result: false, error: 'Utilisateur introuvable' })
   }
-
 })
 
 
@@ -178,7 +179,7 @@ router.post('/projets', async (req, res) => {
 
 // Recherche des genres de l'utilisateurs
 router.post('/genres', async (req, res) => {
-  if (!checkBody(req.body, ['token'])) {
+  if (!checkBody(req.body, ['token', 'email'])) {
     res.json({ result: false, error: 'Champs manquants.' });
     return;
   }
@@ -206,11 +207,11 @@ router.post('/genres', async (req, res) => {
 })
 
 
-// Ajouter et returer un like en BDD
+// Ajouter et retirer un like en BDD
 router.post("/like", async (req, res) => {
 
   // Vérifier que les champs sont tous fournis
-  if (!checkBody(req.body, ['token'])) {
+  if (!checkBody(req.body, ['token', 'email'])) {
     res.json({ result: false, error: 'Access denied.' });
     return;
   }

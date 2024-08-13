@@ -13,12 +13,13 @@ function SignalementModal(props) {
 
   const handleValidation = async () => {
     try {
+      const { email, token } = user;
       const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idPrompt: props.id, text: commentaire }),
+        body: JSON.stringify({ idPrompt: props.id, text: commentaire, email, token }),
       });
       const response = await signalement.json()
       props.onRequestClose()

@@ -44,9 +44,10 @@ function MessageCard(props) {
         }
     }
 
+
     return (
         <div className={styles.listItemContainer}>
-            <div className={styles.listItemTitle}>
+            <div className={styles.listItemTitle} onClick={() => props.answerHandler(props.userId.username)}>
                 <UserCard
                     firstname={props.userId.firstname} username={props.userId.username} picture={props.userId.picture}
                 />

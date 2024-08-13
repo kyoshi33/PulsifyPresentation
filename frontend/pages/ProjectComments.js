@@ -89,6 +89,10 @@ function ProjectComments() {
 
     }
 
+    const answerHandler = (username) => {
+        setComment('@' + username + ' ' + comment)
+    }
+
     // console.log('comments list :', commentsList)
 
     let projet
@@ -110,13 +114,15 @@ function ProjectComments() {
             return (
                 < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id}
                     refresh={refresh}
+                    answerHandler={answerHandler}
                 />
             )
         }).reverse()
 
-        if (comments = []) {
+        if (!comments.length) {
             comments = <div className={styles.noMessage}>Aucun commentaire</div>
         }
+
     }
 
 

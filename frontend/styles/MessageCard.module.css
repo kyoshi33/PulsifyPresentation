@@ -37,3 +37,12 @@
   align-items: center;
   padding-left: 3%;
 }
+
+.icon {
+  display: flex;
+  font-size: 25px;
+  color: white;
+  margin-right: 20%;
+  cursor: pointer;
+
+}

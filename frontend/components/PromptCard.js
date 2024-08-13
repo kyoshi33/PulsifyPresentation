@@ -20,10 +20,10 @@ function PromptCard(props) {
     const user = useSelector((state) => state.user.value)
 
     // Open project modal on click on "Enregistrer"
-    const openProjectModal = () => {
+    const openSignalementModal = () => {
         setIsOpen(true)
     }
-    const closeProjectModal = () => {
+    const closeSignalementModal = () => {
         setIsOpen(false);
     }
 
@@ -76,9 +76,9 @@ function PromptCard(props) {
         <>
             {!props.isOnMyProjects && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
             <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={handleCardClick} />
-            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openProjectModal()} className={styles.icon} />
+            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
-                onRequestClose={closeProjectModal}
+                onRequestClose={closeSignalementModal}
                 id={props.id}
             />
         </>

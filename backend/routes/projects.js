@@ -192,17 +192,16 @@ router.post("/add", async (req, res) => {
     res.json({ result: true, prompt: savedProject });
 })
 
+// Route pour upload l'audio
 router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res) => {
 
     const projectId = req.params.projectId;
+    // Recherche dans la Bdd le projet pour lequel il faut rajouter l'audio
     const project = await Project.findById(projectId);
     if (!project) {
         return res.status(404).json({ result: false, message: "Project not found" });
     }
-    console.log("test", req.file)
-    if (req.files && req.file.audio) {
-        const audioFile = req.file.audio;
-    }
+    // Ouverture du flux de données pour envoyer l'audio a Cloudinary
     cloudinary.uploader.upload_stream(
         { resource_type: 'video', folder: 'audios' },
         async (error, result) => {
@@ -210,13 +209,15 @@ router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res)
                 return res.status(500).json({ message: 'Upload failed', error });
             }
 
-
+            // Update du projet pour ajouter l'audio
             project.audio = result.secure_url;
             await project.save();
 
             res.json({ result: true, message: 'Audio uploaded successfully', url: result.secure_url });
         }
+        // Fermeture du flux de données 
     ).end(req.file.buffer);
+
 });
 
 
@@ -348,27 +349,23 @@ router.post('/comment', async (req, res) => {
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
     // Ajout d'un commentaire
-    const findUser = await User.findOne({ email: req.body.email });
-    if (findUser) {
-        const newComment = { comment: req.body.comment, userId: findUser._id };
-        const projectToComment = await Project.findByIdAndUpdate(
-            req.body.id,
-            { $push: { messages: newComment } },
-            { new: true }
-        );
-        if (projectToComment) {
-            res.json({
-                result: true,
-                message: 'Comment successfully added',
-                newComment: {
-                    comment: req.body.comment,
-                    userId: findUser._id,
-                },
-            });
-        } else {
-            res.json({ result: false, message: 'project not found' });
-        }
+    const newComment = { comment: req.body.comment, userId: foundUser._id, createdAt: new Date(), nbSignalements: 0 };
+    const projectToComment = await Project.findByIdAndUpdate(
+        req.body.id,
+        { $push: { messages: newComment } },
 
+    );
+    if (projectToComment) {
+        res.json({
+            result: true,
+            message: 'Comment successfully added',
+            newComment: {
+                comment: req.body.comment,
+                userId: foundUser._id,
+            },
+        });
+    } else {
+        res.json({ result: false, message: 'project not found' });
     }
 });
 
@@ -403,7 +400,6 @@ router.post('/signalementComment', async (req, res) => {
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
-            { new: true }
         );
         console.log('project', project)
         // Enregistrer le nouveau signalement 

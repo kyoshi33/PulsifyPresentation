@@ -128,7 +128,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
+    width: 80%;
     height: 15%;
     padding: 2%;
     background: #535992;
@@ -139,19 +139,17 @@
     color: white;
 }
 
-.inputImport {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
 
 .inputImport::file-selector-button {
     font-weight: bold;
     background-color: #535992;
+
     padding: 1em;
     border: thin solid white;
     border-radius: 13px;
+    flex-wrap: wrap;
+
+
 }
 
 .dropzone {

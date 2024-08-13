@@ -48,7 +48,7 @@ function Accueil() {
     const fetchCommunityProjects = async () => {
         // Fetch des projets 
         const { email, token } = user;
-        const fetchProject = await fetch('http://localhost:3000/genres/searchCommunityGenres', {
+        const fetchProject = await fetch('http://localhost:3000/genres/searchLikedGenres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ search: searchCommunity, email, token }),
@@ -66,6 +66,19 @@ function Accueil() {
     useEffect(() => {
         fetchCommunityProjects();
     }, [searchCommunity]);
+
+
+    // Fonction pour supprimer un genre et tous les mots-clés associés.
+    const handleRemoveGenre = async (genre) => {
+        const { email, token } = user;
+        const removedGenre = await fetch('http://localhost:3000/genres/removeGenre', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ genre, email, token }),
+        })
+        fetchProjects();
+        fetchCommunityProjects();
+    }
 
 
     let display =
@@ -102,56 +115,65 @@ function Accueil() {
             const myProjects = listProjects;
             if (listProjects.length && search.length) {
                 mappedProjects = listProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    const { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            isOwnGenre={true}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
-                        <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
-                            firstname={userId.firstname}
-                            username={"Moi"}
-                            picture={userId.picture}
-                        />
-                    </div>
+                    const { genre, userId, titles } = project;
+                    return (
+                        <div className={styles.modelCard} key={i}>
+                            <ModelCard
+                                genre={genre}
+                                firstname={userId.firstname}
+                                username={"Moi"}
+                                picture={userId.picture}
+                                projects={titles}
+                                isOwnGenre={true}
+                                handleRemoveGenre={handleRemoveGenre}
+                                handleClick={handleClick}
+                            />
+                        </div>
+                    );
                 });
             }
         } else if (selectedTab === 2) {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    let { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
-                    let { prompt, genre, titre, userId } = project;
-                    return <div className={styles.modelCard} onClick={() => handleClick(genre)}>
+                    let { genre, userId, titles } = project;
+                    return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
-                            prompt={prompt}
-                            title={titre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
+                            projects={titles}
+                            handleRemoveGenre={handleRemoveGenre}
+                            handleClick={handleClick}
                         />
                     </div>
                 });

@@ -151,7 +151,7 @@ function Profil(props) {
   return (
     <div className={styles.container}>
       <div className={styles.headerProfile}>
-        {user.picture ? <Image src={user.picture} width={150} height={150} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
+        {user.picture ? <Image src={user.picture} width={"80%"} height={"80%"} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>
@@ -173,7 +173,7 @@ function Profil(props) {
         </div>
       </div>
       <div className={styles.footer}>
-        <div className={styles.btn} onClick={() => window.location.href = '/'}>
+        <div className={styles.btn} onClick={() => window.location.href = '/Accueil'}>
           Retour
         </div>
       </div>
@@ -183,21 +183,3 @@ function Profil(props) {
 
 export default Profil;
 
-/*<div className={styles.tabBar}>
-        <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
-          Ma bibliothèque
-        </div>
-        <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
-          Bibliothèque de la communauté
-        </div>
-      </div>
-
-
-
-      {display}
-
-
-
-      <div className={styles.btn}>
-        <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
-      </div>*/

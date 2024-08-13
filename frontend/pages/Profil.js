@@ -183,21 +183,3 @@ function Profil(props) {
 
 export default Profil;
 
-/*<div className={styles.tabBar}>
-        <div className={selectedTab === 1 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(1); setMaBibliotheque(true); setCommunaute(false) }}>
-          Ma bibliothèque
-        </div>
-        <div className={selectedTab === 2 ? styles.selectedTab : styles.tab} onClick={() => { setSelectedTab(2); setCommunaute(true); setMaBibliotheque(false) }} >
-          Bibliothèque de la communauté
-        </div>
-      </div>
-
-
-
-      {display}
-
-
-
-      <div className={styles.btn}>
-        <button className={styles.btnRetour} onClick={() => window.location.href = '/'}>Retour</button>
-      </div>*/

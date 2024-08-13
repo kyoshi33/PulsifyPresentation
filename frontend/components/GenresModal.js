@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 import Modal from 'react-modal';
 import styles from '../styles/GenresModal.module.css';
-import { Component, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from "react-redux";
 
 function GenresModal(props) {
     const user = useSelector((state) => state.user.value)
     const [genresList, setGenresList] = useState([])
-    const [includeCommunityFavorites, setIncludeCommunityFavorites] = useState(false); // State for checkbox
+    const [includeCommunityFavorites, setIncludeCommunityFavorites] = useState(false);
 
+    // Fetch les genres quand la checkbox est actionnée
     useEffect(() => {
-        fetchAllGenres()
+        includeCommunityFavorites ? fetchLikedGenres() : fetchAllGenres();
+    }, [includeCommunityFavorites]);
 
-    }, []);
-
+    // Fetch les genres de l'utilisateur
     const fetchAllGenres = async () => {
         const { token, email } = user
         if (token) {
@@ -28,24 +29,21 @@ function GenresModal(props) {
         }
     }
 
+    // Fetch les genres de l'utilisateur et ceux qu'il a liké
     const fetchLikedGenres = async () => {
         const { token, email } = user
         const fetchLikedGenres = await fetch('http://localhost:3000/users/genres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token, email }),
+            body: JSON.stringify({ token, email, getLikedGenres: true }),
         })
         const resLikedGenres = await fetchLikedGenres.json()
-        setGenresList([...genresList, ...resLikedGenres])
+        setGenresList([...new Set([...genresList, ...resLikedGenres.genres])])
     }
-
-
 
     const handleClickOnGenre = (genre) => {
         props.handleGenreSelect(genre)
     }
-
-
 
     const genreButtons = genresList && genresList.map((genre, i) => {
         return (
@@ -57,10 +55,6 @@ function GenresModal(props) {
     const handleCheckboxChange = (event) => {
         const isChecked = event.target.checked;
         setIncludeCommunityFavorites(isChecked);
-        if (isChecked) {
-            fetchLikedGenres(); // Fetch liked genres if checked
-            console.log("coucou")
-        }
     };
 
     return (
@@ -81,7 +75,7 @@ function GenresModal(props) {
                     <label className={styles.checkboxLabel}>
                         <input type="checkbox"
                             className={styles.checkBoxSuggestion}
-                            onChange={handleCheckboxChange} // Add onChange handler
+                            onChange={handleCheckboxChange}
                         />
                         <span className={styles.customCheckbox}></span>
                         Intégrez les favoris de la communauté

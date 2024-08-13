@@ -251,7 +251,6 @@ router.post("/projectById", async (req, res) => {
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
         path: 'messages.userId', // Populate userId within each message
     });
-    console.log('commentator :', project.messages)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" });

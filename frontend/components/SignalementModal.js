@@ -10,6 +10,7 @@ import { useState } from 'react';
 function SignalementModal(props) {
   const [commentaire, setCommentaire] = useState('')
 
+
   const handleValidation = async () => {
     try {
       const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {

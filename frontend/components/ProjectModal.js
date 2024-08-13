@@ -4,7 +4,7 @@ import styles from '../styles/ProjectModal.module.css';
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
 
 

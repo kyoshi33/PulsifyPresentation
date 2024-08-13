@@ -95,8 +95,6 @@ function Accueil() {
 
 
     if (newExistingProject) {
-
-
         let mappedProjects;
         if (selectedTab === 1) {
             const myProjects = listProjects;

@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
 import SignalementModal from './SignalementModal';
-import Link from 'next/link'
 import UserCard from './UserCard';
 
 

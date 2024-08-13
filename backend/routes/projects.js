@@ -19,8 +19,8 @@ router.post("/add", async (req, res) => {
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
-    const promptToSplit = req.body.prompt.trim();
-    const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit;
+    const promptToSplit = req.body.prompt.trim()
+    const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
 
     const newProject = new Project({
         genre: req.body.genre,
@@ -32,48 +32,38 @@ router.post("/add", async (req, res) => {
         email: req.body.email,
         userId: foundUser._id,
         title: req.body.title
-    });
-
-    const savedProject = await newProject.save();
+    })
+    const savedProject = await newProject.save()
 
 
     // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
     await User.updateOne({ email: req.body.email },
-        { $push: { prompts: savedProject._id } });
-
+        { $push: { prompts: savedProject._id } })
     if (!foundUser.genres.some(e => e === req.body.genre)) {
         await User.updateOne({ email: req.body.email },
             { $push: { genres: req.body.genre } }
-        );
+        )
     }
 
     // Récupérer les keywords de manière formatée 
-    const splittedKeywords = promptToSplitWithoutComa.split(',');
-    const keywords = [];
-
+    const splittedKeywords = promptToSplitWithoutComa.split(',')
+    const keywords = []
     for (const wordToFormat of splittedKeywords) {
-
-        const trimmedWords = wordToFormat.trim();
-
+        const trimmedWords = wordToFormat.trim()
         if (trimmedWords) {
-
-            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1));
-
+            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
         }
     }
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
-    const existingKeywordIds = [];
-    const newKeywordIds = [];
-
+    const existingKeywordIds = []
+    const newKeywordIds = []
     for (const word of keywords) {
-
-        const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre });
-
+        const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre })
         if (foundExistingKeyword) {
 
-            existingKeywordIds.push(foundExistingKeyword._id);
 
+            existingKeywordIds.push(foundExistingKeyword._id)
         } else {
 
             const newKeyword = new Keyword({
@@ -83,26 +73,26 @@ router.post("/add", async (req, res) => {
                 average_rating: req.body.rating,
                 prompts: savedProject._id,
                 genre: req.body.genre
-            });
-            const savedKeyword = await newKeyword.save();
+            })
+            const savedKeyword = await newKeyword.save()
 
-            newKeywordIds.push(savedKeyword._id);
+            newKeywordIds.push(savedKeyword._id)
         }
     }
-    const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds];
+    const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds]
     await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
-    );
+    )
 
     // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
     if (newKeywordIds.length) {
         for (const id of newKeywordIds) {
-            const foundKeywordById = await Keyword.findById(id);
-            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? newKeywordIds : newKeywordIds.filter(e => e !== id);
-            const allKeywordsIdsOfThisGenre = [...filteredKeywordIds, ...existingKeywordIds];
+            const foundKeywordById = await Keyword.findById(id)
+            const filteredKeywordIds = keywords.filter(e => e === foundKeywordById.keyword).length > 1 ? newKeywordIds : newKeywordIds.filter(e => e !== id)
+            const allKeywordsIdsOfThisGenre = [...filteredKeywordIds, ...existingKeywordIds]
             await Keyword.updateOne({ _id: id, genre: req.body.genre }, {
                 $push: { related_keywords: allKeywordsIdsOfThisGenre }
-            });
+            })
         }
 
     }
@@ -110,20 +100,20 @@ router.post("/add", async (req, res) => {
     // Si il y a déjà des related_keywords, mets à jour la liste en ajoutant ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
-            const foundKeywordById = await Keyword.findById(id);
-            const populatedKeyword = await Keyword.findById(id).populate('prompts');
-            const checkIntoNewIdsIfTheyArentPresent = [];
+            const foundKeywordById = await Keyword.findById(id)
+            const populatedKeyword = await Keyword.findById(id).populate('prompts')
+            const checkIntoNewIdsIfTheyArentPresent = []
             for (let i = 0; i < newKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
-                    checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i]);
+                    checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i])
                 }
             }
-            const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent];
+            const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent]
 
-            let resultAverageRating = 0;
-            const promptKeywordsCount = (populatedKeyword.prompts).length;
+            let resultAverageRating = 0
+            const promptKeywordsCount = (populatedKeyword.prompts).length
             for (const prompt of populatedKeyword.prompts) {
-                resultAverageRating += prompt.rating;
+                resultAverageRating += prompt.rating
             }
             if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
@@ -131,101 +121,85 @@ router.post("/add", async (req, res) => {
                     related_keywords: updateRelatedKeywordId,
                     $push: { prompts: savedProject._id },
                     average_rating: resultAverageRating / promptKeywordsCount
-                });
+                })
             } else {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
                     related_keywords: updateRelatedKeywordId,
                     average_rating: resultAverageRating / promptKeywordsCount
-                });
+                })
             }
         }
     }
 
-    res.json({ result: true, prompt: savedProject });
+    res.json({ result: true, prompt: savedProject })
 })
 
 
-// Recherche par titre
+
+
 router.post('/searchTitle', async (req, res) => {
 
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['title', 'email', "token"])) {
+    if (!checkBody(req.body, ['title'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
 
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
-    !foundUser && res.json({ result: false, error: 'Access denied' });
-
-    // Recherche par titre en ignorant la casse
-    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } });
+    const fetchAllPrompts = await Project.find({ title: { $regex: new RegExp(req.body.title.toLowerCase(), "i") } })
     if (fetchAllPrompts.length) {
         const prompts = []
         for (const populateUserId of fetchAllPrompts) {
-            const userIdPopulatedInPrompt = await populateUserId.populate('userId');
-            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt);
+            const userIdPopulatedInPrompt = await populateUserId.populate('userId')
+            userIdPopulatedInPrompt.isPublic && prompts.push(userIdPopulatedInPrompt)
         }
         if (prompts.length) {
-            res.json({ result: true, promptsList: prompts });
+            res.json({ result: true, promptsList: prompts })
         } else {
-            res.json({ result: false, error: 'Projet existant mais non public' });
+            res.json({ result: false, error: 'Projet existant mais non public' })
         }
     } else {
-        res.json({ result: false, error: 'Projet non existant' });
+        res.json({ result: false, error: 'Projet non existant' })
     }
 })
 
+//Récupérer la liste des projets enregistrés. 
+// router.get('/myproject', async (req, res) => {
 
-// Suppression d'un prompt
-router.delete("/prompt", async (req, res) => {
 
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['id', 'email', "token"])) {
+// })
+
+router.delete("/prompt", (req, res) => {
+    if (!checkBody(req.body, ['id', 'email'])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
-    !foundUser && res.json({ result: false, error: 'Access denied' });
-
-    // Suppression du prompt
     const { id } = req.body;
     Project.deleteOne({ _id: id })
         .then(async deletedDoc => {
             if (deletedDoc.deletedCount > 0) {
-                await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } });
-                await Signalement.deleteMany({ prompt: req.body.id });
-                res.json({ result: true });
+                await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } })
+                await Signalement.deleteMany({ prompt: req.body.id })
+                res.json({ result: true })
             } else {
-                res.json({ resutl: false });
+                res.json({ resutl: false })
             }
         })
 });
 
 
 
-// Incrémenter le nombre de signalements
+
+// Route pour incrémenter nbSignalements
 router.post('/signalementProject', async (req, res) => {
+    const foundProject = await Project.findById(req.body.idPrompt)
 
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['idPrompt', 'text', 'email', "token"])) {
-        res.json({ result: false, error: 'Champs manquants ou vides' });
-        return;
-    }
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
-    !foundUser && res.json({ result: false, error: 'Access denied' });
-
-    // Incrémentation du nombre de signalements
-    const foundProject = await Project.findById(req.body.idPrompt);
     if (foundProject) {
+
         try {
             const projectId = req.body.idPrompt;
             const project = await Project.findByIdAndUpdate(
                 projectId,
-                { $inc: { nbSignalements: 1 } },
+                { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
             );
             if (!project) {
                 return res.json({ result: false, error: 'Pas trouvé projet à update' });
@@ -235,8 +209,8 @@ router.post('/signalementProject', async (req, res) => {
                 text: req.body.text,
                 prompt: req.body.idPrompt,
             })
-            const savedSignalement = await newSignalement.save();
-            res.json({ result: true, msg: savedSignalement });
+            const savedSignalement = await newSignalement.save()
+            res.json({ result: true, msg: savedSignalement })
         } catch (error) {
             res.json({ result: error });
         }
@@ -245,42 +219,55 @@ router.post('/signalementProject', async (req, res) => {
 
 
 
-// Récupération d'un projet par son ID
+
 router.post("/projectById", async (req, res) => {
+    console.log(req.body)
+    console.log(req.body.id)
     const projectId = req.body.id;
-    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
-        path: 'messages.userId', // Populate userId within each message
-    });
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
+    console.log('project 1 :', project)
+    const newMessages = [];
+    for (const message of project.messages) {
+        message.username = await User.findById({ _id: message.userId })
+        newMessages.push(message)
+        console.log('message ,', message)
+    }
+    project.messages = newMessages
+    console.log('project ,', project)
 
     if (!project) {
-        return res.json({ result: false, message: "project not found" });
+        return res.json({ result: false, message: "project not found" })
     } else {
         // console.log('project :', project)
         return res.json({ result: true, info: project })
+
     }
 });
 
-
-// Ajout d'un commentaire
-router.post('/comment', async (req, res) => {
-
-    // Vérification des éléments requis pour la route
-    if (!checkBody(req.body, ['id', 'email', "token", 'comment'])) {
-        res.json({ result: false, error: 'Champs manquants ou vides' });
-        return;
+router.get('/allGenres', async (req, res) => {
+    const foundAllProject = await Project.find()
+    if (foundAllProject.length) {
+        allGenres = []
+        for (const project of foundAllProject) {
+            if (!allGenres.some(e => e === project.genre) && project.isPublic)
+                allGenres.push(project.genre)
+        }
+        res.json({ result: true, allGenres: allGenres })
+    } else {
+        res.json({ result: false })
     }
-    // Authentification de l'utilisateur
-    const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
-    !foundUser && res.json({ result: false, error: 'Access denied' });
+})
 
-    // Ajout d'un commentaire
-    const findUser = await User.findOne({ email: req.body.email });
+
+
+router.post('/comment', async (req, res) => {
+    const findUser = await User.findOne({ email: req.body.email })
     if (findUser) {
         const newComment = { comment: req.body.comment, userId: findUser._id };
         const projectToComment = await Project.findByIdAndUpdate(
             req.body.id,
             { $push: { messages: newComment } },
-            { new: true }
+            { new: true } // `new: true` returns the updated document
         );
         if (projectToComment) {
             res.json({
@@ -292,9 +279,42 @@ router.post('/comment', async (req, res) => {
                 },
             });
         } else {
-            res.json({ result: false, message: 'project not found' });
+            res.json({ result: false, message: 'project not found' })
         }
 
     }
 })
+
+
+
+
+// Route pour incrémenter nbSignalements des commentaires
+router.post('/signalementComment', async (req, res) => {
+    const { userId, comment, idProject, text } = req.body;
+
+    try {
+        // trouve le projet par ID et par cible le commentaire
+        const project = await Project.findOneAndUpdate(
+            { _id: idProject, "messages.comment": comment },
+            {
+                $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
+            },
+        );
+        // Enregistrer le nouveau signalement 
+        const newSignalement = new Signalement({
+            userId: userId,
+            text: text,
+            message: comment,
+        });
+
+        const savedSignalement = await newSignalement.save();
+
+        res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });
+    } catch (error) {
+        res.json({ result: error });
+    }
+});
+
+
+
 module.exports = router;

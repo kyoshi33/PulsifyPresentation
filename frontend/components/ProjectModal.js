@@ -11,43 +11,56 @@ import { useSelector } from "react-redux";
 
 
 function ProjectModal(props) {
-    const [audio, setAudio] = useState(null);
+
     const [isPublic, setIsPublic] = useState(false)
-    const [tempAudioFile, setTempAudioFile] = useState(null)
+
     const [displayMessage, setDisplayMessage] = useState('');
     const [hoveredStars, setHoveredStars] = useState(0);
     const [score, setScore] = useState(0);
+    const [file, setFile] = useState(null);
+    const [message, setMessage] = useState('');
+    const [audioUrl, setAudioUrl] = useState('');
 
     const user = useSelector((state) => state.user.value);
     console.log(props)
 
+    const getFile = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const upload = async () => {
+        if (!file) {
+            setMessage('Please select a file first');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('audio', file);
+
+
+
+        const result = await response.json();
+
+        if (response.ok) {
+            setMessage(result.message);
+            setAudioUrl(result.url);
+        } else {
+            setMessage('Upload failed');
+        }
+
+    }
+
+
     const uploadPrompt = async (files) => {
         console.log('token :', user.token)
         if (user.token) {
-
-            const formData = new FormData();
-            const cloudinaryPresset = process.env.NEXT_PUBLIC_PRESSET_CLOUDINARY;
-
-            if (files) {
-                formData.append("file", files[0]);
-                formData.append("upload_preset", cloudinaryPresset);
-                fetch("https://api.cloudinary.com/v1_1/duiieokac/video/upload", {
-                    method: "POST",
-                    body: formData,
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        setAudio(data.secure_url);
-
-                    });
-            }
 
             score === 0 && (setDisplayMessage('Merci de renseigner une note !'));
 
             const dataForPrompt = {
                 genre: props.projectGenre,
                 prompt: props.prompt,
-                audio: audio,
+                audio: formData,
                 rating: score,
                 isPublic: isPublic,
                 username: user.username,
@@ -58,7 +71,6 @@ function ProjectModal(props) {
             }
 
             if (score != 0) {
-                console.log('coucou')
                 const saveDataForPrompt = await fetch("http://localhost:3000/projects/add", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
@@ -68,83 +80,90 @@ function ProjectModal(props) {
                 window.location.href = "./Profil"
             }
         }
-    };
 
-    const mouseOver = (rating) => {
-        setHoveredStars(rating);
-    };
 
-    const mouseLeave = () => {
-        setHoveredStars(0);
-    };
+        const mouseOver = (rating) => {
+            setHoveredStars(rating);
+        };
 
-    const clickToRate = (rating) => {
-        setScore(rating);
+        const mouseLeave = () => {
+            setHoveredStars(0);
+        };
 
-    };
+        const clickToRate = (rating) => {
+            setScore(rating);
+        };
 
-    return (
-        <Modal
-            isOpen={props.isOpen}
-            className={styles.modalContainer}
-            onRequestClose={props.onRequestClose}
-            contentLabel="Example Modal">
-            <div className={styles.content}>
-                <div className={styles.modalTitleContent}>
-                    <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
-
-                </div>
-                <div className={styles.voteTxt}>genre du projet : {props.projectGenre}</div>
-                <p className={styles.promptContainer}>{props.prompt}</p>
-                <div className={styles.import}>
-                    <input className={styles.inputImport} type="file" onChange={(e) => { setTempAudioFile(e.target.files); console.log(tempAudioFile) }} />
-                </div>
-                <div className={styles.voteContainer}>
-                    <p className={styles.voteTxt}>Votre note :</p>
-                    <div className={styles.voteStars}>
-
-                        {[1, 2, 3, 4, 5].map((star) => {
-                            const isStarSelected = score >= star;
-                            const isStarHovered = hoveredStars >= star;
-
-                            let color = "gray"; // Couleur par défaut
-
-                            if (isStarHovered && !isStarSelected) {
-                                color = "white"; // Couleur lors du survol
-                            } else if (isStarSelected) {
-                                color = "#B300F2"; // Couleur lorsqu'une étoile est cliquée
-                            }
-
-                            return (
-                                <FontAwesomeIcon
-                                    icon={faStar}
-                                    style={{ color: color }}
-                                    onMouseEnter={() => mouseOver(star)}
-                                    onMouseLeave={mouseLeave}
-                                    onClick={() => clickToRate(star)}
-                                />
-                            );
-                        })}
+        return (
+            <Modal
+                isOpen={props.isOpen}
+                className={styles.modalContainer}
+                onRequestClose={props.onRequestClose}
+                contentLabel="Example Modal">
+                <div className={styles.content}>
+                    <div className={styles.modalTitleContent}>
+                        <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
 
                     </div>
-                </div>
-                <div className={styles.modalBtnContainer}>
-                    <div className={styles.public}>
-                        <div className={isPublic === true ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
+                    <div className={styles.voteTxt}>genre du projet : {props.projectGenre}</div>
+                    <p className={styles.promptContainer}>{props.prompt}</p>
+                    <div className={styles.import}>
+                        {/* <input className={styles.inputImport} type="file" onChange={(e) => { setTempAudioFile(e.target.files); console.log(tempAudioFile) }} /> */}
+
+                        <h2>Importez l'audio</h2>
+                        <input type="file" className={styles.inputImport} onChange={getFile} accept="audio/*" />
+                        <button onClick={upload}>Upload</button>
+                        {message && <p>{message}</p>}
+
+
+                    </div>
+                    <div className={styles.voteContainer}>
+                        <p className={styles.voteTxt}>Votre note :</p>
+                        <div className={styles.voteStars}>
+
+                            {[1, 2, 3, 4, 5].map((star) => {
+                                const isStarSelected = score >= star;
+                                const isStarHovered = hoveredStars >= star;
+
+                                let color = "gray"; // Couleur par défaut
+
+                                if (isStarHovered && !isStarSelected) {
+                                    color = "white"; // Couleur lors du survol
+                                } else if (isStarSelected) {
+                                    color = "#B300F2"; // Couleur lorsqu'une étoile est cliquée
+                                }
+
+                                return (
+                                    <FontAwesomeIcon
+                                        icon={faStar}
+                                        style={{ color: color }}
+                                        onMouseEnter={() => mouseOver(star)}
+                                        onMouseLeave={mouseLeave}
+                                        onClick={() => clickToRate(star)}
+                                    />
+                                );
+                            })}
+
                         </div>
-                        <span className={styles.text}>Public</span>
                     </div>
-                    <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={() => {
-                        uploadPrompt(tempAudioFile);
-                        // score !== 0 &&  
+                    <div className={styles.modalBtnContainer}>
+                        <div className={styles.public}>
+                            <div className={isPublic === true ? styles.isPublic : styles.isNotPublic} onClick={() => setIsPublic(!isPublic)}>
+                            </div>
+                            <span className={styles.text}>Public</span>
+                        </div>
+                        <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
+                        <button className={styles.btn} onClick={() => {
+                            // uploadPrompt(tempAudioFile);
+                            // score !== 0 &&  
 
-                    }}>Valider</button>
+                        }}>Valider</button>
+                    </div>
+                    <span className={styles.errorMessage}>{displayMessage}</span>
                 </div>
-                <span className={styles.errorMessage}>{displayMessage}</span>
-            </div>
-        </Modal>
-    )
-}
+            </Modal>
+        )
 
+    }
+}
 export default ProjectModal

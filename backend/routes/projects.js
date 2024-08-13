@@ -6,6 +6,11 @@ const Project = require('../models/projects');
 const User = require('../models/users')
 const Keyword = require("../models/keywords")
 const Signalement = require("../models/signalements")
+const { FormData } = require('formdata-node');
+const { fileFromPath } = require('formdata-node/file-from-path');
+const cloudinary = require('../cloudinary');
+const fs = require('fs');
+const path = require('path');
 
 
 router.post("/add", async (req, res) => {
@@ -17,6 +22,46 @@ router.post("/add", async (req, res) => {
     // Authentification de l'utilisateur
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
+
+    //test cloudinary 
+
+    try {
+        const chunks = [];
+
+        req.on('data', chunk => chunks.push(chunk));
+
+        req.on('end', async () => {
+            const buffer = Buffer.concat(chunks);
+            const tempPath = path.join(__dirname, 'temp-audio.mp3');
+
+            // Écrire temporairement le fichier
+            fs.writeFileSync(tempPath, buffer);
+
+            // Créer un FormData et attacher le fichier
+            const form = new FormData();
+            const audioFile = await fileFromPath(tempPath);
+            form.append('audio', audioFile);
+
+            // Uploader vers Cloudinary
+            cloudinary.uploader.upload(
+                tempPath,
+                { resource_type: 'video', folder: 'audios' },
+                (error, result) => {
+                    // Supprimer le fichier localement après upload
+                    fs.unlinkSync(tempPath);
+
+                    if (error) {
+                        return res.status(500).json({ message: 'Upload failed', error });
+                    }
+                    return res.status(200).json({ message: 'Audio uploaded successfully', url: result.secure_url });
+                }
+            );
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred', error });
+    }
+
+
 
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()

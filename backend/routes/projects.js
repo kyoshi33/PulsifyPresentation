@@ -352,12 +352,12 @@ router.post('/signalementComment', async (req, res) => {
 
     try {
         // trouve le projet par ID et par cible le commentaire
-        const project = await Project.findOneAndUpdate(
-            { _id: idProject, "messages.comment": comment },
+        const project = await Project.updateOne(
+            { _id: idProject, "messages.comment": comment, "message.userId": userId },
             {
                 $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
             },
-            { new: true }
+
         );
         console.log('project', project)
         // Enregistrer le nouveau signalement 

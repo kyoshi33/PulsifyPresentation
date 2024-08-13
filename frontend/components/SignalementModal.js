@@ -3,13 +3,13 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import { useState } from 'react';
-
+import { useSelector } from 'react-redux'
 
 
 
 function SignalementModal(props) {
   const [commentaire, setCommentaire] = useState('')
-
+  const user = useSelector((state) => state.user.value)
 
   const handleValidation = async () => {
 
@@ -20,7 +20,12 @@ function SignalementModal(props) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ idPrompt: props.id, text: commentaire }),
+          body: JSON.stringify({
+            idPrompt: props.id,
+            text: commentaire,
+            token: user.token,
+            email: user.email
+          }),
         });
         const response = await signalement.json()
         props.onRequestClose()
@@ -45,7 +50,9 @@ function SignalementModal(props) {
             userId: props.userId,
             comment: props.comment,
             idProject: props.idProject,
-            text: commentaire
+            text: commentaire,
+            token: user.token,
+            email: user.email
           }),
         });
         const response = await signalement.json()

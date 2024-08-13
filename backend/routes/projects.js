@@ -370,5 +370,20 @@ router.post('/comment', async (req, res) => {
         }
 
     }
+});
+
+
+router.delete('/comment', async (req, res) => {
+    const { projectId, commentId } = req.body;
+    const project = await Project.findByIdAndUpdate(
+        projectId,
+        { $pull: { messages: { _id: commentId } } },
+        { new: true }
+    )
+    if (project) {
+        res.json({ result: true, message: 'Comment successfully deleted', project });
+    } else {
+        res.json({ result: false, message: 'Project not found' });
+    }
 })
 module.exports = router;

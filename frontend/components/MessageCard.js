@@ -23,8 +23,23 @@ function MessageCard(props) {
     console.log('user :', user)
     console.log('props.user :', props.userId)
 
-    const removeComment = () => {
-
+    const removeComment = async () => {
+        const response = await fetch('http://localhost:3000/projects/comment', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectId: props.idProject,
+                commentId: props.commentId,
+            }),
+        });
+        const result = await response.json()
+        if (result.result) {
+            console.log('Comment deleted:', result.message);
+        } else {
+            console.error('Failed to delete comment:', result.message);
+        }
     }
 
     return (

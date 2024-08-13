@@ -92,7 +92,7 @@ function ProjectComments() {
 
         comments = commentsList.map((data, i) => {
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
             )
         }).reverse()
     }

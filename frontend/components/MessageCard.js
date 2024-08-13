@@ -19,7 +19,6 @@ function MessageCard(props) {
         setIsOpen(false)
     }
 
-
     return (
         <div className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
@@ -33,7 +32,9 @@ function MessageCard(props) {
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
-                id={props.id}
+                userId={props.userId}
+                comment={props.comment}
+                idProject={props.idProject}
             />
         </div>
 

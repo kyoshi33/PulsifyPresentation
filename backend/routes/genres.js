@@ -48,7 +48,7 @@ router.post("/searchMyGenres", async (req, res) => {
             genreMap[genre] = {
                 genre: genre,
                 userId: project.userId,
-                titles: [],  // Liste des titres pour ce genre
+                titles: [],
             };
         }
 
@@ -218,8 +218,7 @@ router.post('/removeGenre', async (req, res) => {
     if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
     // Récupération de tous les genres
-
-    foundUser.genres = foundUser.genres.filter(e => { e != req.body.genre });
+    foundUser.genres = foundUser.genres.filter(e => e !== req.body.genre);
     await foundUser.save();
 
     const foundKeywords = await Keyword.deleteMany({ genre: req.body.genre, userId: foundUser._id });

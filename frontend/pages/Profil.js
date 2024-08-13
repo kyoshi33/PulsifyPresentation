@@ -7,7 +7,6 @@ import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
 import Image from 'next/image';
-import { addLike, removeLike } from '../reducers/user';
 
 
 function Profil(props) {
@@ -88,9 +87,9 @@ function Profil(props) {
           id={data._id}
           genre={data.genre}
           onRemove={() => handleUpdate(data._id)} />
-
       </div>)
   })
+
   const communityMap = listCommunaute.map((data, i) => {
     return (
       <div className={styles.promptCard}>
@@ -151,11 +150,8 @@ function Profil(props) {
 
   return (
     <div className={styles.container}>
-
       <div className={styles.headerProfile}>
         {user.picture ? <Image src={user.picture} width={150} height={150} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
-
-
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>
@@ -176,15 +172,11 @@ function Profil(props) {
           {display}
         </div>
       </div>
-
-
       <div className={styles.footer}>
         <div className={styles.btn} onClick={() => window.location.href = '/'}>
           Retour
         </div>
       </div>
-
-
     </div >
   );
 }

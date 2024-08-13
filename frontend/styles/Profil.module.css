@@ -242,7 +242,8 @@
   height: 70%;
   border-radius: 50%;
   display: flex;
-  margin: 6.5%;
+  margin-bottom: 6.5%;
+  margin-top: 6.5%;
 }
 
 .profilPicture {

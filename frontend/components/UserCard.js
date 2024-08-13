@@ -9,7 +9,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 function UserCard(props) {
   const user = useSelector((state) => state.user.value)
-  const picture = props.picture === null ? <FontAwesomeIcon icon={faUser} className={styles.icon} height={50} /> : <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />
+  const picture = props.picture === null ? <FontAwesomeIcon icon={faUser} className={styles.icon} height={50} width={50} /> : <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />
 
   let profil =
     <div className={styles.profilesContainer}>

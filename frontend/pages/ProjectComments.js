@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import { useRouter } from "next/router";
 
 import Header from '../components/Header';
 import styles from '../styles/ProjectComments.module.css'
 import PromptCard from '../components/PromptCard';
-import UserCard from '../components/UserCard';
-import SignalementModal from '../components/SignalementModal';
 import MessageCard from '../components/MessageCard'
 
 function ProjectComments() {
@@ -18,15 +14,12 @@ function ProjectComments() {
 
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
-    const { id } = router.query; // Retrieve the project ID from the query parameters
-    const [reload, setReload] = useState(false)
+    const { id } = router.query; // Retrieve the project ID from the query parameter
     // console.log('id :', id)
 
     const handleBack = () => {
         router.back();
     };
-
-
 
     const postComment = async () => {
         const { email, token } = user;
@@ -79,8 +72,6 @@ function ProjectComments() {
         fetchProjectData(id)
     }
 
-    // console.log('comments list :', commentsList)
-
     let projet
     let comments
     if (projectInfo._id) {
@@ -103,7 +94,6 @@ function ProjectComments() {
             )
         }).reverse()
     }
-
 
 
     return (

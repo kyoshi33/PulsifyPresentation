@@ -32,6 +32,7 @@ function MessageCard(props) {
             body: JSON.stringify({
                 projectId: props.idProject,
                 comment: props.comment,
+                userId: props.userId._id
             }),
         });
         const result = await response.json()

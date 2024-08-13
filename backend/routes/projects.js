@@ -21,6 +21,7 @@ router.post("/add", async (req, res) => {
     //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin.
     const promptToSplit = req.body.prompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
+
     const newProject = new Project({
         genre: req.body.genre,
         prompt: promptToSplitWithoutComa,
@@ -33,6 +34,7 @@ router.post("/add", async (req, res) => {
         title: req.body.title
     })
     const savedProject = await newProject.save()
+
 
     // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre ni est pas déjà 
     await User.updateOne({ email: req.body.email },
@@ -48,7 +50,9 @@ router.post("/add", async (req, res) => {
     const keywords = []
     for (const wordToFormat of splittedKeywords) {
         const trimmedWords = wordToFormat.trim()
-        keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+        if (trimmedWords) {
+            keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
+        }
     }
 
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
@@ -171,8 +175,10 @@ router.delete("/prompt", (req, res) => {
     }
     const { id } = req.body;
     Project.deleteOne({ _id: id })
-        .then(deletedDoc => {
+        .then(async deletedDoc => {
             if (deletedDoc.deletedCount > 0) {
+                await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } })
+                await Signalement.deleteMany({ prompt: req.body.id })
                 res.json({ result: true })
             } else {
                 res.json({ resutl: false })
@@ -184,26 +190,27 @@ router.delete("/prompt", (req, res) => {
 
 
 // Route pour incrémenter nbSignalements
-router.post('/signalement', async (req, res) => {
+router.post('/signalementProject', async (req, res) => {
+    const foundProject = await Project.findById(req.body.idPrompt)
 
-    const newSignalement = new Signalement({
-        userId: req.body.id,
-        text: req.body.text,
-        prompt: req.body.id,
-        message: req.body.message,
-    })
-    const savedProject = await newSignalement.save()
-    if (savedProject) {
+    if (foundProject) {
+
         try {
-            const projectId = req.body.id;
+            const projectId = req.body.idPrompt;
             const project = await Project.findByIdAndUpdate(
                 projectId,
                 { $inc: { nbSignalements: 1 } },  // Incrémentation de nbSignalements de 1
-            ); console.log(project)
+            );
             if (!project) {
-                return res.json({ result: false });
+                return res.json({ result: false, error: 'Pas trouvé projet à update' });
             }
-            res.json({ result: true })
+            const newSignalement = new Signalement({
+                userId: foundProject.userId,
+                text: req.body.text,
+                prompt: req.body.idPrompt,
+            })
+            const savedSignalement = await newSignalement.save()
+            res.json({ result: true, msg: savedSignalement })
         } catch (error) {
             res.json({ result: error });
         }
@@ -213,21 +220,24 @@ router.post('/signalement', async (req, res) => {
 
 
 
-// router.post("/projectById", async (req, res) => {
-//     console.log(req.body)
-//     console.log(req.body.id)
-//     const projectId = req.body.id;
-//     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
-//     console.log('project 1 :', project)
+router.post("/projectById", async (req, res) => {
+    console.log(req.body)
+    console.log(req.body.id)
+    const projectId = req.body.id;
+    const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
+    console.log('project 1 :', project)
+    // for (const user of project.messages) {
+    //     user.populate('userId')
+    // }
 
-//     if (!project) {
-//         return res.json({ result: false, message: "project not found" })
-//     } else {
-//         // console.log('project :', project)
-//         return res.json({ result: true, info: project })
+    if (!project) {
+        return res.json({ result: false, message: "project not found" })
+    } else {
+        // console.log('project :', project)
+        return res.json({ result: true, info: project })
 
-//     }
-// });
+    }
+});
 
 router.get('/allGenres', async (req, res) => {
     const foundAllProject = await Project.find()
@@ -244,13 +254,20 @@ router.get('/allGenres', async (req, res) => {
 })
 
 
-// router.post('/comment', async (req, res) => {
-//     const projectToComment = await Project.findByIdAndUpdate(req.body.id, { comment: req.body.prompt, createdAt: req.body.date })
-//     if (projectToComment) {
-//         console.log('project to comment :', projectToComment)
-//         res.json({ result: true })
-//     } else {
-//         res.json({ result: false })
-//     }
-// })
+
+router.post('/comment', async (req, res) => {
+    const findUser = await User.findOne({ email: req.body.email })
+    if (findUser) {
+        const projectToComment = await Project.findByIdAndUpdate(req.body.id, { $push: { messages: { comment: req.body.comment, userId: findUser._id } } },
+            { new: true }
+        )
+        if (projectToComment) {
+            console.log('project to comment :', projectToComment)
+            res.json({ result: true, message: 'comment successfully added' })
+        } else {
+            res.json({ result: false, message: 'project not found' })
+        }
+
+    }
+})
 module.exports = router;

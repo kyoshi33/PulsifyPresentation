@@ -228,7 +228,7 @@
 
 .inputProjectTitle {
     height: 80%;
-    width: 90%;
+    width: 100%;
     background-color: #272541;
     border: 3px solid #B300F2;
     border-radius: 8px;
@@ -239,31 +239,27 @@
 }
 
 .genreProject {
-    width: 100%;
+    width: 80%;
+    height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
 }
 
 .inputGenreProject {
-    height: 80%;
+    height: 95%;
     width: 100%;
     background-color: #272541;
     border: 3px solid #B300F2;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 100%;
     color: white;
     padding-left: 10px;
-    margin-top: 0;
-}
-
-.genreProject {
-    display: flex;
-    height: 90%;
-    justify-content: flex-end;
-    align-items: center;
+    margin-top: 0.6%;
 
 }
+
 
 .searchGenreBtn {
     position: absolute;
@@ -289,19 +285,19 @@
     width: 100%;
     height: 40%;
     margin: 2%;
+
 }
 
 .inputProjectPrompt {
     height: 100%;
-    display: flex;
     width: 100%;
+    display: flex;
     background-color: #272541;
     border: 3px solid #B300F2;
     border-radius: 8px;
-    font-size: 16px;
     color: white;
-    padding: 3%;
     resize: none;
+    font-size: 180%;
 }
 
 .btn {
@@ -374,7 +370,7 @@
 
 .searchTitle {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 15px;
+    font-size: 130%;
     color: white;
     font-weight: 50;
     margin: 2%;

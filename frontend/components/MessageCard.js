@@ -4,17 +4,18 @@ import { useSelector } from 'react-redux';
 import UserCard from './UserCard'
 
 
-function MessageCard() {
-    const user = useSelector((state) => state.user.value)
+function MessageCard(props) {
 
 
     return (
         <div className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
-                <UserCard email='Doe' username='Julien' />
+                <UserCard
+                // email={props.userId.email} username={props.userId.username} picture={props.userId.picture} 
+                />
             </div>
             <div className={styles.listItemMessage}>
-                Message
+                {props.comment}
             </div>
         </div>
 

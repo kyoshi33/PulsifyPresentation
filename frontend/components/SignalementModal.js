@@ -12,23 +12,52 @@ function SignalementModal(props) {
 
 
   const handleValidation = async () => {
-    try {
-      const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idPrompt: props.id, text: commentaire }),
-      });
-      const response = await signalement.json()
-      props.onRequestClose()
-      if (!response.result) {
-        Error('Erreur lors de la validation du signalement');
-      } else {
-        console.log('Signalement mis à jour');
+
+    if (props.id) {
+      try {
+        const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ idPrompt: props.id, text: commentaire }),
+        });
+        const response = await signalement.json()
+        props.onRequestClose()
+        if (!response.result) {
+          Error('Erreur lors de la validation du signalement');
+        } else {
+          console.log('Signalement mis à jour');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
       }
-    } catch (error) {
-      console.error('Erreur:', error);
+    }
+
+    if (comment) {
+      try {
+        const signalement = await fetch(`http://localhost:3000/projects/signalementComment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: props.userId,
+            comment: props.comment,
+            idProject: props.idProject,
+            text: commentaire
+          }),
+        });
+        const response = await signalement.json()
+        props.onRequestClose()
+        if (!response.result) {
+          Error('Erreur lors de la validation du signalement');
+        } else {
+          console.log('Signalement mis à jour');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+      }
     }
   };
 

@@ -19,12 +19,11 @@ function MessageCard(props) {
         setIsOpen(false)
     }
 
-
     return (
         <div className={styles.listItemContainer}>
             <div className={styles.listItemTitle}>
                 <UserCard
-                // email={props.userId.email} username={props.userId.username} picture={props.userId.picture} 
+                // email={props.userId.email} username={props.userId.username} picture={props.userId.picture}
                 />
             </div>
             <div className={styles.listItemMessage}>
@@ -33,7 +32,9 @@ function MessageCard(props) {
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
-                id={props.id}
+                userId={props.userId}
+                comment={props.comment}
+                idProject={props.idProject}
             />
         </div>
 

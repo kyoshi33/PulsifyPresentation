@@ -59,8 +59,6 @@ function ProjectComments() {
     }, [id]);
 
 
-
-
     const fetchProjectData = async (id) => {
         console.log('id :', id)
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
@@ -92,7 +90,7 @@ function ProjectComments() {
 
         comments = commentsList.map((data, i) => {
             return (
-                < MessageCard key={i} comment={data.comment} userId={data.userId} />
+                < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id} />
             )
         }).reverse()
     }

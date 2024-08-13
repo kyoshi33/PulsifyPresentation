@@ -226,9 +226,14 @@ router.post("/projectById", async (req, res) => {
     const projectId = req.body.id;
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords')
     console.log('project 1 :', project)
-    // for (const user of project.messages) {
-    //     user.populate('userId')
-    // }
+    const newMessages = [];
+    for (const message of project.messages) {
+        message.username = await User.findById({ _id: message.userId })
+        newMessages.push(message)
+        console.log('message ,', message)
+    }
+    project.messages = newMessages
+    console.log('project ,', project)
 
     if (!project) {
         return res.json({ result: false, message: "project not found" })
@@ -279,4 +284,46 @@ router.post('/comment', async (req, res) => {
 
     }
 })
+
+
+
+
+// Route pour incrémenter nbSignalements des commentaires
+router.post('/signalementComment', async (req, res) => {
+    const foundProject = await Project.findById(req.body.userId)
+
+    if (foundProject) {
+
+        try {
+            const projectId = { userId: req.body.userId, comment: req.body.comment, idProject: req.body.idProject }
+            const project = await Project.findByIdAndUpdate(
+                req.body.idProject,
+                {
+                    messages: {
+                        $inc: { nbSignalements: 1 }
+                    }
+                },  // Incrémentation de nbSignalements de 1
+            );
+            if (!project) {
+                return res.json({ result: false, error: 'Pas trouvé projet à update' });
+            }
+            const newSignalement = new Signalement({
+                userId: foundProject.userId,
+                text: req.body.text,
+                message: req.body.comment,
+            })
+            const savedSignalement = await newSignalement.save()
+            res.json({ result: true, msg: savedSignalement })
+        } catch (error) {
+            res.json({ result: error });
+        }
+    }
+});
+
+
+
+
+
+
+
 module.exports = router;

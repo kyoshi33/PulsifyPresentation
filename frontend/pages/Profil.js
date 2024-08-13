@@ -173,7 +173,7 @@ function Profil(props) {
         </div>
       </div>
       <div className={styles.footer}>
-        <div className={styles.btn} onClick={() => window.location.href = '/'}>
+        <div className={styles.btn} onClick={() => window.location.href = '/Accueil'}>
           Retour
         </div>
       </div>

@@ -29,8 +29,8 @@
 
 .profilesPic {
   display: flex;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 60%;
+  max-height: 60%;
   cursor: pointer;
   margin: 2%;
   border-radius: 50%;
@@ -176,7 +176,6 @@
   align-items: center;
   box-sizing: border-box;
   width: 95%;
-  height: 14%;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
@@ -192,34 +191,10 @@
 
 .listItemContainer:hover {
   background-color: #B300F2;
-  height: 18%;
   /* Hover effect */
 }
 
-.listItemTitle {
-  width: 25%;
-  border-right: #ffffff 1px solid;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-
-}
-
-.listItemPrompt {
-  /* width: 25%; */
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding-left: 3%;
-
-
-}
-
-.display {
-  display: flex;
-}
 
 .scrollWindow {
   overflow-y: auto;
@@ -256,7 +231,7 @@
 }
 
 .promptCard {
-  height: 35%;
+  height: 45%;
   margin-top: 1%;
 }
 
@@ -272,7 +247,6 @@
 
 .profilPicture {
   border-radius: 50%;
-
 }
 
 .usernameAndName {

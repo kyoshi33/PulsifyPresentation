@@ -203,7 +203,7 @@ router.post('/signalementProject', async (req, res) => {
             );
             if (!project) {
                 return res.json({ result: false, error: 'Pas trouvé projet à update' });
-            }
+            }// Enregistrer le nouveau signalement 
             const newSignalement = new Signalement({
                 userId: foundProject.userId,
                 text: req.body.text,
@@ -275,4 +275,37 @@ router.post('/comment', async (req, res) => {
 
     }
 })
+
+
+
+
+// Route pour incrémenter nbSignalements des commentaires
+router.post('/signalementComment', async (req, res) => {
+    const { userId, comment, idProject, text } = req.body;
+
+    try {
+        // trouve le projet par ID et par cible le commentaire
+        const project = await Project.findOneAndUpdate(
+            { _id: idProject, "messages.comment": comment },
+            {
+                $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
+            },
+        );
+        // Enregistrer le nouveau signalement 
+        const newSignalement = new Signalement({
+            userId: userId,
+            text: text,
+            message: comment,
+        });
+
+        const savedSignalement = await newSignalement.save();
+
+        res.json({ result: true, msg: 'Signalement mis à jour', savedSignalement });
+    } catch (error) {
+        res.json({ result: error });
+    }
+});
+
+
+
 module.exports = router;

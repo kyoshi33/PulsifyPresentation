@@ -102,7 +102,6 @@ function PromptCard(props) {
         <div className={styles.promptContainer}>
             <div className={styles.itemContainer} >
                 {!props.isOnProfile && displayUser}
-
                 <div className={styles.titleBox}>
                     <div className={styles.titleBackground}>
                         <div className={styles.title}>

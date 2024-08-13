@@ -17,7 +17,7 @@ function Profil(props) {
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [community, setCommunaute] = useState(false);
   const [myPrompts, setMyPrompts] = useState([]);
-  const [listCommunaute, setCommunityList] = useState([]);
+  const [communityList, setCommunityList] = useState([]);
 
 
   const handleLogout = () => {
@@ -50,9 +50,9 @@ function Profil(props) {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          console.log(data)
           setMyPrompts(data.myPrompts.prompts)
           setCommunityList(data.likedprompts)
+          // console.log(communityList[0].userId.firstname)
         }
 
       });
@@ -68,18 +68,14 @@ function Profil(props) {
     setMyPrompts(newModeles);
   };
 
-  const handleCardClick = () => {
-    router.push(`/ProjectComments?id=${props.id}`); // Navigate to the ProjectComments page with the project ID as a query parameter
-  }
 
-
-
-  // 
 
   const listBibliotheque = myPrompts.map((data, i) => {
     return (
       <div className={styles.promptCard}>
-        <PromptCard isOnProfile={true}
+        <PromptCard
+          key={i}
+          isOnProfile={true}
           isOnMyProjects={true}
           stars={data.rating}
           projectName={data.title}
@@ -90,10 +86,12 @@ function Profil(props) {
       </div>)
   })
 
-  const communityMap = listCommunaute.map((data, i) => {
+  const communityMap = communityList.map((data, i) => {
     return (
       <div className={styles.promptCard}>
-        <PromptCard firstname={data.userId.firstname}
+        <PromptCard
+          key={i}
+          firstname={data.userId.firstname}
           username={data.userId.username}
           picture={data.userId.picture}
           isOnProfile={false}

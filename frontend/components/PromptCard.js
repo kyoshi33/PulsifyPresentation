@@ -85,9 +85,12 @@ function PromptCard(props) {
 
     if (props.isOnMyProjects) {
         itemPrompt = styles.itemPromptOnProfile
+    } else if (props.isOnFavoritesProjects) {
+        itemPrompt = styles.itemPromptFavorites
     } else {
         itemPrompt = styles.itemPrompt
     }
+
     const handleClick = (genre, title, prompt) => {
 
         if (!props.isOnExplore) {

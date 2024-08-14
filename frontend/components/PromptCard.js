@@ -1,14 +1,10 @@
 import styles from '../styles/PromptCard.module.css';
-import SignalementModal from './SignalementModal';
-import UserCard from './UserCard';
-
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
-
 
 
 function PromptCard(props) {

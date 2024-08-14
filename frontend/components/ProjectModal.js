@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 
 function ProjectModal(props) {
     const [isPublic, setIsPublic] = useState(false);
-    const [displayMessage, setDisplayMessage] = useState('');
     const [hoveredStars, setHoveredStars] = useState(0);
     const [score, setScore] = useState(0);
     const [file, setFile] = useState(null);
@@ -139,7 +138,6 @@ function ProjectModal(props) {
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={uploadPrompt}>Valider</button>
                 </div>
-                <span className={styles.errorMessage}>{displayMessage}</span>
             </div>
         </Modal>
     );

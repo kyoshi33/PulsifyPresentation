@@ -2,7 +2,6 @@ import styles from '../styles/ProjectComments.module.css'
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from "next/router";
-
 import Header from '../components/Header';
 import PromptCard from '../components/PromptCard';
 import MessageCard from '../components/MessageCard'

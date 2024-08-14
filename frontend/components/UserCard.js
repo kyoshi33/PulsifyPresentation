@@ -1,5 +1,4 @@
 import styles from '../styles/Profil.module.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,7 +23,7 @@ function UserCard(props) {
       {picture}
       <div className={styles.namediv}>
         <h3 className={styles.nom} > {props.firstname}</h3>
-        <h4 className={styles.identifiant}>@{props.username}</h4>
+        <h4 className={props.isOnCommunityGenre ? styles.communityIdDisplay : styles.identifiant}>@{props.username}</h4>
       </div>
     </div>
 

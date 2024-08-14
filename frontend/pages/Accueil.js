@@ -122,7 +122,9 @@ function Accueil() {
                             username={userId.username}
                             picture={userId.picture}
                             projects={titles}
+                            isOnMyProfil={true}
                             isOwnGenre={true}
+
                             isOnCommunityGenre={false}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
@@ -142,6 +144,7 @@ function Accueil() {
                                 picture={userId.picture}
                                 projects={titles}
                                 isOwnGenre={true}
+
                                 isOnCommunityGenre={false}
                                 handleRemoveGenre={handleRemoveGenre}
                                 handleClick={handleClick}
@@ -174,7 +177,6 @@ function Accueil() {
                 mappedProjects = myProjects.map((project, i) => {
 
                     let { genre, userId, titles } = project;
-                    console.log(userId)
                     return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
                             firstname={userId.firstname}
@@ -212,9 +214,9 @@ function Accueil() {
                         <input type='string' placeholder='Recherche...' value={selectedTab === 1 ? search : searchCommunity} onChange={(e) => { selectedTab === 1 ? setSearch(e.target.value) : setSearchCommunity(e.target.value) }
                         } className={styles.inputSearch} />
                         <div className={styles.columnTitles}>
-                            <div >Auteur</div>
+                            <div className={styles.columnAuthor}>Auteur</div>
                             <div>Genre</div>
-                            <div>Projets</div>
+                            <div className={styles.columnProject}>Projets</div>
                             <div></div>
                             <div></div>
                         </div>

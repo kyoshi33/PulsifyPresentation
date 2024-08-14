@@ -127,7 +127,7 @@ function ProjectComments() {
                 <div className={styles.promptCardContainer}>
                     {projet}
                 </div>
-                <button className={styles.btn} onClick={handleUse}>Utiliser ce modèle</button>
+                <button className={styles.btn} onClick={handleUse}>Utiliser ce projet</button>
             </div>
             <div className={styles.commentsContainer}>
                 {comments}

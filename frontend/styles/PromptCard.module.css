@@ -19,6 +19,7 @@
 }
 
 .itemContainer {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -59,6 +60,7 @@
   align-items: center;
   width: 30%;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .titleBox:hover {
@@ -87,12 +89,37 @@
   flex-shrink: 0;
   padding-left: 13%;
   font-size: 1vmax;
-  width: 30%;
+  width: 35%;
   margin-top: 5%;
   margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
+}
 
+.itemPromptOnProfile {
+  flex-shrink: 0;
+  padding-left: 13%;
+  font-size: 1vmax;
+  width: 40%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.itemPromptFavorites {
+  flex-shrink: 0;
+  padding-left: 10%;
+  font-size: 80%;
+  max-width: 60%;
+  width: 35%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .iconsBox {
@@ -162,9 +189,9 @@
 }
 
 .audioInput {
-  width: 250px;
+  width: 180px;
   height: 30px;
-  margin: 2%;
+  margin: -2%;
 }
 
 .audioInput::-webkit-media-controls-current-time-display,

@@ -24,18 +24,7 @@ function Profil(props) {
     dispatch(logout());
     window.location.href = '/';
   }
-  //fonction supprime un prompt
-  // const removePrompt = () => {
-  //   (prompts, id) => {
-  //     return ''.filter(prompts => prompts.id !== id);
-  //   };
-  // }
 
-  // //fonction lancer un prompt
-  // const playPrompt = () => {
-  //   (cards, id) => {
-  //   };
-  // }
 
   //fonction card ma bibliotheque
 

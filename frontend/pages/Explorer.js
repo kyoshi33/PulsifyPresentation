@@ -28,7 +28,6 @@ function Explorer() {
     if (!user.isLogged) {
         window.location.href = '/';
     }
-    // enelevé résultat recherche et error 
 
     useEffect(() => {
         search || foundAllGenres();

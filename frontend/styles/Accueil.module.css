@@ -145,6 +145,7 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin: 2%;
+  margin-bottom: 1%;
   padding: 2%;
   display: flex;
   justify-content: center;
@@ -202,4 +203,13 @@
 
 .modelCard {
   height: 15%;
+}
+
+.columnTitles {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-direction: row;
+  height: 5%;
+  color: #646baa;
 }

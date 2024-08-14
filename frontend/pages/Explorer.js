@@ -35,6 +35,7 @@ function Explorer() {
         search && fetchSearch();
     }, [search])
 
+    // Récupération de toutes les genres 
     const foundAllGenres = async () => {
         const { token, email } = user;
         const foundGenres = await fetch('http://localhost:3000/genres/allGenres', {
@@ -67,11 +68,13 @@ function Explorer() {
         })
     }
 
+    // Met par défaut la recherche par Genre si aucun filtre n'est séléctionné 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
         setCheckedGenre(true)
         setPlaceHolder('Recherche par genre...')
     }
 
+    // Changement de filtre pour la recherche par Auteur, Mot clé, Nom de projet, Genre
     const handleChange = (props) => {
         if (props === 'Autor') {
             setCheckedAutor(!checkedAutor)
@@ -112,10 +115,12 @@ function Explorer() {
 
     }
 
+    // Application d'une couleur aux icônes si elles sont séléctionné 
     let colorFilter = isPopoverOpen && '#504E6B'
     let colorUp = sortUp && '#504E6B'
     let colorDown = sortDown && '#504E6B'
 
+    // Fonction qui permet d'appeler les fonctions de Fetch en fonction du filtre sur la page 
     const fetchSearch = () => {
         setDiscover(false)
         setSortUp(false)
@@ -138,8 +143,8 @@ function Explorer() {
         }
     }
 
+    // Récupération des auteurs 
     const fetchAutor = async () => {
-        // Récupération des auteurs 
         const { email, token } = user;
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
@@ -156,8 +161,8 @@ function Explorer() {
         }
     }
 
+    // Récupération des mots clés
     const fetchKeyword = async () => {
-        // Récupération des mots clés
         const { email, token } = user;
         const fetchKeyWord = await fetch('http://localhost:3000/keywords/search', {
             method: 'POST',
@@ -173,8 +178,9 @@ function Explorer() {
             setErrorMessage(res.error)
         }
     }
+
+    // Récupération des projets 
     const fetchProject = async () => {
-        // Récupération des projets 
         const { email, token } = user;
         const fetchProject = await fetch('http://localhost:3000/projects/searchTitle', {
             method: 'POST',
@@ -191,12 +197,13 @@ function Explorer() {
         }
     }
 
+    // Récupération des projets soit pour la recherche soit pour l'affichage des suggestions
     const fetchGenre = async (genre) => {
         setDiscover(false)
         const { email, token } = user;
         if (genre) {
+            // Récupération des projets pour la suggestion de recherche 
             setSearch(genre)
-            // Récupération des projets pour la suggestion de recherche à l'arriver sur la page explorer
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -211,7 +218,7 @@ function Explorer() {
                 setErrorMessage(res.error)
             }
         } else {
-            // Récupération des projets 
+            // Récupération des projets pour la recherche
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -238,6 +245,7 @@ function Explorer() {
         listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par - liké first
     }
 
+    // Affichage du message d'erreur en fonction de la recherche, s'adapte à ce qui est retourné par la route
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
 
     return (

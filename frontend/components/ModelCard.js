@@ -19,7 +19,7 @@ function ModelCard(props) {
                 <UserCard username={props.username} firstname={props.firstname} picture={props.picture} isOnCommunityGenre={props.isOnCommunityGenre} ></UserCard>
             </div>
             <div className={styles.genre} onClick={() => props.handleClick(props.genre)}>{props.genre}</div>
-            <div className={styles.listItemPrompt} onClick={() => props.handleClick(props.genre)}>{props.projects}</div>
+            <div className={styles.listItemPrompt} onClick={() => props.handleClick(props.genre, props.isCommunity)}>{props.projects}</div>
             {removeButton}
         </button>
 

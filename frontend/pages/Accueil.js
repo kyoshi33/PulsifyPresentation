@@ -24,10 +24,10 @@ function Accueil() {
 
     !user.token && router.push({ pathname: '/' });
 
-    const handleClick = (genre) => {
+    const handleClick = (genre, isCommunity) => {
         router.push({
             pathname: '/Project',
-            query: { genre },
+            query: { genre, isCommunity },
         });
     };
 
@@ -126,6 +126,7 @@ function Accueil() {
                             isOnCommunityGenre={false}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={false}
                         />
                     </div>
                 });
@@ -144,6 +145,7 @@ function Accueil() {
                                 isOnCommunityGenre={false}
                                 handleRemoveGenre={handleRemoveGenre}
                                 handleClick={handleClick}
+                                isCommunity={false}
                             />
                         </div>
                     );
@@ -164,6 +166,7 @@ function Accueil() {
                             isOnCommunityGenre={true}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={true}
                         />
                     </div>
                 });
@@ -181,6 +184,7 @@ function Accueil() {
                             isOnCommunityGenre={true}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={true}
                         />
                     </div>
                 });
@@ -207,7 +211,13 @@ function Accueil() {
 
                         <input type='string' placeholder='Recherche...' value={selectedTab === 1 ? search : searchCommunity} onChange={(e) => { selectedTab === 1 ? setSearch(e.target.value) : setSearchCommunity(e.target.value) }
                         } className={styles.inputSearch} />
-
+                        <div className={styles.columnTitles}>
+                            <div >Auteur</div>
+                            <div>Genre</div>
+                            <div>Projets</div>
+                            <div></div>
+                            <div></div>
+                        </div>
                         <div className={styles.scrollWindow}>
                             {mappedProjects}
                         </div>

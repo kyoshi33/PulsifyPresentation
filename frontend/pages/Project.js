@@ -42,6 +42,10 @@ function Project() {
             setProjectTitle(router.query.title)
             setProjectPrompt(router.query.prompt)
         }
+        if (router.query.isCommunity) {
+            setIsCheckBoxChecked(true)
+            includeLikedPrompts(true)
+        }
     }, [])
 
 

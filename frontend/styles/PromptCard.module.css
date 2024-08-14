@@ -131,7 +131,10 @@
 }
 
 .iconsBoxAndAudio {
-  font-size: 1vmax;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
   margin-left: auto;
 }
 

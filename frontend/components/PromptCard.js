@@ -50,8 +50,12 @@ function PromptCard(props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, id, token })
         })
-        dispatch(setLikedList(response.likedPrompts))
+        const responseLiked = await response.json()
+        console.log(responseLiked)
+        //    for(const like of response.likedPrompts)
+        dispatch(setLikedList(responseLiked.likedPrompts))
     }
+
     // Naviguer vers la page ProjectComments avec l'id du projet 
     const commentClick = () => {
         router.push(`/ProjectComments?id=${props.id}`);

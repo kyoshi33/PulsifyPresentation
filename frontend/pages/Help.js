@@ -1,5 +1,4 @@
 import styles from "../styles/Help.module.css"
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 function Help() {
@@ -15,7 +14,7 @@ function Help() {
                 <h1 className={styles.title}>Aide</h1>
                 <div>[Video]</div>
                 <div>
-                    <p className={styles.text}>1. Ouvrez Suno AI: <Link href={'https://suno.com/'}><span className={styles.link} >Cliquez ici</span></Link></p>
+                    <p className={styles.text}>1. Ouvrez Suno AI: <a href={'https://suno.com/'} style={{ textDecoration: 'none' }} target='_blank' rel="noopener noreferrer"><span className={styles.link} >Cliquez ici</span></a></p>
                     <p className={styles.text}>2. Cliquez sur "Create"</p>
                     <p className={styles.text}>3. Cliquez sur "Custom"</p>
                     <p className={styles.text}>4. Renseignez votre prompt dans le champ "Styles of music"</p>

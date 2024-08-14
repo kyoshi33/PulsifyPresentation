@@ -4,6 +4,7 @@ import styles from '../styles/ProjectModal.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 function ProjectModal(props) {
     const [isPublic, setIsPublic] = useState(false);
@@ -14,6 +15,7 @@ function ProjectModal(props) {
     const [message, setMessage] = useState('');
 
     const user = useSelector((state) => state.user.value);
+    const router = useRouter()
 
     //upload prompt + audio si l'audio est présent
     const uploadPrompt = async () => {
@@ -36,10 +38,10 @@ function ProjectModal(props) {
                 body: JSON.stringify(dataForPrompt),
             });
 
-            const jsonResponse = await saveDataForPrompt.json();
+            const responseDataPrompt = await saveDataForPrompt.json();
 
 
-            if (jsonResponse.result) {
+            if (responseDataPrompt.result) {
                 setMessage(`Ajout de l'audio en cours`);
 
                 // Envoyer le fichier audio avec le l'id du prompt sauvegardé 
@@ -48,7 +50,7 @@ function ProjectModal(props) {
                     formData.append('audio', file[0]);
 
                     // Envoyer l'audio au backend au format formData
-                    const audioResponse = await fetch(`http://localhost:3000/projects/${jsonResponse.prompt._id}/upload-audio`, {
+                    const audioResponse = await fetch(`http://localhost:3000/projects/${responseDataPrompt.prompt._id}/upload-audio`, {
                         method: "POST",
                         body: formData,
                     });
@@ -65,7 +67,7 @@ function ProjectModal(props) {
                 setMessage('Echec de la sauvegarde');
             }
         }
-        window.location.href = '/Profil'
+        router.push('/Profil')
     };
 
     const mouseOver = (rating) => {

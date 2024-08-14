@@ -6,7 +6,6 @@ import Header from "../components/Header";
 import ModelCard from "../components/ModelCard";
 import { useSelector } from "react-redux";
 
-let connected = false;
 
 function Accueil() {
 

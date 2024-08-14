@@ -216,7 +216,7 @@ function Accueil() {
                         } className={styles.inputSearch} />
                         <div className={styles.columnTitles}>
                             <div className={styles.columnAuthor}>Auteur</div>
-                            <div className={styles.columnGenre}>Genre</div>
+                            <div>Genre</div>
                             <div className={styles.columnProject}>Projets</div>
                             <div></div>
                             <div></div>

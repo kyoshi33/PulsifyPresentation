@@ -282,13 +282,12 @@ router.post('/signalementProject', async (req, res) => {
 router.post("/projectById", async (req, res) => {
     const projectId = req.body.id;
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
-        path: 'messages.userId', // Populate userId within each message
+        path: 'messages.userId',
     });
 
     if (!project) {
         return res.json({ result: false, message: "project not found" });
     } else {
-        // console.log('project :', project)
         return res.json({ result: true, info: project })
     }
 });
@@ -343,7 +342,6 @@ router.delete('/comment', async (req, res) => {
             "message.comment.comment": comment,
             "message.comment.userId": userId
         })
-        console.log('del', del)
         res.json({ result: true, message: 'Comment successfully deleted', project });
     } else {
         res.json({ result: false, message: 'Project not found' });

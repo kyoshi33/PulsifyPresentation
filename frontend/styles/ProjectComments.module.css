@@ -41,7 +41,6 @@
 
 .btn:hover {
     background-color: #B300F2;
-    /* Hover effect */
 }
 
 .commentsContainer {
@@ -57,21 +56,18 @@
     background-color: #272541;
 }
 
-/* Webkit Browsers (Chrome, Safari, Edge) */
+
 .commentsContainer::-webkit-scrollbar {
     width: 8px;
-    /* Width of the scrollbar */
 }
 
 .commentsContainer::-webkit-scrollbar-track {
     background: #272541;
-    /* Track color */
     border-radius: 10px;
 }
 
 .commentsContainer::-webkit-scrollbar-thumb {
     background: #B300F2;
-    /* Thumb color */
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
@@ -80,13 +76,11 @@
     background: #8C00B8;
 }
 
-/* Firefox */
 .commentsContainer {
     scrollbar-width: thin;
     scrollbar-color: #B300F2 #272541;
 }
 
-/* Internet Explorer and Legacy Edge */
 .commentsContainer {
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }

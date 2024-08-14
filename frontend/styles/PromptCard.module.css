@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   padding-top: 1%;
-  /* padding-bottom: 1vh; */
   align-items: center;
   width: 100%;
   height: 100%;
@@ -15,7 +14,6 @@
 .promptContainer:hover {
   background-color: #B300F2;
   height: 100%;
-  /* Hover effect */
 }
 
 .itemContainer {
@@ -26,7 +24,6 @@
   width: 96%;
   height: 90%;
   font-size: 2vmin;
-  /* user-select: none; */
 }
 
 .titleBackground {

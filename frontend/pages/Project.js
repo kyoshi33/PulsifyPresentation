@@ -302,7 +302,8 @@ function Project() {
                             }}
                             value={projectPrompt}
                             maxLength={120}
-                            onKeyPress={e => {
+                            spellCheck='false'
+                            onKeyDown={e => {
                                 if (e.key === 'Enter')
                                     e.preventDefault()
                             }} />

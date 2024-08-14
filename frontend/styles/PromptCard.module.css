@@ -19,6 +19,7 @@
 }
 
 .itemContainer {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -60,7 +61,6 @@
   width: 30%;
   flex-shrink: 0;
   cursor: pointer;
-  ;
 }
 
 .titleBox:hover {
@@ -95,7 +95,6 @@
   display: flex;
   flex-wrap: wrap;
   cursor: pointer;
-
 }
 
 .itemPromptOnProfile {
@@ -107,6 +106,7 @@
   margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .itemPromptFavorites {
@@ -119,6 +119,7 @@
   margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .iconsBox {

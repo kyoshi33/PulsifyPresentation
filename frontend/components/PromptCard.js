@@ -108,7 +108,7 @@ function PromptCard(props) {
 
     return (
         <div className={styles.promptContainer}>
-            <div className={styles.itemContainer}>
+            <div className={styles.itemContainer} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                 {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     <div className={styles.titleBackground}>

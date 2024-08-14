@@ -35,16 +35,16 @@ function Project() {
 
     useEffect(() => {
         if (router.query.genre && !router.query.title && !router.query.prompt) {
-            setProjectGenre(router.query.genre)
+            setProjectGenre(router.query.genre);
         }
         if (router.query.genre && router.query.title && router.query.prompt) {
-            setProjectGenre(router.query.genre)
-            setProjectTitle(router.query.title)
-            setProjectPrompt(router.query.prompt)
+            setProjectGenre(router.query.genre);
+            setProjectTitle(router.query.title);
+            setProjectPrompt(router.query.prompt);
         }
         if (router.query.isCommunity) {
-            setIsCheckBoxChecked(true)
-            includeLikedPrompts(true)
+            setIsCheckBoxChecked(true);
+            setIncludeLikedPrompts(true);
         }
     }, [])
 
@@ -65,7 +65,7 @@ function Project() {
         setTotalScore(resSuggestions.totalScore);
         suggestions = resSuggestions.suggestionsList;
 
-        suggestions && setSuggestionsList([...suggestions])
+        suggestions && setSuggestionsList([...suggestions]);
     };
 
     // Rechercher des suggestions à chaque fois que l'utilisateur entre un caractère dans l'imput de prompt
@@ -212,7 +212,6 @@ function Project() {
                 setProjectPrompt(projectPrompt + `${genre}, `)
             } else {
                 setProjectPrompt(projectPrompt + `, ${genre}, `)
-
             }
         }
     }

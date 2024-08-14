@@ -30,7 +30,7 @@ function Project() {
     const [isCheckBoxChecked, setIsCheckBoxChecked] = useState(false);
 
     const router = useRouter();
-
+    !user.token && router.push({ pathname: '/' });
     let genres = [];
 
     useEffect(() => {

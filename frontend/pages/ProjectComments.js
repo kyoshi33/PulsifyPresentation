@@ -2,7 +2,6 @@ import styles from '../styles/ProjectComments.module.css'
 import Header from '../components/Header';
 import PromptCard from '../components/PromptCard';
 import MessageCard from '../components/MessageCard';
-
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from "next/router";
@@ -71,7 +70,7 @@ function ProjectComments() {
             body: JSON.stringify({ id, email, token }),
         });
         const res = await fetchData.json()
-        console.log('project info :', res.info.messages)
+
         setProjectInfo(res.info)
         setCommentsList(res.info.messages)
     }

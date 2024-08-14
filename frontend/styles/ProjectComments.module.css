@@ -17,8 +17,7 @@
 
 .promptCardContainer {
     width: 80%;
-
-    height: 80%;
+    height: 100%;
     margin: 1%;
 }
 
@@ -45,6 +44,7 @@
 
 .commentsContainer {
     display: flex;
+    margin-top: 2%;
     flex-direction: column;
     align-items: center;
     width: 70%;
@@ -84,8 +84,6 @@
 .commentsContainer {
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
-
-
 
 .fullComment {
     display: flex;

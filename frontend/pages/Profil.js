@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
-import { setLikedList } from '../reducers/user';
 import { useRouter } from 'next/router';
 import { setLikedList } from '../reducers/user';
 
@@ -65,10 +64,8 @@ function Profil() {
           if (!data) {
             Error('Erreur lors de la récupération des prompts');
           } else {
-
             setMyPrompts(data.myPrompts.prompts)
             setCommunityList(data.likedprompts)
-
           }
 
         });
@@ -77,7 +74,9 @@ function Profil() {
     }
   }
 
-
+  useEffect(() => {
+    clickBibliotheque();
+  }, [])
 
   // Fonction pour exclure l'element supprimé, inverse data flow avec promptCard
   const handleUpdate = (id) => {
@@ -88,8 +87,6 @@ function Profil() {
   const refresh = () => {
     setReRender(!reRender);
   }
-
-
 
   const listBibliotheque = myPrompts.map((data, i) => {
 

@@ -219,13 +219,20 @@ router.post('/removeGenre', async (req, res) => {
 
     // Récupération de tous les genres
     foundUser.genres = foundUser.genres.filter(e => e !== req.body.genre);
+    const foundProjects = await Project.find({ userId: foundUser._id, genre: req.body.genre })
+
+    // Retirer les Id des projets des prompts dans l'utilisateur 
+    for (let i = 0; i < foundProjects.length; i++) {
+        foundUser.prompts = foundUser.prompts.filter(e => String(foundProjects[i]._id) !== String(e))
+    }
+
     await foundUser.save();
 
     const foundKeywords = await Keyword.deleteMany({ genre: req.body.genre, userId: foundUser._id });
-    const foundProject = await Project.deleteMany({ genre: req.body.genre, userId: foundUser._id });
+    const foundProjectForDelete = await Project.deleteMany({ genre: req.body.genre, userId: foundUser._id });
 
-    if (foundProject) {
-        res.json({ result: true, message: 'Successfully deleted', genre: req.body.genre, projects: foundProject, keywords: foundKeywords })
+    if (foundProjectForDelete) {
+        res.json({ result: true, message: 'Successfully deleted', genre: req.body.genre, projects: foundProjectForDelete, keywords: foundKeywords })
     }
 
 

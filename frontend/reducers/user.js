@@ -24,14 +24,17 @@ export const userSlice = createSlice({
             state.value.email = null;
             state.value.picture = null
         },
-        addLike: (state, action) => {
+        // addLike: (state, action) => {
+        //     state.value.liked.push(action.payload);
+        // },
+        // removeLike: (state, action) => {
+        //     state.value.liked = state.value.liked.filter(like => like !== action.payload);
+        // },
+        setLikedList: (state, action) => {
             state.value.liked.push(action.payload);
-        },
-        removeLike: (state, action) => {
-            state.value.liked = state.value.liked.filter(like => like !== action.payload);
         },
     },
 });
 
-export const { login, logout, addLike, removeLike } = userSlice.actions;
+export const { login, logout, setLikedList } = userSlice.actions;
 export default userSlice.reducer;

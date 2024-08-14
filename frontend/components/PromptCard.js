@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { addLike, removeLike } from '../reducers/user';
+import { setLikedList } from '../reducers/user';
 import UserCard from './UserCard';
 import SignalementModal from './SignalementModal';
 
@@ -45,16 +45,12 @@ function PromptCard(props) {
     const like = async (props) => {
         let id = props.id
         const { email, token } = user;
-        await fetch("http://localhost:3000/users/like", {
+        const response = await fetch("http://localhost:3000/users/like", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, id, token })
         })
-        if (!user.liked.includes(props.id)) {
-            dispatch(addLike(props.id))
-        } else {
-            dispatch(removeLike(props.id))
-        }
+        dispatch(setLikedList(response.likedPrompts))
     }
     // Naviguer vers la page ProjectComments avec l'id du projet 
     const commentClick = () => {

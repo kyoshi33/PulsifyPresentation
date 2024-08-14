@@ -25,6 +25,27 @@ function Profil() {
     router.push({ pathname: '/' })
   }
 
+  const getAllLikedPosts = () => {
+    const { email, token } = user;
+    fetch('http://localhost:3000/users/likedPosts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, token })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data) {
+          Error('Erreur lors de la récupération des prompts');
+        } else {
+          dispatch(setLikedList(responseLiked.likedPrompts))
+        }
+      });
+  }
+
+  useEffect(() => {
+    getAllLikedPosts();
+  }, [selectedTab])
+
 
   // Fonction pour afficher ma bibliotheque
 

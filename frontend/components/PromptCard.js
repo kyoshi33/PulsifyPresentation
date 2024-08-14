@@ -24,6 +24,8 @@ function PromptCard(props) {
         setIsOpen(false);
     }
 
+
+
     const removePrompt = () => {
         const { email, token } = user;
         fetch('http://localhost:3000/projects/prompt', {

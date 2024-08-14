@@ -36,12 +36,23 @@
 }
 
 .faUser {
+  color: white;
   max-width: 60%;
   max-height: 60%;
   width: 70px;
   height: 70px;
   margin-left: 5%;
   margin-right: 3%;
+}
+
+.faUserProfil {
+  color: white;
+  max-width: 60%;
+  max-height: 60%;
+  width: 70px;
+  height: 70px;
+  margin-top: 1%;
+
 }
 
 .faUserCommunity {

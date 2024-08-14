@@ -134,13 +134,12 @@ function Profil() {
   return (
     <div className={styles.container}>
       <div className={styles.headerProfile}>
-        {user.picture ? <img src={user.picture} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} />}
+        {user.picture ? <img src={user.picture} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.faUserProfil} />}
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>
         <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.btnLogOut} onClick={() => handleLogout()} />
       </div>
-
 
       <div className={styles.selectModelContainer}>
         <div className={styles.tabBar}>
@@ -156,7 +155,7 @@ function Profil() {
         </div>
       </div>
       <div className={styles.footer}>
-        <div className={styles.btn} onClick={() => window.location.href = '/Accueil'}>
+        <div className={styles.btn} onClick={() => router.push('/Accueil')}>
           Retour
         </div>
       </div>

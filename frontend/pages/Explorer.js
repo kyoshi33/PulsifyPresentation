@@ -1,7 +1,7 @@
 import styles from "../styles/Explorer.module.css"
 import Header from "../components/Header";
 import PromptCard from '../components/PromptCard';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import { Popover } from 'react-tiny-popover'
@@ -24,8 +24,9 @@ function Explorer() {
     const [placeHolder, setPlaceHolder] = useState('Recherche par genre...');
     const [allGenres, setAllGenres] = useState([]);
     const [discover, setDiscover] = useState(false);
-    const router = useRouter()
 
+    const router = useRouter()
+    const scrollRef = useRef(null);
 
     // Si non connecté renvoi à la page de connexion/inscription
     !user.token && router.push({ pathname: '/' });
@@ -33,6 +34,7 @@ function Explorer() {
     useEffect(() => {
         search || foundAllGenres();
         search && fetchSearch();
+
     }, [search])
 
     // Récupération de toutes les genres 
@@ -268,7 +270,7 @@ function Explorer() {
                             onClickOutside={() => setIsPopoverOpen(false)}
                             content={
                                 <div className={styles.popoverContainer}>
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Autor')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedAutor}
@@ -278,7 +280,7 @@ function Explorer() {
                                         Auteur
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Keyword')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedKeyword}
@@ -288,7 +290,7 @@ function Explorer() {
                                         Mots clés
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Project')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedProject}
@@ -298,7 +300,7 @@ function Explorer() {
                                         Nom du projet
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Genre')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedGenre}
@@ -322,6 +324,7 @@ function Explorer() {
                     {error}
                     {discoverGenres}
                     {discover || listProjectSearch}
+                    <p ref={scrollRef} />
                 </div>
                 <button className={styles.btnRetour} onClick={() => window.location.href = '/Accueil'}>Retour</button>
             </div>

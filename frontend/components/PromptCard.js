@@ -99,7 +99,7 @@ function PromptCard(props) {
 
     return (
         <div className={styles.promptContainer}>
-            <div className={styles.itemContainer}  >
+            <div className={styles.itemContainer}>
                 {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     <div className={styles.titleBackground}>
@@ -111,7 +111,7 @@ function PromptCard(props) {
                         {props.genre}
                     </div>
 
-                    <div className={styles.score}>
+                    <div className={styles.score} >
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 1 ? styles.star : styles.starGrey} />
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 2 ? styles.star : styles.starGrey} />
                         <FontAwesomeIcon icon={faStar} className={props.stars >= 3 ? styles.star : styles.starGrey} />
@@ -119,7 +119,7 @@ function PromptCard(props) {
                         <FontAwesomeIcon icon={faStar} className={props.stars === 5 ? styles.star : styles.starGrey} />
                     </div>
                 </div>
-                <div className={styles.itemPrompt}>
+                <div className={styles.itemPrompt} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     {props.prompt}
                 </div>
                 <div className={styles.iconsBoxAndAudio} >

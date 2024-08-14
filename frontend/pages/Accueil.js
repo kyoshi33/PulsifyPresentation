@@ -177,7 +177,6 @@ function Accueil() {
                 mappedProjects = myProjects.map((project, i) => {
 
                     let { genre, userId, titles } = project;
-                    console.log(userId)
                     return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
                             firstname={userId.firstname}

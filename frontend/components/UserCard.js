@@ -15,7 +15,6 @@ function UserCard(props) {
     userIcon = <FontAwesomeIcon icon={faUser} className={styles.faUser} />
   }
 
-  console.log("props", props.isOnMyProjects)
 
   const picture = props.picture === null ? userIcon : <img className={styles.profilesPic} src={props.picture} alt='photo de profil' />
 

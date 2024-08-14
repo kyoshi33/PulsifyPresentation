@@ -1,12 +1,25 @@
 import Welcome from '../components/Welcome';
 import { useSelector } from 'react-redux';
-function Index() {
-  const user = useSelector((state) => state.user.value);
+import { useRouter } from 'next/router';
 
-  if (user.token) {
-    window.location.href = '/Accueil'
+
+
+function Index() {
+
+  const user = useSelector((state) => state.user.value);
+  const router = useRouter()
+
+  if (!user.token) {
+    return <Welcome />;
+
+  } else {
+    router.push({
+      pathname: '/Accueil',
+
+    });
   }
-  return <Welcome />;
+
+
 }
 
 export default Index;

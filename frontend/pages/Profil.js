@@ -6,18 +6,20 @@ import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
 import { useRouter } from 'next/router';
+import { setLikedList } from '../reducers/user';
 
 function Profil() {
 
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value)
   const [selectedTab, setSelectedTab] = useState(1);
   const [maBibliotheque, setMaBibliotheque] = useState(true);
   const [community, setCommunaute] = useState(false);
   const [myPrompts, setMyPrompts] = useState([]);
   const [communityList, setCommunityList] = useState([]);
 
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value)
   const router = useRouter()
+
   !user.token && router.push({ pathname: '/' });
 
   const handleLogout = () => {
@@ -25,9 +27,9 @@ function Profil() {
     router.push({ pathname: '/' })
   }
 
-  const getAllLikedPosts = () => {
+  const getAllLikedPosts = async () => {
     const { email, token } = user;
-    fetch('http://localhost:3000/users/likedPosts', {
+    await fetch('http://localhost:3000/users/likedPosts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, token })
@@ -37,14 +39,16 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          dispatch(setLikedList(responseLiked.likedPrompts))
+          dispatch(setLikedList(data.likedPrompts))
         }
       });
   }
 
   useEffect(() => {
     getAllLikedPosts();
-  }, [selectedTab])
+    clickBibliotheque();
+
+  }, [])
 
 
   // Fonction pour afficher ma bibliotheque
@@ -72,9 +76,7 @@ function Profil() {
       router.push({ pathname: '/' })
     }
   }
-  useEffect(() => {
-    clickBibliotheque();
-  }, []);
+
 
 
   // Fonction pour exclure l'element supprimé, inverse data flow avec promptCard

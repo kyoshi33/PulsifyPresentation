@@ -53,8 +53,7 @@ function PromptCard(props) {
             body: JSON.stringify({ email, id, token })
         })
         const responseLiked = await response.json()
-        console.log(responseLiked)
-        //    for(const like of response.likedPrompts)
+
         dispatch(setLikedList(responseLiked.likedPrompts))
     }
 

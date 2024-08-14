@@ -27,13 +27,8 @@ function Explorer() {
     const router = useRouter()
 
 
-    !user.token && router.push({ pathname: '/' });
-
-    // enelevé résultat recherche et error 
     //if no connect go welcome
-    if (!user.isLogged) {
-        window.location.href = '/';
-    }
+    !user.token && router.push({ pathname: '/' });
 
     useEffect(() => {
         search || foundAllGenres();

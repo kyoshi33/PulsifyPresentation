@@ -365,7 +365,6 @@ router.post('/signalementComment', async (req, res) => {
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
     const { userId, comment, idProject, text } = req.body;
-    console.log(idProject)
     try {
         // trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(

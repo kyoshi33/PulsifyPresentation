@@ -5,8 +5,6 @@ import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
-import SignalementModal from './SignalementModal';
-import UserCard from './UserCard';
 
 
 

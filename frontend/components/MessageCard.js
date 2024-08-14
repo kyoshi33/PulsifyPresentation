@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import styles from '../styles/MessageCard.module.css';
 import SignalementModal from './SignalementModal';
 import UserCard from './UserCard'
 
@@ -11,18 +13,18 @@ function MessageCard(props) {
     const user = useSelector((state) => state.user.value)
     const [modalIsOpen, setIsOpen] = useState(false);
 
+    //Ouvre et ferme la modale de signalement
     const openSignalementModal = () => {
         setIsOpen(true)
     }
-
     const closeSignalementModal = () => {
         setIsOpen(false)
     }
 
+    //vérifie que l'utilisateur connecté est l'auteur du commentaire ou non
     const isCommentPoster = user.email === props.userId.email;
-    console.log('user :', user)
-    console.log('props.user :', props.userId)
 
+    //Fonction qui permet d'effacer un commentaire de la base de donnée
     const removeComment = async () => {
         const response = await fetch('http://localhost:3000/projects/comment', {
             method: 'DELETE',
@@ -37,7 +39,6 @@ function MessageCard(props) {
         });
         const result = await response.json()
         if (result.result) {
-            console.log('Comment deleted:', result.message);
             props.refresh();
         } else {
             console.error('Failed to delete comment:', result.message);

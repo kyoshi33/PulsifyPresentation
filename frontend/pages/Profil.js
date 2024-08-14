@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
+import { setLikedList } from '../reducers/user';
 import { useRouter } from 'next/router';
 
 function Profil() {
@@ -16,6 +17,7 @@ function Profil() {
   const [community, setCommunaute] = useState(false);
   const [myPrompts, setMyPrompts] = useState([]);
   const [communityList, setCommunityList] = useState([]);
+  const [reRender, setReRender] = useState(false);
 
   const router = useRouter()
   !user.token && router.push({ pathname: '/' });
@@ -25,7 +27,7 @@ function Profil() {
     router.push({ pathname: '/' })
   }
 
-  const getAllLikedPosts = () => {
+  const getAllLikedPosts = async () => {
     const { email, token } = user;
     fetch('http://localhost:3000/users/likedPosts', {
       method: 'POST',
@@ -37,14 +39,14 @@ function Profil() {
         if (!data) {
           Error('Erreur lors de la récupération des prompts');
         } else {
-          dispatch(setLikedList(responseLiked.likedPrompts))
+          dispatch(setLikedList(data.likedPrompts))
         }
       });
   }
 
   useEffect(() => {
     getAllLikedPosts();
-  }, [selectedTab])
+  }, [selectedTab, reRender])
 
 
   // Fonction pour afficher ma bibliotheque
@@ -83,6 +85,10 @@ function Profil() {
     setMyPrompts(newModeles);
   };
 
+  const refresh = () => {
+    setReRender(!reRender);
+  }
+
 
 
   const listBibliotheque = myPrompts.map((data, i) => {
@@ -100,7 +106,8 @@ function Profil() {
           prompt={data.prompt}
           id={data._id}
           genre={data.genre}
-          onRemove={() => handleUpdate(data._id)} />
+          onRemove={() => handleUpdate(data._id)}
+          reRender={refresh} />
       </div>)
   })
 
@@ -122,7 +129,8 @@ function Profil() {
           prompt={data.prompt}
           id={data._id}
           genre={data.genre}
-          onRemove={() => handleUpdate(data._id)} />
+          onRemove={() => handleUpdate(data._id)}
+          reRender={refresh} />
       </div>)
   })
 

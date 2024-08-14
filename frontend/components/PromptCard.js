@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { setLikedList } from '../reducers/user';
 import UserCard from './UserCard';
+import { setLikedList } from '../reducers/user';
 import SignalementModal from './SignalementModal';
 
 
@@ -53,9 +53,8 @@ function PromptCard(props) {
             body: JSON.stringify({ email, id, token })
         })
         const responseLiked = await response.json()
-        console.log(responseLiked)
-        //    for(const like of response.likedPrompts)
         dispatch(setLikedList(responseLiked.likedPrompts))
+        props.reRender();
     }
 
     // Naviguer vers la page ProjectComments avec l'id du projet 

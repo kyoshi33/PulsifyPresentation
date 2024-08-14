@@ -5,8 +5,9 @@ import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import { Popover } from 'react-tiny-popover'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from "next/router";
+import { setLikedList } from "../reducers/user";
 
 function Explorer() {
     const user = useSelector((state) => state.user.value)
@@ -24,7 +25,9 @@ function Explorer() {
     const [placeHolder, setPlaceHolder] = useState('Recherche par genre...');
     const [allGenres, setAllGenres] = useState([]);
     const [discover, setDiscover] = useState(false);
+    const [reRender, setReRender] = useState(false);
 
+    const dispatch = useDispatch();
     const router = useRouter()
 
 
@@ -52,6 +55,23 @@ function Explorer() {
         } else {
             setDiscover(false);
         }
+    }
+
+    const getAllLikedPosts = async () => {
+        const { email, token } = user;
+        fetch('http://localhost:3000/users/likedPosts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, token })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                    Error('Erreur lors de la récupération des prompts');
+                } else {
+                    dispatch(setLikedList(data.likedPrompts))
+                }
+            });
     }
 
     let discoverGenres;
@@ -237,14 +257,22 @@ function Explorer() {
         }
     }
 
+    useEffect(() => {
+        getAllLikedPosts();
+    }, [search, reRender])
+
+    const refresh = () => {
+        setReRender(!reRender);
+    }
+
     // Map pour afficher le résultat de la recherche et faire un tri de la note
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} audio={data.audio} isOnExplore={true} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} audio={data.audio} isOnExplore={true} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //classé par - liké first
     }
 
     // Affichage du message d'erreur en fonction de la recherche, s'adapte à ce qui est retourné par la route

@@ -2,7 +2,6 @@ import styles from "../styles/Accueil.module.css"
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/router";
-
 import Header from "../components/Header";
 import ModelCard from "../components/ModelCard";
 import { useSelector } from "react-redux";
@@ -124,6 +123,7 @@ function Accueil() {
                             picture={userId.picture}
                             projects={titles}
                             isOwnGenre={true}
+                            isOnCommunityGenre={false}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
                             isCommunity={false}
@@ -142,6 +142,7 @@ function Accueil() {
                                 picture={userId.picture}
                                 projects={titles}
                                 isOwnGenre={true}
+                                isOnCommunityGenre={false}
                                 handleRemoveGenre={handleRemoveGenre}
                                 handleClick={handleClick}
                                 isCommunity={false}
@@ -154,6 +155,7 @@ function Accueil() {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {
                 mappedProjects = listCommunityProject.map((project, i) => {
+
                     let { genre, userId, titles } = project;
                     return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
@@ -161,6 +163,7 @@ function Accueil() {
                             username={userId.username}
                             picture={userId.picture}
                             projects={titles}
+                            isOnCommunityGenre={true}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
                             isCommunity={true}
@@ -169,13 +172,16 @@ function Accueil() {
                 });
             } else {
                 mappedProjects = myProjects.map((project, i) => {
+
                     let { genre, userId, titles } = project;
+                    console.log(userId)
                     return <div className={styles.modelCard} key={i}>
                         <ModelCard genre={genre}
                             firstname={userId.firstname}
                             username={userId.username}
                             picture={userId.picture}
                             projects={titles}
+                            isOnCommunityGenre={true}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
                             isCommunity={true}

@@ -106,7 +106,7 @@ router.post("/searchLikedGenres", async (req, res) => {
                 { title: { $regex: new RegExp(formattedSearch, 'i') } }
             ]
         })
-    }).populate('userId', 'firstname picture');
+    }).populate('userId', 'firstname picture username');
 
     // Regroupement des projets par genre et récupération des titres des projets
     let genreMap = {};

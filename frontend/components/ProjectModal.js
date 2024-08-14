@@ -16,7 +16,7 @@ function ProjectModal(props) {
     const user = useSelector((state) => state.user.value);
     const router = useRouter()
 
-    // Upload prompt + audio si l'audio est présent
+    // Sauvegarder en base de données prompt + audio si l'audio est présent
     const uploadPrompt = async () => {
         if (user.token) {
             const dataForPrompt = {

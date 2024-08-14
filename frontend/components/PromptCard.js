@@ -5,6 +5,8 @@ import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
+import UserCard from './UserCard';
+import SignalementModal from './SignalementModal';
 
 
 function PromptCard(props) {
@@ -14,7 +16,7 @@ function PromptCard(props) {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user.value)
 
-    // Open project modal on click on "Enregistrer"
+    // Ouvrir la modal Project au click sur "Enregistrer" 
     const openSignalementModal = () => {
         setIsOpen(true)
     }
@@ -54,9 +56,9 @@ function PromptCard(props) {
             dispatch(removeLike(props.id))
         }
     }
-
+    // Naviguer vers la page ProjectComments avec l'id du projet 
     const commentClick = () => {
-        router.push(`/ProjectComments?id=${props.id}`); // Naviguer vers la page ProjectComments avec l'id du projet 
+        router.push(`/ProjectComments?id=${props.id}`);
     }
 
 

@@ -26,7 +26,7 @@ function Explorer() {
     const [discover, setDiscover] = useState(false);
 
     const router = useRouter()
-    const scrollRef = useRef(null);
+
 
     // Si non connecté renvoi à la page de connexion/inscription
     !user.token && router.push({ pathname: '/' });
@@ -36,6 +36,7 @@ function Explorer() {
         search && fetchSearch();
 
     }, [search])
+
 
     // Récupération de toutes les genres 
     const foundAllGenres = async () => {
@@ -320,11 +321,10 @@ function Explorer() {
                     </div>
                 </div>
                 {discoverMessage}
-                <div className={styles.scrollWindow}>
+                <div className={styles.scrollWindow} >
                     {error}
                     {discoverGenres}
                     {discover || listProjectSearch}
-                    <p ref={scrollRef} />
                 </div>
                 <button className={styles.btnRetour} onClick={() => window.location.href = '/Accueil'}>Retour</button>
             </div>

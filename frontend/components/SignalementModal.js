@@ -1,7 +1,7 @@
 import styles from '../styles/Signalement.module.css';
 import React from "react";
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+
 import { useState } from 'react';
 import { useSelector } from 'react-redux'
 
@@ -12,7 +12,6 @@ function SignalementModal(props) {
   const user = useSelector((state) => state.user.value)
 
   const handleValidation = async () => {
-
     if (props.id) {
       try {
         const signalement = await fetch(`http://localhost:3000/projects/signalementProject`, {

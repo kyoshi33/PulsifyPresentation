@@ -4,20 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import user, { login } from '../reducers/user';
+import { login } from '../reducers/user';
+import { useRouter } from 'next/router';
 
 function Login() {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorLogin, setErrorLogin] = useState(false);
+
   const dispatch = useDispatch();
+  const router = useRouter()
 
   const user = useSelector((state) => state.user.value);
 
-  if (user.token) {
-    window.location.href = '/Accueil'
-  }
+  user.token && router.push({ pathname: '/Accueil' });
 
   let error
   if (errorLogin) { error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic' }}>Champs manquants ou invalides</h4> }

@@ -19,10 +19,11 @@ function Accueil() {
     const [listProjects, setListProject] = useState([]);
     const [listCommunityProject, setListCommunityProject] = useState([]);
 
-
     const router = useRouter();
     const user = useSelector((state => state.user.value));
 
+
+    !user.token && router.push({ pathname: '/' });
 
     const handleClick = (genre) => {
         router.push({

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation, faTrash } from '@fortawesome/free-solid-svg-icons';
-import styles from '../styles/MessageCard.module.css';
 import SignalementModal from './SignalementModal';
 import UserCard from './UserCard'
 

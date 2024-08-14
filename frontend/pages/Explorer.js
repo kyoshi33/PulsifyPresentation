@@ -37,7 +37,8 @@ function Explorer() {
     useEffect(() => {
         search || foundAllGenres();
         search && fetchSearch();
-    }, [search, checkedAutor, checkedGenre, checkedKeyword, checkedProject])
+
+    }, [search])
 
 
     // Récupération de toutes les genres 
@@ -104,7 +105,7 @@ function Explorer() {
             setCheckedProject(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            // setSearch('')
+            setSearch('')
             setPlaceHolder('Recherche par auteur...')
         }
         if (props === 'Keyword') {
@@ -113,7 +114,7 @@ function Explorer() {
             setCheckedProject(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            // setSearch('')
+            setSearch('')
             setPlaceHolder('Recherche par mots clés...')
         }
         if (props === 'Project') {
@@ -122,7 +123,7 @@ function Explorer() {
             setCheckedKeyword(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            //  setSearch('')
+            setSearch('')
             setPlaceHolder('Recherche par nom de projet...')
         }
         if (props === 'Genre') {
@@ -131,16 +132,16 @@ function Explorer() {
             setCheckedKeyword(false)
             setErrorSearch(false)
             setCheckedProject(false)
-            // setSearch('')
+            setSearch('')
             setPlaceHolder('Recherche par genre...')
         }
 
     }
 
     // Application d'une couleur aux icônes si elles sont séléctionné 
-    let colorFilter = isPopoverOpen && '#504E6B'
-    let colorUp = sortUp && '#504E6B'
-    let colorDown = sortDown && '#504E6B'
+    let colorFilter = isPopoverOpen ? '#504E6B' : undefined
+    let colorUp = sortUp ? '#504E6B' : undefined
+    let colorDown = sortDown ? '#504E6B' : undefined
 
     // Fonction qui permet d'appeler les fonctions de Fetch en fonction du filtre sur la page 
     const fetchSearch = () => {

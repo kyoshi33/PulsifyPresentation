@@ -34,8 +34,7 @@ function Explorer() {
     useEffect(() => {
         search || foundAllGenres();
         search && fetchSearch();
-
-    }, [search])
+    }, [search, checkedAutor, checkedGenre, checkedKeyword, checkedProject])
 
 
     // Récupération de toutes les genres 
@@ -85,7 +84,7 @@ function Explorer() {
             setCheckedProject(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            setSearch('')
+            // setSearch('')
             setPlaceHolder('Recherche par auteur...')
         }
         if (props === 'Keyword') {
@@ -94,7 +93,7 @@ function Explorer() {
             setCheckedProject(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            setSearch('')
+            // setSearch('')
             setPlaceHolder('Recherche par mots clés...')
         }
         if (props === 'Project') {
@@ -103,7 +102,7 @@ function Explorer() {
             setCheckedKeyword(false)
             setErrorSearch(false)
             setCheckedGenre(false)
-            setSearch('')
+            //  setSearch('')
             setPlaceHolder('Recherche par nom de projet...')
         }
         if (props === 'Genre') {
@@ -112,7 +111,7 @@ function Explorer() {
             setCheckedKeyword(false)
             setErrorSearch(false)
             setCheckedProject(false)
-            setSearch('')
+            // setSearch('')
             setPlaceHolder('Recherche par genre...')
         }
 

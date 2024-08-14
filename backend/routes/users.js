@@ -211,7 +211,7 @@ router.post('/genres', async (req, res) => {
 router.post("/like", async (req, res) => {
 
   // Vérifier que les champs sont tous fournis
-  if (!checkBody(req.body, ['token', 'email'])) {
+  if (!checkBody(req.body, ['token', 'email', 'id'])) {
     res.json({ result: false, error: 'Access denied.' });
     return;
   }
@@ -224,12 +224,12 @@ router.post("/like", async (req, res) => {
     await User.updateOne({ email: req.body.email },
       { $push: { likedprompts: req.body.id } }
     )
-    res.json({ result: true })
+    res.json({ result: true, likedPrompts: foundUser.likedprompts })
   } else {
     await User.updateOne({ email: req.body.email },
       { $pull: { likedprompts: req.body.id } }
     )
-    res.json({ result: true })
+    res.json({ result: true, likedPrompts: foundUser.likedprompts })
   }
 })
 

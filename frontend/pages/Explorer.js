@@ -268,7 +268,7 @@ function Explorer() {
                             onClickOutside={() => setIsPopoverOpen(false)}
                             content={
                                 <div className={styles.popoverContainer}>
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Autor')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedAutor}
@@ -278,7 +278,7 @@ function Explorer() {
                                         Auteur
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Keyword')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedKeyword}
@@ -288,7 +288,7 @@ function Explorer() {
                                         Mots clés
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Project')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedProject}
@@ -298,7 +298,7 @@ function Explorer() {
                                         Nom du projet
                                     </div>
 
-                                    <div className={styles.checkboxContainer}>
+                                    <div className={styles.checkboxContainer} onClick={() => handleChange('Genre')}>
                                         <input
                                             type="checkbox"
                                             checked={checkedGenre}

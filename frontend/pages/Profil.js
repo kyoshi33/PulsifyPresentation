@@ -26,7 +26,7 @@ function Profil() {
   }
 
 
-  //fonction card ma bibliotheque
+  // Fonction card ma bibliotheque
 
   const clickBibliotheque = () => {
     if (user.token) {
@@ -56,7 +56,7 @@ function Profil() {
   }, []);
 
 
-  //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
+  // Fonction pour exclure l'element supprimé// inverse data flow avec promptCard
   const handleUpdate = (id) => {
     const newModeles = myPrompts.filter(model => model._id !== id);
     setMyPrompts(newModeles);

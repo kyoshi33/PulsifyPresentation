@@ -214,3 +214,15 @@
   color: #646baa;
   margin-bottom: 5px;
 }
+
+.columnAuthor {
+  margin-left: -1%;
+}
+
+.columnGenre {
+  /* margin-left: -1%; */
+}
+
+.columnProject {
+  margin-left: -7%;
+}

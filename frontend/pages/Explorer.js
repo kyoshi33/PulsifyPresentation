@@ -32,6 +32,7 @@ function Explorer() {
 
     useEffect(() => {
         search || foundAllGenres();
+        search && fetchSearch();
     }, [search])
 
     const foundAllGenres = async () => {
@@ -248,7 +249,7 @@ function Explorer() {
 
 
                 <div className={styles.containerSearch}>
-                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); fetchSearch(search) }} value={search} className={styles.inputSearch} />
+                    <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); }} value={search} className={styles.inputSearch} />
                     <div className={styles.containerIcon}>
                         <Popover
                             isOpen={isPopoverOpen}

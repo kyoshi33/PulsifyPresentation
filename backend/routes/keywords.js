@@ -57,12 +57,12 @@ router.post("/suggestions", async (req, res) => {
     // Afficher des suggestions de départ si le champ prompt n'est pas rempli
     if (req.body.partialPrompt === '') {
         if (!req.body.includeLikedPrompts) {
-            const allKeywords = await Keyword.find({ userId: foundUser._id, genre: req.body.genre })
-            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords })
+            const allKeywords = await Keyword.find({ userId: foundUser._id, genre: req.body.genre });
+            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords });
             return;
         } else {
-            const allKeywords = await Keyword.find({ genre: req.body.genre })
-            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords.sort((a, b) => { a.frequency - b.frequency }) })
+            const allKeywords = await Keyword.find({ genre: req.body.genre });
+            res.json({ result: true, totalScore: 0, suggestionsList: allKeywords.sort((a, b) => { a.frequency - b.frequency }) });
             return;
         }
     }
@@ -95,7 +95,6 @@ router.post("/suggestions", async (req, res) => {
                 // Match pour garder les keywords qui correspondent à tous le prompts likés, au genre et à ce qui est tapé dans le prompt
                 {
                     $match: {
-                        // _id: { $in: foundUser.likedprompts },
                         genre: req.body.genre,
                         keyword: { $in: regexKeywords }
                     }

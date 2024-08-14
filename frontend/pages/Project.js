@@ -1,6 +1,6 @@
 import styles from '../styles/Project.module.css'
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCopy, faCheckCircle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
@@ -36,14 +36,12 @@ function Project() {
     useEffect(() => {
         if (router.query.genre && !router.query.title && !router.query.prompt) {
             setProjectGenre(router.query.genre)
-
         }
         if (router.query.genre && router.query.title && router.query.prompt) {
             setProjectGenre(router.query.genre)
             setProjectTitle(router.query.title)
             setProjectPrompt(router.query.prompt)
         }
-
     }, [])
 
 

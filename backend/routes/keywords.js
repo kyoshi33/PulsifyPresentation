@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 require('../models/connection');
+
 const Keyword = require('../models/keywords');
 const User = require('../models/users');
-const Project = require('../models/projects');
 const { checkBody } = require('../modules/tools')
 
 router.post('/search', async (req, res) => {

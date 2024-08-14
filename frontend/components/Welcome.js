@@ -4,7 +4,7 @@ import Header from './Header';
 import ArrowDiagram from './ArrowDiagram';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link'
+
 
 function Welcome() {
   const [tutoPage, setTutoPage] = useState(0)

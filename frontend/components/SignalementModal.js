@@ -1,6 +1,5 @@
 import styles from '../styles/Signalement.module.css';
 import React from "react";
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import { useState } from 'react';
 import { useSelector } from 'react-redux'

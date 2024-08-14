@@ -1,8 +1,6 @@
 import styles from '../styles/ModelCard.module.css';
-import { useState } from 'react'
-import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faHeart, faCircleExclamation, faStar, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import UserCard from './UserCard';
 

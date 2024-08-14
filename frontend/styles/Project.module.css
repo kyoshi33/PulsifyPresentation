@@ -52,44 +52,37 @@
     justify-content: flex-start;
     color: white;
     overflow-y: auto;
-    /* Enable vertical scrolling */
     overflow-x: hidden;
-    /* Hide horizontal overflow */
     padding-right: 10px;
-    /* Add padding to the right for the scrollbar */
 }
 
-/* Webkit Browsers (Chrome, Safari, Edge) */
+
 .suggestionList::-webkit-scrollbar {
     width: 8px;
-    /* Width of the scrollbar */
 }
 
 .suggestionList::-webkit-scrollbar-track {
     background: #272541;
-    /* Track color */
     border-radius: 10px;
 }
 
 .suggestionList::-webkit-scrollbar-thumb {
     background: #B300F2;
-    /* Thumb color */
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
 
 .suggestionList::-webkit-scrollbar-thumb:hover {
     background: #8C00B8;
-    /* Darker shade on hover */
 }
 
-/* Firefox */
+
 .suggestionList {
     scrollbar-width: thin;
     scrollbar-color: #B300F2 #272541;
 }
 
-/* Internet Explorer and Legacy Edge */
+
 .suggestionList {
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
@@ -112,7 +105,6 @@
 
 .suggestionItem:hover {
     background-color: #B300F2;
-    /* Hover effect */
 }
 
 .suggestionItemLeft {
@@ -149,7 +141,6 @@
     vertical-align: middle;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     margin-right: 10px;
-    /* Space between checkbox and label text */
 }
 
 .customCheckbox::after {
@@ -171,14 +162,12 @@
     border-color: #fff;
 }
 
-/* Display the tick when checked */
 .checkBoxSuggestion:checked+.customCheckbox::after {
     display: block;
     transform: rotate(45deg) scale(1);
     opacity: 1;
 }
 
-/* Hover effect */
 .checkboxLabel:hover .customCheckbox {
     background-color: #676587;
     border-color: #fff;
@@ -215,9 +204,7 @@
     height: 90%;
     display: flex;
     flex-direction: column;
-    /* Stack items vertically */
     align-items: flex-end;
-    /* Align content to the right */
 }
 
 .textHeader {
@@ -270,12 +257,10 @@
     transition: color 0.3s ease;
     margin-right: 1%;
     font-size: 20px;
-    /* Smooth color transition */
 }
 
 .searchGenreBtn:hover {
     color: #B300F2;
-    /* Change color on hover */
 }
 
 .inputPromptContainer {
@@ -318,7 +303,6 @@
 
 .btn:hover {
     background-color: #B300F2;
-    /* Hover effect */
 }
 
 .promptBottom {
@@ -337,9 +321,7 @@
 
 .totalCharacters {
     font-family: Arial, Helvetica, sans-serif;
-    /* Adjusted font size */
     align-self: flex-end;
-    /* Align to the right */
     margin: 2%;
     padding-right: 5%;
 }
@@ -352,7 +334,6 @@
 
 .copyPasteIcon:hover {
     color: #B300F2;
-    /* Change color on hover */
 }
 
 
@@ -402,26 +383,20 @@
     cursor: pointer;
     transition: color 0.3s ease;
     margin-left: -3.5vw;
-    /* Smooth color transition */
 }
 
 .searchBtn:hover {
     color: #B300F2;
-    /* Change color on hover */
 }
 
 .genresList {
     margin: 2%;
     display: flex;
     flex-direction: row;
-    /* Display genres in a row */
     flex-wrap: wrap;
-    /* Allow wrapping to next line */
     justify-content: center;
-    /* Center align items horizontally */
     align-items: flex-start;
     width: 100%;
-    /* Ensure full width for wrapping */
     height: 100%;
 }
 
@@ -440,11 +415,8 @@
     border-radius: 10px;
     transition: background-color 0.3s ease;
     box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
-    /* Allow flexible width */
     max-width: calc(50% - 20px);
-    /* Maximum width for each item (with margin) */
     text-align: center;
-    /* Center text inside genre item */
 
 }
 
@@ -452,5 +424,4 @@
 
 .genreItem:hover {
     background-color: #B300F2;
-    /* Hover effect */
 }

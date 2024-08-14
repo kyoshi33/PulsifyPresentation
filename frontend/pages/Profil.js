@@ -7,7 +7,7 @@ import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
 import Image from 'next/image';
-
+import { useRouter } from 'next/router';
 
 function Profil(props) {
 
@@ -19,43 +19,39 @@ function Profil(props) {
   const [myPrompts, setMyPrompts] = useState([]);
   const [communityList, setCommunityList] = useState([]);
 
+  const router = useRouter()
+  !user.token && router.push({ pathname: '/' });
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = '/';
+    router.push({ pathname: '/' })
   }
-  //fonction supprime un prompt
-  // const removePrompt = () => {
-  //   (prompts, id) => {
-  //     return ''.filter(prompts => prompts.id !== id);
-  //   };
-  // }
 
-  // //fonction lancer un prompt
-  // const playPrompt = () => {
-  //   (cards, id) => {
-  //   };
-  // }
 
   //fonction card ma bibliotheque
 
   const clickBibliotheque = () => {
-    fetch('http://localhost:3000/users/projets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email, token: user.token })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data) {
-          Error('Erreur lors de la récupération des prompts');
-        } else {
-          setMyPrompts(data.myPrompts.prompts)
-          setCommunityList(data.likedprompts)
+    if (user.token) {
+      fetch('http://localhost:3000/users/projets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email, token: user.token })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (!data) {
+            Error('Erreur lors de la récupération des prompts');
+          } else {
 
-        }
+            setMyPrompts(data.myPrompts.prompts)
+            setCommunityList(data.likedprompts)
 
-      });
+          }
+
+        });
+    } else {
+      router.push({ pathname: '/' })
+    }
   }
   useEffect(() => {
     clickBibliotheque();

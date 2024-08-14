@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
 
 
     let token = await getToken();
-    console.log('token :', token)
+
     const response = await fetch(`https://api.spotify.com/v1/search?q=${req.body.search}&type=artist&limite=1`, {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -47,7 +47,6 @@ router.post('/', async (req, res) => {
         },
     });
     const data = await response.json()
-    console.log('data :', data)
 
     data.artists ? res.json(data.artists.items[0].genres) : res.json({ error: "Merci de spécifier une recherche" })
 })

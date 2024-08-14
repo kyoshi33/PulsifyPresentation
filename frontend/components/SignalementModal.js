@@ -31,8 +31,6 @@ function SignalementModal(props) {
         props.onRequestClose()
         if (!response.result) {
           Error('Erreur lors de la validation du signalement');
-        } else {
-          console.log('Signalement mis à jour');
         }
       } catch (error) {
         console.error('Erreur:', error);
@@ -59,8 +57,6 @@ function SignalementModal(props) {
         props.onRequestClose()
         if (!response.result) {
           Error('Erreur lors de la validation du signalement');
-        } else {
-          console.log('Signalement mis à jour');
         }
       } catch (error) {
         console.error('Erreur:', error);

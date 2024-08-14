@@ -5,6 +5,8 @@ import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
+import UserCard from './UserCard';
+import SignalementModal from './SignalementModal';
 
 
 function PromptCard(props) {

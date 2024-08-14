@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import { Popover } from 'react-tiny-popover'
 import { useSelector } from 'react-redux';
+import { useRouter } from "next/router";
 
 function Explorer() {
     const user = useSelector((state) => state.user.value)
@@ -23,11 +24,11 @@ function Explorer() {
     const [placeHolder, setPlaceHolder] = useState('Recherche par genre...');
     const [allGenres, setAllGenres] = useState([]);
     const [discover, setDiscover] = useState(false);
+    const router = useRouter()
 
-    //if no connect go welcome
-    if (!user.isLogged) {
-        window.location.href = '/';
-    }
+
+    !user.token && router.push({ pathname: '/' });
+
     // enelevé résultat recherche et error 
 
     useEffect(() => {

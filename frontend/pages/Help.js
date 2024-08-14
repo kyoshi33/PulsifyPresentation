@@ -1,9 +1,12 @@
 import styles from "../styles/Help.module.css"
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 function Help() {
     const router = useRouter();
+    const user = useSelector((state => state.user.value));
 
+    !user.token && router.push({ pathname: '/' });
     const handleBack = () => {
         router.back();
     };

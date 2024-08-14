@@ -20,6 +20,8 @@ function ProjectComments() {
     const router = useRouter();
     const { id } = router.query; // Retrieve the project ID from the query parameters
     const [reload, setReload] = useState(false)
+
+    !user.token && router.push({ pathname: '/' });
     // console.log('id :', id)
 
     const handleBack = () => {

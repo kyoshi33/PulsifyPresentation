@@ -31,7 +31,7 @@ function Profil() {
 
   const getAllLikedPosts = () => {
     const { email, token } = user;
-    await fetch('http://localhost:3000/users/likedPosts', {
+    fetch('http://localhost:3000/users/likedPosts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, token })

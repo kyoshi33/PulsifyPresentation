@@ -12,6 +12,7 @@ function ProjectModal(props) {
     const [score, setScore] = useState(0);
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     const user = useSelector((state) => state.user.value);
     const router = useRouter()
@@ -65,6 +66,7 @@ function ProjectModal(props) {
                 setMessage('Echec de la sauvegarde');
             }
         }
+        setErrorMessage("")
         router.push('/Profil')
     };
 
@@ -100,6 +102,7 @@ function ProjectModal(props) {
                     />
                     {message && <p>{message}</p>}
                 </div>
+                <p className={styles.errorMessage}>{errorMessage}</p>
                 <div className={styles.voteContainer}>
                     <p className={styles.voteTxt}>Votre note :</p>
                     <div className={styles.voteStars}>
@@ -136,8 +139,10 @@ function ProjectModal(props) {
                         <span className={styles.text}>Public</span>
                     </div>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
-                    <button className={styles.btn} onClick={uploadPrompt}>Valider</button>
+                    <button className={styles.btn} onClick={() => { score !== 0 ? uploadPrompt() : setErrorMessage("Merci de renseigner une note") }}>Valider</button>
+
                 </div>
+
             </div>
         </Modal>
     );

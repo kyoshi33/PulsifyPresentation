@@ -193,3 +193,7 @@
     margin: 5%;
     color: white
 }
+
+.errorMessage {
+    color: red
+}

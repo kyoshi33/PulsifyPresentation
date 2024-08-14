@@ -68,7 +68,7 @@ function PromptCard(props) {
 
     const displayUser =
         <div className={styles.author}>
-            <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} />
+            {!props.isOnMyProjects ? <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} /> : <UserCard isOnExplore={props.isOnExplore} isOnMyProjects={props.isOnMyProjects} firstname={props.firstname} username={props.username} picture={props.picture} />}
         </div>;
     const displayicons =
         <>
@@ -81,6 +81,15 @@ function PromptCard(props) {
             />
         </>
 
+    let itemPrompt;
+
+    if (props.isOnMyProjects) {
+        itemPrompt = styles.itemPromptOnProfile
+    } else if (props.isOnFavoritesProjects) {
+        itemPrompt = styles.itemPromptFavorites
+    } else {
+        itemPrompt = styles.itemPrompt
+    }
 
     const handleClick = (genre, title, prompt) => {
 
@@ -119,7 +128,7 @@ function PromptCard(props) {
                         <FontAwesomeIcon icon={faStar} className={props.stars === 5 ? styles.star : styles.starGrey} />
                     </div>
                 </div>
-                <div className={styles.itemPrompt} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
+                <div className={itemPrompt} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     {props.prompt}
                 </div>
                 <div className={styles.iconsBoxAndAudio} >

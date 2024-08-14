@@ -89,13 +89,36 @@
   flex-shrink: 0;
   padding-left: 13%;
   font-size: 1vmax;
-  width: 30%;
+  width: 35%;
   margin-top: 5%;
   margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
   cursor: pointer;
 
+}
+
+.itemPromptOnProfile {
+  flex-shrink: 0;
+  padding-left: 13%;
+  font-size: 1vmax;
+  width: 40%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.itemPromptFavorites {
+  flex-shrink: 0;
+  padding-left: 10%;
+  font-size: 80%;
+  max-width: 60%;
+  width: 35%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .iconsBox {
@@ -165,7 +188,7 @@
 }
 
 .audioInput {
-  width: 250px;
+  width: 180px;
   height: 30px;
   margin: 2%;
 }

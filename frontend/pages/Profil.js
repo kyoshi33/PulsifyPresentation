@@ -72,6 +72,7 @@ function Profil() {
           key={i}
           isOnProfile={true}
           isOnMyProjects={true}
+          isOnFavoritesProjects={false}
           stars={data.rating}
           audio={data.audio}
           projectName={data.title}
@@ -92,6 +93,8 @@ function Profil() {
           username={data.userId.username}
           picture={data.userId.picture}
           isOnProfile={false}
+          isOnFavoritesProjects={true}
+          isOnMyProjects={false}
           stars={data.rating}
           audio={data.audio}
           projectName={data.title}

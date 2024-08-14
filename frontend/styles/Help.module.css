@@ -42,7 +42,6 @@
 
 .btn:hover {
     background-color: #B300F2;
-    /* Hover effect */
 }
 
 .text {
@@ -77,6 +76,5 @@
 
 
 .link:hover {
-    /* color: #00c2f2 !important; */
     background-color: #00c2f2;
 }

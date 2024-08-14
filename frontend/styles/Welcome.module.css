@@ -30,7 +30,6 @@
 }
 
 .tutoTitleText2 {
-  /* margin-top: 8%; */
   font-family: Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -53,7 +52,6 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 170%;
   max-width: 80%;
-  /* line-height: 1.5; */
   background: linear-gradient(90deg, #FFFFFF 0%, #999999 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -97,7 +95,6 @@
 
 .btn:hover {
   background-color: #B300F2;
-  /* Hover effect */
 }
 
 .tutoCarousel {

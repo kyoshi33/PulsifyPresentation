@@ -29,9 +29,8 @@ function SignUp() {
 
     const user = useSelector((state) => state.user.value);
 
-    if (user.token) {
-        window.location.href = '/Accueil'
-    }
+    user.token && router.push({ pathname: '/Accueil' });
+
 
     let passwordEye;
     let rePasswordEye

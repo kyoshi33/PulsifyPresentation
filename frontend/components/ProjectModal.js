@@ -20,7 +20,6 @@ function ProjectModal(props) {
     //upload prompt + audio si l'audio est présent
     const uploadPrompt = async () => {
         if (user.token) {
-
             const dataForPrompt = {
                 genre: props.projectGenre,
                 prompt: props.prompt,

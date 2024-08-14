@@ -5,10 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-function Profil(props) {
+function Profil() {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value)

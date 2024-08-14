@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { addLike, removeLike } from '../reducers/user';
 
 
-
 function PromptCard(props) {
     const router = useRouter()
     const [modalIsOpen, setIsOpen] = useState(false);

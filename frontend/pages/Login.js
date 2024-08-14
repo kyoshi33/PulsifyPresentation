@@ -29,10 +29,10 @@ function Login() {
     text='continue_with'
     onSuccess={(credentialResponse) => {
       const email = jwtDecode(credentialResponse.credential).email
-      const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name // prénom
-      const usernameGoogle = jwtDecode(credentialResponse.credential).name // username
-      const pictureGoogle = jwtDecode(credentialResponse.credential).picture // photo de profil
-      const googleID = jwtDecode(credentialResponse.credential).sub // google ID
+      const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name
+      const usernameGoogle = jwtDecode(credentialResponse.credential).name
+      const pictureGoogle = jwtDecode(credentialResponse.credential).picture
+      const googleID = jwtDecode(credentialResponse.credential).sub
       connexionGoogle(email, firstnameGoogle, usernameGoogle, pictureGoogle, googleID)
     }}
     onError={() => {

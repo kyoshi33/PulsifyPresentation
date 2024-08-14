@@ -1,11 +1,11 @@
 import styles from '../styles/ProjectComments.module.css'
+import Header from '../components/Header';
+import PromptCard from '../components/PromptCard';
+import MessageCard from '../components/MessageCard';
+
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from "next/router";
-
-import Header from '../components/Header';
-import PromptCard from '../components/PromptCard';
-import MessageCard from '../components/MessageCard'
 
 function ProjectComments() {
     const user = useSelector((state) => state.user.value)
@@ -13,18 +13,18 @@ function ProjectComments() {
     const [comment, setComment] = useState("")
     const [projectInfo, setProjectInfo] = useState({})
     const router = useRouter();
-    const { id } = router.query; // Retrieve the project ID from the query parameters
-    const [reload, setReload] = useState(false)
+    const { id } = router.query;
+
 
     !user.token && router.push({ pathname: '/' });
-    // console.log('id :', id)
 
-    //retour sur la page précédente lors de l'appui sur "Retour"
+
+    // Retour sur la page précédente lors de l'appui sur "Retour"
     const handleBack = () => {
         router.back();
     };
 
-    //renvoie sur la page projet avec le modèle sélectionner
+    // Renvoie sur la page projet avec le modèle sélectionner
     const handleUse = () => {
         const { title, genre, prompt } = projectInfo;
         router.push({
@@ -33,7 +33,7 @@ function ProjectComments() {
         });
     };
 
-    //Appel la route qui enregistre le commentaire en sous document dans le projet
+    // Appel la route qui enregistre le commentaire en sous document dans le projet
     const postComment = async () => {
         const { email, token } = user;
         const postCommentInBD = await fetch('http://localhost:3000/projects/comment', {
@@ -53,7 +53,7 @@ function ProjectComments() {
         }
     }
 
-    //fetch tout les commentaires du projet en fonction de son Id
+    // Fetch tout les commentaires du projet en fonction de son Id
     useEffect(() => {
         if (id) {
             fetchProjectData(id)
@@ -62,7 +62,7 @@ function ProjectComments() {
     }, [id]);
 
 
-    //fonction qui appelle la route qui récupère les commentaires du projet
+    // Fonction qui appelle la route qui récupère les commentaires du projet
     const fetchProjectData = async (id) => {
         const { email, token } = user;
         const fetchData = await fetch(`http://localhost:3000/projects/ProjectById`, {
@@ -76,18 +76,18 @@ function ProjectComments() {
         setCommentsList(res.info.messages)
     }
 
-    //props qui permet de rafraichir la page lors de la suppression d'un commentaire dans le composant "MessageCArd"
+    // Props qui permet de rafraichir la page lors de la suppression d'un commentaire dans le composant "MessageCArd"
     const refresh = () => {
         fetchProjectData(id)
     }
 
-    //display le nom de l'utilisateur au click sur sa photo dans l'input des commentaires
+    // Display le nom de l'utilisateur au click sur sa photo dans l'input des commentaires
     const answerHandler = (username) => {
         setComment('@' + username + ' ' + comment)
     }
 
 
-    //Display la "PromptCard" du projet en haut de la page 
+    // Display la "PromptCard" du projet en haut de la page 
     let projet
     let comments
     if (projectInfo._id) {
@@ -102,7 +102,7 @@ function ProjectComments() {
             prompt={projectInfo.prompt}
         />
 
-        //display l'intégralité des commentaires qui lui sont attribué en sous doc
+        // Display l'intégralité des commentaires qui lui sont attribué en sous doc
         comments = commentsList.map((data, i) => {
             return (
                 < MessageCard key={i} comment={data.comment} userId={data.userId} idProject={id}

@@ -261,7 +261,8 @@ router.post('/signalementProject', async (req, res) => {
             );
             if (!project) {
                 return res.json({ result: false, error: 'Pas trouvé projet à update' });
-            }// Enregistrer le nouveau signalement 
+            }
+            // Enregistrer le nouveau signalement 
             const newSignalement = new Signalement({
                 userId: foundProject.userId,
                 text: req.body.text,
@@ -281,13 +282,12 @@ router.post('/signalementProject', async (req, res) => {
 router.post("/projectById", async (req, res) => {
     const projectId = req.body.id;
     const project = await Project.findById({ _id: projectId }).populate('userId').populate('keywords').populate({
-        path: 'messages.userId', // Populate userId within each message
+        path: 'messages.userId',
     });
 
     if (!project) {
         return res.json({ result: false, message: "project not found" });
     } else {
-        // console.log('project :', project)
         return res.json({ result: true, info: project })
     }
 });
@@ -342,7 +342,6 @@ router.delete('/comment', async (req, res) => {
             "message.comment.comment": comment,
             "message.comment.userId": userId
         })
-        console.log('del', del)
         res.json({ result: true, message: 'Comment successfully deleted', project });
     } else {
         res.json({ result: false, message: 'Project not found' });
@@ -369,8 +368,9 @@ router.post('/signalementComment', async (req, res) => {
         // trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(
             { _id: idProject, "messages.comment": comment },
+            // Incrémentation de nbSignalements de 1 dans tableau messages
             {
-                $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
+                $inc: { "messages.$.nbSignalements": 1 }
             },
         );
         // Enregistrer le nouveau signalement 

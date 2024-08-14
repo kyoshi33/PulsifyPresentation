@@ -1,12 +1,11 @@
 import styles from '../styles/ModelCard.module.css';
-import UserCard from './UserCard';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import UserCard from './UserCard';
+
 
 function ModelCard(props) {
-    const user = useSelector((state) => state.user.value)
+
 
     let removeButton = <></>
     props.isOwnGenre && (removeButton =

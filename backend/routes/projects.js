@@ -8,12 +8,14 @@ const Keyword = require("../models/keywords")
 const Signalement = require("../models/signalements")
 const cloudinary = require('../cloudinary');
 
+// Middelware pour télécharger les données de l'audio
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post("/add", async (req, res) => {
 
+    // Vérification des éléments requis pour la route
     if (!checkBody(req.body, ['genre', 'prompt', 'email', "username", "rating", "title"])) {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
@@ -22,7 +24,7 @@ router.post("/add", async (req, res) => {
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
-    //Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin, et sans l'audio, même s'il y en a un
+    // Enregistrer en base de donnée le Prompt, sans les espaces à la fin et au début, et sans la virgule à la fin, et sans l'audio, même s'il y en a un
     const promptToSplit = req.body.prompt.trim();
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit;
 
@@ -149,7 +151,7 @@ router.post("/add", async (req, res) => {
     res.json({ result: true, prompt: savedProject });
 })
 
-// Route pour upload l'audio
+// Route pour télécharger l'audio sur Cloudinary et récupérer le lien
 router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res) => {
 
     const projectId = req.params.projectId;
@@ -166,7 +168,7 @@ router.post("/:projectId/upload-audio", upload.single('audio'), async (req, res)
                 return res.status(500).json({ message: 'Upload failed', error });
             }
 
-            // Update du projet pour ajouter l'audio
+            // Mise à jour du projet pour ajouter l'audio
             project.audio = result.secure_url;
             await project.save();
 
@@ -260,7 +262,7 @@ router.post('/signalementProject', async (req, res) => {
                 { $inc: { nbSignalements: 1 } },
             );
             if (!project) {
-                return res.json({ result: false, error: 'Pas trouvé projet à update' });
+                return res.json({ result: false, error: 'Aucun projet correspondant à mettre à jour' });
             }
             // Enregistrer le nouveau signalement 
             const newSignalement = new Signalement({
@@ -286,9 +288,9 @@ router.post("/projectById", async (req, res) => {
     });
 
     if (!project) {
-        return res.json({ result: false, message: "project not found" });
+        return res.json({ result: false, message: "project non trouvé" });
     } else {
-        // console.log('project :', project)
+
         return res.json({ result: true, info: project })
     }
 });
@@ -306,7 +308,7 @@ router.post('/comment', async (req, res) => {
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token });
     !foundUser && res.json({ result: false, error: 'Access denied' });
 
-    // Ajout d'un commentaire
+    // Ajout d'un commentaire au projet existant
     const newComment = { comment: req.body.comment, userId: foundUser._id, createdAt: new Date(), nbSignalements: 0 };
     const projectToComment = await Project.findByIdAndUpdate(
         req.body.id,
@@ -367,7 +369,7 @@ router.post('/signalementComment', async (req, res) => {
 
     const { userId, comment, idProject, text } = req.body;
     try {
-        // trouve le projet par ID et par cible le commentaire
+        // Trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(
             { _id: idProject, "messages.comment": comment },
             // Incrémentation de nbSignalements de 1 dans tableau messages

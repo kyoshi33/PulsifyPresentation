@@ -68,7 +68,7 @@ function PromptCard(props) {
 
     const displayUser =
         <div className={styles.author}>
-            <UserCard firstname={props.firstname} username={props.username} picture={props.picture} />
+            <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} />
         </div>;
     const displayicons =
         <>

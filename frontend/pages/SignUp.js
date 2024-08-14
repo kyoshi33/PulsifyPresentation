@@ -7,6 +7,7 @@ import { login } from "../reducers/user";
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { useRouter } from "next/router";
 
 
 function SignUp() {
@@ -26,7 +27,7 @@ function SignUp() {
     const dispatch = useDispatch();
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
-
+    const router = useRouter()
     const user = useSelector((state) => state.user.value);
 
     user.token && router.push({ pathname: '/Accueil' });

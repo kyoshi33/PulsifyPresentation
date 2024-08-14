@@ -31,9 +31,35 @@
   display: flex;
   max-width: 60%;
   max-height: 60%;
-  cursor: pointer;
   margin: 2%;
   border-radius: 50%;
+}
+
+.faUser {
+  max-width: 60%;
+  max-height: 60%;
+  width: 70px;
+  height: 70px;
+  margin-left: 5%;
+  margin-right: 3%;
+}
+
+.faUserCommunity {
+  height: 50px;
+  width: 50px;
+  max-width: 60%;
+  max-height: 60%;
+  margin-right: -1%;
+
+}
+
+.faUserExplore {
+  margin-left: 8%;
+  margin-right: 9%;
+  max-width: 60%;
+  max-height: 60%;
+  width: 70px;
+  height: 70px;
 }
 
 .namediv {
@@ -243,6 +269,8 @@
   margin-bottom: 6.5%;
   margin-top: 6.5%;
 }
+
+
 
 .profilPicture {
   border-radius: 50%;

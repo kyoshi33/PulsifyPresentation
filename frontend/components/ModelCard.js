@@ -1,6 +1,8 @@
 import styles from '../styles/ModelCard.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import UserCard from './UserCard';
+
 
 function ModelCard(props) {
 

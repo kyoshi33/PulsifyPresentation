@@ -55,13 +55,13 @@ function SignUp() {
         const res = await fetchSignin.json()
         if (res.result) {
             dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email }));
-            window.location.href = '/Accueil'
+            router.push({ pathname: '/Accueil' });
         } else {
             setErrorLogin(true)
         }
     }
 
-
+    // Messages d'erreur si les champs ne sont pas bien remplis
     const passwordMessage = <span className={styles.messages}>Les deux mots de passe ne sont pas identifiques</span>
     const mailMessage = <span className={styles.messages}>Mail invalide</span>
     const usernameMessage = <span className={styles.messages}>Nom d'utilisateur invalide</span>
@@ -87,17 +87,19 @@ function SignUp() {
 
     }
 
+    // Bouton créer un compte/ connexion avec Google
     let googleBtn = <GoogleLogin
         shape='pill'
         theme='filled_blue'
         text='continue_with'
         onSuccess={async (credentialResponse) => {
 
+            // Récupération des infos présentes sur le compte Google 
             const emailGoogle = jwtDecode(credentialResponse.credential).email
-            const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name // prénom
-            const usernameGoogle = jwtDecode(credentialResponse.credential).name // username
-            const pictureGoogle = jwtDecode(credentialResponse.credential).picture // photo de profil
-            const googleID = jwtDecode(credentialResponse.credential).sub // google ID
+            const firstnameGoogle = jwtDecode(credentialResponse.credential).given_name
+            const usernameGoogle = jwtDecode(credentialResponse.credential).name
+            const pictureGoogle = jwtDecode(credentialResponse.credential).picture
+            const googleID = jwtDecode(credentialResponse.credential).sub
 
 
             const fetchSignin = await fetch('http://localhost:3000/users/signup/google', {
@@ -109,7 +111,7 @@ function SignUp() {
             if (res.result) {
                 console.log(res.picture)
                 dispatch(login({ token: res.token, username: res.username, firstname: res.firstname, email: res.email, picture: res.picture }));
-                window.location.href = '/Accueil'
+                router.push({ pathname: '/Accueil' });
             } else {
                 setErrorLogin(true)
             }
@@ -123,14 +125,12 @@ function SignUp() {
 
     return (
         <GoogleOAuthProvider clientId={clientId}>
-
             <div className={styles.mainContainer}>
                 <h1 className={styles.h1}>Créer un compte</h1>
                 <h2 className={styles.h2}>Créer un compte pour visualier, gérer et partager vos projets</h2>
                 <div className={styles.inputContainer}>
                     {googleBtn}
                     ou ...
-
                     <input className={styles.input} type="email"
                         title="Email invalide" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
                     {!isValidEmail && mailMessage}
@@ -155,12 +155,11 @@ function SignUp() {
                     <button className={styles.createBtn} onClick={() => checkForm()}>Créer un compte</button>
                     {!errorLogin && errorMessage}
                     <div className={styles.returnBtn}>
-                        <button className={styles.createBtn} onClick={() => window.location.href = "/"}>Retour</button>
+                        <button className={styles.createBtn} onClick={() => router.push({ pathname: '/' })}>Retour</button>
                     </div>
                 </div >
             </div >
-
-        </GoogleOAuthProvider>
+        </GoogleOAuthProvider >
     )
 }
 

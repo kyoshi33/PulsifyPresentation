@@ -24,14 +24,8 @@ export const userSlice = createSlice({
             state.value.email = null;
             state.value.picture = null
         },
-        // addLike: (state, action) => {
-        //     state.value.liked.push(action.payload);
-        // },
-        // removeLike: (state, action) => {
-        //     state.value.liked = state.value.liked.filter(like => like !== action.payload);
-        // },
         setLikedList: (state, action) => {
-            state.value.liked.push(action.payload);
+            state.value.liked = action.payload;
         },
     },
 });

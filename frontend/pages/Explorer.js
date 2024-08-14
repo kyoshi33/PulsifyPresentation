@@ -30,6 +30,10 @@ function Explorer() {
     !user.token && router.push({ pathname: '/' });
 
     // enelevé résultat recherche et error 
+    //if no connect go welcome
+    if (!user.isLogged) {
+        window.location.href = '/';
+    }
 
     useEffect(() => {
         search || foundAllGenres();

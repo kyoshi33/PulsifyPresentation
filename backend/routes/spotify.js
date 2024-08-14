@@ -4,7 +4,7 @@ var router = express.Router();
 const { checkBody } = require('../modules/tools')
 const User = require('../models/users')
 
-//This function generate a token from front request
+// Generation d'un token spotify
 async function getToken() {
     const URL = 'https://accounts.spotify.com/api/token';
     const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -24,7 +24,7 @@ async function getToken() {
         .then(data => data.access_token);
 }
 
-// route get music genres from artist name
+// recherche de l'artiste
 router.post('/', async (req, res) => {
 
     // Vérification des éléments requis pour la route

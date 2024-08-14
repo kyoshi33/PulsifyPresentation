@@ -98,10 +98,15 @@
   height: 30%;
   border: 1px solid #EE00F2;
   box-shadow: inset 0px -4px 32px -4px rgba(12, 12, 13, 0.1);
-  background: #272541;
+  padding: 1%;
+  /* background: #272541; */
   border-radius: 8px;
   cursor: pointer;
   align-items: center;
+}
+
+.btnLogOut:hover {
+  background: #272541;
 }
 
 
@@ -226,7 +231,6 @@
 
 .listItemContainer:hover {
   background-color: #B300F2;
-  /* Hover effect */
 }
 
 

@@ -67,7 +67,7 @@ function PromptCard(props) {
 
 
     const displayUser =
-        <div className={styles.author}>
+        <div className={styles.author} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
             {!props.isOnMyProjects ? <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} /> : <UserCard isOnExplore={props.isOnExplore} isOnMyProjects={props.isOnMyProjects} firstname={props.firstname} username={props.username} picture={props.picture} />}
         </div>;
     const displayicons =
@@ -108,7 +108,7 @@ function PromptCard(props) {
 
     return (
         <div className={styles.promptContainer}>
-            <div className={styles.itemContainer} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
+            <div className={styles.itemContainer}>
                 {!props.isOnProfile && displayUser}
                 <div className={styles.titleBox} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
                     <div className={styles.titleBackground}>

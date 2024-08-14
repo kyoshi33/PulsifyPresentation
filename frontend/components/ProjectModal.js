@@ -91,7 +91,7 @@ function ProjectModal(props) {
                 <div className={styles.modalTitleContent}>
                     <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
                 </div>
-                <div className={styles.voteTxt}>genre du projet : {props.projectGenre}</div>
+                <div className={styles.voteTxt}>Genre du projet : {props.projectGenre}</div>
                 <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
                     <input
@@ -104,40 +104,41 @@ function ProjectModal(props) {
                 </div>
                 <p className={styles.errorMessage}>{errorMessage}</p>
                 <div className={styles.voteContainer}>
-                    <p className={styles.voteTxt}>Votre note :</p>
-                    <div className={styles.voteStars}>
-                        {[1, 2, 3, 4, 5].map((star) => {
-                            const isStarSelected = score >= star;
-                            const isStarHovered = hoveredStars >= star;
+                    <div className={styles.voteContainerLeft}>
+                        <p className={styles.voteTxt}>Ecoutez sur Suno, puis donnez votre note :</p>
+                        <div className={styles.voteStars}>
+                            {[1, 2, 3, 4, 5].map((star) => {
+                                const isStarSelected = score >= star;
+                                const isStarHovered = hoveredStars >= star;
 
-                            let color = "gray";
-                            if (isStarHovered && !isStarSelected) {
-                                color = "white";
-                            } else if (isStarSelected) {
-                                color = "#B300F2";
-                            }
+                                let color = "gray";
+                                if (isStarHovered && !isStarSelected) {
+                                    color = "white";
+                                } else if (isStarSelected) {
+                                    color = "#B300F2";
+                                }
 
-                            return (
-                                <FontAwesomeIcon
-                                    key={star}
-                                    icon={faStar}
-                                    style={{ color }}
-                                    onMouseEnter={() => mouseOver(star)}
-                                    onMouseLeave={mouseLeave}
-                                    onClick={() => clickToRate(star)}
-                                />
-                            );
-                        })}
+                                return (
+                                    <FontAwesomeIcon
+                                        key={star}
+                                        icon={faStar}
+                                        style={{ color }}
+                                        onMouseEnter={() => mouseOver(star)}
+                                        onMouseLeave={mouseLeave}
+                                        onClick={() => clickToRate(star)}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-                <div className={styles.modalBtnContainer}>
-                    <div className={styles.public}>
+                    <div className={styles.public} onClick={() => setIsPublic(!isPublic)}>
                         <div
                             className={isPublic ? styles.isPublic : styles.isNotPublic}
-                            onClick={() => setIsPublic(!isPublic)}
                         />
                         <span className={styles.text}>Public</span>
                     </div>
+                </div>
+                <div className={styles.modalBtnContainer}>
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={() => { score !== 0 ? uploadPrompt() : setErrorMessage("Merci de renseigner une note") }}>Valider</button>
 

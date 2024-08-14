@@ -9,7 +9,6 @@
   box-sizing: border-box;
   padding: 0 20px;
   background-color: #0B0A1A;
-  /* Add padding if needed for spacing */
 }
 
 .title1 {
@@ -42,7 +41,6 @@
 
 .btn:hover {
   background-color: #B300F2;
-  /* Hover effect */
 }
 
 .btnSignup {
@@ -60,7 +58,6 @@
 
 .btnSignup:hover {
   background-color: #B300F2;
-  /* Hover effect */
 }
 
 .icon {
@@ -91,7 +88,6 @@
 
 .roundBtn:hover {
   background-color: #B300F2;
-  /* Hover effect */
 }
 
 .profilPicture {

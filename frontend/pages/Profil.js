@@ -1,15 +1,13 @@
 import styles from '../styles/Profil.module.css';
-import User, { login } from '../reducers/user';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../reducers/user';
 import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import PromptCard from '../components/PromptCard'
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-function Profil(props) {
+function Profil() {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value)
@@ -28,7 +26,7 @@ function Profil(props) {
   }
 
 
-  //fonction card ma bibliotheque
+  // Fonction pour afficher ma bibliotheque
 
   const clickBibliotheque = () => {
     if (user.token) {
@@ -58,7 +56,7 @@ function Profil(props) {
   }, []);
 
 
-  //fonction pour exclure l'element supprimé// inverse data flow avec promptCard
+  // Fonction pour exclure l'element supprimé, inverse data flow avec promptCard
   const handleUpdate = (id) => {
     const newModeles = myPrompts.filter(model => model._id !== id);
     setMyPrompts(newModeles);
@@ -133,7 +131,7 @@ function Profil(props) {
   return (
     <div className={styles.container}>
       <div className={styles.headerProfile}>
-        {user.picture ? <Image src={user.picture} width={120} height={120} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
+        {user.picture ? <img src={user.picture} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>

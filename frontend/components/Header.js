@@ -1,16 +1,14 @@
 import styles from '../styles/Header.module.css';
-import { useState } from 'react'
-import Link from 'next/link'
+import Link from 'next/link';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-import Image from 'next/image'
 
 
-
-
+//Composant header présent dans plusieurs des pages du site
 function Header() {
-    const user = useSelector((state) => state.user.value)
+    const user = useSelector((state) => state.user.value);
 
     let topMenu =
         <div className={styles.btnContainer}>

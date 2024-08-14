@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 
 function ProjectModal(props) {
     const [isPublic, setIsPublic] = useState(false);
-    const [displayMessage, setDisplayMessage] = useState('');
     const [hoveredStars, setHoveredStars] = useState(0);
     const [score, setScore] = useState(0);
     const [file, setFile] = useState(null);
@@ -17,7 +16,7 @@ function ProjectModal(props) {
     const user = useSelector((state) => state.user.value);
     const router = useRouter()
 
-    //upload prompt + audio si l'audio est présent
+    // Upload prompt + audio si l'audio est présent
     const uploadPrompt = async () => {
         if (user.token) {
             const dataForPrompt = {
@@ -108,11 +107,11 @@ function ProjectModal(props) {
                             const isStarSelected = score >= star;
                             const isStarHovered = hoveredStars >= star;
 
-                            let color = "gray"; // Couleur par défaut
+                            let color = "gray";
                             if (isStarHovered && !isStarSelected) {
-                                color = "white"; // Couleur lors du survol
+                                color = "white";
                             } else if (isStarSelected) {
-                                color = "#B300F2"; // Couleur lorsqu'une étoile est cliquée
+                                color = "#B300F2";
                             }
 
                             return (
@@ -139,7 +138,6 @@ function ProjectModal(props) {
                     <button className={styles.btn} onClick={props.onRequestClose}>Retour</button>
                     <button className={styles.btn} onClick={uploadPrompt}>Valider</button>
                 </div>
-                <span className={styles.errorMessage}>{displayMessage}</span>
             </div>
         </Modal>
     );

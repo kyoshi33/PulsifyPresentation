@@ -190,7 +190,7 @@
 .audioInput {
   width: 180px;
   height: 30px;
-  margin: 2%;
+  margin: -2%;
 }
 
 .audioInput::-webkit-media-controls-current-time-display,

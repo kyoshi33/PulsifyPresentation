@@ -261,7 +261,8 @@ router.post('/signalementProject', async (req, res) => {
             );
             if (!project) {
                 return res.json({ result: false, error: 'Pas trouvé projet à update' });
-            }// Enregistrer le nouveau signalement 
+            }
+            // Enregistrer le nouveau signalement 
             const newSignalement = new Signalement({
                 userId: foundProject.userId,
                 text: req.body.text,
@@ -369,8 +370,9 @@ router.post('/signalementComment', async (req, res) => {
         // trouve le projet par ID et par cible le commentaire
         const project = await Project.findOneAndUpdate(
             { _id: idProject, "messages.comment": comment },
+            // Incrémentation de nbSignalements de 1 dans tableau messages
             {
-                $inc: { "messages.$.nbSignalements": 1 } // Incrémentation de nbSignalements de 1 dans tableau messages
+                $inc: { "messages.$.nbSignalements": 1 }
             },
         );
         // Enregistrer le nouveau signalement 

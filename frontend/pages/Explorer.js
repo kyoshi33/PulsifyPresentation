@@ -27,7 +27,7 @@ function Explorer() {
     const router = useRouter()
 
 
-    //if no connect go welcome
+    // Si non connecté renvoi à la page de connexion/inscription
     !user.token && router.push({ pathname: '/' });
 
     useEffect(() => {
@@ -139,7 +139,7 @@ function Explorer() {
     }
 
     const fetchAutor = async () => {
-        // fetch des auteurs 
+        // Récupération des auteurs 
         const { email, token } = user;
         const fetchAutor = await fetch('http://localhost:3000/users/search', {
             method: 'POST',
@@ -157,7 +157,7 @@ function Explorer() {
     }
 
     const fetchKeyword = async () => {
-        // fetch des mots clés
+        // Récupération des mots clés
         const { email, token } = user;
         const fetchKeyWord = await fetch('http://localhost:3000/keywords/search', {
             method: 'POST',
@@ -174,7 +174,7 @@ function Explorer() {
         }
     }
     const fetchProject = async () => {
-        // fetch des projets 
+        // Récupération des projets 
         const { email, token } = user;
         const fetchProject = await fetch('http://localhost:3000/projects/searchTitle', {
             method: 'POST',
@@ -196,7 +196,7 @@ function Explorer() {
         const { email, token } = user;
         if (genre) {
             setSearch(genre)
-            // fetch des projets depuis discover
+            // Récupération des projets pour la suggestion de recherche à l'arriver sur la page explorer
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -211,7 +211,7 @@ function Explorer() {
                 setErrorMessage(res.error)
             }
         } else {
-            // fetch des projets 
+            // Récupération des projets 
             const fetchProject = await fetch('http://localhost:3000/genres/searchGenre', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -228,7 +228,7 @@ function Explorer() {
         }
     }
 
-    // Map
+    // Map pour afficher le résultat de la recherche et faire un tri de la note
     let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} audio={data.audio} isOnExplore={true} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {

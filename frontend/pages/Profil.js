@@ -137,7 +137,7 @@ function Profil(props) {
   return (
     <div className={styles.container}>
       <div className={styles.headerProfile}>
-        {user.picture ? <Image src={user.picture} width={120} height={120} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
+        {user.picture ? <img src={user.picture} className={styles.profilPicture} /> : <FontAwesomeIcon icon={faUser} className={styles.icon} width={150} height={150} />}
         <div className={styles.usernameAndName}> {user.firstname}
           <span className={styles.username}>@{user.username}</span>
         </div>

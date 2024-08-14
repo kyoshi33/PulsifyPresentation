@@ -25,10 +25,10 @@ function Accueil() {
 
     !user.token && router.push({ pathname: '/' });
 
-    const handleClick = (genre) => {
+    const handleClick = (genre, isCommunity) => {
         router.push({
             pathname: '/Project',
-            query: { genre },
+            query: { genre, isCommunity },
         });
     };
 
@@ -126,6 +126,7 @@ function Accueil() {
                             isOwnGenre={true}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={false}
                         />
                     </div>
                 });
@@ -143,6 +144,7 @@ function Accueil() {
                                 isOwnGenre={true}
                                 handleRemoveGenre={handleRemoveGenre}
                                 handleClick={handleClick}
+                                isCommunity={false}
                             />
                         </div>
                     );
@@ -161,6 +163,7 @@ function Accueil() {
                             projects={titles}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={true}
                         />
                     </div>
                 });
@@ -175,6 +178,7 @@ function Accueil() {
                             projects={titles}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
+                            isCommunity={true}
                         />
                     </div>
                 });
@@ -201,7 +205,13 @@ function Accueil() {
 
                         <input type='string' placeholder='Recherche...' value={selectedTab === 1 ? search : searchCommunity} onChange={(e) => { selectedTab === 1 ? setSearch(e.target.value) : setSearchCommunity(e.target.value) }
                         } className={styles.inputSearch} />
-
+                        <div className={styles.modelCard}>
+                            <div className={styles.listItemContainer}>
+                                <div className={styles.author}>Auteur</div>
+                                <div className={styles.genre}>Genre</div>
+                                <div className={styles.listItemPrompt}>Projets</div>
+                            </div>
+                        </div>
                         <div className={styles.scrollWindow}>
                             {mappedProjects}
                         </div>

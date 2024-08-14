@@ -92,6 +92,7 @@ function Profil() {
           username={data.userId.username}
           picture={data.userId.picture}
           isOnProfile={false}
+          isOnMyProjects={false}
           stars={data.rating}
           audio={data.audio}
           projectName={data.title}

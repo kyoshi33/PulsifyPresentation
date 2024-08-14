@@ -68,7 +68,7 @@ function PromptCard(props) {
 
     const displayUser =
         <div className={styles.author}>
-            <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} />
+            {!props.isOnMyProjects ? <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} /> : <UserCard isOnExplore={props.isOnExplore} isOnMyProjects={props.isOnMyProjects} firstname={props.firstname} username={props.username} picture={props.picture} />}
         </div>;
     const displayicons =
         <>
@@ -81,7 +81,13 @@ function PromptCard(props) {
             />
         </>
 
+    let itemPrompt;
 
+    if (props.isOnMyProjects) {
+        itemPrompt = styles.itemPromptOnProfile
+    } else {
+        itemPrompt = styles.itemPrompt
+    }
     const handleClick = (genre, title, prompt) => {
 
         if (!props.isOnExplore) {
@@ -119,7 +125,7 @@ function PromptCard(props) {
                         <FontAwesomeIcon icon={faStar} className={props.stars === 5 ? styles.star : styles.starGrey} />
                     </div>
                 </div>
-                <div className={styles.itemPrompt}>
+                <div className={itemPrompt}>
                     {props.prompt}
                 </div>
                 <div className={styles.iconsBoxAndAudio} >

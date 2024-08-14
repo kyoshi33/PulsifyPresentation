@@ -122,7 +122,9 @@ function Accueil() {
                             username={userId.username}
                             picture={userId.picture}
                             projects={titles}
+                            isOnMyProfil={true}
                             isOwnGenre={true}
+
                             isOnCommunityGenre={false}
                             handleRemoveGenre={handleRemoveGenre}
                             handleClick={handleClick}
@@ -142,6 +144,7 @@ function Accueil() {
                                 picture={userId.picture}
                                 projects={titles}
                                 isOwnGenre={true}
+
                                 isOnCommunityGenre={false}
                                 handleRemoveGenre={handleRemoveGenre}
                                 handleClick={handleClick}

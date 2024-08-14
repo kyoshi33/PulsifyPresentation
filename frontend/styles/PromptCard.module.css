@@ -87,12 +87,23 @@
   flex-shrink: 0;
   padding-left: 13%;
   font-size: 1vmax;
-  width: 30%;
+  width: 35%;
   margin-top: 5%;
   margin-bottom: 5%;
   display: flex;
   flex-wrap: wrap;
 
+}
+
+.itemPromptOnProfile {
+  flex-shrink: 0;
+  padding-left: 13%;
+  font-size: 1vmax;
+  width: 40%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .iconsBox {

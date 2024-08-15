@@ -15,7 +15,7 @@ function Help() {
         <body className={styles.main}>
             <div className={styles.container}>
                 <h1 className={styles.title}>Aide</h1>
-                <div>[Video]</div>
+                <video className={styles.video} controls src="https://res.cloudinary.com/duiieokac/video/upload/v1723733550/aouccn1xvoz79jdhaiov.mp4"></video>
                 <div>
                     <p className={styles.text}>1. Ouvrez Suno AI: <a href={'https://suno.com/'} style={{ textDecoration: 'none' }} target='_blank' rel="noopener noreferrer"><span className={styles.link} >Cliquez ici</span></a></p>
                     <p className={styles.text}>2. Cliquez sur "Create"</p>

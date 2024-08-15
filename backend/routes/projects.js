@@ -230,6 +230,7 @@ router.delete("/prompt", async (req, res) => {
         .then(async deletedDoc => {
             if (deletedDoc.deletedCount > 0) {
                 await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } });
+                await Keyword.updateMany({ userId: foundUser._id }, { $pull: { prompts: req.body.id } });
                 await Signalement.deleteMany({ prompt: req.body.id });
                 res.json({ result: true });
             } else {

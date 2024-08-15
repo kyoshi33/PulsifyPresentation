@@ -226,7 +226,7 @@ router.delete("/prompt", async (req, res) => {
 
     // Suppression du prompt
     const { id } = req.body;
-    Project.deleteOne({ _id: id })
+    await Project.deleteOne({ _id: id })
         .then(async deletedDoc => {
             if (deletedDoc.deletedCount > 0) {
                 await User.updateOne({ email: req.body.email }, { $pull: { prompts: req.body.id } });
@@ -234,10 +234,21 @@ router.delete("/prompt", async (req, res) => {
                 await Signalement.deleteMany({ prompt: req.body.id });
                 res.json({ result: true });
             } else {
-                res.json({ resutl: false });
+                res.json({ result: false });
             }
         })
-});
+
+
+    //Retirer tous les Keywords orphelins
+    const emptyPromptKeywords = await Keyword.find({ prompts: { $eq: [] } }).exec();
+    const idsToRemove = emptyPromptKeywords.map(keyword => keyword._id);
+    await Keyword.updateMany(
+        { foreignKeys: { $in: idsToRemove } },
+        { $pull: { foreignKeys: { $in: idsToRemove } } }
+    );
+    await Keyword.deleteMany({ prompts: { $eq: [] } });
+})
+
 
 
 

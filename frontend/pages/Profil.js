@@ -106,8 +106,7 @@ function Profil() {
           onRemove={() => handleUpdate(data._id)}
           reRender={refresh} />
       </div>)
-  })
-  console.log('user.likedPrompts :', user.liked)
+  }).reverse()
 
   const communityMap = communityList.map((data, i) => {
     console.log('data.id :', data._id)
@@ -130,7 +129,7 @@ function Profil() {
           onRemove={() => handleUpdate(data._id)}
           reRender={refresh} />
       </div>)
-  })
+  }).reverse()
 
   let display =
     <div className={styles.modelChoiceContainer}>

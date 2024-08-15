@@ -320,7 +320,7 @@ function Project() {
                                 <FontAwesomeIcon
                                     icon={faCopy}
                                     className={styles.copyPasteIcon}
-                                    onClick={handleCopyToClipboard} // Use the new copy handler
+                                    onClick={handleCopyToClipboard}
                                 />
                             )}
                         </div>
@@ -355,7 +355,7 @@ function Project() {
                     <GenresModal isOpen={genresModalIsOpen}
                         onRequestClose={closeGenresModal}
                         projectGenre={projectGenre}
-                        handleGenreSelect={handleGenreSelect} // Pass handler to modal
+                        handleGenreSelect={handleGenreSelect}
                     />
                 </div>
             </div>

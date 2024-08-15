@@ -87,7 +87,7 @@ function PromptCard(props) {
         user.liked.includes(props.id) && setIsLiked(true)
         getLikeNumberAndCommentsNumber()
         props.reRender();
-    }, [])
+    }, [likeNumber])
 
 
     const displayXmark =

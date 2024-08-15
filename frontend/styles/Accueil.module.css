@@ -60,7 +60,7 @@
   background-color: #6e76bf;
   padding: 5px;
   border-radius: 10px;
-  border: 2px solid #EE00F2;
+  border: 1px solid #EE00F2;
   box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   text-align: center;
@@ -245,4 +245,13 @@
 
 .columnProject {
   margin-left: -7%;
+}
+
+.advice {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  /* color: #c865e9 */
 }

@@ -55,6 +55,23 @@
   transition-duration: 500ms;
 }
 
+.link {
+  color: #ffffff !important;
+  background-color: #6e76bf;
+  padding: 5px;
+  border-radius: 10px;
+  border: 2px solid #EE00F2;
+  box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.link:hover {
+  background-color: #B300F2;
+
+}
+
 .btnRetour {
   color: white;
   width: 10%;

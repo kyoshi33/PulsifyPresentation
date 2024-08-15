@@ -77,7 +77,12 @@ router.post("/suggestions", async (req, res) => {
         keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
     }
 
-    let regexKeywords = keywords.map(keyword => new RegExp(`^${keyword}$`, 'i'));
+    // Fonction pour échapper tous les caractères spéciaux
+    const escapeRegex = (keyword) => {
+        return keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    let regexKeywords = keywords.map(keyword => new RegExp(`^${escapeRegex(keyword)}$`, 'i'));
 
 
     //Initialisation des coefficients de calcul du score

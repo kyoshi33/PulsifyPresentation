@@ -31,6 +31,9 @@ function PromptCard(props) {
 
 
     const getLikeNumberAndCommentsNumber = async () => {
+        if (!props.isOnProjectComment) {
+            return
+        }
         let id = props.id
         const { email, token } = user;
         const request = await fetch('http://localhost:3000/users/getLikeNumberAndCommentsNumber', {

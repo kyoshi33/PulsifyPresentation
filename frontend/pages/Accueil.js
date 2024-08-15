@@ -151,6 +151,7 @@ function Accueil() {
                     );
                 });
             }
+
         } else if (selectedTab === 2) {
             const myProjects = listCommunityProject;
             if (listProjects.length && search.length) {

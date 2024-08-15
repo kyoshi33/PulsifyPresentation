@@ -106,7 +106,7 @@ function Profil() {
           onRemove={() => handleUpdate(data._id)}
           reRender={refresh} />
       </div>)
-  })
+  }).reverse()
 
   const communityMap = communityList.map((data, i) => {
 
@@ -129,7 +129,7 @@ function Profil() {
           onRemove={() => handleUpdate(data._id)}
           reRender={refresh} />
       </div>)
-  })
+  }).reverse()
 
   let display =
     <div className={styles.modelChoiceContainer}>

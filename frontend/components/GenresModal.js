@@ -18,13 +18,13 @@ function GenresModal(props) {
     const fetchAllGenres = async () => {
         const { token, email } = user
         if (token) {
-            const fetchGenres = await fetch('http://localhost:3000/users/genres', {
+            const fetchGenres = await fetch('http://localhost:3000/genres/searchMyGenres', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, email }),
             })
             const resGenre = await fetchGenres.json()
-            setGenresList(resGenre.genres)
+            setGenresList(resGenre.searchResults)
             console.log("genres :", resGenre)
         }
     }
@@ -32,13 +32,13 @@ function GenresModal(props) {
     // Fetch les genres de l'utilisateur et ceux qu'il a liké
     const fetchLikedGenres = async () => {
         const { token, email } = user
-        const fetchLikedGenres = await fetch('http://localhost:3000/users/genres', {
+        const fetchLikedGenres = await fetch('http://localhost:3000/genres/searchLikedGenres', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token, email, getLikedGenres: true }),
         })
         const resLikedGenres = await fetchLikedGenres.json()
-        setGenresList([...new Set([...genresList, ...resLikedGenres.genres])])
+        setGenresList([...new Set([...genresList, ...resLikedGenres.searchResults])])
     }
 
     const handleClickOnGenre = (genre) => {
@@ -47,7 +47,7 @@ function GenresModal(props) {
 
     const genreButtons = genresList && genresList.map((genre, i) => {
         return (
-            <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre}</div>
+            <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre.genre}</div>
         )
     });
 

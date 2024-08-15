@@ -202,21 +202,27 @@
 }
 
 .modelCard {
-  height: 15%;
+  height: 20%;
 }
 
 .columnTitles {
   display: flex;
-  width: 100%;
-  justify-content: space-around;
+  width: 95%;
+  justify-content: flex-start;
   flex-direction: row;
-  height: 5%;
+  height: 4%;
   color: #646baa;
   margin-bottom: 5px;
 }
 
 .columnAuthor {
-  margin-left: -1%;
+  width: 27%;
+  margin-left: 7%;
+}
+
+.columnGenre {
+  width: 24%;
+  margin-left: 4%;
 }
 
 

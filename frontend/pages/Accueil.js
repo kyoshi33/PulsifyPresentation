@@ -212,7 +212,7 @@ function Accueil() {
                         } className={styles.inputSearch} />
                         {(listProjects.length && selectedTab === 1) || (listCommunityProject.length && selectedTab === 2) ? <div className={styles.columnTitles}>
                             <div className={styles.columnAuthor}>Auteur</div>
-                            <div>Genre</div>
+                            <div className={styles.columnGenre}>Genre</div>
                             <div className={styles.columnProject}>Projets</div>
                             <div></div>
                             <div></div>

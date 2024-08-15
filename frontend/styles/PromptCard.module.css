@@ -210,7 +210,7 @@
 }
 
 .likedIcon {
-  color: red;
+  color: #61BEFE;
   display: flex;
   font-size: 160%;
   cursor: pointer;

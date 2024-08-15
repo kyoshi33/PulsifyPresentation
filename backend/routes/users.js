@@ -208,9 +208,9 @@ router.post('/genres', async (req, res) => {
 })
 
 
-// Ajouter et retirer un like en BDD
-router.post("/like", async (req, res) => {
 
+router.post("/like", async (req, res) => {
+  console.log('req.body.id :', req.body.id)
   // Vérifier que les champs sont tous fournis
   if (!checkBody(req.body, ['token', 'email', 'id'])) {
     res.json({ result: false, error: 'Access denied.' });
@@ -225,39 +225,13 @@ router.post("/like", async (req, res) => {
     await User.updateOne({ email: req.body.email },
       { $push: { likedprompts: req.body.id } }
     )
-    res.json({ result: true, likedPrompts: foundUser.likedprompts })
   } else {
     await User.updateOne({ email: req.body.email },
       { $pull: { likedprompts: req.body.id } }
     )
-    res.json({ result: true, likedPrompts: foundUser.likedprompts })
   }
-});
-
-
-router.post("/like", async (req, res) => {
-
-  // Vérifier que les champs sont tous fournis
-  if (!checkBody(req.body, ['token', 'email', 'id'])) {
-    res.json({ result: false, error: 'Access denied.' });
-    return;
-  }
-  // Authentification de l'utilisateur
-  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
-  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
-
-  // Ajouter ou retirer un like
-  if (!foundUser.likedprompts.includes(req.body.id)) {
-    await User.updateOne({ email: req.body.email },
-      { $push: { likedprompts: req.body.id } }
-    )
-    res.json({ result: true, likedPrompts: foundUser.likedprompts })
-  } else {
-    await User.updateOne({ email: req.body.email },
-      { $pull: { likedprompts: req.body.id } }
-    )
-    res.json({ result: true, likedPrompts: foundUser.likedprompts })
-  }
+  const updatedUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  res.json({ result: true, likedPrompts: updatedUser.likedprompts })
 })
 
 router.post("/likedPosts", async (req, res) => {

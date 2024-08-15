@@ -11,6 +11,7 @@ function ProjectComments() {
     const [commentsList, setCommentsList] = useState([])
     const [comment, setComment] = useState("")
     const [projectInfo, setProjectInfo] = useState({})
+    const [reRender, setReRender] = useState(false)
     const router = useRouter();
     const { id } = router.query;
 
@@ -85,10 +86,14 @@ function ProjectComments() {
         setComment('@' + username + ' ' + comment)
     }
 
-
+    const reRenderComments = () => {
+        setReRender(!reRender);
+    }
     // Display la "PromptCard" du projet en haut de la page 
     let projet
     let comments
+
+
     if (projectInfo._id) {
         projet = <PromptCard id={id}
             username={projectInfo.userId.username}
@@ -99,6 +104,9 @@ function ProjectComments() {
             projectName={projectInfo.title}
             genre={projectInfo.genre}
             prompt={projectInfo.prompt}
+            isOnProjectComment={true}
+            reRender={reRenderComments}
+
         />
 
         // Display l'intégralité des commentaires qui lui sont attribué en sous doc

@@ -1,5 +1,5 @@
 import styles from '../styles/PromptCard.module.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCircleExclamation, faStar, faCircleXmark, faComment } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,11 @@ import SignalementModal from './SignalementModal';
 function PromptCard(props) {
     const router = useRouter()
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [likeNumber, setLikeNumber] = useState(null)
+    const [commentNumber, setCommentNumber] = useState(null)
+    const [reRender, setReRender] = useState(false)
+    const [isLiked, setIsLiked] = useState(false)
+
 
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user.value)
@@ -25,6 +30,18 @@ function PromptCard(props) {
     }
 
 
+    const getLikeNumberAndCommentsNumber = async () => {
+        let id = props.id
+        const { email, token } = user;
+        const request = await fetch('http://localhost:3000/users/getLikeNumberAndCommentsNumber', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, id, token })
+        })
+        const response = await request.json()
+        setLikeNumber(response.likeNumber)
+        setCommentNumber(response.commentNumber)
+    }
 
     const removePrompt = () => {
         const { email, token } = user;
@@ -44,6 +61,7 @@ function PromptCard(props) {
             });
     }
 
+
     const like = async (props) => {
         let id = props.id
         const { email, token } = user;
@@ -54,13 +72,22 @@ function PromptCard(props) {
         })
         const responseLiked = await response.json()
         dispatch(setLikedList(responseLiked.likedPrompts))
-        props.reRender();
+        getLikeNumberAndCommentsNumber()
+        setIsLiked(!isLiked)
+
+
     }
 
     // Naviguer vers la page ProjectComments avec l'id du projet 
     const commentClick = () => {
         router.push(`/ProjectComments?id=${props.id}`);
     }
+
+    useEffect(() => {
+        user.liked.includes(props.id) && setIsLiked(true)
+        getLikeNumberAndCommentsNumber()
+        props.reRender();
+    }, [])
 
 
     const displayXmark =
@@ -73,8 +100,9 @@ function PromptCard(props) {
         </div>;
     const displayicons =
         <>
-            {!props.isOnMyProjects && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
-            <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} />
+            {(!props.isOnMyProjects && !props.isOnProjectComment) && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
+            {(props.isOnProjectComment) && (props.username !== user.username && <div className={styles.numberLike}> <FontAwesomeIcon icon={faHeart} className={isLiked ? styles.likedIcon : styles.icon} onClick={() => like(props)} />{likeNumber}</div>)}
+            {!props.isOnProjectComment ? <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} /> : <div className={styles.commentNumber}><FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} /> {commentNumber}</div>}
             <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
@@ -88,6 +116,8 @@ function PromptCard(props) {
         itemPrompt = styles.itemPromptOnProfile
     } else if (props.isOnFavoritesProjects) {
         itemPrompt = styles.itemPromptFavorites
+    } else if (props.isOnProjectComment) {
+        itemPrompt = styles.itemPromptProjectComment
     } else {
         itemPrompt = styles.itemPrompt
     }
@@ -106,6 +136,8 @@ function PromptCard(props) {
             });
         }
     };
+
+
 
     return (
         <div className={styles.promptContainer}>
@@ -139,6 +171,7 @@ function PromptCard(props) {
                             {!props.isOnProfile && displayicons}
                             {props.isOnMyProjects && displayicons}
                             {props.isOnProfile && displayXmark}
+                            {(props.isOnProjectComment && props.isOnMyProjects) && displayicons}
                         </div>
                     </div>
                 </div>

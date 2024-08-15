@@ -3,6 +3,7 @@ var router = express.Router();
 
 require('../models/connection');
 const User = require('../models/users');
+const Project = require("../models/projects")
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 const { checkBody } = require('../modules/tools')
@@ -273,6 +274,31 @@ router.post("/likedPosts", async (req, res) => {
   // Renvoie les projets likés de l'utilisateur
   res.json({ result: true, likedPrompts: foundUser.likedprompts })
 
+})
+
+router.post("/getLikeNumberAndCommentsNumber", async (req, res) => {
+
+  // Vérifier que les champs sont tous fournis
+  if (!checkBody(req.body, ['token', 'email'])) {
+    res.json({ result: false, error: 'Access denied.' });
+    return;
+  }
+  // Authentification de l'utilisateur
+  const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
+  if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
+
+  let likeNumber = 0
+  let commentNumber = 0
+  const foundAllUsers = await User.find()
+  for (const user of foundAllUsers) {
+    if (user.likedprompts.includes(req.body.id)) {
+      likeNumber++
+    }
+  }
+  const foundProject = await Project.findById(req.body.id)
+  commentNumber = foundProject.messages.length
+
+  res.json({ result: true, likeNumber: likeNumber, commentNumber: commentNumber })
 })
 
 module.exports = router;

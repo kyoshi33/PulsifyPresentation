@@ -120,9 +120,9 @@ function PromptCard(props) {
                         className={styles.icon}
                         onClick={commentClick} />
                     {commentNumber}</div>}
-            <FontAwesomeIcon icon={faCircleExclamation}
+            {!props.isOnMyProjects ? (<FontAwesomeIcon icon={faCircleExclamation}
                 onClick={() => openSignalementModal()}
-                className={styles.icon} />
+                className={styles.icon} />) : <> </>}
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
                 id={props.id}

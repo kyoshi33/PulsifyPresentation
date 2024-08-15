@@ -265,6 +265,7 @@ function Project() {
                                     padding: '10px',
                                     outline: 'none',
                                 }}
+                                spellCheck='false'
                                 value={projectTitle}
                                 maxLength={25}
                             ></input>
@@ -280,6 +281,7 @@ function Project() {
                                         padding: '10px',
                                         outline: 'none',
                                     }}
+                                    spellCheck='false'
                                     value={projectGenre}
                                     maxLength={20}>
                                 </input>
@@ -331,6 +333,7 @@ function Project() {
                                 placeholder='Recherchez vos artistes préférés'
                                 onChange={(e) => setSearch(e.target.value)}
                                 value={search}
+                                spellCheck='false'
                                 onKeyDown={handleSearchKeyDown}></input>
                             <FontAwesomeIcon icon={faSearch}
                                 className={styles.searchBtn}

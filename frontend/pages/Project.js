@@ -295,7 +295,7 @@ function Project() {
                     </div>
                     <div className={styles.inputPromptContainer}>
                         <textarea className={styles.inputProjectPrompt}
-                            placeholder='Entrez votre prompt ici'
+                            placeholder='Entrez votre prompt ici (mots-clés séparés par des virgules)'
                             onChange={(e) => setProjectPrompt(e.target.value)}
                             style={{
                                 border: promptIsInvalid && blink && '2px solid red',

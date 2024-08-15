@@ -25,7 +25,6 @@ function GenresModal(props) {
             })
             const resGenre = await fetchGenres.json()
             setGenresList(resGenre.searchResults)
-            console.log("genres :", resGenre)
         }
     }
 
@@ -47,7 +46,7 @@ function GenresModal(props) {
 
     const genreButtons = genresList && genresList.map((genre, i) => {
         return (
-            <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre)}>{genre.genre}</div>
+            <div key={i} className={styles.genresBtn} onClick={() => handleClickOnGenre(genre.genre)}>{genre.genre}</div>
         )
     });
 

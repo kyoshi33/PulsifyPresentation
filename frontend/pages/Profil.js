@@ -107,9 +107,10 @@ function Profil() {
           reRender={refresh} />
       </div>)
   })
+  console.log('user.likedPrompts :', user.liked)
 
   const communityMap = communityList.map((data, i) => {
-
+    console.log('data.id :', data._id)
     return (
       <div className={styles.promptCard}>
         <PromptCard

@@ -62,7 +62,7 @@ function PromptCard(props) {
     }
 
 
-    const like = async (props) => {
+    const like = async () => {
         let id = props.id
         const { email, token } = user;
         const response = await fetch("http://localhost:3000/users/like", {
@@ -72,10 +72,8 @@ function PromptCard(props) {
         })
         const responseLiked = await response.json()
         dispatch(setLikedList(responseLiked.likedPrompts))
+        setIsLiked(responseLiked.likedPrompts.includes(id));
         getLikeNumberAndCommentsNumber()
-        setIsLiked(!isLiked)
-
-
     }
 
     // Naviguer vers la page ProjectComments avec l'id du projet 
@@ -83,11 +81,13 @@ function PromptCard(props) {
         router.push(`/ProjectComments?id=${props.id}`);
     }
 
+
+    // Set la prompt card sur toutes les pages
     useEffect(() => {
-        user.liked.includes(props.id) && setIsLiked(true)
+        setIsLiked(user.liked.includes(props.id));
         getLikeNumberAndCommentsNumber()
         props.reRender();
-    }, [likeNumber])
+    }, [props.id])
 
 
     const displayXmark =
@@ -100,10 +100,26 @@ function PromptCard(props) {
         </div>;
     const displayicons =
         <>
-            {(!props.isOnMyProjects && !props.isOnProjectComment) && (props.username !== user.username && <FontAwesomeIcon icon={faHeart} className={user.liked.includes(props.id) ? styles.likedIcon : styles.icon} onClick={() => like(props)} />)}
-            {(props.isOnProjectComment) && (props.username !== user.username && <div className={styles.numberLike}> <FontAwesomeIcon icon={faHeart} className={isLiked ? styles.likedIcon : styles.icon} onClick={() => like(props)} />{likeNumber}</div>)}
-            {!props.isOnProjectComment ? <FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} /> : <div className={styles.commentNumber}><FontAwesomeIcon icon={faComment} className={styles.icon} onClick={commentClick} /> {commentNumber}</div>}
-            <FontAwesomeIcon icon={faCircleExclamation} onClick={() => openSignalementModal()} className={styles.icon} />
+            {(!props.isOnMyProjects && !props.isOnProjectComment) && (props.username !== user.username &&
+                <FontAwesomeIcon icon={faHeart}
+                    className={isLiked ? styles.likedIcon : styles.icon}
+                    onClick={() => like(props)} />)}
+            {(props.isOnProjectComment) && (props.username !== user.username &&
+                <div className={styles.numberLike}>
+                    <FontAwesomeIcon icon={faHeart}
+                        className={isLiked ? styles.likedIcon : styles.icon}
+                        onClick={() => like(props)} />
+                    {likeNumber}</div>)}
+            {!props.isOnProjectComment ?
+                <FontAwesomeIcon icon={faComment}
+                    className={styles.icon} onClick={commentClick} /> : <div className={styles.commentNumber}>
+                    <FontAwesomeIcon icon={faComment}
+                        className={styles.icon}
+                        onClick={commentClick} />
+                    {commentNumber}</div>}
+            <FontAwesomeIcon icon={faCircleExclamation}
+                onClick={() => openSignalementModal()}
+                className={styles.icon} />
             <SignalementModal isOpen={modalIsOpen}
                 onRequestClose={closeSignalementModal}
                 id={props.id}

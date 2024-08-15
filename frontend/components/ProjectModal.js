@@ -91,7 +91,7 @@ function ProjectModal(props) {
                 <div className={styles.modalTitleContent}>
                     <h1 className={styles.modalTitle}>{props.projectTitle}</h1>
                 </div>
-                <div className={styles.voteTxt}>Genre du projet : {props.projectGenre}</div>
+                <div className={styles.genreTxt}>Genre du projet : {props.projectGenre}</div>
                 <p className={styles.promptContainer}>{props.prompt}</p>
                 <div className={styles.import}>
                     <input
@@ -130,12 +130,12 @@ function ProjectModal(props) {
                                 );
                             })}
                         </div>
-                    </div>
-                    <div className={styles.public} onClick={() => setIsPublic(!isPublic)}>
-                        <div
-                            className={isPublic ? styles.isPublic : styles.isNotPublic}
-                        />
-                        <span className={styles.text}>Public</span>
+                        <div className={styles.public} onClick={() => setIsPublic(!isPublic)}>
+                            <div
+                                className={isPublic ? styles.isPublic : styles.isNotPublic}
+                            />
+                            <span className={styles.text}>Public</span>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.modalBtnContainer}>

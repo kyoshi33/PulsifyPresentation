@@ -83,6 +83,10 @@ function Accueil() {
     let display =
         <div className={styles.container}>
             <div className={styles.choiceContainer}>
+                <div>Dans un premier temps, pour ouvrir Suno, <a href={'https://suno.com/'}
+                    style={{ textDecoration: 'none' }}
+                    target='_blank'
+                    rel="noopener noreferrer"><span className={styles.link} >Cliquez ici</span></a></div>
                 <button className={styles.createBtn} onClick={() => setNewProject(true)}>Nouveau projet</button>
             </div>
             <Link href='Explorer'>

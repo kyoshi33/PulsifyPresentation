@@ -31,7 +31,7 @@ function Welcome() {
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
           <h3 className={styles.tutoTitleText}>Bienvenue chez Pulsify !</h3>
-          <p className={styles.tutoText}>Votre allié Suno ultime pour générer les invites (prompt) dont vous rêvez !</p>
+          <p className={styles.tutoText}>Votre allié Suno ultime pour générer les musiques dont vous rêvez !</p>
 
         </div>
         <footer className={styles.tutoFooter}>
@@ -65,7 +65,7 @@ function Welcome() {
     tutoContent =
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-
+          <img className={styles.logoSuno} src="/Logo-Suno.svg" width={"15%"} ></img>
           <p className={styles.tutoText}>Suno est une startup spécialisée dans la création de musique assistée par intelligence artificielle. Leur technologie permet aux utilisateurs de générer des morceaux de musique à partir de simples descriptions textuelles. La génération de ces morceaux de musique coûtent des crédits.</p>
         </div>
         <footer className={styles.tutoFooter}>
@@ -138,9 +138,8 @@ function Welcome() {
     tutoContent = (
       <div className={styles.tutoContainer}>
         <div className={styles.tutoTextContainer}>
-          <h3 className={styles.tutoTitleText2}>Rappelez-vous des sons générés précédement, et ajustez la note si votre avis a changé</h3>
-          <p className={styles.tutoText}>Mémorisez les styles musicaux et trouvez les mots-clés qui vont bien ensemble</p>
-
+          <h3 className={styles.tutoTitleText2}>Mémorisez les styles musicaux et trouvez les mots-clés qui vont bien ensemble</h3>
+          <p className={styles.tutoText}>Découvrez les styles uniques de la communauté, engagez des interactions, et puisez-en l'inspiration pour nourrir vos propres projets créatifs</p>
         </div>
         <footer className={styles.tutoFooter}>
           <button className={styles.btn} onClick={handlePrev}>Précédent</button>

@@ -6,7 +6,7 @@ import { faCircleExclamation, faTrash } from '@fortawesome/free-solid-svg-icons'
 import SignalementModal from './SignalementModal';
 import UserCard from './UserCard'
 
-
+//Commentaire text de SignalementModal 
 function MessageCard(props) {
     const user = useSelector((state) => state.user.value)
     const [modalIsOpen, setIsOpen] = useState(false);

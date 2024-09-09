@@ -33,6 +33,7 @@ function Project() {
     !user.token && router.push({ pathname: '/' });
     let genres = [];
 
+
     useEffect(() => {
         if (router.query.genre && !router.query.title && !router.query.prompt) {
             setProjectGenre(router.query.genre);
@@ -48,8 +49,7 @@ function Project() {
         }
     }, [])
 
-
-    // Fetch des suggestions
+    // Fetch des suggestions    SUGGESTION
     const suggestions = [];
     const fetchSuggestions = async () => {
         const { token, email } = user;
@@ -79,7 +79,7 @@ function Project() {
         closeGenresModal();
     };
 
-    // Map des suggestions
+    // Map des suggestions    SUGGESTION
     let suggestion = [];
     if (suggestionsList.length != 0) {
         suggestion = suggestionsList.map((data, i) => {
@@ -139,7 +139,8 @@ function Project() {
     }
 
     // Mapper les genres d'un artiste
-    spotifyNoResult ? (genres = search ? <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div> : <div className={styles.searchTitle}>Entrez d'abord un artiste</div>) :
+    spotifyNoResult ? (genres = search ? <div className={styles.searchTitle}>Pas d'artistes trouvés à ce nom</div> : <div className={styles.searchTitle}
+    >Entrez d'abord un artiste</div>) :
         searchResults.length &&
         (genres = searchResults.map((data, i) => (
             <div key={i} className={styles.genreItem} onClick={() => addGenreFromSearchBar(data)}>
@@ -215,8 +216,6 @@ function Project() {
             }
         }
     }
-
-
     const checkbox = (e) => {
         if (projectGenre) {
             setGenreIsInvalid(false)
@@ -228,6 +227,8 @@ function Project() {
         }
 
     }
+
+
     return (
         <div className={styles.main}>
 

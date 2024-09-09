@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 
 
+// Visuel du carrousel diagram
 const SvgArrow = (props) => {
 
     switch (props.type) {

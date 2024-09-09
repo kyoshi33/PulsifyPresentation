@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux'
 
 
-
+//Composant signalement / enregistrement du texte / informations id
 function SignalementModal(props) {
   const [commentaire, setCommentaire] = useState('')
   const user = useSelector((state) => state.user.value)

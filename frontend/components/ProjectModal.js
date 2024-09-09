@@ -6,7 +6,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
+// Enregistrement du projet
 function ProjectModal(props) {
+
+
     const [isPublic, setIsPublic] = useState(false);
     const [hoveredStars, setHoveredStars] = useState(0);
     const [score, setScore] = useState(0);
@@ -36,9 +39,7 @@ function ProjectModal(props) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataForPrompt),
             });
-
             const responseDataPrompt = await saveDataForPrompt.json();
-
 
             if (responseDataPrompt.result) {
                 setMessage(`Ajout de l'audio en cours`);
@@ -117,7 +118,6 @@ function ProjectModal(props) {
                                 } else if (isStarSelected) {
                                     color = "#B300F2";
                                 }
-
                                 return (
                                     <FontAwesomeIcon
                                         key={star}

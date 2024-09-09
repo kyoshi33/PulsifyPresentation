@@ -1,7 +1,7 @@
 import styles from "../styles/Explorer.module.css"
 import Header from "../components/Header";
 import PromptCard from '../components/PromptCard';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSortAmountUp, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import { Popover } from 'react-tiny-popover'
@@ -34,12 +34,12 @@ function Explorer() {
     // Si non connecté renvoi à la page de connexion/inscription
     !user.token && router.push({ pathname: '/' });
 
+    // Mise a jour de la page en fonction de :
     useEffect(() => {
         search || foundAllGenres();
         search && fetchSearch();
 
     }, [search, checkedAutor, checkedGenre, checkedKeyword, checkedProject])
-
 
     // Récupération de toutes les genres 
     const foundAllGenres = async () => {
@@ -57,24 +57,7 @@ function Explorer() {
             setDiscover(false);
         }
     }
-
-    const getAllLikedPosts = async () => {
-        const { email, token } = user;
-        fetch('http://localhost:3000/users/likedPosts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, token })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (!data) {
-                    Error('Erreur lors de la récupération des prompts');
-                } else {
-                    dispatch(setLikedList(data.likedPrompts))
-                }
-            });
-    }
-
+    // affiche des genres à l'ouverture de la page
     let discoverGenres;
     let discoverMessage;
 
@@ -90,11 +73,28 @@ function Explorer() {
             )
         })
     }
-
     // Met par défaut la recherche par Genre si aucun filtre n'est séléctionné 
     if (!checkedAutor && !checkedKeyword && !checkedProject && !checkedGenre) {
         setCheckedGenre(true)
         setPlaceHolder('Recherche par genre...')
+    }
+
+    // Récupération des posts likés
+    const getAllLikedPosts = async () => {
+        const { email, token } = user;
+        fetch('http://localhost:3000/users/likedPosts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, token })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                    Error('Erreur lors de la récupération des prompts');
+                } else {
+                    dispatch(setLikedList(data.likedPrompts))
+                }
+            });
     }
 
     // Changement de filtre pour la recherche par Auteur, Mot clé, Nom de projet, Genre
@@ -135,7 +135,6 @@ function Explorer() {
             //setSearch('')
             setPlaceHolder('Recherche par genre...')
         }
-
     }
 
     // Application d'une couleur aux icônes si elles sont séléctionné 
@@ -267,15 +266,24 @@ function Explorer() {
     }
 
     // Map pour afficher le résultat de la recherche et faire un tri de la note
-    let listProjectSearch = listProject.map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} audio={data.audio} isOnExplore={true} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //listProject.map((data, i) => { return <PromptCard /> })
+    let listProjectSearch = listProject.map((data, i) => {
+        return (<div className={styles.containerPromptCard}><PromptCard key={i} audio={data.audio} isOnExplore={true} projectName={data.title}
+            genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>)
+    }) //listProject.map((data, i) => { return <PromptCard /> })
 
     if (sortUp) {
-        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //classé par + liké first
+        listProjectSearch = listProject.sort((a, b) => b.rating - a.rating).map((data, i) => {
+            return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true}
+                audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username}
+                picture={data.userId.picture} id={data._id} reRender={refresh} /></div>)
+        }) //classé par + liké first
     }
     if (sortDown) {
-        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => { return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true} audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>) }) //classé par - liké first
+        listProjectSearch = listProject.sort((a, b) => a.rating - b.rating).map((data, i) => {
+            return (<div className={styles.containerPromptCard}><PromptCard key={i} isOnExplore={true}
+                audio={data.audio} projectName={data.title} genre={data.genre} stars={data.rating} prompt={data.prompt} firstname={data.userId.firstname} username={data.userId.username} picture={data.userId.picture} id={data._id} reRender={refresh} /></div>)
+        }) //classé par - liké first
     }
-
     // Affichage du message d'erreur en fonction de la recherche, s'adapte à ce qui est retourné par la route
     let error = errorSearch && <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic', display: 'flex', justifyContent: 'center' }}>{errorMessage}</h4>
 
@@ -283,10 +291,7 @@ function Explorer() {
         <>
             <Header></Header>
             <div className={styles.container}>
-
                 <h1 className={styles.title}>Explorer</h1>
-
-
                 <div className={styles.containerSearch}>
                     <input type='string' placeholder={placeHolder} onChange={(e) => { setSearch(e.target.value); setErrorSearch(false); setListProject([]); }} value={search} className={styles.inputSearch} />
                     <div className={styles.containerIcon}>
@@ -328,7 +333,6 @@ function Explorer() {
                                         />
                                         Nom du projet
                                     </div>
-
                                     <div className={styles.checkboxContainer} onClick={() => handleChange('Genre')}>
                                         <input
                                             type="checkbox"
@@ -338,7 +342,6 @@ function Explorer() {
                                         />
                                         Genre
                                     </div>
-
                                 </div>
                             }
                         >

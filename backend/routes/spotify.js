@@ -23,7 +23,6 @@ async function getToken() {
         .then(res => res.json())
         .then(data => data.access_token);
 }
-
 // recherche de l'artiste
 router.post('/', async (req, res) => {
 
@@ -32,11 +31,9 @@ router.post('/', async (req, res) => {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
-
     // Authentification de l'utilisateur
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
-
 
     let token = await getToken();
 

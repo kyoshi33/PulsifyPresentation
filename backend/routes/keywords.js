@@ -12,12 +12,12 @@ router.post('/search', async (req, res) => {
         res.json({ result: false, error: 'Champs vides ou manquants' });
         return;
     }
-
+    //Recherce des mots clés dans la base de donnee
     const fetchAllKeywords = await Keyword.find({ keyword: { $regex: new RegExp(req.body.keyword.toLowerCase(), "i") } })
 
     if (fetchAllKeywords.length) {
         const prompts = []
-
+        //On recupere les prompts associés, l'id et si le prompt est bien public
         for (const populatePrompts of fetchAllKeywords) {
             const populatedPrompts = await populatePrompts.populate('prompts')
             for (const userIdInPrompt of populatedPrompts.prompts) {
@@ -46,7 +46,6 @@ router.post("/suggestions", async (req, res) => {
         res.json({ result: false, error: 'Champs manquants ou vides' });
         return;
     }
-
     // Authentification de l'utilisateur
     const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
     !foundUser && res.json({ result: false, error: 'Access denied' });
@@ -66,7 +65,6 @@ router.post("/suggestions", async (req, res) => {
             return;
         }
     }
-
     // Récupérer les keywords de manière formatée 
     const promptToSplit = req.body.partialPrompt.trim()
     const promptToSplitWithoutComa = promptToSplit[promptToSplit.length - 1] === "," ? promptToSplit.slice(0, -1) : promptToSplit
@@ -76,18 +74,18 @@ router.post("/suggestions", async (req, res) => {
         const trimmedWords = wordToFormat.trim()
         keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1))
     }
-
     // Fonction pour échapper tous les caractères spéciaux
     const escapeRegex = (keyword) => {
         return keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
-
     let regexKeywords = keywords.map(keyword => new RegExp(`^${escapeRegex(keyword)}$`, 'i'));
-
-
     //Initialisation des coefficients de calcul du score
     const weight_rating = 0.7;
     const weight_frequency = 0.3;
+
+
+
+
 
     // Création de la pipeline Mongoose
 

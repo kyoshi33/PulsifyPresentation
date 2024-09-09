@@ -231,8 +231,6 @@ function Accueil() {
             </div >
     }
 
-
-
     return (
         <>
             <Header></Header>

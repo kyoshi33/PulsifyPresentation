@@ -163,14 +163,14 @@ router.post('/projets', async (req, res) => {
   const foundUser = await User.findOne({ email: req.body.email, token: req.body.token })
   if (!foundUser) { return res.json({ result: false, error: 'Access denied' }) };
 
-  // Populate
+  // Recuperation des informations prompts et like de l'utilisateur
   const populatedUser = await foundUser.populate('prompts')
   const populatedUserWithLikes = await populatedUser.populate('likedprompts')
+  // Recuperation de l'id du prompt like pour ses infos
   let foundUserPopulated = []
   for (const id of populatedUserWithLikes.likedprompts) {
     foundUserPopulated.push(await id.populate('userId'))
   }
-
   // Réponse
   res.json({ result: true, myPrompts: foundUser, likedprompts: foundUserPopulated })
 

@@ -39,11 +39,9 @@ router.post("/add", async (req, res) => {
         userId: foundUser._id,
         title: req.body.title
     });
-
     const savedProject = await newProject.save();
 
-
-    // Mettre à jour le tableau de clé étrangère "prompts" avec l'id du prompt et le tableau genre si le genre n'y est pas déjà 
+    // Mettre à jour collection user avec l'id du prompt et le tableau genre si le genre n'y est pas déjà 
     await User.updateOne({ email: req.body.email },
         { $push: { prompts: savedProject._id } });
 
@@ -52,19 +50,14 @@ router.post("/add", async (req, res) => {
             { $push: { genres: req.body.genre } }
         );
     }
-
     // Récupérer les keywords de manière formatée 
     const splittedKeywords = promptToSplitWithoutComa.split(',');
     const keywords = [];
 
     for (const wordToFormat of splittedKeywords) {
-
         const trimmedWords = wordToFormat.trim();
-
         if (trimmedWords) {
-
             keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1));
-
         }
     }
 
@@ -73,15 +66,10 @@ router.post("/add", async (req, res) => {
     const newKeywordIds = [];
 
     for (const word of keywords) {
-
         const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre });
-
         if (foundExistingKeyword) {
-
             existingKeywordIds.push(foundExistingKeyword._id);
-
         } else {
-
             const newKeyword = new Keyword({
                 userId: foundUser._id,
                 keyword: word,
@@ -91,16 +79,16 @@ router.post("/add", async (req, res) => {
                 genre: req.body.genre
             });
             const savedKeyword = await newKeyword.save();
-
             newKeywordIds.push(savedKeyword._id);
         }
     }
+    //Mise à jour de la collection id projet
     const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds];
     await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
     );
-
-    // Si l'id n'est pas présent dans les related_Keywords, on le rajoute
+    // chaque related_Keywords a son Id, Si l'id n'est pas présent dans les related_Keywords, on le rajoute
+    // Ajout de nouveau Keywords 
     if (newKeywordIds.length) {
         for (const id of newKeywordIds) {
             const foundKeywordById = await Keyword.findById(id);
@@ -110,15 +98,15 @@ router.post("/add", async (req, res) => {
                 $push: { related_keywords: allKeywordsIdsOfThisGenre }
             });
         }
-
     }
-
     // Si il y a déjà des related_keywords pour ce projet, ajoute ceux qui n'y sont pas déjà.
+    // Ajout des nouveau keywords s'ils ne sont pas present
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
             const foundKeywordById = await Keyword.findById(id);
             const populatedKeyword = await Keyword.findById(id).populate('prompts');
             const checkIntoNewIdsIfTheyArentPresent = [];
+            // Comparaison et convertion en chaîne de caractères
             for (let i = 0; i < newKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
                     checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i]);
@@ -126,11 +114,13 @@ router.post("/add", async (req, res) => {
             }
             const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent];
 
+            // Notation (moyenne), verification si le projet est dans prompts pour mise a jour differente
             let resultAverageRating = 0;
             const promptKeywordsCount = (populatedKeyword.prompts).length;
             for (const prompt of populatedKeyword.prompts) {
                 resultAverageRating += prompt.rating;
             }
+            // Mise a jour Keyword si dans la collection ou pas
             if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },

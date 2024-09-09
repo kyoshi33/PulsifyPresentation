@@ -4,6 +4,8 @@ import styles from '../styles/GenresModal.module.css';
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 
+
+// Page Projet, choix du genre
 function GenresModal(props) {
     const user = useSelector((state) => state.user.value)
     const [genresList, setGenresList] = useState([])

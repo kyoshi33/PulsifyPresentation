@@ -20,14 +20,14 @@ router.post("/searchMyGenres", async (req, res) => {
         return res.json({ result: false, error: 'Access denied' });
     }
 
-    // Formattage du champ de recherche
+    // Formattage du champ de recherche,suppresion espace et des virgules
     let formattedSearch = req.body.search ? req.body.search.trim() : '';
     if (formattedSearch) {
         formattedSearch = formattedSearch[formattedSearch.length - 1] === "," ? formattedSearch.slice(0, -1) : formattedSearch;
         formattedSearch = formattedSearch[0] === "," ? formattedSearch.slice(1) : formattedSearch;
     }
 
-    // Récupération des projets correspondant à l'utilisateur et au critère de recherche
+    // Récupération des projets correspondant à l'utilisateur et au critère de recherche genre ou titre
     let projects = await Project.find({
         userId: foundUser._id,
         ...(formattedSearch && {
@@ -36,6 +36,7 @@ router.post("/searchMyGenres", async (req, res) => {
                 { title: { $regex: new RegExp(formattedSearch, 'i') } }
             ]
         })
+        // on rajoute les infos user
     }).populate('userId', 'firstname picture');
 
     // Regroupement des projets par genre et récupération des titres des projets

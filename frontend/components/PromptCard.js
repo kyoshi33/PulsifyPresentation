@@ -8,7 +8,7 @@ import UserCard from './UserCard';
 import { setLikedList } from '../reducers/user';
 import SignalementModal from './SignalementModal';
 
-
+// PromptCard presente dans Profil / Explorer 
 function PromptCard(props) {
     const router = useRouter()
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -30,6 +30,7 @@ function PromptCard(props) {
     }
 
 
+    // Nbre de like et de commentaire
     const getLikeNumberAndCommentsNumber = async () => {
         if (!props.isOnProjectComment) {
             return
@@ -46,6 +47,7 @@ function PromptCard(props) {
         setCommentNumber(response.commentNumber)
     }
 
+    // Suppresion d'un prompt
     const removePrompt = () => {
         const { email, token } = user;
         fetch('http://localhost:3000/projects/prompt', {
@@ -96,11 +98,13 @@ function PromptCard(props) {
     const displayXmark =
         <FontAwesomeIcon icon={faCircleXmark} className={styles.xmark} onClick={() => removePrompt()} />
 
-
+    // visuel user
     const displayUser =
         <div className={styles.author} onClick={() => handleClick(props.genre, props.projectName, props.prompt)}>
             {!props.isOnMyProjects ? <UserCard isOnExplore={props.isOnExplore} firstname={props.firstname} username={props.username} picture={props.picture} /> : <UserCard isOnExplore={props.isOnExplore} isOnMyProjects={props.isOnMyProjects} firstname={props.firstname} username={props.username} picture={props.picture} />}
         </div>;
+
+    // Affichage de l'icone ou non en fonction de la page, comme pour signalement  
     const displayicons =
         <>
             {(!props.isOnMyProjects && !props.isOnProjectComment) && (props.username !== user.username &&
@@ -129,8 +133,8 @@ function PromptCard(props) {
             />
         </>
 
+    //
     let itemPrompt;
-
     if (props.isOnMyProjects) {
         itemPrompt = styles.itemPromptOnProfile
     } else if (props.isOnFavoritesProjects) {
@@ -141,8 +145,9 @@ function PromptCard(props) {
         itemPrompt = styles.itemPrompt
     }
 
-    const handleClick = (genre, title, prompt) => {
 
+    // importation des elements vers la page explorer
+    const handleClick = (genre, title, prompt) => {
         if (!props.isOnExplore) {
             router.push({
                 pathname: '/Project',

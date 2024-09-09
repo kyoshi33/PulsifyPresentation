@@ -27,7 +27,7 @@ function Profil() {
     dispatch(logout());
     router.push({ pathname: '/' })
   }
-
+  // Recuperation et mise a jour des prompts likés
   const getAllLikedPosts = () => {
     const { email, token } = user;
     fetch('http://localhost:3000/users/likedPosts', {
@@ -44,14 +44,11 @@ function Profil() {
         }
       });
   }
-
   useEffect(() => {
     getAllLikedPosts();
   }, [selectedTab, reRender])
 
-
   // Fonction pour afficher ma bibliotheque
-
   const clickBibliotheque = () => {
     if (user.token) {
       fetch('http://localhost:3000/users/projets', {
@@ -67,13 +64,11 @@ function Profil() {
             setMyPrompts(data.myPrompts.prompts)
             setCommunityList(data.likedprompts)
           }
-
         });
     } else {
       router.push({ pathname: '/' })
     }
   }
-
   useEffect(() => {
     clickBibliotheque();
   }, [])
@@ -109,7 +104,6 @@ function Profil() {
   }).reverse()
 
   const communityMap = communityList.map((data, i) => {
-    console.log('data.id :', data._id)
     return (
       <div className={styles.promptCard}>
         <PromptCard

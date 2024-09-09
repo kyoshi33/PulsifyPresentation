@@ -32,7 +32,7 @@ function SignUp() {
 
     user.token && router.push({ pathname: '/Accueil' });
 
-
+    // rendre le mot de passe visible
     let passwordEye;
     let rePasswordEye
     if (showPassword) {
@@ -90,6 +90,7 @@ function SignUp() {
 
     // Bouton créer un compte/ connexion avec Google
     let googleBtn = <GoogleLogin
+        //visuel bouton google
         shape='pill'
         theme='filled_blue'
         text='continue_with'
@@ -101,7 +102,6 @@ function SignUp() {
             const usernameGoogle = jwtDecode(credentialResponse.credential).name
             const pictureGoogle = jwtDecode(credentialResponse.credential).picture
             const googleID = jwtDecode(credentialResponse.credential).sub
-
 
             const fetchSignin = await fetch('http://localhost:3000/users/signup/google', {
                 method: 'POST',

@@ -23,7 +23,9 @@ function Login() {
   let error
   if (errorLogin) { error = <h4 style={{ color: 'red', fontWeight: 'normal', fontStyle: 'italic' }}>Champs manquants ou invalides</h4> }
 
+
   let googleBtn = <GoogleLogin
+    //visuel bouton google
     shape='pill'
     theme='filled_blue'
     text='continue_with'

@@ -142,7 +142,7 @@ router.post("/searchLikedGenres", async (req, res) => {
 
 
 
-
+// Recherche d'un genre 
 router.post('/searchGenre', async (req, res) => {
 
     // Authentification de l'utilisateur
@@ -178,7 +178,7 @@ router.post('/searchGenre', async (req, res) => {
     }
 });
 
-
+// Recuperer tous les genres si public
 router.post('/allGenres', async (req, res) => {
 
     // Vérification des éléments requis pour la route

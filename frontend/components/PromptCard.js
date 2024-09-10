@@ -47,7 +47,7 @@ function PromptCard(props) {
         setCommentNumber(response.commentNumber)
     }
 
-    // Suppresion d'un prompt
+    // Suppresion d'un prompt via profil
     const removePrompt = () => {
         const { email, token } = user;
         fetch('http://localhost:3000/projects/prompt', {

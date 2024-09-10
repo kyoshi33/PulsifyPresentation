@@ -88,6 +88,8 @@ router.post("/suggestions", async (req, res) => {
 
 
     // Création de la pipeline Mongoose
+    // La base de données fait une grande partie du travail en une seule opération.
+    // On initialise un tableau vide, qui va contenir une série d'étapes de traitement pour la requête MongoDB.
 
     let pipeline = [];
 
@@ -129,11 +131,11 @@ router.post("/suggestions", async (req, res) => {
     }
 
     pipeline.push(
-        // On unwind related_keywords pour traiter chacun individuellement
+        // On unwind (decompose) les related_keywords pour traiter chacun individuellement
         {
             $unwind: "$related_keywords"
         },
-        // Populate ou 'jointure'
+        // Populate ou 'jointure' pour récupérer plus de détails sur chaque mot-clé associé.
         {
             $lookup: {
                 from: "keywords",
@@ -146,7 +148,8 @@ router.post("/suggestions", async (req, res) => {
         {
             $unwind: "$related_keyword_data"
         },
-        // On ajoute des champs temporaires pour calculer le score global
+
+        // On calcule un score global pour chaque mot-clé en combinant sa note moyenne (average_rating) et sa fréquence (frequency).
         {
             $addFields: {
                 score_global: {
@@ -171,13 +174,13 @@ router.post("/suggestions", async (req, res) => {
                 keyword: { $nin: keywords }
             }
         },
-        // Le tri
+        // Le tri par score global en ordre décroissant.
         {
             $sort: {
                 score_global: -1
             }
         },
-        // On en garde que 10
+        // On en garde que 10 resultats
         {
             $limit: 10
         },

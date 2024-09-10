@@ -60,11 +60,10 @@ router.post("/add", async (req, res) => {
             keywords.push(trimmedWords.charAt(0).toUpperCase() + trimmedWords.slice(1));
         }
     }
-
     // Créer un tableau des id présents en clé étrangère pour le keyword s'il n'existe pas. S'il existe, on rajoute les keywords dans ses related_keywords.
     const existingKeywordIds = [];
     const newKeywordIds = [];
-
+    // Recherche dans la collection Keyword si deja existant, si oui dans existingKeyword sinon creation
     for (const word of keywords) {
         const foundExistingKeyword = await Keyword.findOne({ keyword: word, userId: foundUser._id, genre: req.body.genre });
         if (foundExistingKeyword) {
@@ -82,13 +81,12 @@ router.post("/add", async (req, res) => {
             newKeywordIds.push(savedKeyword._id);
         }
     }
-    //Mise à jour de la collection id projet
+    //Mise à jour de la collection Project avec l'id du keywords
     const promptKeywordsIds = [...newKeywordIds, ...existingKeywordIds];
     await Project.updateOne({ _id: savedProject._id },
         { keywords: promptKeywordsIds }
     );
-    // chaque related_Keywords a son Id, Si l'id n'est pas présent dans les related_Keywords, on le rajoute
-    // Ajout de nouveau Keywords 
+    // Ajout des nouveaux keywords avex son Id, dans les related Keyword
     if (newKeywordIds.length) {
         for (const id of newKeywordIds) {
             const foundKeywordById = await Keyword.findById(id);
@@ -99,28 +97,28 @@ router.post("/add", async (req, res) => {
             });
         }
     }
-    // Si il y a déjà des related_keywords pour ce projet, ajoute ceux qui n'y sont pas déjà.
-    // Ajout des nouveau keywords s'ils ne sont pas present
+    // Si il y a des keywords pour ce pro, on compare et on ajoute ceux qui n'y sont pas déjà.
     if (existingKeywordIds.length) {
         for (const id of existingKeywordIds) {
+            //on recupere les infos
             const foundKeywordById = await Keyword.findById(id);
+            // On recupere les infos associés grace à l'id
             const populatedKeyword = await Keyword.findById(id).populate('prompts');
             const checkIntoNewIdsIfTheyArentPresent = [];
-            // Comparaison et convertion en chaîne de caractères
+            // Comparaison et convertion en chaîne de caractères, si non present on rajoute
             for (let i = 0; i < newKeywordIds.length; i++) {
                 if (!populatedKeyword.related_keywords.some(e => String(e) === String(newKeywordIds[i]))) {
                     checkIntoNewIdsIfTheyArentPresent.push(newKeywordIds[i]);
                 }
             }
             const updateRelatedKeywordId = [...populatedKeyword.related_keywords, ...checkIntoNewIdsIfTheyArentPresent];
-
             // Notation (moyenne), verification si le projet est dans prompts pour mise a jour differente
             let resultAverageRating = 0;
             const promptKeywordsCount = (populatedKeyword.prompts).length;
             for (const prompt of populatedKeyword.prompts) {
                 resultAverageRating += prompt.rating;
             }
-            // Mise a jour Keyword si dans la collection ou pas
+            // Mise a jour Keyword si dans la collection ou pas et rajout id keyword dans prompts
             if (!foundKeywordById.prompts.some(e => String(e) === String(savedProject._id))) {
                 await Keyword.updateOne({ _id: id }, {
                     $inc: { frequency: 1 },
@@ -137,7 +135,6 @@ router.post("/add", async (req, res) => {
             }
         }
     }
-
     res.json({ result: true, prompt: savedProject });
 })
 
